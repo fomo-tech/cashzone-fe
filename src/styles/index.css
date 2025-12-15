@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  /* Màu chủ đạo: Xanh ngọc tươi nhưng dịu mắt */
+  --primary: #00b47d; /* giữ màu bạn chọn, tươi mát, thân thiện */
+
+  /* Màu nền nhẹ nhàng: Trắng ngọc (Soft Cream) */
+  --color-secondary: #b8eada; /* dịu, sáng, tạo cảm giác sạch sẽ */
+
+  /* Màu gradient/hiệu ứng: Xanh lá – Xanh ngọc dịu mắt */
+  --gradient-start: #0e815d; /* xanh lá nhạt, mềm mại */
+  --gradient-end: #0c9d8a; /* xanh ngọc sáng vừa phải, tươi mát */
+
+  /* Màu phụ trợ: Nâu/xám nhẹ cho text hoặc shadow */
+  --text-muted: #555d52;
+  --text-primary:"#0B1E3D"
+  --shadow-color: rgba(0, 0, 0, 0.08);
+
+
+}
+
+input, textarea,
+ select,
+ button {
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+/* 🚨 QUAN TRỌNG: Thử thêm các biến CSS vào lớp utilities */
+@layer utilities {
+  .bg-primary-gradient {
+    background-image: linear-gradient(
+      to right,
+      var(--gradient-start),
+      var(--gradient-end)
+    );
+  }
+}
