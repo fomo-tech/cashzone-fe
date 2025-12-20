@@ -59,7 +59,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <div className="text-sm text-gray-600">
         Đang hiển thị <span className="font-semibold">{startItem}</span> đến{" "}
         <span className="font-semibold">{endItem}</span> trên{" "}
-        <span className="font-bold text-green-600">{totalItems}</span> kết quả
+        <span className="font-bold text-[#E91E63]">{totalItems}</span> kết quả
       </div>
 
       <div className="flex items-center space-x-1">
@@ -97,7 +97,7 @@ const Pagination: React.FC<PaginationProps> = ({
               onClick={() => goToPage(p as number)}
               className={
                 p === page
-                  ? `${baseBtn} bg-green-600 text-white ring-2 ring-green-300`
+                  ? `${baseBtn} bg-[#E91E63] text-white ring-2 ring-pink-300`
                   : `${baseBtn} bg-white border border-gray-300 text-gray-700 hover:bg-gray-100`
               }
             >

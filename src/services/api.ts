@@ -35,7 +35,7 @@ http.interceptors.request.use((config) => {
   if (accessToken as any) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
-
+  config.headers.x_pathname = window.location.pathname;
   return config;
 });
 
@@ -84,9 +84,10 @@ http.interceptors.response.use(
         }
 
         // Lưu cả access token và refresh token mới
-        useAuthStore
-          .getState()
-          .setTokens(newAccessToken, newRefreshToken || refreshToken);
+        useAuthStore.setState({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken || refreshToken,
+        });
 
         http.defaults.headers.common.Authorization = "Bearer " + newAccessToken;
 

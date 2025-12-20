@@ -22,6 +22,22 @@ export interface User {
   affiliate: {
     code?: string;
     referredBy?: string;
+    referralLevel?: number; // Cấp độ trong chuỗi giới thiệu (1, 2, 3)
+    totalReferrals?: number; // Tổng số người giới thiệu
+    directReferrals?: number; // Số người giới thiệu trực tiếp (cấp 1)
+    level2Referrals?: number; // Số người cấp 2
+    level3Referrals?: number; // Số người cấp 3
+    referralTree?: {
+      level1: string[]; // Danh sách ID người giới thiệu cấp 1
+      level2: string[]; // Danh sách ID người giới thiệu cấp 2
+      level3: string[]; // Danh sách ID người giới thiệu cấp 3
+    };
+    commissions?: {
+      level1Total: number; // Tổng hoa hồng từ cấp 1
+      level2Total: number; // Tổng hoa hồng từ cấp 2
+      level3Total: number; // Tổng hoa hồng từ cấp 3
+      totalEarned: number; // Tổng hoa hồng kiếm được
+    };
   };
   status: boolean;
   deviceFingerprint?: string;

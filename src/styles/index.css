@@ -1,37 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  /* Màu chủ đạo: Xanh ngọc tươi nhưng dịu mắt */
-  --primary: #00b47d; /* giữ màu bạn chọn, tươi mát, thân thiện */
+  /* Màu chủ đạo: Linear gradient từ #E91E63 sang #FF8C1A */
+  --primary: #e91e63;
+  --primary-dark: #ad1457;
+  --primary-light: #f48fb1;
 
-  /* Màu nền nhẹ nhàng: Trắng ngọc (Soft Cream) */
-  --color-secondary: #b8eada; /* dịu, sáng, tạo cảm giác sạch sẽ */
+  --color-secondary: #ff8c1a;
+  --color-secondary-light: #ffb74d;
 
-  /* Màu gradient/hiệu ứng: Xanh lá – Xanh ngọc dịu mắt */
-  --gradient-start: #0e815d; /* xanh lá nhạt, mềm mại */
-  --gradient-end: #0c9d8a; /* xanh ngọc sáng vừa phải, tươi mát */
+  /* Gradient chủ đạo */
+  --gradient-start: #e91e63;
+  --gradient-end: #ff8c1a;
 
-  /* Màu phụ trợ: Nâu/xám nhẹ cho text hoặc shadow */
-  --text-muted: #555d52;
-  --text-primary:"#0B1E3D"
-  --shadow-color: rgba(0, 0, 0, 0.08);
-
-
+  --text-muted: #6b7280;
+  --text-primary: #1f2937;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --primary-shadow: rgba(233, 30, 99, 0.25);
 }
 
-input, textarea,
- select,
- button {
-  font-family: 'Inter', sans-serif;
+input,
+textarea,
+select,
+button {
+  font-family: "Inter", sans-serif;
   outline: none;
 }
 /* 🚨 QUAN TRỌNG: Thử thêm các biến CSS vào lớp utilities */
 @layer utilities {
   .bg-primary-gradient {
-    background-image: linear-gradient(
-      to right,
+    background: linear-gradient(
+      135deg,
       var(--gradient-start),
       var(--gradient-end)
     );
+  }
+
+  .bg-primary {
+    background-color: var(--primary);
+  }
+
+  .bg-primary-dark {
+    background-color: var(--primary-dark);
+  }
+
+  .bg-primary-light {
+    background-color: var(--primary-light);
+  }
+
+  .text-primary {
+    color: var(--primary);
+  }
+
+  .text-primary-dark {
+    color: var(--primary-dark);
+  }
+
+  .border-primary {
+    border-color: var(--primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+
+  .bg-secondary-light {
+    background-color: var(--color-secondary-light);
+  }
+
+  .shadow-primary {
+    box-shadow: 0 10px 25px -5px var(--primary-shadow);
+  }
+
+  .ring-primary {
+    --tw-ring-color: var(--primary);
   }
 }

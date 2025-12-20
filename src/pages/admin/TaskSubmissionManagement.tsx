@@ -5,7 +5,6 @@ import {
   Clock,
   Eye,
   Search,
-  Filter,
   Loader2,
   RefreshCw,
   Image as ImageIcon,
@@ -140,7 +139,7 @@ const TaskSubmissionManagement: React.FC = () => {
         );
       case "approved":
         return (
-          <span className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+          <span className="flex items-center gap-1 px-3 py-1 bg-pink-100 text-[#E91E63] border border-[#E91E63] rounded-full text-sm font-semibold">
             <CheckCircle size={14} />
             Đã duyệt
           </span>
@@ -182,16 +181,17 @@ const TaskSubmissionManagement: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-green-50 p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-pink-50 to-orange-50 p-4 sm:p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="bg-linear-to-r from-green-600 via-emerald-600 to-green-500 rounded-2xl shadow-xl p-6 sm:p-8 text-white">
+        <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-2xl shadow-xl p-6 sm:p-8 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 flex items-center gap-3">
-                <CheckCircle size={40} /> Quản Lý Xét Duyệt Nhiệm Vụ
+                <CheckCircle size={40} className="text-white" /> Quản Lý Xét
+                Duyệt Nhiệm Vụ
               </h1>
-              <p className="text-green-50 text-base">
+              <p className="text-white/90 text-base">
                 Xem xét và phê duyệt các nhiệm vụ người dùng đã hoàn thành
               </p>
             </div>
@@ -238,16 +238,16 @@ const TaskSubmissionManagement: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-5 border-2 border-green-100">
+          <div className="bg-white rounded-xl shadow-md p-5 border-2 border-[#E91E63]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-600 text-sm font-semibold">Đã duyệt</p>
-                <p className="text-3xl font-black text-green-600">
+                <p className="text-[#E91E63] text-sm font-semibold">Đã duyệt</p>
+                <p className="text-3xl font-black text-[#E91E63]">
                   {stats.approved}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <CheckCircle className="text-green-600" size={24} />
+              <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                <CheckCircle className="text-[#E91E63]" size={24} />
               </div>
             </div>
           </div>
@@ -268,7 +268,7 @@ const TaskSubmissionManagement: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-md p-4 border border-green-100">
+        <div className="bg-white rounded-xl shadow-md p-4 border border-[#E91E63]">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -281,7 +281,7 @@ const TaskSubmissionManagement: React.FC = () => {
                   placeholder="Tìm kiếm theo tên người dùng hoặc nhiệm vụ..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63] transition-all"
                 />
               </div>
             </div>
@@ -291,9 +291,9 @@ const TaskSubmissionManagement: React.FC = () => {
                 <button
                   key={status}
                   onClick={() => setFilterStatus(status)}
-                  className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all ${
                     filterStatus === status
-                      ? "bg-linear-to-r from-green-600 to-emerald-600 text-white shadow-lg"
+                      ? "bg-[#E91E63] text-white shadow-lg"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -310,7 +310,7 @@ const TaskSubmissionManagement: React.FC = () => {
         {/* Table */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl shadow-lg">
-            <Loader2 className="w-12 h-12 animate-spin text-green-600 mb-4" />
+            <Loader2 className="w-12 h-12 animate-spin text-[#E91E63] mb-4" />
             <p className="text-gray-600 font-semibold">Đang tải dữ liệu...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
@@ -324,23 +324,27 @@ const TaskSubmissionManagement: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl border-2 border-green-100 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl border-2 border-[#E91E63] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-linear-to-r from-green-600 to-emerald-600 text-white">
-                    <th className="px-6 py-4 text-left font-bold">
+                  <tr className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white">
+                    <th className="px-6 py-5 text-left font-bold text-white">
                       Người dùng
                     </th>
-                    <th className="px-6 py-4 text-left font-bold">Nhiệm vụ</th>
-                    <th className="px-6 py-4 text-left font-bold">
+                    <th className="px-6 py-5 text-left font-bold text-white">
+                      Nhiệm vụ
+                    </th>
+                    <th className="px-6 py-5 text-left font-bold text-white">
                       Phần thưởng
                     </th>
-                    <th className="px-6 py-4 text-left font-bold">
+                    <th className="px-6 py-5 text-left font-bold text-white">
                       Trạng thái
                     </th>
-                    <th className="px-6 py-4 text-left font-bold">Thời gian</th>
-                    <th className="px-6 py-4 text-center font-bold">
+                    <th className="px-6 py-5 text-left font-bold text-white">
+                      Thời gian
+                    </th>
+                    <th className="px-6 py-5 text-center font-bold text-white">
                       Hành động
                     </th>
                   </tr>
@@ -349,12 +353,12 @@ const TaskSubmissionManagement: React.FC = () => {
                   {filteredSubmissions.map((submission) => (
                     <tr
                       key={submission._id}
-                      className="hover:bg-green-50 transition-colors"
+                      className="hover:bg-pink-50 transition-all duration-200 border-b border-gray-100"
                     >
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                            <User className="text-green-600" size={20} />
+                          <div className="w-12 h-12 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center shadow-md">
+                            <User className="text-white" size={20} />
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900">
@@ -366,25 +370,25 @@ const TaskSubmissionManagement: React.FC = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <p className="font-semibold text-gray-900">
+                      <td className="px-6 py-5">
+                        <p className="font-semibold text-gray-900 mb-1">
                           {submission.taskId.title}
                         </p>
                         {submission.note && (
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="text-sm text-gray-500 line-clamp-2">
                             {submission.note}
                           </p>
                         )}
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="font-bold text-green-600">
+                      <td className="px-6 py-5">
+                        <span className="font-bold text-[#E91E63] text-lg">
                           {formatCurrency(submission.taskId.reward)}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         {getStatusBadge(submission.status)}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         <div className="flex items-center gap-2 text-gray-600">
                           <Calendar size={16} />
                           <span className="text-sm">
@@ -392,14 +396,14 @@ const TaskSubmissionManagement: React.FC = () => {
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => {
                               setSelectedSubmission(submission);
                               setShowModal(true);
                             }}
-                            className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                            className="p-3 bg-pink-50 text-[#E91E63] border border-[#E91E63] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all shadow-sm"
                             title="Xem chi tiết"
                           >
                             <Eye size={18} />
@@ -409,7 +413,7 @@ const TaskSubmissionManagement: React.FC = () => {
                               <button
                                 onClick={() => handleApprove(submission._id)}
                                 disabled={processing === submission._id}
-                                className="p-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition-colors disabled:opacity-50"
+                                className="p-3 bg-pink-50 text-[#E91E63] border border-[#E91E63] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all disabled:opacity-50 shadow-sm"
                                 title="Duyệt"
                               >
                                 {processing === submission._id ? (
@@ -424,7 +428,7 @@ const TaskSubmissionManagement: React.FC = () => {
                                   setShowModal(true);
                                 }}
                                 disabled={processing === submission._id}
-                                className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-50"
+                                className="p-3 bg-red-50 text-red-600 border border-red-200 rounded-xl hover:bg-red-100 hover:text-red-700 transition-all disabled:opacity-50 shadow-sm"
                                 title="Từ chối"
                               >
                                 <XCircle size={18} />
@@ -445,15 +449,24 @@ const TaskSubmissionManagement: React.FC = () => {
         {showModal && selectedSubmission && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="bg-linear-to-r from-green-600 to-emerald-600 p-6 text-white">
+              <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-6 text-white relative">
                 <h2 className="text-2xl font-black">Chi Tiết Submission</h2>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setRejectReason("");
+                  }}
+                  className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                >
+                  <XCircle size={20} />
+                </button>
               </div>
 
               <div className="p-6 space-y-6">
                 {/* User Info */}
                 <div className="bg-gray-50 p-4 rounded-xl">
                   <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <User size={20} className="text-green-600" />
+                    <User size={20} className="text-[#E91E63]" />
                     Thông tin người dùng
                   </h3>
                   <div className="space-y-2">
@@ -480,7 +493,7 @@ const TaskSubmissionManagement: React.FC = () => {
                     </p>
                     <p>
                       <span className="font-semibold">Phần thưởng:</span>{" "}
-                      <span className="text-green-600 font-bold">
+                      <span className="text-[#E91E63] font-bold">
                         {formatCurrency(selectedSubmission.taskId.reward)}
                       </span>
                     </p>
@@ -491,7 +504,7 @@ const TaskSubmissionManagement: React.FC = () => {
                 {selectedSubmission.proofUrl && (
                   <div>
                     <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <ImageIcon size={20} className="text-green-600" />
+                      <ImageIcon size={20} className="text-[#E91E63]" />
                       Ảnh chứng minh
                     </h3>
                     <img
@@ -504,7 +517,7 @@ const TaskSubmissionManagement: React.FC = () => {
 
                 {/* Note */}
                 {selectedSubmission.note && (
-                  <div className="bg-blue-50 p-4 rounded-xl">
+                  <div className="bg-pink-50 p-4 rounded-xl border border-[#E91E63]">
                     <h3 className="font-bold text-gray-900 mb-2">Ghi chú</h3>
                     <p className="text-gray-700">{selectedSubmission.note}</p>
                   </div>
@@ -526,7 +539,7 @@ const TaskSubmissionManagement: React.FC = () => {
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       rows={3}
-                      className="w-full p-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                      className="w-full p-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63]"
                       placeholder="Nhập lý do từ chối..."
                     />
                   </div>
@@ -551,7 +564,7 @@ const TaskSubmissionManagement: React.FC = () => {
                       <button
                         onClick={() => handleApprove(selectedSubmission._id)}
                         disabled={processing === selectedSubmission._id}
-                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 font-bold transition-all shadow-lg disabled:opacity-50"
+                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#E91E63] text-white rounded-xl hover:bg-[#AD1457] font-bold transition-all shadow-lg disabled:opacity-50"
                       >
                         {processing === selectedSubmission._id ? (
                           <>
@@ -589,7 +602,7 @@ const TaskSubmissionManagement: React.FC = () => {
                         setShowModal(false);
                         setRejectReason("");
                       }}
-                      className="w-full px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 font-bold transition-all"
+                      className="w-full px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:opacity-90 font-bold transition-all"
                     >
                       Đóng
                     </button>

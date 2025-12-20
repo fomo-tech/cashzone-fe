@@ -33,7 +33,8 @@ const UserManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  const { confirm, isOpen, close, options } = useConfirmModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { confirmModal, showConfirm, hideConfirm } = useConfirmModal();
   const { handleSubmit } = useHandleSubmit();
   const { setToast } = useAppStore();
 
@@ -48,68 +49,101 @@ const UserManagement: React.FC = () => {
   };
 
   // Logic Xóa User
-  const handleDelete = (id: string) => {
-    handleSubmit(
-      () => http.delete(`/admin/user/${id}`),
-      (err: any) => {
-        setToast({
-          title: err.response?.data?.message || "Xóa người dùng thất bại",
-          type: "error",
-          isVisible: true,
-          timer: 2000,
-        });
-      }
-    ).then((res) => {
-      console.log(1211, res, res?.data);
-
-      if (res && res.data) {
-        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-        setToast({
-          title: "Xóa người dùng thành công",
-          type: "success",
-          isVisible: true,
-          timer: 2000,
-        });
-      }
-    });
-  };
-
-  // Lọc danh sách người dùng
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  //get Uses api
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const res = await handleSubmit(
-        () => http.get("/admin/users"),
-        (err: any) => {
+  const handleDelete = async (id: string, userName: string) => {
+    showConfirm({
+      title: "Xác nhận xóa người dùng",
+      message: `Bạn có chắc chắn muốn xóa người dùng "${userName}"? Hành động này không thể hoàn tác.`,
+      confirmText: "Xóa",
+      cancelText: "Hủy",
+      type: "danger",
+      onConfirm: async () => {
+        try {
+          await http.delete(`/admin/user/${id}`);
+          setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
           setToast({
-            title:
-              err.response?.data?.message ||
-              "Lấy danh sách người dùng thất bại",
+            title: "Xóa người dùng thành công",
+            type: "success",
+            isVisible: true,
+            timer: 2000,
+          });
+          hideConfirm();
+          // Reload data if current page becomes empty
+          if (users.length === 1 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+          } else {
+            fetchUsers(currentPage);
+          }
+        } catch (err: any) {
+          setToast({
+            title: err.response?.data?.message || "Xóa người dùng thất bại",
             type: "error",
             isVisible: true,
             timer: 2000,
           });
         }
-      );
-      if (res && res.data) {
-        setUsers(res.data.data);
-        setPagination(res.data.pagination);
+      },
+    });
+  };
+
+  // Fetch users with pagination and search
+  const fetchUsers = async (page: number = 1, search: string = "") => {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: "10",
+        ...(search && { search }),
+      });
+
+      const res = await http.get(`/admin/users?${params}`);
+
+      if (res && res.data && res.data.data) {
+        // API structure: res.data.data.data (users array) and res.data.data.pagination
+        const userData = res.data.data.data || [];
+        const paginationData = res.data.data.pagination || null;
+        setUsers(userData);
+        setPagination(paginationData);
       }
-    };
-    getUsers();
+    } catch (err: any) {
+      console.error("Fetch users error:", err);
+      setToast({
+        title:
+          err.response?.data?.message || "Lấy danh sách người dùng thất bại",
+        type: "error",
+        isVisible: true,
+        timer: 2000,
+      });
+    }
+  };
+
+  // Initial load
+  useEffect(() => {
+    fetchUsers(1, "");
   }, []);
 
+  // Handle page change (only when page changes and not initial)
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchUsers(currentPage, searchTerm);
+    }
+  }, [currentPage]);
+
+  // Debounce search (only trigger when user actually types)
+  useEffect(() => {
+    // Skip if it's the initial empty string
+    if (searchTerm === "") return;
+
+    const timer = setTimeout(() => {
+      setCurrentPage(1);
+      fetchUsers(1, searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-green-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
       {/* Header Section */}
-      <div className="bg-linear-to-r from-green-600 to-emerald-600 shadow-lg">
+      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
@@ -117,7 +151,7 @@ const UserManagement: React.FC = () => {
                 <Users className="w-8 h-8" />
                 Quản Lý Người Dùng
               </h1>
-              <p className="text-green-100 text-sm mt-2">
+              <p className="text-white/90 text-sm mt-2">
                 Quản lý và theo dõi thông tin người dùng hệ thống
               </p>
             </div>
@@ -143,7 +177,7 @@ const UserManagement: React.FC = () => {
                 placeholder="Tìm theo Tên hoặc Email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700 transition-all"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent text-gray-700 transition-all"
               />
               {searchTerm && (
                 <button
@@ -155,16 +189,16 @@ const UserManagement: React.FC = () => {
               )}
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl border border-green-200">
-                <Users className="w-5 h-5 text-green-600" />
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl border border-[#E91E63]/30">
+                <Users className="w-5 h-5 text-[#E91E63]" />
                 <span className="text-sm text-gray-600">Tổng:</span>
-                <span className="font-bold text-green-600 text-lg">
+                <span className="font-bold text-[#E91E63] text-lg">
                   {pagination?.totalItems || 0}
                 </span>
               </div>
               <button
                 onClick={() => window.location.reload()}
-                className="p-2.5 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-xl transition-colors"
+                className="p-2.5 text-gray-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded-xl transition-all"
                 title="Làm mới"
               >
                 <RefreshCw className="w-5 h-5" />
@@ -177,7 +211,7 @@ const UserManagement: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-linear-to-r from-gray-50 to-green-50/30">
+              <thead className="bg-gradient-to-r from-gray-50 to-orange-50/50">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Tên
@@ -200,15 +234,15 @@ const UserManagement: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
-                {filteredUsers.length > 0 ? (
-                  filteredUsers.map((user) => (
+                {users.length > 0 ? (
+                  users.map((user) => (
                     <tr
                       key={user._id}
-                      className="hover:bg-green-50/50 transition-colors"
+                      className="hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-linear-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center text-white font-bold">
                             {user.name?.charAt(0).toUpperCase() || "U"}
                           </div>
                           <span className="text-sm font-medium text-gray-900">
@@ -234,7 +268,7 @@ const UserManagement: React.FC = () => {
                           <Link to={`/admin/user/${user._id}`}>
                             <button
                               title="Chi Tiết"
-                              className="inline-flex items-center gap-1 px-3 py-2 text-green-600 hover:text-white hover:bg-green-600 rounded-lg transition-all border border-green-200 hover:border-green-600"
+                              className="inline-flex items-center gap-1 px-3 py-2 text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all border border-[#E91E63] hover:border-[#E91E63]"
                             >
                               <Eye className="w-4 h-4" />
                               <span className="text-xs font-semibold">Xem</span>
@@ -244,7 +278,7 @@ const UserManagement: React.FC = () => {
                           <button
                             onClick={() => openModal(user)}
                             title="Sửa"
-                            className="inline-flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-white hover:bg-blue-600 rounded-lg transition-all border border-blue-200 hover:border-blue-600"
+                            className="inline-flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-white hover:bg-blue-600 rounded-lg transition-all border border-blue-600"
                           >
                             <Edit className="w-4 h-4" />
                             <span className="text-xs font-semibold">Sửa</span>
@@ -252,13 +286,7 @@ const UserManagement: React.FC = () => {
                           {/* Xóa */}
                           <button
                             title="Xóa"
-                            onClick={() =>
-                              confirm(
-                                "Xác Nhận Xóa Người Dùng",
-                                `Bạn có chắc chắn muốn xóa người dùng "${user.name}" không?`,
-                                () => handleDelete(user?._id)
-                              )
-                            }
+                            onClick={() => handleDelete(user._id, user.name)}
                             className="inline-flex items-center gap-1 px-3 py-2 text-red-600 hover:text-white hover:bg-red-600 rounded-lg transition-all border border-red-200 hover:border-red-600"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -271,21 +299,22 @@ const UserManagement: React.FC = () => {
                 ) : (
                   <tr>
                     <td colSpan={6} className="p-8 text-center text-slate-500">
-                      Không tìm thấy người dùng nào phù hợp với từ khóa "
-                      {searchTerm}".
+                      {searchTerm
+                        ? `Không tìm thấy người dùng nào phù hợp với từ khóa "${searchTerm}".`
+                        : "Chưa có người dùng nào."}
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
-            <Pagination
-              page={pagination?.page || 1}
-              limit={pagination?.limit || 10}
-              totalItems={pagination?.totalItems || 0}
-              onPageChange={(p: number) =>
-                setPagination((prev) => (prev ? { ...prev, page: p } : prev))
-              }
-            />
+            {pagination && pagination.totalItems > 0 && (
+              <Pagination
+                page={pagination.page}
+                limit={pagination.limit}
+                totalItems={pagination.totalItems}
+                onPageChange={(page: number) => setCurrentPage(page)}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -299,19 +328,24 @@ const UserManagement: React.FC = () => {
       >
         <FormAddUser
           editingUser={editingUser}
-          closeModal={closeModal}
+          closeModal={() => {
+            closeModal();
+            fetchUsers(currentPage, searchTerm);
+          }}
           setUsers={setUsers}
         />
       </CommonModal>
 
       <ConfirmModal
-        isOpen={isOpen}
-        title={options.title}
-        onClose={close}
-        onConfirm={options.onConfirm}
-      >
-        {options.content}
-      </ConfirmModal>
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        onClose={hideConfirm}
+        onConfirm={confirmModal.onConfirm}
+        confirmText={confirmModal.confirmText}
+        cancelText={confirmModal.cancelText}
+        type={confirmModal.type}
+      />
     </div>
   );
 };

@@ -1,1 +1,115 @@
-{ "welcome": "Welcome", "login": "Login" }
+{
+  "common": {
+    "welcome": "Welcome",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload"
+  },
+  "nav": {
+    "home": "Home",
+    "cashback": "Cashback",
+    "wallet": "Wallet",
+    "referral": "Referral",
+    "profile": "Profile",
+    "activities": "Activities",
+    "leaderboard": "Leaderboard",
+    "settings": "Settings",
+    "support": "Support",
+    "guide": "Guide"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginSuccess": "Login successful",
+    "signupSuccess": "Sign up successful",
+    "loginError": "Login failed",
+    "signupError": "Sign up failed"
+  },
+  "home": {
+    "overview": "Overview",
+    "totalEarnings": "Total Earnings",
+    "thisMonth": "This Month",
+    "pendingTransactions": "Pending Transactions",
+    "totalReferrals": "Total Referrals",
+    "quickActions": "Quick Actions",
+    "recentActivities": "Recent Activities"
+  },
+  "wallet": {
+    "availableBalance": "Available Balance",
+    "pendingBalance": "Pending Balance",
+    "totalEarnings": "Total Earnings",
+    "withdraw": "Withdraw",
+    "deposit": "Deposit",
+    "history": "Transaction History",
+    "amount": "Amount",
+    "status": "Status",
+    "date": "Date",
+    "description": "Description"
+  },
+  "referral": {
+    "referralCode": "Referral Code",
+    "copyCode": "Copy Code",
+    "shareLink": "Share Link",
+    "totalReferrals": "Total Referrals",
+    "level1": "Level 1",
+    "level2": "Level 2",
+    "level3": "Level 3",
+    "commission": "Commission",
+    "earnings": "Earnings"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "users": "Users",
+    "transactions": "Transactions",
+    "tasks": "Tasks",
+    "settings": "Settings",
+    "reports": "Reports",
+    "totalUsers": "Total Users",
+    "revenue": "Revenue",
+    "pendingApprovals": "Pending Approvals",
+    "systemStatus": "System Status"
+  },
+  "status": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "completed": "Completed",
+    "processing": "Processing",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "messages": {
+    "confirmDelete": "Are you sure you want to delete?",
+    "deleteSuccess": "Deleted successfully",
+    "saveSuccess": "Saved successfully",
+    "updateSuccess": "Updated successfully",
+    "errorOccurred": "An error occurred",
+    "noDataAvailable": "No data available",
+    "loadingData": "Loading data..."
+  }
+}

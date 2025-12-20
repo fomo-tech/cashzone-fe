@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import http from "@/services/api";
 
 export interface AppSettings {
   // Cấu hình chung
@@ -81,7 +79,7 @@ export interface ApiResponse<T> {
 const settingsService = {
   // Lấy tất cả settings
   getSettings: async (): Promise<ApiResponse<AppSettings>> => {
-    const response = await axios.get(`${API_URL}/settings`);
+    const response = await http.get(`/settings`);
     return response.data;
   },
 
@@ -89,19 +87,19 @@ const settingsService = {
   updateSettings: async (
     settings: Partial<AppSettings>
   ): Promise<ApiResponse<AppSettings>> => {
-    const response = await axios.put(`${API_URL}/settings`, settings);
+    const response = await http.put(`/settings`, settings);
     return response.data;
   },
 
   // Reset về mặc định
   resetToDefaults: async (): Promise<ApiResponse<AppSettings>> => {
-    const response = await axios.post(`${API_URL}/settings/reset`);
+    const response = await http.post(`/settings/reset`);
     return response.data;
   },
 
   // Lấy public settings (không cần auth)
   getPublicSettings: async (): Promise<ApiResponse<Partial<AppSettings>>> => {
-    const response = await axios.get(`${API_URL}/settings/public`);
+    const response = await http.get(`/settings/public`);
     return response.data;
   },
 };

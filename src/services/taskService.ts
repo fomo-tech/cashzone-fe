@@ -6,7 +6,8 @@ export interface Task {
   offerId?: string;
   title: string;
   description?: string;
-  requirements?: string[];
+  requirements?: Array<{ title: string; description: string } | string>;
+  logoUrl?: string; // Logo URL for the task
   type:
     | "survey"
     | "app_install"
@@ -19,6 +20,7 @@ export interface Task {
   completedCount: number;
   maxCompletions?: number;
   status: "active" | "inactive";
+  isFeatured: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -45,7 +47,8 @@ export interface CreateTaskData {
   offerId?: string;
   title: string;
   description?: string;
-  requirements?: string[];
+  requirements?: Array<{ title: string; description: string } | string>;
+  logoUrl?: string; // Logo URL for the task
   type: string;
   reward: number;
   platform?: string;
@@ -58,6 +61,7 @@ export interface TaskFilters {
   status?: string;
   platform?: string;
   search?: string;
+  isFeatured?: boolean;
   page?: number;
   limit?: number;
 }

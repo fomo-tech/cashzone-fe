@@ -1,10 +1,15 @@
-import { useState } from "react";
-import logo_m from "@/assets/logo_m.svg";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import logo_m from "@/assets/logo.svg";
 import UserMenu from "../element/UserMenu";
 import NotificationDropdown from "../element/NotificationDropdown";
 import AuthModal from "../element/AuthModal";
+import LanguageSwitcher from "../common/LanguageSwitcher";
 import { checkRole } from "@/utils/lib";
 import { useAuthStore } from "@/store/authStore";
+import { useSocketNotifications } from "@/hooks/useSocketNotifications";
 
 // Icons SVGs (Sử dụng inline SVG để giữ tính nhất quán với component gốc)
 
@@ -28,111 +33,167 @@ const DollarSignIcon = () => (
 
 const Header = () => {
   const { user } = useAuthStore();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { t } = useTranslation();
+  const location = useLocation();
+  const [pageTitle, setPageTitle] = useState("Tổng Quan");
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<{
+    isOpen: boolean;
+    mode: "signin" | "signup";
+  }>({ isOpen: false, mode: "signup" });
 
-  const handleOpenAuthModal = () => {
-    setIsAuthModalOpen(true);
+  // Socket notifications integration
+  const { isConnected } = useSocketNotifications({
+    onNewNotification: (notification) => {
+      // Show toast notification for new individual notifications
+      toast.success(notification.title, {
+        duration: 4000,
+        position: "top-right",
+        icon: "🔔",
+      });
+
+      // You can trigger a refetch of notifications here if needed
+      // For example, emit a custom event to NotificationDropdown
+      window.dispatchEvent(new CustomEvent("notification:new"));
+    },
+    onBroadcastNotification: (notification) => {
+      // Show toast notification for broadcast notifications
+      toast(notification.title, {
+        duration: 5000,
+        position: "top-right",
+        icon: "📢",
+        style: {
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          color: "#fff",
+        },
+      });
+
+      // Trigger refetch
+      window.dispatchEvent(new CustomEvent("notification:broadcast"));
+    },
+    onUnreadCountUpdate: (count) => {
+      console.log("Unread count updated:", count);
+      // Trigger unread count update in NotificationDropdown
+      window.dispatchEvent(
+        new CustomEvent("notification:unread-count", { detail: count })
+      );
+    },
+  });
+
+  useEffect(() => {
+    if (isConnected && user) {
+      console.log("✅ Socket connected for user:", user.email);
+    }
+  }, [isConnected, user]);
+
+  // Update page title based on route
+  useEffect(() => {
+    const routeTitles: Record<string, string> = {
+      "/": "Trang Chủ",
+      "/dashboard": "Tổng Quan",
+      "/tasks": "Nhiệm Vụ",
+      "/cashback": "Cashback",
+      "/referrals": "Giới Thiệu",
+      "/ranks": "Bảng Xếp Hạng",
+      "/wallet": "Ví Tiền",
+      "/profile": "Hồ Sơ",
+      "/activities": "Hoạt Động",
+      "/settings": "Cài Đặt",
+      "/notifications": "Thông Báo",
+    };
+
+    // Check for dynamic routes
+    if (location.pathname.startsWith("/notifications/")) {
+      setPageTitle("Chi Tiết Thông Báo");
+    } else if (location.pathname.startsWith("/tasks/")) {
+      setPageTitle("Chi Tiết Nhiệm Vụ");
+    } else {
+      setPageTitle(routeTitles[location.pathname] || "Tổng Quan");
+    }
+  }, [location.pathname]);
+
+  const handleOpenAuthModal = (mode: "signin" | "signup") => {
+    setIsAuthModalOpen({ isOpen: true, mode });
   };
 
   const handleCloseAuthModal = () => {
-    setIsAuthModalOpen(false);
+    setIsAuthModalOpen({ isOpen: false, mode: "signup" });
   };
 
   return (
     <>
       {/* Header Container */}
-      <header className="sticky top-0 h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 z-20 shadow-sm">
+      <header className="sticky top-0 h-16 bg-white/95 backdrop-blur-md border-b border-pink-100/50 flex items-center justify-between pl-16 pr-4 md:px-8 z-20 shadow-lg shadow-pink-100/20">
         <div className="flex items-center gap-4">
-          <img src={logo_m} alt="Cashzone" className="h-12" />
-          <h1
-            className="text-xl font-bold text-slate-800 hidden sm:block"
-            id="page-title"
-          >
-            Tổng Quan
-          </h1>
+          <div className="relative md:hidden flex items-center justify-center w-12 h-12">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#E91E63]/20 to-[#FF8C1A]/20 rounded-lg blur-sm"></div>
+            <img src={logo_m} alt="Cashzone" className=" relative z-10" />
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Nếu chưa login */}
           {!user && (
-            <div className="flex items-center gap-3">
+            <>
               <button
-                onClick={handleOpenAuthModal}
-                className="px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition"
+                onClick={() => handleOpenAuthModal("signin")}
+                className="cursor-pointer px-3 sm:px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all text-sm"
               >
-                Đăng nhập
+                {t("auth.login")}
               </button>
               <button
-                onClick={handleOpenAuthModal}
-                className="px-4 py-1.5 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                onClick={() => handleOpenAuthModal("signup")}
+                className="cursor-pointer px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-all shadow-lg shadow-pink-500/30 text-sm"
               >
-                Đăng ký
+                {t("auth.signup")}
               </button>
-            </div>
+
+              {/* Divider */}
+              <div className="h-6 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1" />
+            </>
           )}
 
           {/* Nếu đã login */}
           {user && (
             <>
+              {/* Wallet Balance - Chỉ hiện cho user */}
               {checkRole(user.roles || [], "user") && (
-                <div className="hidden md:flex items-center px-3 py-1.5 bg-green-50/70 text-green-700 rounded-full text-sm font-bold border border-green-200 shadow-sm">
+                <div className="hidden md:flex items-center px-3 py-1.5 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] rounded-full text-sm font-bold border border-[#E91E63]/30 shadow-md shadow-pink-500/10 backdrop-blur-sm">
                   <DollarSignIcon />
-                  <span className="ml-2">{user.wallet.available} VNĐ</span>
+                  <span className="ml-2">
+                    {(user.wallet?.available || 0).toLocaleString("vi-VN")} VNĐ
+                  </span>
                 </div>
               )}
 
-              <div className="hidden md:flex h-8 w-px bg-slate-200 mx-2" />
+              {/* Divider */}
+              {checkRole(user.roles || [], "user") && (
+                <div className="hidden md:flex h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-2" />
+              )}
 
+              {/* Notification Dropdown */}
               <NotificationDropdown />
 
-              {checkRole(user.roles || [], "user") && (
-                <>
-                  <button className="hidden sm:block text-slate-500 hover:text-slate-700 p-1.5 rounded-full transition-colors hover:bg-slate-100">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
-                      />
-                    </svg>
-                  </button>
+              {/* Language Switcher */}
+              <LanguageSwitcher />
 
-                  <div className="hidden md:flex items-center px-3 py-1.5 bg-amber-100 text-amber-700 border-amber-200 rounded-full text-sm font-medium border">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-crown w-4 h-4 mr-2"
-                    >
-                      <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
-                      <path d="M5 21h14" />
-                    </svg>
-                    Rank: ĐỒNG
+              {/* Divider */}
+              <div className="h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-2" />
+
+              {/* User Info & Menu */}
+              <div className="flex items-center gap-2 sm:gap-3">
+                {/* User Name - Hidden on mobile */}
+                <div className="text-right hidden lg:block">
+                  <div className="text-sm font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    {user.name || user.email?.split("@")[0]}
                   </div>
-                </>
-              )}
-
-              <div className="h-8 w-px bg-slate-200 mx-2" />
-
-              <div className="flex items-center gap-3">
-                <div className="text-right hidden sm:block">
-                  <div className="text-sm font-bold text-slate-700">
-                    {user.name}
-                  </div>
+                  {checkRole(user.roles || [], "admin") && (
+                    <div className="text-xs text-slate-500">
+                      {t("common.admin") || "Admin"}
+                    </div>
+                  )}
                 </div>
+
+                {/* User Menu */}
                 <UserMenu />
               </div>
             </>
@@ -141,7 +202,11 @@ const Header = () => {
       </header>
 
       {/* Auth Modal */}
-      <AuthModal isOpen={isAuthModalOpen} onClose={handleCloseAuthModal} />
+      <AuthModal
+        isOpen={isAuthModalOpen.isOpen}
+        onClose={handleCloseAuthModal}
+        mode={isAuthModalOpen.mode}
+      />
     </>
   );
 };

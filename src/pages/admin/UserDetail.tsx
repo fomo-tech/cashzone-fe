@@ -30,13 +30,18 @@ import {
   RefreshCw,
   FileText,
   AlertCircle,
+  Share2,
+  Target,
+  TreePine,
+  Gift,
+  Plus,
+  Minus,
 } from "lucide-react";
 import StatusBadge from "@/components/admin/StatusBadge";
 import StatCard from "@/components/admin/StatCard";
 import DetailItemUser from "@/components/admin/DetailUserItem";
 import { checkRole, formatCurrency } from "@/utils/lib";
 import RoleBadge from "@/components/admin/RoleBadge";
-import { useHandleSubmit } from "@/hooks/useHandleSubmit";
 import http from "@/services/api";
 import { useAppStore } from "@/store/appStore";
 import type { User } from "@/utils/types";
@@ -69,7 +74,7 @@ const RecentTransactions = ({
     <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <ListOrdered className="w-5 h-5 text-green-600" />
+          <ListOrdered className="w-5 h-5 text-[#E91E63]" />
           Giao dịch gần nhất
         </h4>
         {hasTransactions && (
@@ -116,27 +121,33 @@ const RecentTransactions = ({
                     key={txn._id}
                     className="hover:bg-gray-50 transition-colors"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#E91E63]">
                       {txn._id.slice(-8)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       <span className="inline-flex items-center gap-1">
-                        {txn.type === "deposit" ? (
-                          <TrendingUp className="w-4 h-4 text-green-600" />
+                        {txn.type === "INCOME" ? (
+                          <TrendingUp className="w-4 h-4 text-[#E91E63]" />
                         ) : (
                           <TrendingDown className="w-4 h-4 text-red-600" />
                         )}
-                        {txn.description || txn.type}
+                        {txn.type === "INCOME"
+                          ? "Thu nhập"
+                          : txn.type === "COMMISSION"
+                          ? "Hoa hồng"
+                          : "Chi tiêu"}
                       </span>
                     </td>
                     <td
                       className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
-                        txn.type === "deposit"
-                          ? "text-green-600"
+                        txn.type === "INCOME" || txn.type === "COMMISSION"
+                          ? "text-[#E91E63]"
                           : "text-red-600"
                       }`}
                     >
-                      {txn.type === "deposit" ? "+" : "-"}
+                      {txn.type === "INCOME" || txn.type === "COMMISSION"
+                        ? "+"
+                        : "-"}
                       {formatCurrency(txn.amount)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -147,12 +158,12 @@ const RecentTransactions = ({
                       })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      {txn.status === "completed" ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      {txn.status === "COMPLETED" ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30">
                           <CheckCircle2 className="w-3 h-3" />
                           Thành công
                         </span>
-                      ) : txn.status === "pending" ? (
+                      ) : txn.status === "PENDING" ? (
                         <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
                           <Clock className="w-3 h-3" />
                           Đang xử lý
@@ -170,12 +181,256 @@ const RecentTransactions = ({
             </table>
           </div>
           <div className="mt-6 pt-4 border-t border-gray-200 text-right">
-            <button className="inline-flex items-center gap-2 text-sm font-semibold text-green-600 hover:text-green-700 transition-colors">
+            <button className="inline-flex items-center gap-2 text-sm font-semibold text-[#E91E63] hover:text-[#E91E63] transition-colors">
               Xem tất cả giao dịch
               <ArrowLeft className="w-4 h-4 rotate-180" />
             </button>
           </div>
         </>
+      )}
+    </div>
+  );
+};
+
+/**
+ * 3-Level Referral System Display Component
+ */
+interface ReferralSystemProps {
+  user: User;
+  referralStats?: any;
+}
+
+const ReferralSystemDisplay = ({
+  user,
+  referralStats,
+}: ReferralSystemProps) => {
+  const affiliate = user.affiliate || {};
+  const commissions = affiliate.commissions || {};
+  const referralTree = affiliate.referralTree || {
+    level1: [],
+    level2: [],
+    level3: [],
+  };
+
+  // Use referralStats from API if available, otherwise fall back to user data
+  const stats = referralStats || {
+    directReferrals: affiliate.directReferrals || 0,
+    level2Referrals: affiliate.level2Referrals || 0,
+    level3Referrals: affiliate.level3Referrals || 0,
+    totalEarned: commissions.totalEarned || 0,
+    level1Total: commissions.level1Total || 0,
+    level2Total: commissions.level2Total || 0,
+    level3Total: commissions.level3Total || 0,
+  };
+
+  // Commission rates for display
+  const commissionRates = {
+    level1: 10, // 10%
+    level2: 5, // 5%
+    level3: 2, // 2%
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+        <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+          <Share2 className="w-5 h-5 text-[#E91E63]" />
+          Hệ Thống Giới Thiệu 3 Cấp
+        </h4>
+        {affiliate.code && (
+          <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+            Mã: {affiliate.code}
+          </span>
+        )}
+      </div>
+
+      {/* Referral Overview Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] p-4 rounded-xl border border-[#E91E63]">
+          <div className="flex items-center gap-2 mb-2">
+            <Target className="w-4 h-4 text-white" />
+            <span className="text-sm font-medium text-white">
+              Tổng Giới Thiệu
+            </span>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {stats.directReferrals +
+              stats.level2Referrals +
+              stats.level3Referrals}
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-pink-50 to-orange-50 p-4 rounded-xl border border-pink-200">
+          <div className="flex items-center gap-2 mb-2">
+            <Gift className="w-4 h-4 text-[#E91E63]" />
+            <span className="text-sm font-medium text-gray-600">
+              Tổng Hoa Hồng
+            </span>
+          </div>
+          <p className="text-xl font-bold text-[#E91E63]">
+            {formatCurrency(stats.totalEarned || 0)}
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-pink-200">
+          <div className="flex items-center gap-2 mb-2">
+            <TreePine className="w-4 h-4 text-[#E91E63]" />
+            <span className="text-sm font-medium text-gray-600">Cấp Độ</span>
+          </div>
+          <p className="text-2xl font-bold text-[#E91E63]">
+            {affiliate.referralLevel
+              ? `Cấp ${affiliate.referralLevel}`
+              : "Chưa có"}
+          </p>
+        </div>
+      </div>
+
+      {/* 3-Level Breakdown */}
+      <div className="space-y-4 mb-6">
+        <h5 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-gray-600" />
+          Chi Tiết Theo Cấp
+        </h5>
+
+        {/* Level 1 */}
+        <div className="bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-[#E91E63] rounded-full"></div>
+              <span className="font-semibold text-gray-800">
+                Cấp 1 - Trực Tiếp
+              </span>
+              <span className="text-xs bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 px-2 py-1 rounded-full">
+                {commissionRates.level1}% hoa hồng
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm text-gray-600">Số người:</span>
+              <p className="text-xl font-bold text-[#E91E63]">
+                {stats.directReferrals || 0}
+              </p>
+            </div>
+            <div>
+              <span className="text-sm text-gray-600">Hoa hồng:</span>
+              <p className="text-lg font-semibold text-[#E91E63]">
+                {formatCurrency(stats.level1Total || 0)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Level 2 */}
+        <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-[#FF8C1A] rounded-full"></div>
+              <span className="font-semibold text-gray-800">
+                Cấp 2 - Gián Tiếp
+              </span>
+              <span className="text-xs bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 px-2 py-1 rounded-full">
+                {commissionRates.level2}% hoa hồng
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm text-gray-600">Số người:</span>
+              <p className="text-xl font-bold text-[#E91E63]">
+                {stats.level2Referrals || 0}
+              </p>
+            </div>
+            <div>
+              <span className="text-sm text-gray-600">Hoa hồng:</span>
+              <p className="text-lg font-semibold text-[#E91E63]">
+                {formatCurrency(stats.level2Total || 0)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Level 3 */}
+        <div className="bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-[#E91E63] rounded-full"></div>
+              <span className="font-semibold text-gray-800">
+                Cấp 3 - Xa Nhất
+              </span>
+              <span className="text-xs bg-pink-100 text-[#AD1457] px-2 py-1 rounded-full">
+                {commissionRates.level3}% hoa hồng
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm text-gray-600">Số người:</span>
+              <p className="text-xl font-bold text-[#E91E63]">
+                {stats.level3Referrals || 0}
+              </p>
+            </div>
+            <div>
+              <span className="text-sm text-gray-600">Hoa hồng:</span>
+              <p className="text-lg font-semibold text-[#E91E63]">
+                {formatCurrency(stats.level3Total || 0)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Referral Chain Visualization */}
+      {affiliate.referredBy && (
+        <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <User2 className="w-4 h-4 text-orange-600" />
+            <span className="font-semibold text-gray-800">
+              Được Giới Thiệu Bởi
+            </span>
+          </div>
+          <p className="text-sm text-gray-600">
+            ID:{" "}
+            <span className="font-mono text-orange-600">
+              {affiliate.referredBy}
+            </span>
+          </p>
+          {affiliate.referralLevel && (
+            <p className="text-sm text-gray-600 mt-1">
+              Vị trí trong chuỗi:{" "}
+              <span className="font-semibold text-orange-600">
+                Cấp {affiliate.referralLevel}
+              </span>
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Action Buttons for Admin */}
+      <div className="flex gap-2 pt-4 border-t border-gray-200">
+        <button className="flex-1 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+          <RefreshCw className="w-4 h-4" />
+          Cập nhật
+        </button>
+        <button className="flex-1 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+          <FileText className="w-4 h-4" />
+          Chi tiết
+        </button>
+      </div>
+
+      {/* Performance Indicator */}
+      {(affiliate.directReferrals || 0) > 0 && (
+        <div className="mt-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <Award className="w-4 h-4 text-yellow-600" />
+            <span className="text-sm font-medium text-yellow-800">
+              Hoạt động giới thiệu tốt!
+              {commissions.totalEarned &&
+                commissions.totalEarned > 0 &&
+                ` Đã kiếm được ${formatCurrency(commissions.totalEarned)}`}
+            </span>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -187,11 +442,11 @@ export default function UserDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { setToast, loading } = useAppStore();
-  const { handleSubmit } = useHandleSubmit();
-  const { confirm, isOpen, close, options } = useConfirmModal();
+  const { confirmModal, showConfirm, hideConfirm } = useConfirmModal();
 
   const [user, setUser] = useState<User | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [referralStats, setReferralStats] = useState<any>(null);
   const [stats, setStats] = useState({
     totalTasks: 0,
     totalRevenue: 0,
@@ -200,48 +455,134 @@ export default function UserDetailPage() {
     referralCount: 0,
   });
 
+  // Wallet adjustment states
+  const [isAdjustModalOpen, setIsAdjustModalOpen] = useState(false);
+  const [adjustType, setAdjustType] = useState<"add" | "subtract">("add");
+  const [adjustAmount, setAdjustAmount] = useState(0);
+  const [adjustReason, setAdjustReason] = useState("");
+  const [isAdjusting, setIsAdjusting] = useState(false);
+
   useEffect(() => {
     const fetchUserDetail = async () => {
-      const res = await handleSubmit(
-        () => http.get(`/admin/user/${id}`),
-        (err: any) =>
-          setToast({
-            type: "error",
-            title:
-              err.response?.data?.message ||
-              "Lấy thông tin người dùng thất bại",
-            isVisible: true,
-            timer: 1500,
-          })
-      );
-      if (res && res.data) {
-        setUser(res.data.user);
-        // Fetch transactions if available
-        if (res.data.transactions) {
-          setTransactions(res.data.transactions);
+      try {
+        const response = await http.get(`/admin/user/${id}`);
+
+        if (response.data && response.data.data) {
+          const { user, transactions, referralStats, stats } =
+            response.data.data;
+
+          if (user) {
+            setUser(user);
+
+            // Set transactions from API response
+            if (transactions) {
+              setTransactions(transactions);
+            }
+
+            // Set referral stats
+            if (referralStats) {
+              setReferralStats(referralStats);
+            }
+
+            // Set stats from API response
+            if (stats) {
+              setStats({
+                totalTasks: stats.totalTasks || 0,
+                totalRevenue: stats.totalRevenue || 0,
+                totalCommission: stats.totalCommission || 0,
+                lastActivity: user.updatedAt
+                  ? new Date(user.updatedAt).toLocaleDateString("vi-VN")
+                  : "-",
+                referralCount: stats.referralCount || 0,
+              });
+            } else {
+              // Fallback calculation if stats not provided
+              setStats({
+                totalTasks: 0,
+                totalRevenue: user.wallet?.available || 0,
+                totalCommission: 0,
+                lastActivity: user.updatedAt
+                  ? new Date(user.updatedAt).toLocaleDateString("vi-VN")
+                  : "-",
+                referralCount: 0,
+              });
+            }
+          }
         }
-        // Calculate stats from user data
-        if (res.data.user) {
-          setStats({
-            totalTasks: res.data.stats?.totalTasks || 0,
-            totalRevenue:
-              res.data.stats?.totalRevenue ||
-              res.data.user.wallet?.available ||
-              0,
-            totalCommission: res.data.stats?.totalCommission || 0,
-            lastActivity: res.data.user.updatedAt
-              ? new Date(res.data.user.updatedAt).toLocaleDateString("vi-VN")
-              : "-",
-            referralCount: res.data.stats?.referralCount || 0,
-          });
-        }
+      } catch (err: any) {
+        console.error("Error fetching user detail:", err);
+        setToast({
+          type: "error",
+          title:
+            err.response?.data?.message || "Lấy thông tin người dùng thất bại",
+          isVisible: true,
+          timer: 2000,
+        });
       }
     };
-    fetchUserDetail();
+
+    if (id) {
+      fetchUserDetail();
+    }
   }, [id]);
 
+  const openAdjustModal = (type: "add" | "subtract") => {
+    setAdjustType(type);
+    setAdjustAmount(0);
+    setAdjustReason("");
+    setIsAdjustModalOpen(true);
+  };
+
+  const handleAdjustBalance = async () => {
+    if (!user || adjustAmount <= 0 || !adjustReason.trim()) {
+      setToast({
+        type: "error",
+        title: "Vui lòng nhập đầy đủ thông tin",
+        isVisible: true,
+        timer: 2000,
+      });
+      return;
+    }
+
+    try {
+      setIsAdjusting(true);
+      await http.post("/wallet/admin/adjust-balance", {
+        userId: user._id,
+        amount: adjustAmount,
+        type: adjustType,
+        reason: adjustReason,
+      });
+
+      setToast({
+        type: "success",
+        title: `Đã ${adjustType === "add" ? "cộng" : "trừ"} ${formatCurrency(
+          adjustAmount
+        )} thành công`,
+        isVisible: true,
+        timer: 2000,
+      });
+      setIsAdjustModalOpen(false);
+
+      // Reload user data
+      const response = await http.get(`/admin/user/${id}`);
+      if (response.data && response.data.data && response.data.data.user) {
+        setUser(response.data.data.user);
+      }
+    } catch (err: any) {
+      console.error("Error adjusting balance:", err);
+      setToast({
+        type: "error",
+        title: err.response?.data?.message || "Không thể điều chỉnh số dư",
+        isVisible: true,
+        timer: 2000,
+      });
+    } finally {
+      setIsAdjusting(false);
+    }
+  };
+
   const handleDelete = async () => {
-    const confirmed = await confirm({
+    showConfirm({
       title: "Xác nhận xóa người dùng",
       message: `Bạn có chắc chắn muốn xóa người dùng "${
         user?.name || user?.email
@@ -249,30 +590,29 @@ export default function UserDetailPage() {
       confirmText: "Xóa",
       cancelText: "Hủy",
       type: "danger",
-    });
+      onConfirm: async () => {
+        try {
+          await http.delete(`/admin/user/${id}`);
 
-    if (confirmed) {
-      const res = await handleSubmit(
-        () => http.delete(`/admin/user/${id}`),
-        (err: any) =>
+          setToast({
+            title: "Xóa người dùng thành công",
+            type: "success",
+            isVisible: true,
+            timer: 2000,
+          });
+          hideConfirm();
+          setTimeout(() => navigate("/admin/users"), 1000);
+        } catch (err: any) {
+          console.error("Error deleting user:", err);
           setToast({
             type: "error",
             title: err.response?.data?.message || "Xóa người dùng thất bại",
             isVisible: true,
-            timer: 2000,
-          })
-      );
-
-      if (res && res.data) {
-        setToast({
-          title: "Xóa người dùng thành công",
-          type: "success",
-          isVisible: true,
-          timer: 2000,
-        });
-        setTimeout(() => navigate("/admin/users"), 1000);
-      }
-    }
+            timer: 3000,
+          });
+        }
+      },
+    });
   };
 
   const handleRefresh = () => {
@@ -281,10 +621,10 @@ export default function UserDetailPage() {
 
   if (loading["global"]) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-gray-50 to-green-50/30">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-4 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
-          <div className="flex items-center space-x-2 text-green-600">
+          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-[#E91E63] rounded-full animate-spin"></div>
+          <div className="flex items-center space-x-2 text-[#E91E63]">
             <span className="text-lg font-semibold">
               Đang tải thông tin người dùng...
             </span>
@@ -296,7 +636,7 @@ export default function UserDetailPage() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-gray-50 to-green-50/30">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
         <div className="text-center">
           <AlertCircle size={64} className="mx-auto text-red-500 mb-4" />
           <p className="text-xl font-bold text-red-600">
@@ -304,7 +644,7 @@ export default function UserDetailPage() {
           </p>
           <button
             onClick={() => navigate("/admin/users")}
-            className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition"
           >
             Quay lại danh sách
           </button>
@@ -315,7 +655,7 @@ export default function UserDetailPage() {
 
   if (checkRole(user.roles, "admin")) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-gray-50 to-green-50/30">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
         <div className="text-center">
           <Shield size={64} className="mx-auto text-yellow-500 mb-4" />
           <p className="text-xl font-bold text-yellow-600">
@@ -323,7 +663,7 @@ export default function UserDetailPage() {
           </p>
           <button
             onClick={() => navigate("/admin/users")}
-            className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition"
           >
             Quay lại danh sách
           </button>
@@ -344,13 +684,13 @@ export default function UserDetailPage() {
       icon: <DollarSign />,
       title: "Số dư ví",
       value: formatCurrency(stats.totalRevenue),
-      color: "text-green-600",
+      color: "text-[#E91E63]",
     },
     {
       icon: <TrendingUp />,
       title: "Hoa hồng",
       value: formatCurrency(stats.totalCommission),
-      color: "text-emerald-600",
+      color: "text-[#E91E63]",
     },
     {
       icon: <Activity />,
@@ -361,14 +701,14 @@ export default function UserDetailPage() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-br from-gray-50 to-green-50/30 font-sans">
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30 font-sans">
       {/* HEADER - Green theme */}
-      <div className="bg-linear-to-r from-green-600 to-emerald-600 shadow-lg">
+      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate("/admin/users")}
-              className="text-white hover:text-green-100 transition-colors p-2 hover:bg-white/10 rounded-lg"
+              className="text-white hover:text-white/90 transition-colors p-2 hover:bg-white/10 rounded-lg"
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
@@ -377,7 +717,7 @@ export default function UserDetailPage() {
                 <User2 className="w-7 h-7" />
                 Chi tiết Người dùng
               </h1>
-              <p className="text-green-100 text-sm mt-1">
+              <p className="text-white/90 text-sm mt-1">
                 Xem và quản lý thông tin chi tiết
               </p>
             </div>
@@ -403,7 +743,7 @@ export default function UserDetailPage() {
             >
               <div className="flex items-center justify-between">
                 <div
-                  className={`p-3 rounded-xl bg-linear-to-br from-green-50 to-emerald-50 ${card.color}`}
+                  className={`p-3 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] ${card.color}`}
                 >
                   {React.cloneElement(card.icon, { className: "w-6 h-6" })}
                 </div>
@@ -428,7 +768,7 @@ export default function UserDetailPage() {
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                 <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <User2 className="w-5 h-5 text-green-600" /> Thông tin Cơ bản
+                  <User2 className="w-5 h-5 text-[#E91E63]" /> Thông tin Cơ bản
                 </h4>
                 <StatusBadge status={user.status} />
               </div>
@@ -468,7 +808,7 @@ export default function UserDetailPage() {
                 {/* Vai trò */}
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-600 flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-green-600" /> Vai trò
+                    <Shield className="w-4 h-4 text-[#E91E63]" /> Vai trò
                   </span>
                   <RoleBadge roles={user.roles} />
                 </div>
@@ -495,7 +835,7 @@ export default function UserDetailPage() {
             </div>
 
             {/* 2. Thông tin Ví tiền */}
-            <div className="bg-linear-to-br from-green-500 to-emerald-600 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
+            <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <Wallet className="w-5 h-5" /> Thông tin Ví
               </h4>
@@ -506,7 +846,7 @@ export default function UserDetailPage() {
                     <div className="p-2 bg-white/20 rounded-lg">
                       <DollarSign className="w-5 h-5" />
                     </div>
-                    <span className="text-sm font-medium text-green-100">
+                    <span className="text-sm font-medium text-white/90">
                       Số dư khả dụng
                     </span>
                   </div>
@@ -520,7 +860,7 @@ export default function UserDetailPage() {
                     <div className="p-2 bg-white/20 rounded-lg">
                       <Clock className="w-5 h-5" />
                     </div>
-                    <span className="text-sm font-medium text-green-100">
+                    <span className="text-sm font-medium text-white/90">
                       Số dư chờ xử lý
                     </span>
                   </div>
@@ -531,8 +871,8 @@ export default function UserDetailPage() {
               </div>
 
               <div className="mt-6 pt-6 border-t border-white/20">
-                <div className="flex items-center justify-between">
-                  <span className="text-green-100">Tổng số dư</span>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white/90">Tổng số dư</span>
                   <span className="text-2xl font-bold">
                     {formatCurrency(
                       (user.wallet?.available || 0) +
@@ -540,65 +880,60 @@ export default function UserDetailPage() {
                     )}
                   </span>
                 </div>
+
+                {/* Wallet adjustment buttons */}
+                <div className="flex gap-3 mt-4">
+                  <button
+                    onClick={() => openAdjustModal("add")}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl font-semibold transition-all border border-white/30"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Cộng tiền
+                  </button>
+                  <button
+                    onClick={() => openAdjustModal("subtract")}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl font-semibold transition-all border border-white/30"
+                  >
+                    <Minus className="w-5 h-5" />
+                    Trừ tiền
+                  </button>
+                </div>
               </div>
             </div>
+
+            {/* 3. Thông tin Hệ thống Giới thiệu 3 Cấp */}
+            {user && (
+              <ReferralSystemDisplay
+                user={user}
+                referralStats={referralStats}
+              />
+            )}
           </div>
 
-          {/* Cột phụ: Referral & Hành động (1/3 width on large screens) */}
+          {/* Cột phụ: Hành động Admin */}
           <div className="lg:col-span-1 space-y-8">
-            {/* Referral */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-              <h4 className="text-lg font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200 flex items-center gap-2">
-                <Users className="w-5 h-5 text-green-600" /> Giới thiệu
-              </h4>
-
-              <div className="space-y-4">
-                {/* Mã giới thiệu */}
-                {user.affiliate?.code && (
-                  <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                    <span className="text-sm font-medium text-gray-600 block mb-2">
-                      Mã giới thiệu
-                    </span>
-                    <p className="text-lg font-bold text-green-600 font-mono">
-                      {user.affiliate.code}
-                    </p>
-                  </div>
-                )}
-
-                {/* Số người giới thiệu */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                  <span className="font-medium text-gray-600">
-                    Số người đã giới thiệu
-                  </span>
-                  <span className="text-2xl font-bold text-green-600">
-                    {stats.referralCount}
-                  </span>
-                </div>
-
-                {/* Người giới thiệu */}
-                {user.affiliate?.referredBy && (
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                    <span className="text-sm font-medium text-gray-600 block mb-2">
-                      Được giới thiệu bởi
-                    </span>
-                    <p className="text-sm font-mono text-blue-600">
-                      {user.affiliate.referredBy}
-                    </p>
-                  </div>
-                )}
+            {/* Người giới thiệu */}
+            {user.affiliate?.referredBy && (
+              <div className="p-4 bg-pink-50 border border-pink-200 rounded-xl">
+                <span className="text-sm font-medium text-gray-600 block mb-2">
+                  Được giới thiệu bởi
+                </span>
+                <p className="text-sm font-mono text-[#E91E63]">
+                  {user.affiliate.referredBy}
+                </p>
               </div>
-            </div>
+            )}
 
             {/* Actions */}
             <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
               <h4 className="text-lg font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-green-600" /> Hành động
+                <Settings className="w-5 h-5 text-[#E91E63]" /> Hành động
               </h4>
 
               <div className="flex flex-col gap-3">
                 <button
                   onClick={() => navigate(`/admin/users/edit/${user._id}`)}
-                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-base font-semibold rounded-xl text-white bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg shadow-green-500/30 transition duration-200 transform hover:scale-[1.02]"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] shadow-lg shadow-pink-500/30 transition duration-200 transform hover:scale-[1.02]"
                 >
                   <Edit2 className="w-5 h-5" />
                   Chỉnh sửa
@@ -622,15 +957,146 @@ export default function UserDetailPage() {
 
       {/* Confirm Modal */}
       <ConfirmModal
-        isOpen={isOpen}
-        onClose={close}
-        onConfirm={options.onConfirm}
-        title={options.title}
-        message={options.message}
-        confirmText={options.confirmText}
-        cancelText={options.cancelText}
-        type={options.type}
+        isOpen={confirmModal.isOpen}
+        onClose={hideConfirm}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmText={confirmModal.confirmText}
+        cancelText={confirmModal.cancelText}
+        type={confirmModal.type}
       />
+
+      {/* Adjust Balance Modal */}
+      {isAdjustModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                {adjustType === "add" ? (
+                  <>
+                    <Plus className="w-6 h-6 text-green-600" />
+                    Cộng tiền vào ví
+                  </>
+                ) : (
+                  <>
+                    <Minus className="w-6 h-6 text-red-600" />
+                    Trừ tiền khỏi ví
+                  </>
+                )}
+              </h3>
+              <p className="text-sm text-gray-500 mt-2">
+                Người dùng:{" "}
+                <span className="font-semibold">
+                  {user?.name || user?.email}
+                </span>
+              </p>
+              <p className="text-sm text-gray-500">
+                Số dư hiện tại:{" "}
+                <span className="font-semibold text-[#E91E63]">
+                  {formatCurrency(user?.wallet?.available || 0)}
+                </span>
+              </p>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Số tiền (VND) *
+                </label>
+                <input
+                  type="number"
+                  value={adjustAmount || ""}
+                  onChange={(e) => setAdjustAmount(Number(e.target.value))}
+                  placeholder="Nhập số tiền..."
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all"
+                  min="0"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Lý do *
+                </label>
+                <textarea
+                  value={adjustReason}
+                  onChange={(e) => setAdjustReason(e.target.value)}
+                  placeholder={`Nhập lý do ${
+                    adjustType === "add" ? "cộng" : "trừ"
+                  } tiền...`}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all resize-none"
+                  rows={3}
+                />
+              </div>
+
+              {adjustAmount > 0 && (
+                <div
+                  className={`p-4 rounded-xl ${
+                    adjustType === "add"
+                      ? "bg-green-50 border border-green-200"
+                      : "bg-red-50 border border-red-200"
+                  }`}
+                >
+                  <p className="text-sm font-semibold text-gray-700">
+                    Số dư sau khi {adjustType === "add" ? "cộng" : "trừ"}:
+                  </p>
+                  <p
+                    className={`text-2xl font-bold ${
+                      adjustType === "add" ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {formatCurrency(
+                      (user?.wallet?.available || 0) +
+                        (adjustType === "add" ? adjustAmount : -adjustAmount)
+                    )}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex gap-3">
+              <button
+                onClick={() => setIsAdjustModalOpen(false)}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleAdjustBalance}
+                disabled={
+                  isAdjusting || adjustAmount <= 0 || !adjustReason.trim()
+                }
+                className={`flex-1 px-4 py-3 ${
+                  adjustType === "add"
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-red-600 hover:bg-red-700"
+                } text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2`}
+              >
+                {isAdjusting ? (
+                  <>
+                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    Đang xử lý...
+                  </>
+                ) : (
+                  <>
+                    {adjustType === "add" ? (
+                      <>
+                        <Plus className="w-5 h-5" />
+                        Cộng tiền
+                      </>
+                    ) : (
+                      <>
+                        <Minus className="w-5 h-5" />
+                        Trừ tiền
+                      </>
+                    )}
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

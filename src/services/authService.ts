@@ -1,5 +1,6 @@
-import http, { defaultHttp } from "./api";
 import type { User } from "../utils/types";
+import { useAuthStore } from "@/store/authStore";
+import http from "./api";
 
 export interface LoginRequest {
   email: string;
@@ -27,7 +28,7 @@ const authService = {
    * Login with email and password
    */
   login: async (data: LoginRequest): Promise<AuthResponse> => {
-    const response = await defaultHttp.post("/auth/signin", data);
+    const response = await http.post("/auth/signin", data);
     return response.data.data;
   },
 
@@ -35,7 +36,7 @@ const authService = {
    * Sign up new account
    */
   signup: async (data: SignupRequest): Promise<AuthResponse> => {
-    const response = await defaultHttp.post("/auth/signup", data);
+    const response = await http.post("/auth/signup", data);
     return response.data.data;
   },
 
@@ -68,8 +69,13 @@ const authService = {
    * Refresh access token
    */
   refreshToken: async (refreshToken: string) => {
-    const response = await defaultHttp.post("/auth/refresh", { refreshToken });
+    const response = await http.post("/auth/refresh", { refreshToken });
     return response.data.data;
+  },
+
+  //**handle logout
+  handleLogout: () => {
+    useAuthStore.getState().logout();
   },
 };
 export default authService;

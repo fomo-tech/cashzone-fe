@@ -30,7 +30,7 @@ interface ActivityDetail {
 const DAILY_ACTIVITIES: { [key: string]: ActivityDetail } = {
   checkin: {
     title: "Điểm Danh Hàng Ngày",
-    icon: <CalendarCheck size={24} className="text-emerald-500" />, // Màu Emerald
+    icon: <CalendarCheck size={24} className="text-pink-500" />, // Màu Emerald
     reward: "+100 Points",
     cost: "Miễn phí (1 lần/ngày)",
     description:
@@ -78,7 +78,7 @@ const DAILY_ACTIVITIES: { [key: string]: ActivityDetail } = {
   },
   invite: {
     title: "Mời Bạn Bè",
-    icon: <Users size={24} className="text-teal-600" />, // Màu Teal
+    icon: <Users size={24} className="text-[#FF8C1A]" />, // Màu Teal
     reward: "5,000 Points/Lượt",
     cost: "Không giới hạn",
     description:
@@ -123,7 +123,7 @@ const ActivityDetailModal: React.FC<{
           {/* Header Modal */}
           <div className="flex justify-between items-start border-b border-gray-100 pb-4 mb-4">
             <div className="flex items-center space-x-3">
-              <span className="p-3 bg-green-50 rounded-full">
+              <span className="p-3 bg-pink-50 rounded-full">
                 {activity.icon}
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
@@ -141,11 +141,11 @@ const ActivityDetailModal: React.FC<{
 
           {/* Thông tin chính */}
           <div className="mb-6 space-y-3">
-            <p className="text-sm text-gray-600 border-l-4 border-emerald-500 pl-3 italic py-1">
+            <p className="text-sm text-gray-600 border-l-4 border-pink-500 pl-3 italic py-1">
               {activity.description}
             </p>
             <div className="flex space-x-4 flex-wrap gap-y-2">
-              <div className="flex items-center text-sm font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl">
+              <div className="flex items-center text-sm font-semibold text-[#AD1457] bg-pink-50 px-3 py-1.5 rounded-xl">
                 <Gift size={16} className="mr-2" />
                 Phần Thưởng:{" "}
                 <span className="ml-1 font-extrabold">{activity.reward}</span>
@@ -161,7 +161,7 @@ const ActivityDetailModal: React.FC<{
           {/* Hướng dẫn chi tiết */}
           <div className="mb-6">
             <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
-              <CheckCircle size={20} className="mr-2 text-green-600" /> Hướng
+              <CheckCircle size={20} className="mr-2 text-[#E91E63]" /> Hướng
               Dẫn Chi Tiết
             </h3>
             <ol className="space-y-4 text-gray-700">
@@ -182,7 +182,7 @@ const ActivityDetailModal: React.FC<{
                     >
                       {isHeader ? (
                         <span className="inline-flex items-center">
-                          <span className="inline-flex items-center justify-center w-5 h-5 mr-2 bg-green-600 text-white rounded-full text-xs font-bold">
+                          <span className="inline-flex items-center justify-center w-5 h-5 mr-2 bg-[#E91E63] text-white rounded-full text-xs font-bold">
                             {index + 1}
                           </span>
                           {req}
@@ -200,7 +200,7 @@ const ActivityDetailModal: React.FC<{
           {/* Nút Thực Hiện Hành Động */}
           <button
             // Màu xanh lá cây nổi bật
-            className="w-full inline-flex items-center justify-center px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl transition duration-200 hover:bg-emerald-700 text-lg shadow-xl shadow-emerald-500/50 transform hover:scale-[1.01]"
+            className="w-full inline-flex items-center justify-center px-6 py-3 bg-[#E91E63] text-white font-bold rounded-xl transition duration-200 hover:bg-[#AD1457] text-lg shadow-xl shadow-pink-500/50 transform hover:scale-[1.01]"
             onClick={onClose} // Đóng modal và chuyển hướng/thực hiện hành động
           >
             <Zap size={20} className="inline mr-2" />
@@ -230,14 +230,14 @@ const ActivityCard: React.FC<{
     <div
       onClick={handleCardClick}
       // Thẻ sang trọng hơn với bo góc lớn hơn, border tinh tế và shadow
-      className="bg-white p-5 rounded-3xl shadow-xl border border-gray-100 flex flex-col transition duration-300 hover:shadow-2xl hover:border-emerald-400 hover:ring-2 hover:ring-emerald-400/30 cursor-pointer h-full"
+      className="bg-white p-5 rounded-3xl shadow-xl border border-gray-100 flex flex-col transition duration-300 hover:shadow-2xl hover:border-pink-400 hover:ring-2 hover:ring-pink-400/30 cursor-pointer h-full"
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="p-3 bg-green-50 rounded-xl">{activity.icon}</span>
+        <span className="p-3 bg-pink-50 rounded-xl">{activity.icon}</span>
         <span
           className={`text-xs font-semibold px-3 py-1 rounded-full ${
             isCostFree
-              ? "bg-emerald-100 text-emerald-700"
+              ? "bg-pink-100 text-[#AD1457]"
               : "bg-yellow-100 text-yellow-700"
           }`}
         >
@@ -254,13 +254,13 @@ const ActivityCard: React.FC<{
       </p>
 
       <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-        <div className="text-base font-bold text-green-700 flex items-center">
+        <div className="text-base font-bold text-[#E91E63] flex items-center">
           <Gift size={18} className="mr-1" />
           {activity.reward}
         </div>
         <button
           // Nút chi tiết màu xanh lá cây đậm
-          className="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition shadow-md"
+          className="px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white text-sm font-semibold rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition shadow-md"
         >
           Chi tiết
         </button>
@@ -295,12 +295,12 @@ export default function Activities() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 sm:py-12 font-sans">
+    <div className="min-h-screen py-8 sm:py-12 font-sans">
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
         {/* Header Section - Sang trọng hơn */}
-        <header className="text-center bg-white p-6 rounded-3xl shadow-2xl border border-green-100">
+        <header className="text-center bg-white p-6 rounded-3xl shadow-2xl border border-pink-100">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 flex items-center justify-center">
-            <Leaf size={36} className="text-emerald-500 mr-3" />
+            <Leaf size={36} className="text-pink-500 mr-3" />
             Trung Tâm Hoạt Động (VIP)
           </h1>
           <p className="mt-2 text-lg text-gray-600">
@@ -317,7 +317,7 @@ export default function Activities() {
         {/* Danh sách Hoạt Động */}
         <main>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 px-1 flex items-center">
-            <RotateCw size={24} className="text-emerald-500 mr-2" />
+            <RotateCw size={24} className="text-pink-500 mr-2" />
             Hoạt Động Hàng Ngày & Định Kỳ
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">

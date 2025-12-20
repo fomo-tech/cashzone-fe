@@ -1,0 +1,395 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Bell,
+  Check,
+  Trash2,
+  Filter,
+  Loader,
+  ExternalLink,
+  Calendar,
+} from "lucide-react";
+import notificationService, {
+  type Notification,
+} from "@/services/notificationService";
+import { notification as showNotification } from "@/utils/notification";
+
+const NotificationPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "unread" | "read">("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    fetchNotifications();
+    fetchUnreadCount();
+  }, [currentPage]);
+
+  const fetchNotifications = async () => {
+    try {
+      setIsLoading(true);
+      const response = await notificationService.getUserNotifications(
+        currentPage,
+        20
+      );
+      setNotifications(response.data.notifications);
+      setTotalPages(Math.ceil(response.data.total / 20));
+    } catch (error: any) {
+      showNotification({
+        message: error?.response?.data?.message || "Lỗi khi tải thông báo",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchUnreadCount = async () => {
+    try {
+      const response = await notificationService.getUnreadCount();
+      setUnreadCount(response.data.count);
+    } catch (error) {
+      console.error("Error fetching unread count:", error);
+    }
+  };
+
+  const handleMarkAsRead = async (notificationId: string) => {
+    try {
+      await notificationService.markAsRead(notificationId);
+      setNotifications((prev) =>
+        prev.map((n) => (n._id === notificationId ? { ...n, read: true } : n))
+      );
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+      showNotification({
+        message: "Đã đánh dấu là đã đọc",
+        type: "success",
+      });
+    } catch (error: any) {
+      showNotification({
+        message: error?.response?.data?.message || "Lỗi khi cập nhật",
+        type: "error",
+      });
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await notificationService.markAllAsRead();
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setUnreadCount(0);
+      showNotification({
+        message: "Đã đánh dấu tất cả là đã đọc",
+        type: "success",
+      });
+    } catch (error: any) {
+      showNotification({
+        message: error?.response?.data?.message || "Lỗi khi cập nhật",
+        type: "error",
+      });
+    }
+  };
+
+  const handleDelete = async (notificationId: string) => {
+    if (!confirm("Bạn có chắc muốn xóa thông báo này?")) return;
+
+    try {
+      await notificationService.deleteNotification(notificationId);
+      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+      showNotification({
+        message: "Đã xóa thông báo",
+        type: "success",
+      });
+    } catch (error: any) {
+      showNotification({
+        message: error?.response?.data?.message || "Lỗi khi xóa thông báo",
+        type: "error",
+      });
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (!confirm("Bạn có chắc muốn xóa tất cả thông báo?")) return;
+
+    try {
+      await notificationService.deleteAllNotifications();
+      setNotifications([]);
+      setUnreadCount(0);
+      showNotification({
+        message: "Đã xóa tất cả thông báo",
+        type: "success",
+      });
+    } catch (error: any) {
+      showNotification({
+        message: error?.response?.data?.message || "Lỗi khi xóa thông báo",
+        type: "error",
+      });
+    }
+  };
+
+  const handleOpenDetail = (notif: Notification) => {
+    navigate(`/notifications/${notif._id}`);
+  };
+
+  const filteredNotifications = notifications.filter((n) => {
+    if (filter === "unread") return !n.read;
+    if (filter === "read") return n.read;
+    return true;
+  });
+
+  const getTypeColor = (type: string) => {
+    const colors: Record<string, string> = {
+      task_new: "bg-blue-100 text-blue-800",
+      task_reward: "bg-green-100 text-green-800",
+      referral: "bg-purple-100 text-purple-800",
+      system: "bg-orange-100 text-orange-800",
+    };
+    return colors[type] || "bg-gray-100 text-gray-800";
+  };
+
+  const getTypeLabel = (type: string) => {
+    const labels: Record<string, string> = {
+      task_new: "Task mới",
+      task_reward: "Phần thưởng",
+      referral: "Giới thiệu",
+      system: "Hệ thống",
+    };
+    return labels[type] || type;
+  };
+
+  if (isLoading && notifications.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-2xl shadow-xl border border-pink-100 p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl shadow-lg">
+                <Bell className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                  Thông Báo
+                </h1>
+                <p className="text-sm text-slate-500 mt-1">
+                  {unreadCount > 0
+                    ? `Bạn có ${unreadCount} thông báo chưa đọc`
+                    : "Tất cả thông báo đã được đọc"}
+                </p>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2">
+              {unreadCount > 0 && (
+                <button
+                  onClick={handleMarkAllAsRead}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors text-sm font-medium"
+                >
+                  <Check className="w-4 h-4" />
+                  Đánh dấu tất cả
+                </button>
+              )}
+              {/* {notifications.length > 0 && (
+                <button
+                  onClick={handleDeleteAll}
+                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors text-sm font-medium"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Xóa tất cả
+                </button>
+              )} */}
+            </div>
+          </div>
+
+          {/* Filter */}
+          <div className="flex gap-2 mt-4 border-t border-slate-100 pt-4">
+            <button
+              onClick={() => setFilter("all")}
+              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                filter === "all"
+                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              <Filter className="w-4 h-4" />
+              Tất cả ({notifications.length})
+            </button>
+            <button
+              onClick={() => setFilter("unread")}
+              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                filter === "unread"
+                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              Chưa đọc ({unreadCount})
+            </button>
+            <button
+              onClick={() => setFilter("read")}
+              className={`cursor-pointerflex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                filter === "read"
+                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              Đã đọc ({notifications.length - unreadCount})
+            </button>
+          </div>
+        </div>
+
+        {/* Notifications List */}
+        <div className="space-y-3">
+          {filteredNotifications.length > 0 ? (
+            filteredNotifications.map((notif) => (
+              <div
+                key={notif._id}
+                onClick={() => handleOpenDetail(notif)}
+                className={`bg-white rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl cursor-pointer ${
+                  !notif.read
+                    ? "border-[#E91E63]/30 bg-gradient-to-r from-pink-50/50 to-white"
+                    : "border-slate-100"
+                }`}
+              >
+                <div className="p-5">
+                  <div className="flex items-start gap-4">
+                    {/* Icon/Image */}
+                    <div className="flex-shrink-0">
+                      {notif.imageUrl ? (
+                        <img
+                          src={notif.imageUrl}
+                          alt="notification"
+                          className="w-16 h-16 rounded-xl object-cover border-2 border-slate-100"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl flex items-center justify-center">
+                          <Bell className="w-8 h-8 text-[#E91E63]" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-lg font-bold text-slate-800">
+                            {notif.title}
+                          </h3>
+                          {!notif.read && (
+                            <span className="w-2 h-2 bg-[#E91E63] rounded-full"></span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {notif.targetType === "broadcast" && (
+                            <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-600">
+                              Chung
+                            </span>
+                          )}
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(
+                              notif.type
+                            )}`}
+                          >
+                            {getTypeLabel(notif.type)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {notif.message && (
+                        <p className="text-slate-600 text-sm mb-3 line-clamp-2">
+                          {notif.message}
+                        </p>
+                      )}
+
+                      <div className="flex items-center gap-4 text-xs text-slate-400">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(notif.createdAt).toLocaleString("vi-VN")}
+                        </div>
+                        {notif.link && (
+                          <span className="flex items-center gap-1 text-[#E91E63]">
+                            <ExternalLink className="w-3 h-3" />
+                            Xem chi tiết
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    {/* <div
+                      className="flex flex-col gap-2"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {!notif.read && (
+                        <button
+                          onClick={() => handleMarkAsRead(notif._id)}
+                          title="Đánh dấu đã đọc"
+                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                        >
+                          <Check className="w-5 h-5" />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(notif._id)}
+                        title="Xóa"
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div> */}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-12 text-center">
+              <Bell className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-500 text-lg">
+                {filter === "unread"
+                  ? "Không có thông báo chưa đọc"
+                  : filter === "read"
+                  ? "Không có thông báo đã đọc"
+                  : "Bạn chưa có thông báo nào"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center gap-2 mt-6">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-sm font-medium"
+            >
+              Trang trước
+            </button>
+            <span className="px-4 py-2 text-sm font-medium text-slate-600">
+              Trang {currentPage} / {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-sm font-medium"
+            >
+              Trang sau
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default NotificationPage;

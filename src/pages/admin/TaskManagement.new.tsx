@@ -23,7 +23,9 @@ const TaskManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<TaskType | "all">("all");
-  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "paused" | "closed">("all");
+  const [filterStatus, setFilterStatus] = useState<
+    "all" | "active" | "paused" | "closed"
+  >("all");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,10 +100,13 @@ const TaskManagement: React.FC = () => {
   const handleEdit = (task: Task) => {
     setEditingTask(task);
     setFormData({
-      offerId: task.offerId && typeof task.offerId === "object" ? task.offerId._id : undefined,
+      offerId:
+        task.offerId && typeof task.offerId === "object"
+          ? task.offerId._id
+          : undefined,
       title: task.title,
       requirements: task.requirements || [],
-      
+
       description: task.description,
       type: task.type,
       reward: task.reward,
@@ -161,7 +166,10 @@ const TaskManagement: React.FC = () => {
     }
   };
 
-  const handleStatusChange = async (taskId: string, newStatus: "active" | "paused" | "closed") => {
+  const handleStatusChange = async (
+    taskId: string,
+    newStatus: "active" | "paused" | "closed"
+  ) => {
     try {
       await taskService.updateTask(taskId, { status: newStatus });
       notification({
@@ -179,7 +187,8 @@ const TaskManagement: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      active: "bg-green-100 text-green-800",
+      active:
+        "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30",
       paused: "bg-yellow-100 text-yellow-800",
       closed: "bg-red-100 text-red-800",
     };
@@ -187,7 +196,7 @@ const TaskManagement: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+    <div className="min-h-screen p-4 sm:p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -200,7 +209,7 @@ const TaskManagement: React.FC = () => {
         </div>
         <button
           onClick={handleCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-[#E91E63] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white text-sm"
         >
           <Plus size={18} />
           Tạo nhiệm vụ
@@ -263,7 +272,7 @@ const TaskManagement: React.FC = () => {
       {/* Tasks Table */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#E91E63]" />
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -311,7 +320,7 @@ const TaskManagement: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-sm font-semibold text-green-600">
+                      <span className="text-sm font-semibold text-[#E91E63]">
                         {taskService.formatReward(task.reward)}
                       </span>
                     </td>
@@ -321,9 +330,12 @@ const TaskManagement: React.FC = () => {
                       </div>
                       <div className="w-24 bg-gray-200 rounded-full h-1.5 mt-1">
                         <div
-                          className="bg-blue-600 h-1.5 rounded-full"
+                          className="bg-[#E91E63] h-1.5 rounded-full"
                           style={{
-                            width: `${(task.currentCompletion / task.maxCompletion) * 100}%`,
+                            width: `${
+                              (task.currentCompletion / task.maxCompletion) *
+                              100
+                            }%`,
                           }}
                         />
                       </div>
@@ -331,7 +343,9 @@ const TaskManagement: React.FC = () => {
                     <td className="px-4 py-3">
                       <select
                         value={task.status}
-                        onChange={(e) => handleStatusChange(task._id, e.target.value as any)}
+                        onChange={(e) =>
+                          handleStatusChange(task._id, e.target.value as any)
+                        }
                         className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
                           task.status
                         )}`}
@@ -343,14 +357,16 @@ const TaskManagement: React.FC = () => {
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs text-gray-600">
-                        {task.verificationMode === "ai" ? "Tự động" : "Thủ công"}
+                        {task.verificationMode === "ai"
+                          ? "Tự động"
+                          : "Thủ công"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleEdit(task)}
-                          className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                          className="p-1 text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded"
                         >
                           <Edit size={16} />
                         </button>
@@ -417,7 +433,9 @@ const TaskManagement: React.FC = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -449,20 +467,30 @@ const TaskManagement: React.FC = () => {
                         type="text"
                         value={requirement}
                         onChange={(e) => {
-                          const newRequirements = [...(formData.requirements || [])];
+                          const newRequirements = [
+                            ...(formData.requirements || []),
+                          ];
                           newRequirements[index] = e.target.value;
-                          setFormData({ ...formData, requirements: newRequirements });
+                          setFormData({
+                            ...formData,
+                            requirements: newRequirements,
+                          });
                         }}
-                        placeholder={`Bước ${index + 1} - Tiêu đề: Mô tả chi tiết...`}
+                        placeholder={`Bước ${
+                          index + 1
+                        } - Tiêu đề: Mô tả chi tiết...`}
                         className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
                       <button
                         type="button"
                         onClick={() => {
-                          const newRequirements = (formData.requirements || []).filter(
-                            (_, i) => i !== index
-                          );
-                          setFormData({ ...formData, requirements: newRequirements });
+                          const newRequirements = (
+                            formData.requirements || []
+                          ).filter((_, i) => i !== index);
+                          setFormData({
+                            ...formData,
+                            requirements: newRequirements,
+                          });
                         }}
                         className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
                       >
@@ -479,7 +507,7 @@ const TaskManagement: React.FC = () => {
                       requirements: [...(formData.requirements || []), ""],
                     });
                   }}
-                  className="mt-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 text-sm flex items-center gap-2"
+                  className="mt-2 px-4 py-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 rounded-lg hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white text-sm flex items-center gap-2"
                 >
                   <Plus size={16} />
                   Thêm bước hướng dẫn
@@ -494,7 +522,10 @@ const TaskManagement: React.FC = () => {
                   <select
                     value={formData.type}
                     onChange={(e) =>
-                      setFormData({ ...formData, type: e.target.value as TaskType })
+                      setFormData({
+                        ...formData,
+                        type: e.target.value as TaskType,
+                      })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -516,7 +547,10 @@ const TaskManagement: React.FC = () => {
                     type="number"
                     value={formData.reward}
                     onChange={(e) =>
-                      setFormData({ ...formData, reward: Number(e.target.value) })
+                      setFormData({
+                        ...formData,
+                        reward: Number(e.target.value),
+                      })
                     }
                     required
                     min="0"
@@ -534,7 +568,10 @@ const TaskManagement: React.FC = () => {
                     type="number"
                     value={formData.maxCompletion}
                     onChange={(e) =>
-                      setFormData({ ...formData, maxCompletion: Number(e.target.value) })
+                      setFormData({
+                        ...formData,
+                        maxCompletion: Number(e.target.value),
+                      })
                     }
                     required
                     min="1"
@@ -565,7 +602,10 @@ const TaskManagement: React.FC = () => {
                   <select
                     value={formData.proofType}
                     onChange={(e) =>
-                      setFormData({ ...formData, proofType: e.target.value as any })
+                      setFormData({
+                        ...formData,
+                        proofType: e.target.value as any,
+                      })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -582,7 +622,10 @@ const TaskManagement: React.FC = () => {
                   <select
                     value={formData.verificationMode}
                     onChange={(e) =>
-                      setFormData({ ...formData, verificationMode: e.target.value as any })
+                      setFormData({
+                        ...formData,
+                        verificationMode: e.target.value as any,
+                      })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -602,7 +645,7 @@ const TaskManagement: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100]"
                 >
                   {editingTask ? "Cập nhật" : "Tạo mới"}
                 </button>

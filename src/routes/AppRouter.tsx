@@ -6,33 +6,46 @@ import LeaderBoard from "@/pages/LeaderBoard";
 import Refferal from "@/pages/Refferal";
 import Cashback from "@/pages/Cashback";
 import OfferTaskPage from "@/pages/OfferTask";
+import OfferDetail from "@/pages/OfferDetail";
 import ProfilePage from "@/pages/Profile";
 import WalletManagement from "@/pages/Wallet";
 import SignupForm from "@/pages/Signup";
+import NotificationPage from "@/pages/Notification";
+import NotificationDetail from "@/pages/NotificationDetail";
+import ScrollToTopOnNavigate from "@/components/common/ScrollToTopOnNavigate";
 
 import Users from "@/pages/admin/Users";
+import FinancialManagement from "@/pages/admin/FinancialManagement";
 import NotFoundPage from "@/pages/Notfound";
 import CashbackManagement from "@/pages/admin/CashbackManagement";
 import TaskManagement from "@/pages/admin/TaskManagement";
 import NotificationManagement from "@/pages/admin/NotificationManagement";
-import TransactionManagementPage from "@/pages/admin/Transaction";
 import AdminDashboard from "@/pages/admin/DashboardAdmin";
 import ConfigManagement from "@/pages/admin/ConfigManagent";
 import TaskSubmissionManagement from "@/pages/admin/TaskSubmissionManagement";
 import AdminLogin from "@/pages/admin/Login";
+import LinkManagement from "@/pages/admin/LinkManagement";
+import OrderTracking from "@/pages/admin/OrderTracking";
+import PlatformManagement from "@/pages/admin/PlatformManagement";
+import AffiliateManagement from "@/pages/admin/AffiliateManagement";
+import AffiliateProductManagement from "@/pages/admin/AffiliateProductManagement";
 
 import SettingsPage from "@/pages/Setting";
 import Activities from "@/pages/Activities";
 import HomePage from "@/pages/Home";
+import CashbackHistory from "@/pages/CashbackHistory";
 
 import { PrivateRoute } from "./PrivateRoute";
 import { RoleRoute } from "./RoleRoute";
 import { GuestRoute } from "./GuestRoute";
 import { ClientRoute } from "./ClientRoute";
 import UserDetailPage from "@/pages/admin/UserDetail";
+import SystemSettingsPage from "@/pages/admin/SystemSettings";
+import TestIntegrationPage from "@/pages/TestIntegrationPage";
 
 export const AppRouter = () => (
   <BrowserRouter>
+    <ScrollToTopOnNavigate />
     <Routes>
       {/* ===== AUTH PAGES ===== */}
       <Route
@@ -70,10 +83,17 @@ export const AppRouter = () => (
         <Route path="/referrals" element={<Refferal />} />
         <Route path="/cashback" element={<Cashback />} />
         <Route path="/tasks" element={<OfferTaskPage />} />
+        <Route path="/tasks/:id" element={<OfferDetail />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wallet" element={<WalletManagement />} />
         <Route path="/activities" element={<Activities />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/cashback-history" element={<CashbackHistory />} />
+        <Route path="/notifications" element={<NotificationPage />} />
+        <Route path="/notifications/:id" element={<NotificationDetail />} />
+
+        {/* Test page for development */}
+        <Route path="/test-leaderboard" element={<TestIntegrationPage />} />
       </Route>
 
       {/* ===== ADMIN ROUTES ===== */}
@@ -90,11 +110,23 @@ export const AppRouter = () => (
             element={<NotificationManagement />}
           />
           <Route
-            path="management-transactions"
-            element={<TransactionManagementPage />}
+            path="financial-management"
+            element={<FinancialManagement />}
           />
           <Route path="management-configs" element={<ConfigManagement />} />
           <Route path="submissions" element={<TaskSubmissionManagement />} />
+          <Route path="link-management" element={<LinkManagement />} />
+          <Route path="order-tracking" element={<OrderTracking />} />
+          <Route path="platform-management" element={<PlatformManagement />} />
+          <Route
+            path="affiliate-management"
+            element={<AffiliateManagement />}
+          />
+          <Route
+            path="affiliate-products"
+            element={<AffiliateProductManagement />}
+          />
+          <Route path="system-settings" element={<SystemSettingsPage />} />
         </Route>
       </Route>
 

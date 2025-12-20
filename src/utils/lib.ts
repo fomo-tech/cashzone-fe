@@ -80,3 +80,6 @@ export const getRandomInt = (min: number, max: number): number => {
 export const mergeClasses = (...classes: (string | undefined)[]): string => {
   return classes.filter(Boolean).join(" ");
 };
+
+// Alias for mergeClasses to match shadcn/ui naming convention
+export const cn = mergeClasses;

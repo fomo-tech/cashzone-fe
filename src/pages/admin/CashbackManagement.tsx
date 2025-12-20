@@ -157,7 +157,8 @@ const CashbackManagement: React.FC = () => {
         text = "Chờ duyệt";
         break;
       case "completed":
-        colorClass = "bg-green-100 text-green-800";
+        colorClass =
+          "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30";
         text = "Đã hoàn thành";
         break;
       case "rejected":
@@ -193,19 +194,19 @@ const CashbackManagement: React.FC = () => {
 
   if (loading && transactions.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-indigo-600" />
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-extrabold text-slate-800 flex items-center gap-3">
-            <DollarSign className="w-8 h-8 text-indigo-600" />
+            <DollarSign className="w-8 h-8 text-[#E91E63]" />
             Quản Lý Cashback
           </h1>
         </div>
@@ -216,13 +217,13 @@ const CashbackManagement: React.FC = () => {
             icon={<TrendingUp />}
             title="Tổng Số Tiền Đã Ghi Nhận"
             value={formatCurrency(stats.totalEarned)}
-            color="text-green-600"
+            color="text-[#E91E63]"
           />
           <StatCard
             icon={<CheckCircle />}
             title="Tổng Số Tiền Đã Thanh Toán"
             value={formatCurrency(stats.totalPaid)}
-            color="text-blue-600"
+            color="text-[#E91E63]"
           />
           <StatCard
             icon={<RefreshCw />}
@@ -303,7 +304,7 @@ const CashbackManagement: React.FC = () => {
                   filteredTransactions.map((t) => (
                     <tr
                       key={t.id}
-                      className="hover:bg-indigo-50 transition-colors"
+                      className="hover:bg-gradient-to-r from-pink-50 to-orange-50 transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
                         #{t.id.slice(-6)}
@@ -311,7 +312,7 @@ const CashbackManagement: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
                         {t.userName}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-green-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-[#E91E63]">
                         {formatCurrency(t.amount)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
@@ -330,7 +331,7 @@ const CashbackManagement: React.FC = () => {
                               onClick={() => handleAction(t.id, "completed")}
                               disabled={actionLoading === t.id}
                               title="Duyệt"
-                              className="text-green-600 hover:text-white hover:bg-green-600 border border-green-600 p-2 rounded-full transition duration-150 disabled:opacity-50"
+                              className="text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] border border-[#E91E63] p-2 rounded-full transition duration-150 disabled:opacity-50"
                             >
                               {actionLoading === t.id ? (
                                 <Loader className="w-5 h-5 animate-spin" />

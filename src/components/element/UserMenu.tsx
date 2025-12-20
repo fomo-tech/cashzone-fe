@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Settings, LogOut, Wallet, History } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const UserMenu = () => {
@@ -46,15 +46,31 @@ const UserMenu = () => {
         <div className="py-1">
           <Link
             to="/profile"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
           >
             <User className="w-4 h-4 mr-2" />
             Trang cá nhân
           </Link>
 
           <Link
+            to="/wallet"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+          >
+            <Wallet className="w-4 h-4 mr-2" />
+            Ví của tôi
+          </Link>
+
+          <Link
+            to="/cashback-history"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+          >
+            <History className="w-4 h-4 mr-2" />
+            Lịch sử hoàn tiền
+          </Link>
+
+          <Link
             to="/settings"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
           >
             <Settings className="w-4 h-4 mr-2" />
             Cài đặt

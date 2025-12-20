@@ -1,4 +1,5 @@
 import type { AuthState, User } from "@/utils/types";
+import { useNavigate } from "react-router-dom";
 import { create } from "zustand";
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -64,7 +65,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () =>
     set(() => {
       localStorage.removeItem("user");
-      localStorage.removeItem("tokens");
+      localStorage.removeItem("token");
 
       return {
         user: null,

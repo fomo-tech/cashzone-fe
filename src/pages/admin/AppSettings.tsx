@@ -21,6 +21,7 @@ import {
   AlertTriangle,
   Key,
   CheckSquare,
+  Target,
 } from "lucide-react";
 import { notification } from "../../utils/notification";
 import settingsService from "../../services/settingsService";
@@ -61,6 +62,15 @@ interface AppSettingsData {
   defaultCommissionRate: number;
   referralCommissionRate: number;
   tierCommissionRates: { tier: number; rate: number }[];
+
+  // Commission system (detailed)
+  commission?: {
+    level1Rate: number;
+    level2Rate: number;
+    level3Rate: number;
+    enabled: boolean;
+    maxLevels: number;
+  };
 
   // Cấu hình người dùng
   minRegistrationAge: number;
@@ -304,17 +314,17 @@ const AppSettings: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-green-50 p-4 sm:p-6">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-[#FF8C1A] p-4 sm:p-6">
       {/* Header */}
-      <div className="bg-linear-to-r from-green-600 via-emerald-600 to-green-500 rounded-2xl shadow-xl p-6 sm:p-8 mb-6 text-white">
+      <div className="bg-linear-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] rounded-2xl shadow-xl p-6 sm:p-8 mb-6 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 flex items-center gap-3">
               <Settings size={40} />
-              <Settings className="w-6 h-6 text-green-600 mr-3" />
+              <Settings className="w-6 h-6 text-[#E91E63] mr-3" />
               Cấu Hình Ứng Dụng
             </h1>
-            <p className="text-green-50 text-base">
+            <p className="text-[#E91E63] text-base">
               Quản lý các thiết lập và cấu hình hệ thống
             </p>
           </div>
@@ -353,7 +363,7 @@ const AppSettings: React.FC = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-3 bg-white text-green-600 rounded-xl hover:bg-green-50 font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:from-[#AD1457] hover:to-[#E65100] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
             >
               {saving ? (
                 <>
@@ -372,7 +382,7 @@ const AppSettings: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-2xl shadow-lg mb-6 p-2 border border-green-100">
+      <div className="bg-white rounded-2xl shadow-lg mb-6 p-2 border border-[#E91E63]">
         <div className="flex gap-2 overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -380,7 +390,7 @@ const AppSettings: React.FC = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "bg-linear-to-r from-green-600 to-emerald-600 text-white shadow-lg"
+                  ? "bg-linear-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
@@ -393,16 +403,16 @@ const AppSettings: React.FC = () => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl shadow-lg">
-          <Loader2 className="w-12 h-12 animate-spin text-green-600 mb-4" />
+          <Loader2 className="w-12 h-12 animate-spin text-[#E91E63] mb-4" />
           <p className="text-gray-600 font-semibold">Đang tải cấu hình...</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-green-100">
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-[#E91E63]">
           {/* General Settings */}
           {activeTab === "general" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <Globe className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <Globe className="text-[#E91E63]" size={28} />
                 Cấu hình chung
               </h2>
 
@@ -417,7 +427,7 @@ const AppSettings: React.FC = () => {
                     onChange={(e) =>
                       setSettings({ ...settings, appName: e.target.value })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
 
@@ -432,13 +442,13 @@ const AppSettings: React.FC = () => {
                       setSettings({ ...settings, appVersion: e.target.value })
                     }
                     placeholder="1.0.0"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2">
-                    <Mail className="w-5 h-5 text-blue-600 mr-3" />
+                    <Mail className="w-5 h-5 text-[#E91E63] mr-3" />
                     Email hỗ trợ
                   </label>
                   <input
@@ -447,13 +457,13 @@ const AppSettings: React.FC = () => {
                     onChange={(e) =>
                       setSettings({ ...settings, supportEmail: e.target.value })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2">
-                    <Phone className="w-5 h-5 text-green-600 mr-3" />
+                    <Phone className="w-5 h-5 text-[#E91E63] mr-3" />
                     Số điện thoại hỗ trợ
                   </label>
                   <input
@@ -462,7 +472,7 @@ const AppSettings: React.FC = () => {
                     onChange={(e) =>
                       setSettings({ ...settings, supportPhone: e.target.value })
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
 
@@ -480,7 +490,7 @@ const AppSettings: React.FC = () => {
                       })
                     }
                     placeholder="/terms"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
 
@@ -498,12 +508,12 @@ const AppSettings: React.FC = () => {
                       })
                     }
                     placeholder="/privacy"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   🌐 Social Media Links
                 </h3>
@@ -522,7 +532,7 @@ const AppSettings: React.FC = () => {
                         })
                       }
                       placeholder="https://facebook.com/..."
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
                   <div>
@@ -536,7 +546,7 @@ const AppSettings: React.FC = () => {
                         setSettings({ ...settings, twitterUrl: e.target.value })
                       }
                       placeholder="https://twitter.com/..."
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
                   <div>
@@ -553,7 +563,7 @@ const AppSettings: React.FC = () => {
                         })
                       }
                       placeholder="https://instagram.com/..."
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
                   <div>
@@ -570,7 +580,7 @@ const AppSettings: React.FC = () => {
                         })
                       }
                       placeholder="https://linkedin.com/..."
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
                 </div>
@@ -587,7 +597,7 @@ const AppSettings: React.FC = () => {
                     setSettings({ ...settings, appDescription: e.target.value })
                   }
                   rows={3}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                 />
               </div>
 
@@ -608,7 +618,7 @@ const AppSettings: React.FC = () => {
                             maintenanceMode: e.target.checked,
                           })
                         }
-                        className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                        className="w-5 h-5 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                       />
                       <span className="font-bold text-gray-900">
                         🔧 Chế độ bảo trì
@@ -628,7 +638,7 @@ const AppSettings: React.FC = () => {
                         }
                         rows={2}
                         placeholder="Thông báo bảo trì..."
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                       />
                     )}
                   </div>
@@ -640,13 +650,13 @@ const AppSettings: React.FC = () => {
           {/* Payment Methods Tab */}
           {activeTab === "payment" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <Database className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <Database className="text-[#E91E63]" size={28} />
                 Phương thức thanh toán
               </h2>
 
               <div className="space-y-4">
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
                   <input
                     type="checkbox"
                     checked={settings.enableBankTransfer}
@@ -656,7 +666,7 @@ const AppSettings: React.FC = () => {
                         enableBankTransfer: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
                   <span className="text-3xl">🏦</span>
                   <div className="flex-1">
@@ -676,7 +686,7 @@ const AppSettings: React.FC = () => {
                     onChange={(e) =>
                       setSettings({ ...settings, enableMomo: e.target.checked })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
                   <span className="text-3xl">💳</span>
                   <div className="flex-1">
@@ -689,7 +699,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableZaloPay}
@@ -699,9 +709,9 @@ const AppSettings: React.FC = () => {
                         enableZaloPay: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
-                  <DollarSign className="text-3xl text-green-600" />
+                  <DollarSign className="text-3xl text-[#E91E63]" />
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
                       ZaloPay
@@ -712,7 +722,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableViettelPay}
@@ -722,9 +732,9 @@ const AppSettings: React.FC = () => {
                         enableViettelPay: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
-                  <Smartphone className="text-3xl text-blue-600" />
+                  <Smartphone className="text-3xl text-[#E91E63]" />
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
                       ViettelPay
@@ -736,7 +746,7 @@ const AppSettings: React.FC = () => {
                 </label>
               </div>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] border-2 border-[#E91E63] rounded-xl p-6 shadow-sm">
                 <div className="flex items-start gap-3">
                   <Lightbulb className="text-3xl text-yellow-500 shrink-0" />
                   <div>
@@ -758,12 +768,12 @@ const AppSettings: React.FC = () => {
           {/* Advanced Settings Tab */}
           {activeTab === "advanced" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <Settings className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <Settings className="text-[#E91E63]" size={28} />
                 Cấu hình nâng cao
               </h2>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   🔌 API Configuration
                 </h3>
@@ -783,7 +793,7 @@ const AppSettings: React.FC = () => {
                       }
                       min="10"
                       max="1000"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
 
@@ -802,7 +812,7 @@ const AppSettings: React.FC = () => {
                       }
                       min="0"
                       max="3600"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
                 </div>
@@ -818,7 +828,7 @@ const AppSettings: React.FC = () => {
                           enableApiCache: e.target.checked,
                         })
                       }
-                      className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                      className="w-5 h-5 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                     />
                     <span className="font-semibold text-gray-900">
                       Bật API Cache
@@ -827,7 +837,7 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Configuration
@@ -848,7 +858,7 @@ const AppSettings: React.FC = () => {
                       }
                       min="1"
                       max="100"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
 
@@ -868,7 +878,7 @@ const AppSettings: React.FC = () => {
                         })
                       }
                       placeholder="jpg, png, pdf"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                     <p className="text-xs text-gray-600 mt-1">
                       Phân cách bằng dấu phẩy
@@ -888,7 +898,7 @@ const AppSettings: React.FC = () => {
                         enableDebugMode: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
                   <span className="text-2xl">🐛</span>
                   <div className="flex-1">
@@ -902,7 +912,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-green-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-[#E91E63] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
                   <input
                     type="checkbox"
                     checked={settings.enableAnalytics}
@@ -912,9 +922,9 @@ const AppSettings: React.FC = () => {
                         enableAnalytics: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
-                  <BarChart3 className="text-2xl text-blue-600" />
+                  <BarChart3 className="text-2xl text-[#E91E63]" />
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
                       Analytics
@@ -929,10 +939,7 @@ const AppSettings: React.FC = () => {
 
               <div className="bg-red-50 border-2 border-red-300 rounded-xl p-6">
                 <div className="flex items-start gap-3">
-                  <AlertTriangle
-                    className="text-red-500 shrink-0"
-                    size={28}
-                  />
+                  <AlertTriangle className="text-red-500 shrink-0" size={28} />
                   <div>
                     <h3 className="font-bold text-red-900 text-lg mb-2">
                       Cảnh báo
@@ -961,12 +968,12 @@ const AppSettings: React.FC = () => {
           {/* Financial Settings */}
           {activeTab === "financial" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <DollarSign className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <DollarSign className="text-[#E91E63]" size={28} />
                 Cấu hình tài chính
               </h2>
 
-              <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+              <div className="bg-gradient-to-r from-pink-50 to-orange-50 p-6 rounded-xl border-2 border-pink-200">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Rút tiền
@@ -987,7 +994,7 @@ const AppSettings: React.FC = () => {
                       }
                       min="0"
                       step="10000"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                     <p className="text-sm text-gray-600 mt-1">
                       = {formatCurrency(settings.minWithdrawalAmount)}
@@ -1009,7 +1016,7 @@ const AppSettings: React.FC = () => {
                       }
                       min="0"
                       step="100000"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                     <p className="text-sm text-gray-600 mt-1">
                       = {formatCurrency(settings.maxWithdrawalAmount)}
@@ -1028,7 +1035,7 @@ const AppSettings: React.FC = () => {
                           withdrawalFeeType: e.target.value as any,
                         })
                       }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     >
                       <option value="fixed">Cố định (VND)</option>
                       <option value="percentage">Phần trăm (%)</option>
@@ -1052,7 +1059,7 @@ const AppSettings: React.FC = () => {
                       step={
                         settings.withdrawalFeeType === "fixed" ? "1000" : "0.1"
                       }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                     <p className="text-sm text-gray-600 mt-1">
                       {settings.withdrawalFeeType === "fixed"
@@ -1063,9 +1070,9 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Percent size={22} className="text-green-600" />
+                  <Percent size={22} className="text-[#E91E63]" />
                   Hoa hồng
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1085,7 +1092,7 @@ const AppSettings: React.FC = () => {
                       min="0"
                       max="100"
                       step="0.1"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
                   </div>
 
@@ -1105,8 +1112,139 @@ const AppSettings: React.FC = () => {
                       min="0"
                       max="100"
                       step="0.1"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                     />
+                  </div>
+                </div>
+
+                {/* Detailed Commission System */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-2 border-blue-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Target className="w-6 h-6 text-blue-600" />
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Hệ thống hoa hồng chi tiết
+                    </h3>
+                    <label className="flex items-center gap-2 ml-auto">
+                      <input
+                        type="checkbox"
+                        checked={settings.commission?.enabled !== false}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            commission: {
+                              ...settings.commission,
+                              enabled: e.target.checked,
+                              level1Rate: settings.commission?.level1Rate || 10,
+                              level2Rate: settings.commission?.level2Rate || 5,
+                              level3Rate: settings.commission?.level3Rate || 2,
+                              maxLevels: settings.commission?.maxLevels || 3,
+                            },
+                          })
+                        }
+                        className="w-5 h-5 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
+                      />
+                      <span className="text-sm font-semibold">Kích hoạt</span>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-bold text-gray-800 mb-2">
+                        🥇 Cấp 1 - Trực tiếp (%)
+                      </label>
+                      <input
+                        type="number"
+                        value={settings.commission?.level1Rate || 10}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            commission: {
+                              ...settings.commission,
+                              level1Rate: Number(e.target.value),
+                              enabled: settings.commission?.enabled !== false,
+                              level2Rate: settings.commission?.level2Rate || 5,
+                              level3Rate: settings.commission?.level3Rate || 2,
+                              maxLevels: settings.commission?.maxLevels || 3,
+                            },
+                          })
+                        }
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        disabled={settings.commission?.enabled === false}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-600 transition-all disabled:bg-gray-100"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-800 mb-2">
+                        🥈 Cấp 2 - Gián tiếp (%)
+                      </label>
+                      <input
+                        type="number"
+                        value={settings.commission?.level2Rate || 5}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            commission: {
+                              ...settings.commission,
+                              level2Rate: Number(e.target.value),
+                              enabled: settings.commission?.enabled !== false,
+                              level1Rate: settings.commission?.level1Rate || 10,
+                              level3Rate: settings.commission?.level3Rate || 2,
+                              maxLevels: settings.commission?.maxLevels || 3,
+                            },
+                          })
+                        }
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        disabled={settings.commission?.enabled === false}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-600 transition-all disabled:bg-gray-100"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-gray-800 mb-2">
+                        🥉 Cấp 3 - Xa nhất (%)
+                      </label>
+                      <input
+                        type="number"
+                        value={settings.commission?.level3Rate || 2}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            commission: {
+                              ...settings.commission,
+                              level3Rate: Number(e.target.value),
+                              enabled: settings.commission?.enabled !== false,
+                              level1Rate: settings.commission?.level1Rate || 10,
+                              level2Rate: settings.commission?.level2Rate || 5,
+                              maxLevels: settings.commission?.maxLevels || 3,
+                            },
+                          })
+                        }
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        disabled={settings.commission?.enabled === false}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-600 transition-all disabled:bg-gray-100"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                    <h4 className="font-semibold text-gray-800 mb-2">
+                      💡 Ví dụ:
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                      Khi A giới thiệu B (cấp 1:{" "}
+                      {settings.commission?.level1Rate || 10}%), B giới thiệu C
+                      (cấp 2: {settings.commission?.level2Rate || 5}%), C giới
+                      thiệu D (cấp 3: {settings.commission?.level3Rate || 2}%).
+                      <br />A sẽ nhận hoa hồng từ cả B, C và D theo tỷ lệ tương
+                      ứng.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1116,8 +1254,8 @@ const AppSettings: React.FC = () => {
           {/* Security Settings */}
           {activeTab === "security" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <Shield className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <Shield className="text-[#E91E63]" size={28} />
                 Cấu hình bảo mật
               </h2>
 
@@ -1137,7 +1275,7 @@ const AppSettings: React.FC = () => {
                     }
                     min="5"
                     max="1440"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                   <p className="text-sm text-gray-600 mt-1">
                     Người dùng sẽ tự động đăng xuất sau{" "}
@@ -1160,7 +1298,7 @@ const AppSettings: React.FC = () => {
                     }
                     min="3"
                     max="10"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                   <p className="text-sm text-gray-600 mt-1">
                     Tài khoản sẽ bị khóa tạm thời sau{" "}
@@ -1170,7 +1308,7 @@ const AppSettings: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2">
-                    <Key className="w-5 h-5 text-purple-600 mr-3" />
+                    <Key className="w-5 h-5 text-[#E91E63] mr-3" />
                     Độ dài mật khẩu tối thiểu
                   </label>
                   <input
@@ -1184,7 +1322,7 @@ const AppSettings: React.FC = () => {
                     }
                     min="6"
                     max="32"
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-[#E91E63] transition-all"
                   />
                   <p className="text-sm text-gray-600 mt-1">
                     Mật khẩu phải có ít nhất {settings.passwordMinLength} ký tự
@@ -1192,13 +1330,13 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200 shadow-sm">
+              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Users size={22} className="text-green-600" />
+                  <Users size={22} className="text-[#E91E63]" />
                   Xác thực người dùng
                 </h3>
                 <div className="space-y-4">
-                  <label className="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-green-300 transition-all">
+                  <label className="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-[#E91E63] transition-all">
                     <input
                       type="checkbox"
                       checked={settings.requireEmailVerification}
@@ -1208,11 +1346,11 @@ const AppSettings: React.FC = () => {
                           requireEmailVerification: e.target.checked,
                         })
                       }
-                      className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                      className="w-5 h-5 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                     />
                     <div>
                       <span className="font-bold text-gray-900">
-                        <Mail className="w-5 h-5 text-blue-600 mr-3" />
+                        <Mail className="w-5 h-5 text-[#E91E63] mr-3" />
                         Yêu cầu xác thực email
                       </span>
                       <p className="text-sm text-gray-600">
@@ -1221,7 +1359,7 @@ const AppSettings: React.FC = () => {
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-green-300 transition-all">
+                  <label className="flex items-center gap-3 cursor-pointer p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-[#E91E63] transition-all">
                     <input
                       type="checkbox"
                       checked={settings.requirePhoneVerification}
@@ -1231,11 +1369,11 @@ const AppSettings: React.FC = () => {
                           requirePhoneVerification: e.target.checked,
                         })
                       }
-                      className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                      className="w-5 h-5 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                     />
                     <div>
                       <span className="font-bold text-gray-900">
-                        <Smartphone className="w-5 h-5 text-green-600 mr-3" />
+                        <Smartphone className="w-5 h-5 text-[#E91E63] mr-3" />
                         Yêu cầu xác thực số điện thoại
                       </span>
                       <p className="text-sm text-gray-600">
@@ -1251,13 +1389,13 @@ const AppSettings: React.FC = () => {
           {/* Notifications Settings */}
           {activeTab === "notifications" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-green-100">
-                <Bell className="text-green-600" size={28} />
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b-2 border-[#E91E63]">
+                <Bell className="text-[#E91E63]" size={28} />
                 Cấu hình thông báo
               </h2>
 
               <div className="space-y-4">
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableEmailNotifications}
@@ -1267,12 +1405,12 @@ const AppSettings: React.FC = () => {
                         enableEmailNotifications: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
-                  <Mail className="text-green-600 shrink-0" size={28} />
+                  <Mail className="text-[#E91E63] shrink-0" size={28} />
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
-                      <Mail className="w-5 h-5 text-blue-600 mr-3" />
+                      <Mail className="w-5 h-5 text-[#E91E63] mr-3" />
                       Thông báo qua Email
                     </span>
                     <p className="text-sm text-gray-600 mt-1">
@@ -1282,7 +1420,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enablePushNotifications}
@@ -1292,12 +1430,12 @@ const AppSettings: React.FC = () => {
                         enablePushNotifications: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
-                  <Bell className="text-green-600 shrink-0" size={28} />
+                  <Bell className="text-[#E91E63] shrink-0" size={28} />
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
-                      <Bell className="w-5 h-5 text-purple-600 mr-3" />
+                      <Bell className="w-5 h-5 text-[#E91E63] mr-3" />
                       Push Notifications
                     </span>
                     <p className="text-sm text-gray-600 mt-1">
@@ -1306,7 +1444,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 transition-all">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
                   <input
                     type="checkbox"
                     checked={settings.enableSMSNotifications}
@@ -1316,12 +1454,12 @@ const AppSettings: React.FC = () => {
                         enableSMSNotifications: e.target.checked,
                       })
                     }
-                    className="w-6 h-6 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                    className="w-6 h-6 text-[#E91E63] rounded focus:ring-2 focus:ring-pink-500"
                   />
                   <span className="text-3xl shrink-0">💬</span>
                   <div className="flex-1">
                     <span className="font-bold text-gray-900 text-lg">
-                      <Smartphone className="w-5 h-5 text-blue-600 mr-3" />
+                      <Smartphone className="w-5 h-5 text-[#E91E63] mr-3" />
                       Thông báo qua SMS
                     </span>
                     <p className="text-sm text-gray-600 mt-1">

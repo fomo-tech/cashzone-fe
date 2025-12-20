@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   TrendingUp,
   TrendingDown,
@@ -10,92 +10,145 @@ import {
   ArrowRight,
   User,
   Banknote,
+  Loader,
+  Plus,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import http from "@/services/api";
 
-// Dữ liệu giao dịch giả lập
-const mockTransactions = [
-  {
-    id: "TXN1001",
-    type: "Nạp",
-    amount: 5000000,
-    user: "Nguyen Van A",
-    userId: "U4567",
-    date: "2025-11-20",
-    status: "Pending",
-    bankAccount: "1234567890",
-    bankName: "Vietcombank",
-    details: "Chuyển khoản từ cá nhân",
-  },
-  {
-    id: "TXN1002",
-    type: "Rút",
-    amount: 1500000,
-    user: "Tran Thi B",
-    userId: "U4568",
-    date: "2025-11-20",
-    status: "Pending",
-    bankAccount: "0987654321",
-    bankName: "Techcombank",
-    details: "Rút tiền lợi nhuận",
-  },
-  {
-    id: "TXN1003",
-    type: "Nạp",
-    amount: 10000000,
-    user: "Le Van C",
-    userId: "U4569",
-    date: "2025-11-19",
-    status: "Approved",
-    bankAccount: "1122334455",
-    bankName: "ACB",
-    details: "Nạp vốn",
-  },
-  {
-    id: "TXN1004",
-    type: "Rút",
-    amount: 500000,
-    user: "Pham Thu D",
-    userId: "U4570",
-    date: "2025-11-19",
-    status: "Rejected",
-    bankAccount: "6677889900",
-    bankName: "BIDV",
-    details: "Sai thông tin ngân hàng",
-  },
-  {
-    id: "TXN1005",
-    type: "Rút",
-    amount: 50000000,
-    user: "Nguyen Van A",
-    userId: "U4567",
-    date: "2025-11-21",
-    status: "Pending",
-    bankAccount: "1234567890",
-    bankName: "Vietcombank",
-    details: "Rút vốn",
-  },
-];
+interface Transaction {
+  _id: string;
+  type: string;
+  amount: number;
+  status: string;
+  userId: {
+    _id: string;
+    name?: string;
+    email: string;
+    phone?: string;
+  };
+  description?: string;
+  paymentInfo?: {
+    method?: string;
+    transactionId?: string;
+    bankName?: string;
+    accountNumber?: string;
+    accountName?: string;
+    momoPhone?: string;
+    bep20Address?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
 
 // Hàm định dạng tiền tệ Việt Nam
-const formatCurrency = (amount) => {
+const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(amount);
 };
 
+// Hàm chuyển đổi tên ngân hàng sang mã ngân hàng VietQR
+const getBankCode = (bankName: string): string => {
+  const bankMap: { [key: string]: string } = {
+    Vietcombank: "VCB",
+    Techcombank: "TCB",
+    BIDV: "BIDV",
+    VietinBank: "CTG",
+    Agribank: "AGR",
+    ACB: "ACB",
+    "MB Bank": "MB",
+    MBBank: "MB",
+    Sacombank: "STB",
+    VPBank: "VPB",
+    TPBank: "TPB",
+    HDBank: "HDB",
+    OCB: "OCB",
+    MSB: "MSB",
+    VIB: "VIB",
+    SHB: "SHB",
+    Eximbank: "EIB",
+    SeABank: "SEAB",
+    LienVietPostBank: "LPB",
+    PVcomBank: "PVCB",
+    VietCapitalBank: "VCCB",
+    SCB: "SCB",
+    BacABank: "BAB",
+    ABBank: "ABB",
+    NamABank: "NAB",
+    PGBank: "PGB",
+    VietBank: "VTB",
+    BaoVietBank: "BVB",
+    GPBank: "GPB",
+    DongABank: "DOB",
+    NCB: "NCB",
+    OceanBank: "OCB",
+    KienLongBank: "KLB",
+    CBBank: "CBB",
+  };
+
+  // Tìm kiếm tương đối không phân biệt hoa thường
+  const normalizedBankName = bankName.toUpperCase().replace(/\s+/g, "");
+
+  for (const [key, code] of Object.entries(bankMap)) {
+    if (normalizedBankName.includes(key.toUpperCase().replace(/\s+/g, ""))) {
+      return code;
+    }
+  }
+
+  // Nếu không tìm thấy, trả về bankName ban đầu
+  return bankName.replace(/\s+/g, "").toUpperCase().slice(0, 10);
+};
+
 // Component con: Bảng giao dịch
-const TransactionTable = ({ transactions, onSelectTransaction, activeTab }) => {
-  const getStatusColor = (status) => {
+const TransactionTable: React.FC<{
+  transactions: Transaction[];
+  onSelectTransaction: (txn: Transaction) => void;
+  activeTab: string;
+}> = ({ transactions, onSelectTransaction, activeTab }) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case "Pending":
+      case "PENDING":
         return "bg-yellow-100 text-yellow-800";
-      case "Approved":
-        return "bg-green-100 text-green-800";
-      case "Rejected":
+      case "COMPLETED":
+        return "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30";
+      case "FAILED":
+      case "REJECTED":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "PENDING":
+        return "Chờ duyệt";
+      case "COMPLETED":
+        return "Đã duyệt";
+      case "FAILED":
+      case "REJECTED":
+        return "Đã hủy";
+      default:
+        return status;
+    }
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "DEPOSIT":
+        return "Nạp";
+      case "WITHDRAW":
+        return "Rút";
+      case "COMMISSION":
+        return "Hoa hồng";
+      case "REFERRAL":
+        return "Giới thiệu";
+      case "REFUND":
+        return "Hoàn tiền";
+      default:
+        return type;
     }
   };
 
@@ -135,26 +188,26 @@ const TransactionTable = ({ transactions, onSelectTransaction, activeTab }) => {
           ) : (
             transactions.map((txn) => (
               <tr
-                key={txn.id}
-                className="hover:bg-purple-50 cursor-pointer transition duration-150"
+                key={txn._id}
+                className="hover:bg-gradient-to-r from-pink-50 to-orange-50 cursor-pointer transition duration-150"
                 onClick={() => onSelectTransaction(txn)}
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {txn.id}
+                  {txn._id.slice(-8)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-                  {txn.type === "Nạp" ? (
-                    <TrendingUp className="w-4 h-4 text-green-500 mr-2" />
+                  {txn.type === "DEPOSIT" ? (
+                    <TrendingUp className="w-4 h-4 text-[#E91E63] mr-2" />
                   ) : (
                     <TrendingDown className="w-4 h-4 text-red-500 mr-2" />
                   )}
-                  {txn.type}
+                  {getTypeLabel(txn.type)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-700">
                   {formatCurrency(txn.amount)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {txn.user}
+                  {txn.userId?.name || txn.userId?.email || "N/A"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
@@ -162,15 +215,11 @@ const TransactionTable = ({ transactions, onSelectTransaction, activeTab }) => {
                       txn.status
                     )}`}
                   >
-                    {txn.status === "Pending"
-                      ? "Chờ duyệt"
-                      : txn.status === "Approved"
-                      ? "Đã duyệt"
-                      : "Đã hủy"}
+                    {getStatusLabel(txn.status)}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <ArrowRight className="w-4 h-4 text-purple-500" />
+                  <ArrowRight className="w-4 h-4 text-[#E91E63]" />
                 </td>
               </tr>
             ))
@@ -182,14 +231,18 @@ const TransactionTable = ({ transactions, onSelectTransaction, activeTab }) => {
 };
 
 // Component con: Chi tiết giao dịch và Xét duyệt
-const TransactionDetails = ({ transaction, onApprove, onReject }) => {
+const TransactionDetails: React.FC<{
+  transaction: Transaction | null;
+  onApprove: (id: string, note: string) => void;
+  onReject: (id: string, note: string) => void;
+}> = ({ transaction, onApprove, onReject }) => {
   const [adminNote, setAdminNote] = useState("");
 
   if (!transaction) {
     return (
       <div className="p-8 h-full flex items-center justify-center bg-white rounded-xl shadow-lg border border-gray-100">
         <div className="text-center text-gray-500">
-          <Banknote className="w-12 h-12 mx-auto mb-3 text-purple-400" />
+          <Banknote className="w-12 h-12 mx-auto mb-3 text-[#EC407A]" />
           <p className="text-lg font-semibold">
             Chọn một giao dịch để xem chi tiết
           </p>
@@ -199,39 +252,67 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
     );
   }
 
-  const isPending = transaction.status === "Pending";
-  const headerIcon = transaction.type === "Nạp" ? TrendingUp : TrendingDown;
+  const isPending = transaction.status === "PENDING";
+  const headerIcon = transaction.type === "DEPOSIT" ? TrendingUp : TrendingDown;
   const headerColor =
-    transaction.type === "Nạp"
-      ? "text-green-600 bg-green-50"
+    transaction.type === "DEPOSIT"
+      ? "text-[#E91E63] bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 border border-[#E91E63]/30"
       : "text-red-600 bg-red-50";
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "DEPOSIT":
+        return "Nạp";
+      case "WITHDRAW":
+        return "Rút";
+      case "COMMISSION":
+        return "Hoa hồng";
+      case "REFERRAL":
+        return "Giới thiệu";
+      case "REFUND":
+        return "Hoàn tiền";
+      default:
+        return type;
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "PENDING":
+        return "Chờ Duyệt";
+      case "COMPLETED":
+        return "Đã Duyệt";
+      case "FAILED":
+      case "REJECTED":
+        return "Đã Hủy";
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
       {/* Header */}
       <div className={`p-5 flex items-center justify-between ${headerColor}`}>
         <div className="flex items-center">
-          <headerIcon
-            className={`w-6 h-6 mr-3 ${headerColor.replace("bg-", "text-")}`}
-          />
+          {React.createElement(headerIcon, {
+            className: `w-6 h-6 mr-3 ${headerColor.split(" ")[0]}`,
+          })}
           <h2 className="text-xl font-bold text-gray-800">
-            {transaction.type} - {formatCurrency(transaction.amount)}
+            {getTypeLabel(transaction.type)} -{" "}
+            {formatCurrency(transaction.amount)}
           </h2>
         </div>
         <span
           className={`px-3 py-1 text-sm font-bold rounded-full ${
-            transaction.status === "Pending"
+            transaction.status === "PENDING"
               ? "bg-yellow-500 text-white"
-              : transaction.status === "Approved"
-              ? "bg-green-500 text-white"
+              : transaction.status === "COMPLETED"
+              ? "bg-[#E91E63] text-white"
               : "bg-red-500 text-white"
           }`}
         >
-          {transaction.status === "Pending"
-            ? "Chờ Duyệt"
-            : transaction.status === "Approved"
-            ? "Đã Duyệt"
-            : "Đã Hủy"}
+          {getStatusLabel(transaction.status)}
         </span>
       </div>
 
@@ -245,17 +326,19 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
           <DetailItem
             icon={DollarSign}
             label="Mã Giao Dịch"
-            value={transaction.id}
+            value={transaction._id.slice(-12)}
           />
           <DetailItem
             icon={Clock}
             label="Ngày Tạo"
-            value={new Date(transaction.date).toLocaleDateString("vi-VN")}
+            value={new Date(transaction.createdAt).toLocaleString("vi-VN")}
           />
           <DetailItem
             icon={User}
             label="Người Giao Dịch"
-            value={`${transaction.user} (${transaction.userId})`}
+            value={`${
+              transaction.userId?.name || transaction.userId?.email
+            } (${transaction.userId?._id.slice(-8)})`}
           />
         </div>
 
@@ -263,29 +346,204 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
           Thông tin Thanh toán
         </h3>
         <div className="grid grid-cols-2 gap-4 text-sm">
-          <DetailItem
-            icon={Banknote}
-            label="Ngân Hàng"
-            value={transaction.bankName}
-          />
-          <DetailItem
-            icon={Banknote}
-            label="Số Tài Khoản"
-            value={transaction.bankAccount}
-          />
+          {transaction.paymentInfo?.method && (
+            <DetailItem
+              icon={Banknote}
+              label="Phương Thức"
+              value={
+                transaction.paymentInfo.method === "bank" ||
+                transaction.paymentInfo.method === "BANK"
+                  ? "Ngân Hàng"
+                  : transaction.paymentInfo.method === "momo" ||
+                    transaction.paymentInfo.method === "MOMO"
+                  ? "MoMo"
+                  : transaction.paymentInfo.method === "bep20" ||
+                    transaction.paymentInfo.method === "BEP20"
+                  ? "BEP20"
+                  : transaction.paymentInfo.method
+              }
+            />
+          )}
+          {transaction.paymentInfo?.bankName && (
+            <DetailItem
+              icon={Banknote}
+              label="Ngân Hàng"
+              value={transaction.paymentInfo.bankName}
+            />
+          )}
+          {transaction.paymentInfo?.accountNumber && (
+            <DetailItem
+              icon={Banknote}
+              label="Số Tài Khoản"
+              value={transaction.paymentInfo.accountNumber}
+            />
+          )}
+          {transaction.paymentInfo?.accountName && (
+            <DetailItem
+              icon={User}
+              label="Chủ Tài Khoản"
+              value={transaction.paymentInfo.accountName}
+            />
+          )}
+          {transaction.paymentInfo?.momoPhone && (
+            <DetailItem
+              icon={Banknote}
+              label="SĐT MoMo"
+              value={transaction.paymentInfo.momoPhone}
+            />
+          )}
+          {transaction.paymentInfo?.bep20Address && (
+            <DetailItem
+              icon={Banknote}
+              label="Địa Chỉ BEP20"
+              value={transaction.paymentInfo.bep20Address}
+            />
+          )}
         </div>
 
-        <div className="text-sm pt-4">
-          <span className="font-semibold text-gray-700 block mb-1">Mô tả:</span>
-          <p className="p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 italic">
-            {transaction.details}
-          </p>
-        </div>
+        {/* QR Code Section - Only for WITHDRAW transactions */}
+        {(transaction.type === "WITHDRAW" ||
+          transaction.type === "withdraw") && (
+          <div className="pt-4 border-t">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              Mã QR Thanh Toán
+            </h3>
+            <div className="bg-gray-50 p-6 rounded-lg border-2 border-dashed border-gray-300">
+              {/* VietQR for Bank Transfer */}
+              {transaction.paymentInfo?.method?.toLowerCase() === "bank" &&
+                transaction.paymentInfo?.bankName &&
+                transaction.paymentInfo?.accountNumber && (
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="bg-white p-4 rounded-lg shadow-md">
+                      <img
+                        src={`https://img.vietqr.io/image/${getBankCode(
+                          transaction.paymentInfo.bankName
+                        )}-${
+                          transaction.paymentInfo.accountNumber
+                        }-compact.jpg?amount=${
+                          transaction.amount
+                        }&addInfo=Rut tien ${transaction._id.slice(-8)}`}
+                        alt="VietQR"
+                        className="w-64 h-64 object-contain"
+                        onError={(e) => {
+                          // Fallback to QR code if VietQR fails
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = "none";
+                          const fallback =
+                            target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = "block";
+                        }}
+                      />
+                      <div
+                        style={{ display: "none" }}
+                        className="flex items-center justify-center"
+                      >
+                        <QRCodeSVG
+                          value={`Bank: ${
+                            transaction.paymentInfo.bankName
+                          }\nSTK: ${
+                            transaction.paymentInfo.accountNumber
+                          }\nTen: ${
+                            transaction.paymentInfo.accountName
+                          }\nSo tien: ${formatCurrency(transaction.amount)}`}
+                          size={256}
+                          level="H"
+                        />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-semibold text-gray-700">
+                        Quét mã VietQR để chuyển khoản
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Ngân hàng: {transaction.paymentInfo.bankName}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        STK: {transaction.paymentInfo.accountNumber}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Chủ TK: {transaction.paymentInfo.accountName}
+                      </p>
+                      <p className="text-xs font-bold text-[#E91E63] mt-2">
+                        Số tiền: {formatCurrency(transaction.amount)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+              {/* MoMo QR Code */}
+              {transaction.paymentInfo?.method?.toLowerCase() === "momo" &&
+                transaction.paymentInfo?.momoPhone && (
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="bg-white p-4 rounded-lg shadow-md">
+                      <QRCodeSVG
+                        value={transaction.paymentInfo.momoPhone}
+                        size={256}
+                        level="H"
+                        includeMargin={true}
+                      />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-semibold text-gray-700">
+                        Quét mã QR để chuyển MoMo
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        SĐT: {transaction.paymentInfo.momoPhone}
+                      </p>
+                      <p className="text-xs font-bold text-pink-600 mt-2">
+                        Số tiền: {formatCurrency(transaction.amount)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+              {/* BEP20 Wallet Address QR */}
+              {transaction.paymentInfo?.method?.toLowerCase() === "bep20" &&
+                transaction.paymentInfo?.bep20Address && (
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="bg-white p-4 rounded-lg shadow-md">
+                      <QRCodeSVG
+                        value={transaction.paymentInfo.bep20Address}
+                        size={256}
+                        level="H"
+                        includeMargin={true}
+                      />
+                    </div>
+                    <div className="text-center max-w-sm">
+                      <p className="text-sm font-semibold text-gray-700">
+                        Quét mã QR hoặc sao chép địa chỉ ví
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1 break-all font-mono bg-gray-100 p-2 rounded">
+                        {transaction.paymentInfo.bep20Address}
+                      </p>
+                      <p className="text-xs font-bold text-indigo-600 mt-2">
+                        Số tiền: {formatCurrency(transaction.amount)}
+                      </p>
+                      <p className="text-xs text-orange-600 mt-1">
+                        ⚠️ Chỉ gửi USDT trên mạng BEP20 (BSC)
+                      </p>
+                    </div>
+                  </div>
+                )}
+            </div>
+          </div>
+        )}
+
+        {transaction.description && (
+          <div className="text-sm pt-4">
+            <span className="font-semibold text-gray-700 block mb-1">
+              Mô tả:
+            </span>
+            <p className="p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 italic">
+              {transaction.description}
+            </p>
+          </div>
+        )}
 
         {/* Khu vực xét duyệt */}
         {isPending && (
           <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-lg font-bold text-purple-600">
+            <h3 className="text-lg font-bold text-[#E91E63]">
               Quyết Định Xét Duyệt
             </h3>
 
@@ -300,20 +558,20 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
               rows="3"
               value={adminNote}
               onChange={(e) => setAdminNote(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500 text-sm"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] text-sm"
               placeholder="Nhập lý do duyệt hoặc từ chối giao dịch..."
             />
 
             <div className="flex justify-end space-x-4">
               <button
-                onClick={() => onReject(transaction.id, adminNote)}
+                onClick={() => onReject(transaction._id, adminNote)}
                 className="flex items-center px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-150"
               >
                 <XCircle className="w-5 h-5 mr-2" /> Từ Chối
               </button>
               <button
-                onClick={() => onApprove(transaction.id, adminNote)}
-                className="flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-150"
+                onClick={() => onApprove(transaction._id, adminNote)}
+                className="flex items-center px-4 py-2 bg-[#E91E63] text-white font-semibold rounded-lg shadow-md hover:bg-[#E91E63] transition duration-150"
               >
                 <CheckCircle className="w-5 h-5 mr-2" /> Duyệt
               </button>
@@ -331,15 +589,18 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
               Trạng thái:
               <span
                 className={`font-bold ml-2 ${
-                  transaction.status === "Approved"
-                    ? "text-green-500"
+                  transaction.status === "COMPLETED"
+                    ? "text-[#E91E63]"
                     : "text-red-500"
                 }`}
               >
-                {transaction.status === "Approved" ? "Đã duyệt" : "Đã hủy"}
+                {getStatusLabel(transaction.status)}
               </span>
             </p>
-            <p className="text-sm text-gray-600">Ghi chú: [Không có ghi chú]</p>
+            <p className="text-sm text-gray-600">
+              Cập nhật:{" "}
+              {new Date(transaction.updatedAt).toLocaleString("vi-VN")}
+            </p>
           </div>
         )}
       </div>
@@ -348,9 +609,13 @@ const TransactionDetails = ({ transaction, onApprove, onReject }) => {
 };
 
 // Component con: Mục chi tiết trong bảng
-const DetailItem = ({ icon: Icon, label, value }) => (
+const DetailItem: React.FC<{
+  icon: React.ElementType;
+  label: string;
+  value: string;
+}> = ({ icon: Icon, label, value }) => (
   <div className="flex items-start space-x-2">
-    <Icon className="w-4 h-4 text-purple-500 mt-1 shrink-0" />
+    <Icon className="w-4 h-4 text-[#E91E63] mt-1 shrink-0" />
     <div>
       <span className="font-medium text-gray-500 block">{label}</span>
       <span className="font-semibold text-gray-800">{value}</span>
@@ -358,146 +623,194 @@ const DetailItem = ({ icon: Icon, label, value }) => (
   </div>
 );
 
-const TransactionManagementPage = () => {
-  const [transactions, setTransactions] = useState(mockTransactions);
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [activeTab, setActiveTab] = useState("Pending"); // Pending, Approved, Rejected
+const TransactionManagementPage: React.FC = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
+  const [activeTab, setActiveTab] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadTransactions();
+  }, []);
+
+  const loadTransactions = async () => {
+    try {
+      setLoading(true);
+      const response = await http.get("/wallet/admin/transactions");
+      setTransactions(response.data.data.transactions || []);
+    } catch (error) {
+      console.error("Failed to load transactions:", error);
+      showToast("Không thể tải danh sách giao dịch");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   // Lọc giao dịch theo trạng thái và tìm kiếm
   const filteredTransactions = useMemo(() => {
     return transactions.filter((txn) => {
-      const statusMatch = txn.status === activeTab;
+      const statusMatch = activeTab === "ALL" || txn.status === activeTab;
       const searchMatch =
-        txn.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        txn.user.toLowerCase().includes(searchTerm.toLowerCase());
+        txn._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        txn.userId?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        txn.userId?.name?.toLowerCase().includes(searchTerm.toLowerCase());
       return statusMatch && searchMatch;
     });
   }, [transactions, activeTab, searchTerm]);
 
   // Xử lý Duyệt giao dịch
-  const handleApprove = (id, note) => {
-    setTransactions((prev) =>
-      prev.map((txn) =>
-        txn.id === id
-          ? {
-              ...txn,
-              status: "Approved",
-              adminNote: note || "Được duyệt bởi Admin.",
-            }
-          : txn
-      )
-    );
-    setSelectedTransaction(null); // Đóng chi tiết sau khi duyệt
-    console.log(`Giao dịch ${id} đã được duyệt. Ghi chú: ${note}`);
+  const handleApprove = async (id: string, note: string) => {
+    try {
+      setIsSubmitting(true);
+      await http.post(`/wallet/admin/transactions/${id}/approve`, {
+        note: note || "Được duyệt bởi Admin.",
+      });
+      showToast("Đã duyệt giao dịch thành công");
+      setSelectedTransaction(null);
+      loadTransactions();
+    } catch (error: any) {
+      console.error("Failed to approve transaction:", error);
+      showToast(error.response?.data?.message || "Không thể duyệt giao dịch");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Xử lý Từ chối giao dịch
-  const handleReject = (id, note) => {
-    // Yêu cầu ghi chú khi từ chối
+  const handleReject = async (id: string, note: string) => {
     if (!note) {
-      alert("Vui lòng nhập ghi chú lý do từ chối giao dịch.");
+      showToast("Vui lòng nhập ghi chú lý do từ chối giao dịch");
       return;
     }
-    setTransactions((prev) =>
-      prev.map((txn) =>
-        txn.id === id ? { ...txn, status: "Rejected", adminNote: note } : txn
-      )
-    );
-    setSelectedTransaction(null); // Đóng chi tiết sau khi từ chối
-    console.log(`Giao dịch ${id} đã bị từ chối. Lý do: ${note}`);
+
+    try {
+      setIsSubmitting(true);
+      await http.post(`/wallet/admin/transactions/${id}/reject`, {
+        note,
+      });
+      showToast("Đã từ chối giao dịch");
+      setSelectedTransaction(null);
+      loadTransactions();
+    } catch (error: any) {
+      console.error("Failed to reject transaction:", error);
+      showToast(error.response?.data?.message || "Không thể từ chối giao dịch");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const tabItems = [
     {
-      key: "Pending",
+      key: "ALL",
+      label: "Tất cả",
+      icon: Banknote,
+      count: transactions.length,
+    },
+    {
+      key: "PENDING",
       label: "Chờ duyệt",
       icon: Clock,
-      count: transactions.filter((t) => t.status === "Pending").length,
+      count: transactions.filter((t) => t.status === "PENDING").length,
     },
     {
-      key: "Approved",
+      key: "COMPLETED",
       label: "Đã duyệt",
       icon: CheckCircle,
-      count: transactions.filter((t) => t.status === "Approved").length,
+      count: transactions.filter((t) => t.status === "COMPLETED").length,
     },
     {
-      key: "Rejected",
+      key: "FAILED",
       label: "Đã hủy",
       icon: XCircle,
-      count: transactions.filter((t) => t.status === "Rejected").length,
+      count: transactions.filter(
+        (t) => t.status === "FAILED" || t.status === "REJECTED"
+      ).length,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-8 font-sans">
+    <div className="min-h-screen p-4 sm:p-8 font-sans">
+      {/* Toast */}
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg">
+          {toastMessage}
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex items-center space-x-3">
-          <Banknote className="w-8 h-8 text-purple-600" />
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            Quản Lý Giao Dịch (Nạp & Rút)
-          </h1>
-        </div>
-        <p className="text-gray-500">
-          Xem xét và xét duyệt chi tiết các giao dịch nạp và rút tiền trong hệ
-          thống.
-        </p>
-
-        {/* Nội dung chính: 2 cột */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cột 1: Danh sách Giao dịch */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Thanh Tìm kiếm */}
-            <div className="flex items-center p-4 bg-white rounded-xl shadow-lg border border-gray-100">
-              <Search className="w-5 h-5 text-gray-400 mr-3" />
-              <input
-                type="text"
-                placeholder="Tìm kiếm theo mã GD, người dùng..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border-none focus:ring-0 text-sm"
-              />
-            </div>
-
-            {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 bg-white rounded-xl shadow-lg p-1">
-              {tabItems.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => {
-                    setActiveTab(tab.key);
-                    setSelectedTransaction(null); // Reset chi tiết khi đổi tab
-                  }}
-                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 
-                    ${
-                      activeTab === tab.key
-                        ? "bg-purple-600 text-white shadow-md"
-                        : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                >
-                  <tab.icon className="w-4 h-4 mr-2" />
-                  {tab.label} ({tab.count})
-                </button>
-              ))}
-            </div>
-
-            <TransactionTable
-              transactions={filteredTransactions}
-              onSelectTransaction={setSelectedTransaction}
-              activeTab={activeTab}
-            />
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
           </div>
+        ) : (
+          <>
+            {/* Nội dung chính: 2 cột */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Cột 1: Danh sách Giao dịch */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Thanh Tìm kiếm */}
+                <div className="flex items-center p-4 bg-white rounded-xl shadow-lg border border-gray-100">
+                  <Search className="w-5 h-5 text-gray-400 mr-3" />
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm theo mã GD, người dùng..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full border-none focus:ring-0 text-sm"
+                  />
+                </div>
 
-          {/* Cột 2: Chi tiết Xét duyệt */}
-          <div className="lg:col-span-1 h-full">
-            <TransactionDetails
-              transaction={selectedTransaction}
-              onApprove={handleApprove}
-              onReject={handleReject}
-            />
-          </div>
-        </div>
+                {/* Tab Navigation */}
+                <div className="flex border-b border-gray-200 bg-white rounded-xl shadow-lg p-1">
+                  {tabItems.map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => {
+                        setActiveTab(tab.key);
+                        setSelectedTransaction(null); // Reset chi tiết khi đổi tab
+                      }}
+                      className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 
+                        ${
+                          activeTab === tab.key
+                            ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                    >
+                      {React.createElement(tab.icon, {
+                        className: "w-4 h-4 mr-2",
+                      })}
+                      {tab.label} ({tab.count})
+                    </button>
+                  ))}
+                </div>
+
+                <TransactionTable
+                  transactions={filteredTransactions}
+                  onSelectTransaction={setSelectedTransaction}
+                  activeTab={activeTab}
+                />
+              </div>
+
+              {/* Cột 2: Chi tiết Xét duyệt */}
+              <div className="lg:col-span-1 h-full">
+                <TransactionDetails
+                  transaction={selectedTransaction}
+                  onApprove={handleApprove}
+                  onReject={handleReject}
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

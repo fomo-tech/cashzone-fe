@@ -1,20 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MobileNavigation = () => {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.startsWith(path);
+  };
+
+  const getLinkClasses = (path: string) => {
+    const baseClasses =
+      "mobile-nav-link flex flex-col items-center justify-center p-1.5 rounded-lg transition-all duration-200";
+
+    if (isActive(path)) {
+      return `${baseClasses} text-[#E91E63]`;
+    }
+
+    return `${baseClasses} text-slate-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50`;
+  };
+
   return (
     <>
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-50 md:hidden pb-safe">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2">
-          <Link
-            to="/"
-            className="mobile-nav-link flex flex-col items-center justify-center p-2 rounded-xl transition-all text-green-600 bg-green-50"
-          >
+      <div className="fixed bottom-0 left-0 w-full bg-white/98 backdrop-blur-sm border-t border-slate-100 z-50 md:hidden pb-safe">
+        <div className="grid grid-cols-5 gap-1 px-1 py-2">
+          <Link to="/" className={getLinkClasses("/")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -22,7 +39,7 @@ const MobileNavigation = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               data-lucide="layout-dashboard"
-              className="lucide lucide-layout-dashboard w-6 h-6 mb-1"
+              className="lucide lucide-layout-dashboard w-5 h-5 mb-0.5"
             >
               <rect width={7} height={9} x={3} y={3} rx={1} />
               <rect width={7} height={5} x={14} y={3} rx={1} />
@@ -31,17 +48,14 @@ const MobileNavigation = () => {
             </svg>
             <span className="text-[10px] font-medium">Home</span>
           </Link>
-          <Link
-            to="/tasks"
-            className="mobile-nav-link flex flex-col items-center justify-center p-2 rounded-xl transition-all text-slate-500 hover:text-green-600 hover:bg-green-50"
-          >
+          <Link to="/tasks" className={getLinkClasses("/tasks")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="w-5 h-5 mb-0.5"
             >
               <path
                 strokeLinecap="round"
@@ -52,15 +66,15 @@ const MobileNavigation = () => {
             <span className="text-[10px] font-medium">Chiến dịch</span>
           </Link>
           {/* Center Action Button */}
-          <div className="relative -top-6 flex justify-center">
+          <div className="relative -top-4 flex justify-center">
             <Link
               to="/cashback"
-              className="flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/40 transform hover:scale-110 transition-transform"
+              className="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-md transform transition-all duration-200 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-pink-500/30 hover:shadow-pink-500/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -68,7 +82,7 @@ const MobileNavigation = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 data-lucide="wallet"
-                className="lucide lucide-wallet w-6 h-6"
+                className="lucide lucide-wallet w-5 h-5"
               >
                 <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
                 <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
@@ -77,7 +91,7 @@ const MobileNavigation = () => {
           </div>
           <Link
             to="/referrals"
-            className="mobile-nav-link flex flex-col items-center justify-center p-2 rounded-xl transition-all relative text-slate-500 hover:text-green-600 hover:bg-green-50"
+            className={`${getLinkClasses("/referrals")} relative`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +99,7 @@ const MobileNavigation = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="w-5 h-5 mb-0.5"
             >
               <path
                 strokeLinecap="round"
@@ -96,17 +110,14 @@ const MobileNavigation = () => {
             <span className="text-[10px] font-medium">Giới thiệu</span>
             {/* Notification badge could be added here if we have count */}
           </Link>
-          <Link
-            to="/ranks"
-            className="mobile-nav-link flex flex-col items-center justify-center p-2 rounded-xl transition-all text-slate-500 hover:text-green-600 hover:bg-green-50"
-          >
+          <Link to="/leaderboard" className={getLinkClasses("/leaderboard")}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
-              className="size-6"
+              className="w-5 h-5 mb-0.5"
             >
               <path
                 stroke-linecap="round"

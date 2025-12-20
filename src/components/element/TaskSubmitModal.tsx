@@ -79,7 +79,7 @@ export default function TaskSubmitModal({
       setSelectedFile(null);
       setPreviewUrl("");
       onClose();
-      
+
       if (onSuccess) {
         onSuccess();
       }
@@ -112,14 +112,14 @@ export default function TaskSubmitModal({
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Task Info */}
-          <div className="bg-linear-to-r from-green-50 to-blue-50 rounded-xl p-4">
+          <div className="bg-gradient-to-r from-pink-50 to-orange-50 rounded-xl p-4">
             <h3 className="font-semibold text-gray-800 mb-2">{task.title}</h3>
             <p className="text-sm text-gray-600 mb-3">{task.description}</p>
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">
                 Phần thưởng:
               </span>
-              <span className="text-lg font-bold text-green-600">
+              <span className="text-lg font-bold text-[#E91E63]">
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -153,7 +153,7 @@ export default function TaskSubmitModal({
             </label>
 
             {!selectedFile ? (
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:border-green-500 hover:bg-green-50 transition">
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:border-[#E91E63] hover:bg-[#E91E63] transition">
                 <Upload size={48} className="text-gray-400 mb-3" />
                 <span className="text-sm text-gray-600 mb-1">
                   Click để chọn ảnh
@@ -206,7 +206,7 @@ export default function TaskSubmitModal({
             <button
               onClick={handleSubmit}
               disabled={!selectedFile || isSubmitting}
-              className="flex-1 px-6 py-3 bg-linear-to-r from-green-600 to-green-500 text-white rounded-xl font-semibold hover:from-green-700 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
+              className="flex-1 px-6 py-3 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:from-[#E91E63] hover:to-[#FF8C1A] disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>

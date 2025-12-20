@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Mail, UserPlus, Lock, Check } from "lucide-react";
+import { notification } from "@/utils/notification";
 
 // Component Icon Google (Sử dụng SVG phổ biến)
 const GoogleIcon: React.FC = () => (
@@ -38,19 +39,25 @@ const SignupForm: React.FC = () => {
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed) {
-      alert("Vui lòng đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật.");
+      notification({
+        message: "Vui lòng đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật",
+        type: "warning",
+      });
       return;
     }
-    alert(
-      `Đang tiến hành Đăng ký với Email: ${email} và Mã GT: ${
-        referralCode || "Không có"
-      }`
-    );
+    notification({
+      message: "Đang tiến hành Đăng ký",
+      description: `Email: ${email}, Mã GT: ${referralCode || "Không có"}`,
+      type: "info",
+    });
     // Logic API Đăng ký: Gửi email, password và referralCode lên server
   };
 
   const handleGoogleSignup = () => {
-    alert("Đang chuyển hướng đến Google để Đăng Ký...");
+    notification({
+      message: "Đang chuyển hướng đến Google để Đăng Ký...",
+      type: "info",
+    });
     // Logic OAuth Google ở đây
   };
 
@@ -71,7 +78,7 @@ const SignupForm: React.FC = () => {
             Already have an account?
             <a
               href="/login"
-              className="text-green-500 font-medium hover:underline ml-1"
+              className="text-pink-500 font-medium hover:underline ml-1"
             >
               Sign in
             </a>
@@ -105,7 +112,7 @@ const SignupForm: React.FC = () => {
               type="email"
               placeholder="Email"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -117,7 +124,7 @@ const SignupForm: React.FC = () => {
               type="password"
               placeholder="Mật khẩu"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -128,7 +135,7 @@ const SignupForm: React.FC = () => {
             <input
               type="text"
               placeholder="Mã Giới Thiệu (Không bắt buộc)"
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 text-slate-700 placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 placeholder-slate-400"
               value={referralCode}
               onChange={(e) => setReferralCode(e.target.value)}
             />
@@ -142,21 +149,21 @@ const SignupForm: React.FC = () => {
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                className="w-4 h-4 text-[#E91E63] bg-gray-100 border-gray-300 rounded focus:ring-pink-500"
               />
             </div>
             <label htmlFor="terms" className="ml-3 text-sm text-slate-600">
               I agree to
               <a
                 href="#"
-                className="text-green-500 hover:underline font-medium ml-1"
+                className="text-pink-500 hover:underline font-medium ml-1"
               >
                 Terms of Service
               </a>
               and
               <a
                 href="#"
-                className="text-green-500 hover:underline font-medium ml-1"
+                className="text-pink-500 hover:underline font-medium ml-1"
               >
                 Privacy Policy
               </a>
@@ -169,7 +176,7 @@ const SignupForm: React.FC = () => {
             disabled={!agreed}
             className={`w-full py-3 rounded-xl font-bold text-white transition-colors duration-200 shadow-md ${
               agreed
-                ? "bg-green-600 hover:bg-green-700"
+                ? "bg-[#E91E63] hover:bg-[#AD1457]"
                 : "bg-gray-400 cursor-not-allowed opacity-80"
             }`}
           >

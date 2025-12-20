@@ -1,78 +1,105 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Bell,
   CheckCheck,
   DollarSign,
-  Shield,
   Gift,
-  AlertTriangle,
   CheckCircle,
   Settings,
+  Clock,
+  Sparkles,
+  Loader2,
 } from "lucide-react";
-
-interface NotificationItem {
-  id: string;
-  title: string;
-  time: string;
-  unread?: boolean;
-  type: "money" | "security" | "system" | "error" | "success" | "update";
-}
-
-const mockNotifications: NotificationItem[] = [
-  {
-    id: "1",
-    title: "Bạn nhận được 50.000đ từ nhiệm vụ",
-    time: "2 phút trước",
-    unread: true,
-    type: "money",
-  },
-  {
-    id: "2",
-    title: "Tài khoản đăng nhập lúc 12:30",
-    time: "1 giờ trước",
-    unread: false,
-    type: "security",
-  },
-  {
-    id: "3",
-    title: "Cập nhật tính năng mới",
-    time: "Hôm qua",
-    unread: false,
-    type: "update",
-  },
-  {
-    id: "4",
-    title: "Có lỗi khi xử lý giao dịch",
-    time: "Hôm qua",
-    unread: true,
-    type: "error",
-  },
-  {
-    id: "5",
-    title: "Yêu cầu rút tiền mới đã được duyệt",
-    time: "2 ngày trước",
-    unread: false,
-    type: "success",
-  },
-  {
-    id: "6",
-    title: "Thông báo bảo trì hệ thống",
-    time: "1 tuần trước",
-    unread: false,
-    type: "system",
-  },
-];
+import notificationService, {
+  type Notification,
+} from "@/services/notificationService";
 
 const NotificationDropdown = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState<NotificationItem[]>(mockNotifications);
+  const [items, setItems] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
+
+  // Fetch notifications when dropdown opens
+  useEffect(() => {
+    if (open) {
+      fetchNotifications();
+    }
+  }, [open]);
+
+  // Fetch unread count on mount
+  useEffect(() => {
+    fetchUnreadCount();
+  }, []);
+
+  // Listen for socket events to refetch notifications
+  useEffect(() => {
+    const handleNewNotification = () => {
+      fetchNotifications();
+      fetchUnreadCount();
+    };
+
+    const handleBroadcastNotification = () => {
+      fetchNotifications();
+      fetchUnreadCount();
+    };
+
+    const handleUnreadCountUpdate = (event: any) => {
+      const count = event.detail;
+      setUnreadCount(count);
+    };
+
+    window.addEventListener("notification:new", handleNewNotification);
+    window.addEventListener(
+      "notification:broadcast",
+      handleBroadcastNotification
+    );
+    window.addEventListener(
+      "notification:unread-count",
+      handleUnreadCountUpdate
+    );
+
+    return () => {
+      window.removeEventListener("notification:new", handleNewNotification);
+      window.removeEventListener(
+        "notification:broadcast",
+        handleBroadcastNotification
+      );
+      window.removeEventListener(
+        "notification:unread-count",
+        handleUnreadCountUpdate
+      );
+    };
+  }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      setIsLoading(true);
+      const response = await notificationService.getUserNotifications(1, 5);
+      setItems(response.data.notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchUnreadCount = async () => {
+    try {
+      const response = await notificationService.getUnreadCount();
+      setUnreadCount(response.data.count);
+    } catch (error) {
+      console.error("Error fetching unread count:", error);
+    }
+  };
 
   // Đóng khi bấm ra ngoài
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      // Sử dụng ref.current để kiểm tra xem click có nằm ngoài component hay không
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
@@ -81,141 +108,279 @@ const NotificationDropdown = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const unreadCount = items.filter((i) => i.unread).length;
+  // Format time helper
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
 
-  // Function to get icon based on notification type
-  const getNotificationIcon = (type: NotificationItem["type"]) => {
-    const iconClass = "w-5 h-5 shrink-0";
+    if (minutes < 1) return "Vừa xong";
+    if (minutes < 60) return `${minutes} phút trước`;
+    if (hours < 24) return `${hours} giờ trước`;
+    if (days < 7) return `${days} ngày trước`;
+    return date.toLocaleDateString("vi-VN");
+  };
 
+  // Function to get icon based on notification type with gradient background
+  const getNotificationIcon = (type: string) => {
     switch (type) {
-      case "money":
-        return <DollarSign className={`${iconClass} text-green-600`} />;
-      case "security":
-        return <Shield className={`${iconClass} text-blue-600`} />;
+      case "task_reward":
+        return (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-lg">
+            <DollarSign className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+        );
+      case "referral":
+        return (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center shadow-lg">
+            <Gift className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+        );
+      case "task_new":
+        return (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-600 flex items-center justify-center shadow-lg">
+            <CheckCircle className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+        );
       case "system":
-        return <Settings className={`${iconClass} text-gray-600`} />;
-      case "error":
-        return <AlertTriangle className={`${iconClass} text-red-600`} />;
-      case "success":
-        return <CheckCircle className={`${iconClass} text-green-600`} />;
-      case "update":
-        return <Gift className={`${iconClass} text-purple-600`} />;
+        return (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center shadow-lg">
+            <Settings className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+        );
       default:
-        return <Bell className={`${iconClass} text-gray-600`} />;
+        return (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-slate-600 flex items-center justify-center shadow-lg">
+            <Bell className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+        );
     }
   };
 
-  const markAllRead = () => {
-    setItems((prev) => prev.map((i) => ({ ...i, unread: false })));
+  const markAllRead = async () => {
+    try {
+      await notificationService.markAllAsRead();
+      setItems((prev) => prev.map((i) => ({ ...i, read: true })));
+      setUnreadCount(0);
+    } catch (error) {
+      console.error("Error marking all as read:", error);
+    }
   };
 
   const handleItemClick = (id: string) => {
-    setItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, unread: false } : i))
-    );
-    // Có thể thêm logic điều hướng hoặc mở chi tiết tại đây
+    navigate(`/notifications/${id}`);
+    setOpen(false);
+  };
+
+  const handleViewAll = () => {
+    navigate("/notifications");
+    setOpen(false);
   };
 
   return (
     <div className="relative" ref={ref}>
-      {/* Nút chuông (Thiết kế đẹp hơn) */}
+      {/* Nút chuông với animation */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="relative text-white bg-green-600 hover:bg-green-700 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-green-300 "
+        className={`relative group text-white bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] p-3 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
+          open ? "scale-110 ring-4 ring-pink-300/50" : ""
+        }`}
         aria-label="Thông báo"
       >
-        <Bell className="size-4" strokeWidth={2} />
+        <Bell
+          className={`size-5 transition-all duration-300 ${
+            open ? "animate-wiggle" : ""
+          }`}
+          strokeWidth={2}
+        />
 
         {unreadCount > 0 && (
-          // Badge hiển thị số lượng chưa đọc
-          <span className="absolute top-0 right-0 h-5 w-5 rounded-full ring-2 ring-white bg-red-500 flex items-center justify-center text-xs font-bold text-white transform translate-x-1/4 -translate-y-1/4">
-            {unreadCount}
+          <span className="absolute -top-1 -right-1 h-6 w-6 rounded-full ring-2 ring-white bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center text-xs font-bold text-white shadow-lg animate-pulse">
+            {unreadCount > 99 ? "99+" : unreadCount}
           </span>
+        )}
+
+        {/* Ripple effect */}
+        {unreadCount > 0 && (
+          <span className="absolute inset-0 rounded-full bg-pink-400 opacity-75 animate-ping"></span>
         )}
       </button>
 
-      {/* Dropdown (Thiết kế đẹp hơn) */}
+      {/* Dropdown với animation */}
       {open && (
-        <div
-          className="absolute right-0 mt-4 w-80 sm:w-96 bg-white shadow-2xl rounded-xl border border-gray-200 z-50 transition-transform duration-300"
-          style={{ transformOrigin: "top right" }}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h3 className="text-lg font-bold text-slate-800 flex items-center">
-              Thông báo ({items.length})
-              {unreadCount > 0 && (
-                <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium">
-                  {unreadCount} chưa đọc
-                </span>
-              )}
-            </h3>
-            {unreadCount > 0 && (
-              <button
-                onClick={markAllRead}
-                className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition duration-150 flex items-center space-x-1"
-              >
-                <CheckCheck className="w-4 h-4" />
-                <span>Đánh dấu đã đọc</span>
-              </button>
-            )}
-          </div>
+        <>
+          {/* Backdrop blur */}
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
 
-          {/* Body - Danh sách thông báo */}
-          <div className="max-h-96 overflow-y-auto divide-y divide-gray-50">
-            {items.length === 0 ? (
-              <div className="p-6 text-center text-sm text-slate-500">
-                Không có thông báo mới
-              </div>
-            ) : (
-              items.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleItemClick(item.id)}
-                  className={`px-5 py-4 cursor-pointer transition-colors duration-150 border-l-4 ${
-                    item.unread
-                      ? "bg-green-50 hover:bg-green-100 border-green-500" // Chưa đọc: nền nhẹ, viền xanh
-                      : "bg-white hover:bg-gray-50 border-transparent" // Đã đọc: nền trắng, không viền
-                  }`}
-                >
-                  <div className="flex items-start space-x-3">
-                    {/* Icon cho loại thông báo */}
-                    <div className="mt-0.5">
-                      {getNotificationIcon(item.type)}
-                    </div>
-
-                    {/* Nội dung thông báo */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <p
-                          className={`text-sm font-medium ${
-                            item.unread ? "text-green-900" : "text-slate-800"
-                          }`}
-                        >
-                          {item.title}
-                        </p>
-                        {item.unread && (
-                          <div
-                            className="h-2 w-2 rounded-full bg-red-500 shrink-0 ml-2"
-                            title="Chưa đọc"
-                          />
-                        )}
-                      </div>
-                      <p className="text-xs text-slate-500 mt-1">{item.time}</p>
-                    </div>
+          <div
+            className="absolute right-0 mt-4 w-80 sm:w-[420px] bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl border border-gray-200/50 z-50 overflow-hidden animate-in slide-in-from-top-2 duration-300"
+            style={{ transformOrigin: "top right" }}
+          >
+            {/* Header với gradient */}
+            <div className="relative px-5 py-4 border-b border-gray-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl shadow-lg">
+                    <Bell className="w-4 h-4 text-white" strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                      Thông báo
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      {items.length} tin nhắn
+                      {unreadCount > 0 && ` • ${unreadCount} chưa đọc`}
+                    </p>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+                {unreadCount > 0 && (
+                  <button
+                    onClick={markAllRead}
+                    className="group flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all duration-200 hover:shadow-lg"
+                  >
+                    <CheckCheck className="w-3.5 h-3.5" strokeWidth={2.5} />
+                    <span className="hidden sm:inline">Đọc hết</span>
+                  </button>
+                )}
+              </div>
+            </div>
 
-          {/* Footer */}
-          <div className="p-3 border-t border-gray-100 text-center">
-            <button className="text-sm text-green-600 font-medium hover:text-green-700">
-              Xem tất cả thông báo
-            </button>
+            {/* Body - Danh sách thông báo với custom scrollbar */}
+            <div className="max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-12 px-6">
+                  <Loader2 className="w-8 h-8 text-[#E91E63] animate-spin mb-3" />
+                  <p className="text-sm text-slate-500 font-medium">
+                    Đang tải thông báo...
+                  </p>
+                </div>
+              ) : items.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 px-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-slate-200 rounded-full flex items-center justify-center mb-4">
+                    <Bell className="w-8 h-8 text-gray-400" strokeWidth={1.5} />
+                  </div>
+                  <p className="text-sm text-slate-600 font-medium mb-1">
+                    Chưa có thông báo
+                  </p>
+                  <p className="text-xs text-slate-400">
+                    Các thông báo mới sẽ hiện ở đây
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100/50">
+                  {items.map((item, index) => (
+                    <div
+                      key={item._id}
+                      onClick={() => handleItemClick(item._id)}
+                      className={`group relative px-5 py-4 cursor-pointer transition-all duration-200 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50 ${
+                        !item.read ? "bg-pink-50/30" : "bg-white"
+                      }`}
+                      style={{
+                        animationDelay: `${index * 50}ms`,
+                      }}
+                    >
+                      {/* Unread indicator bar */}
+                      {!item.read && (
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#E91E63] to-[#FF8C1A]" />
+                      )}
+
+                      <div className="flex items-start gap-3">
+                        {/* Icon với animation */}
+                        <div className="relative shrink-0 group-hover:scale-110 transition-transform duration-200">
+                          {getNotificationIcon(item.type)}
+                          {!item.read && (
+                            <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                          )}
+                        </div>
+
+                        {/* Nội dung thông báo */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <h4
+                              className={`text-sm font-semibold leading-snug line-clamp-2 ${
+                                !item.read ? "text-slate-900" : "text-slate-700"
+                              }`}
+                            >
+                              {item.title}
+                            </h4>
+                            {!item.read && (
+                              <span className="shrink-0 w-2 h-2 bg-gradient-to-br from-red-500 to-pink-600 rounded-full shadow-sm" />
+                            )}
+                          </div>
+
+                          {item.message && (
+                            <p className="text-xs text-slate-500 line-clamp-2 mb-2 leading-relaxed">
+                              {item.message}
+                            </p>
+                          )}
+
+                          <div className="flex items-center gap-2 text-xs text-slate-400">
+                            <Clock className="w-3 h-3" strokeWidth={2} />
+                            <span>{formatTime(item.createdAt)}</span>
+                            {item.targetType === "broadcast" && (
+                              <>
+                                <span>•</span>
+                                <div className="flex items-center gap-1">
+                                  <Sparkles className="w-3 h-3 text-orange-400" />
+                                  <span className="text-orange-600 font-medium">
+                                    Chung
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Hover arrow indicator */}
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <svg
+                          className="w-4 h-4 text-[#E91E63]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer với gradient button */}
+            <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-gray-100/50 p-3">
+              <button
+                onClick={handleViewAll}
+                className="w-full py-2.5 px-4 text-sm font-semibold text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                <span>Xem tất cả thông báo</span>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

@@ -1,1 +1,115 @@
-{ "welcome": "Chào mừng", "login": "Đăng nhập" }
+{
+  "common": {
+    "welcome": "Chào mừng",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "signup": "Đăng ký",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "submit": "Gửi",
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "confirm": "Xác nhận",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "refresh": "Làm mới",
+    "view": "Xem",
+    "download": "Tải xuống",
+    "upload": "Tải lên"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "cashback": "Hoàn tiền",
+    "wallet": "Ví",
+    "referral": "Giới thiệu",
+    "profile": "Hồ sơ",
+    "activities": "Hoạt động",
+    "leaderboard": "Bảng xếp hạng",
+    "settings": "Cài đặt",
+    "support": "Hỗ trợ",
+    "guide": "Hướng dẫn"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "noAccount": "Chưa có tài khoản?",
+    "haveAccount": "Đã có tài khoản?",
+    "loginSuccess": "Đăng nhập thành công",
+    "signupSuccess": "Đăng ký thành công",
+    "loginError": "Đăng nhập thất bại",
+    "signupError": "Đăng ký thất bại"
+  },
+  "home": {
+    "overview": "Tổng quan",
+    "totalEarnings": "Tổng thu nhập",
+    "thisMonth": "Tháng này",
+    "pendingTransactions": "Giao dịch chờ",
+    "totalReferrals": "Tổng giới thiệu",
+    "quickActions": "Thao tác nhanh",
+    "recentActivities": "Hoạt động gần đây"
+  },
+  "wallet": {
+    "availableBalance": "Số dư khả dụng",
+    "pendingBalance": "Số dư chờ",
+    "totalEarnings": "Tổng thu nhập",
+    "withdraw": "Rút tiền",
+    "deposit": "Nạp tiền",
+    "history": "Lịch sử giao dịch",
+    "amount": "Số tiền",
+    "status": "Trạng thái",
+    "date": "Ngày",
+    "description": "Mô tả"
+  },
+  "referral": {
+    "referralCode": "Mã giới thiệu",
+    "copyCode": "Sao chép mã",
+    "shareLink": "Chia sẻ liên kết",
+    "totalReferrals": "Tổng giới thiệu",
+    "level1": "Cấp 1",
+    "level2": "Cấp 2",
+    "level3": "Cấp 3",
+    "commission": "Hoa hồng",
+    "earnings": "Thu nhập"
+  },
+  "admin": {
+    "dashboard": "Quản trị",
+    "users": "Người dùng",
+    "transactions": "Giao dịch",
+    "tasks": "Nhiệm vụ",
+    "settings": "Cài đặt",
+    "reports": "Báo cáo",
+    "totalUsers": "Tổng người dùng",
+    "revenue": "Doanh thu",
+    "pendingApprovals": "Chờ duyệt",
+    "systemStatus": "Trạng thái hệ thống"
+  },
+  "status": {
+    "pending": "Chờ duyệt",
+    "approved": "Đã duyệt",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành",
+    "processing": "Đang xử lý",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động"
+  },
+  "messages": {
+    "confirmDelete": "Bạn có chắc muốn xóa?",
+    "deleteSuccess": "Xóa thành công",
+    "saveSuccess": "Lưu thành công",
+    "updateSuccess": "Cập nhật thành công",
+    "errorOccurred": "Đã xảy ra lỗi",
+    "noDataAvailable": "Không có dữ liệu",
+    "loadingData": "Đang tải dữ liệu..."
+  }
+}

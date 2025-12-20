@@ -8,6 +8,7 @@ import { notification } from "../../utils/notification";
 interface AuthModalProps {
   onClose: () => void;
   isOpen: boolean;
+  mode?: "signin" | "signup";
 }
 
 interface SignupFormData {
@@ -25,8 +26,8 @@ interface SigninFormData {
   password: string;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
-  const [mode, setMode] = useState<"signin" | "signup">("signup");
+const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
+  const [currentMode, setCurrentMode] = useState<"signin" | "signup">();
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuthStore();
@@ -175,7 +176,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
   };
 
   const toggleMode = () => {
-    setMode(mode === "signin" ? "signup" : "signin");
+    setCurrentMode(currentMode === "signin" ? "signup" : "signin");
   };
 
   return (
@@ -204,7 +205,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
 
         {/* Header */}
         <div className="text-center">
-          <UserPlus className="w-12 h-12 mx-auto mb-4 text-green-600 p-2 bg-green-100 rounded-full" />
+          <UserPlus className="w-12 h-12 mx-auto mb-4 text-[#E91E63] p-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-full" />
           <h1 className="text-3xl font-bold text-slate-800">
             {mode === "signup" ? "Tạo tài khoản mới" : "Chào mừng trở lại"}
           </h1>
@@ -212,7 +213,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
             {mode === "signup" ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
             <span
               onClick={toggleMode}
-              className="text-green-500 font-medium ml-1 cursor-pointer hover:underline"
+              className="text-[#E91E63] font-medium ml-1 cursor-pointer hover:underline"
             >
               {mode === "signup" ? "Đăng nhập" : "Đăng ký"}
             </span>
@@ -255,7 +256,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 {...signupForm.register("name", {
                   required: "Vui lòng nhập họ và tên",
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signupForm.formState.errors.name && (
                 <p className="text-red-500 text-sm mt-1">
@@ -275,7 +276,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                     message: "Email không hợp lệ",
                   },
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signupForm.formState.errors.email && (
                 <p className="text-red-500 text-sm mt-1">
@@ -291,7 +292,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 {...signupForm.register("phone", {
                   required: "Vui lòng nhập số điện thoại",
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signupForm.formState.errors.phone && (
                 <p className="text-red-500 text-sm mt-1">
@@ -311,7 +312,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                     message: "Mật khẩu phải có ít nhất 6 ký tự",
                   },
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signupForm.formState.errors.password && (
                 <p className="text-red-500 text-sm mt-1">
@@ -327,7 +328,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 {...signupForm.register("confirmPassword", {
                   required: "Vui lòng xác nhận mật khẩu",
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signupForm.formState.errors.confirmPassword && (
                 <p className="text-red-500 text-sm mt-1">
@@ -341,7 +342,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 type="text"
                 placeholder="Mã giới thiệu (tùy chọn)"
                 {...signupForm.register("referralCode")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
             </div>
 
@@ -356,7 +357,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 <div
                   className={`w-4 h-4 rounded flex items-center justify-center border transition ${
                     signupForm.watch("agreed")
-                      ? "bg-green-600 border-green-600"
+                      ? "bg-[#E91E63] border-[#E91E63]"
                       : "bg-white border-gray-300"
                   }`}
                 >
@@ -366,11 +367,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 </div>
                 <p className="ml-3 text-sm text-slate-600">
                   Tôi đồng ý với
-                  <span className="text-green-500 font-medium ml-1">
+                  <span className="text-[#E91E63] font-medium ml-1">
                     Điều khoản dịch vụ
                   </span>{" "}
                   và{" "}
-                  <span className="text-green-500 font-medium">
+                  <span className="text-[#E91E63] font-medium">
                     Chính sách bảo mật
                   </span>
                 </p>
@@ -381,9 +382,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
             <button
               type="submit"
               disabled={!signupForm.watch("agreed") || isLoading}
-              className={`w-full py-3 rounded-xl font-bold text-white transition shadow-lg mt-4 ${
+              className={`cursor-pointer w-full py-3 rounded-xl font-bold text-white transition shadow-lg mt-4 ${
                 signupForm.watch("agreed") && !isLoading
-                  ? "bg-green-600 hover:bg-green-700 shadow-green-300/50"
+                  ? "bg-[#E91E63] hover:bg-[#E91E63] shadow-pink-300/50"
                   : "bg-gray-400 cursor-not-allowed opacity-80"
               }`}
             >
@@ -406,7 +407,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                     message: "Email không hợp lệ",
                   },
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signinForm.formState.errors.email && (
                 <p className="text-red-500 text-sm mt-1">
@@ -422,7 +423,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
                 {...signinForm.register("password", {
                   required: "Vui lòng nhập mật khẩu",
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               />
               {signinForm.formState.errors.password && (
                 <p className="text-red-500 text-sm mt-1">
@@ -437,7 +438,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen }) => {
               disabled={isLoading}
               className={`w-full py-3 rounded-xl font-bold text-white transition shadow-lg mt-4 ${
                 !isLoading
-                  ? "bg-green-600 hover:bg-green-700 shadow-green-300/50"
+                  ? "bg-[#E91E63] hover:bg-[#E91E63] shadow-pink-300/50"
                   : "bg-gray-400 cursor-not-allowed opacity-80"
               }`}
             >

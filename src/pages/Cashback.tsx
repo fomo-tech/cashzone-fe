@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
   Link,
   Copy,
@@ -7,23 +7,24 @@ import {
   Zap,
   Loader,
   Shield,
-  Plane,
   TrendingUp,
   RefreshCcw,
-  Hotel,
-  DollarSign,
-  ArrowRightLeft,
+  ArrowRight,
+  Sparkles,
+  Clipboard,
+  QrCode,
+  ExternalLink,
 } from "lucide-react";
-import axios from "axios"; // Import axios
+import cashbackService from "@/services/cashbackService";
+import type { ShopeeProductInfo } from "@/services/cashbackService";
+import { useAuthStore } from "@/store/authStore";
+import { Input } from "@/components/ui/input";
+import OfferPreview from "@/components/cashback/OfferPreview";
+import PlatformTypeBadge from "@/components/cashback/PlatformTypeBadge";
+import { notification } from "@/utils/notification";
+import CommonModal from "@/components/common/Modal";
+import PriorityProducts from "@/components/cashback/PriorityProducts";
 
-// =========================================================================
-// 1. UTILITIES & CONFIGURATION
-// =========================================================================
-
-// Địa chỉ Mock API Server. Cần đảm bảo server.js đang chạy tại cổng này.
-const API_BASE_URL = "http://localhost:3000";
-
-// Hàm định dạng tiền tệ Việt Nam (VNĐ)
 const formatCurrency = (amount: number | string) => {
   // Chuyển string (nếu có) thành number, hoặc mặc định là 0
   const number = typeof amount === "string" ? parseFloat(amount) : amount;
@@ -34,21 +35,11 @@ const formatCurrency = (amount: number | string) => {
   }).format(number || 0);
 };
 
-// Định nghĩa màu thương hiệu chính (Primary Brand Color)
-const PRIMARY_COLOR = "bg-[#00b47d]";
-const PRIMARY_RING_COLOR = "ring-[#00b47d]";
-const PRIMARY_TEXT_COLOR = "text-[#00b47d]";
-
-// =========================================================================
-// 2. INTERFACES (TypeScript Types)
-// =========================================================================
-
-// Platform Type distinction for UI clarity
-interface Platform {
+export interface Platform {
   id: string;
   name: string;
   color: string; // Tailwind custom color class (e.g., bg-[#FF6A00])
-  logo: string | JSX.Element; // URL, Emoji, or React component
+  logo: string | React.ReactNode; // URL, Emoji, or React component
   type: "product" | "trade" | "service" | "finance"; // E-commerce, Crypto/Forex, Travel, Loan
 }
 
@@ -70,6 +61,12 @@ interface HistoryItem {
   createdAt: string;
   link: string;
   type: "product" | "trade" | "service" | "finance";
+  imageUrl?: string; // Product image
+  productPrice?: number; // Product price
+  commissionRate?: number; // Commission rate from Shopee API (0.15 = 15%)
+  estimatedCommission?: number; // Commission amount from Shopee API
+  cashbackRate?: number; // User cashback rate (80%)
+  estimatedCashback?: number; // User cashback amount
 }
 
 // =========================================================================
@@ -83,197 +80,16 @@ const PLATFORMS: Platform[] = [
     logo: "https://img.icons8.com/?size=100&id=mBkyWceUPlkM&format=png&color=000000",
     type: "product",
   },
-  {
-    id: "tiktok",
-    name: "TikTok Shop",
-    color: "bg-[#000000]",
-    logo: "https://img.icons8.com/?size=100&id=118638&format=png&color=000000",
-    type: "product",
-  },
-  {
-    id: "booking",
-    name: "Booking.com",
-    color: "bg-[#0066CC]",
-    logo: <Hotel className="text-[#0066CC]" size={20} />,
-    type: "service",
-  },
-  {
-    id: "loan",
-    name: "App Vay (VPBank)",
-    color: "bg-[#8B5CF6]",
-    logo: <DollarSign className="text-[#8B5CF6]" size={20} />,
-    type: "finance",
-  },
-  {
-    id: "binance",
-    name: "Binance (Rebate)",
-    color: "bg-[#F3B000]",
-    logo: <ArrowRightLeft className="text-[#F3B000]" size={20} />,
-    type: "trade",
-  },
 ];
 
-const SAMPLE_PRODUCTS: ProductOffer[] = [
-  {
-    id: "p1",
-    title: "Ốp điện thoại iPhone 17 Pro Max trong suốt cao cấp",
-    shop: "E36 SodaShop",
-    feeText: formatCurrency(9238),
-    rateText: "14%",
-    priceText: formatCurrency(650000),
-    img: "https://via.placeholder.com/96/EE4D2D/FFFFFF?text=Shopee",
-    platform: "shopee",
-  },
-  {
-    id: "p2",
-    title: "Áo Hoodie unisex form rộng phong cách Hàn Quốc",
-    shop: "StreetVibe Official",
-    feeText: formatCurrency(15000),
-    rateText: "10%",
-    priceText: formatCurrency(499000),
-    img: "https://via.placeholder.com/96/000000/FFFFFF?text=TikTok",
-    platform: "tiktok",
-  },
-];
-
-// =========================================================================
-// 4. COMPONENTS
-// =========================================================================
-
-// Component for displaying temporary messages/toasts
-const ToastMessage: React.FC<{
-  message: string;
-  type: "success" | "error" | "info";
-  onClose: () => void;
-}> = ({ message, type, onClose }) => {
-  const colorMap = {
-    success: "bg-green-500",
-    error: "bg-red-500",
-    info: "bg-blue-500",
-  };
-
-  // Automatically close the toast after 3 seconds
-  React.useEffect(() => {
-    const timer = setTimeout(onClose, 3000);
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  if (!message) return null;
-
-  return (
-    <div
-      className={`fixed bottom-5 right-5 z-50 p-4 rounded-xl shadow-2xl text-white font-semibold transition-opacity duration-300 ${colorMap[type]}`}
-    >
-      {message}
-    </div>
-  );
-};
-
-// Product/Offer Preview Component
-const OfferPreview: React.FC<{
-  offer: ProductOffer;
-  type: Platform["type"];
-}> = ({ offer, type }) => {
-  // Custom label based on type
-  let rateLabel, feeLabel;
-
-  switch (type) {
-    case "trade":
-      rateLabel = "Rebate";
-      feeLabel = "Hoàn phí:";
-      break;
-    case "finance":
-      rateLabel = "Ưu đãi Lãi suất";
-      feeLabel = "Phí tư vấn:";
-      break;
-    case "service":
-      rateLabel = "Cashback";
-      feeLabel = "Hoa hồng:";
-      break;
-    case "product":
-    default:
-      rateLabel = "Cashback";
-      feeLabel = "Hoa hồng:";
-  }
-
-  return (
-    <div className="mt-5 p-4 rounded-xl bg-white border border-green-200 flex gap-4 items-start shadow-md">
-      <img
-        src={offer.img}
-        alt={offer.title}
-        className="w-20 h-20 rounded-xl object-cover shadow-sm flex-shrink-0"
-      />
-      <div className="flex-1 min-w-0">
-        <div className="font-semibold text-gray-800 truncate">
-          {offer.title}
-        </div>
-        <div className="text-xs text-gray-500 mt-0.5">{offer.shop}</div>
-        <div className="flex items-center mt-2 text-sm flex-wrap gap-x-4">
-          <div className="font-bold text-red-600">
-            <Zap size={14} className="inline mr-1" />
-            {offer.rateText} {rateLabel}
-          </div>
-          <div className="text-gray-700 mt-1 sm:mt-0">
-            {feeLabel} <span className="font-semibold">{offer.feeText}</span>
-          </div>
-        </div>
-        <div className="text-xs text-gray-500 mt-1">
-          Giá/Mức phí: <span className="font-medium">{offer.priceText}</span>
-        </div>
-      </div>
-      <div className="text-sm text-gray-500 flex-shrink-0">
-        <span className="font-medium capitalize">{offer.platform}</span>
-      </div>
-    </div>
-  );
-};
+const SAMPLE_PRODUCTS: ProductOffer[] = [];
 
 // Icon and badge based on Platform Type (Moved outside App for better structure)
-const PlatformTypeBadge: React.FC<{
-  type: Platform["type"];
-  isActive: boolean;
-}> = ({ type, isActive }) => {
-  let icon, text, bgColor;
 
-  switch (type) {
-    case "product":
-      icon = <Zap size={14} className="mr-1" />;
-      text = "Cashback SP";
-      bgColor = isActive ? "bg-white/20" : "bg-green-100 text-green-700";
-      break;
-    case "trade":
-      icon = <TrendingUp size={14} className="mr-1" />;
-      text = "Rebate Trade";
-      bgColor = isActive ? "bg-white/20" : "bg-yellow-100 text-yellow-700";
-      break;
-    case "service":
-      icon = <Plane size={14} className="mr-1" />;
-      text = "Dịch vụ/Du lịch";
-      bgColor = isActive ? "bg-white/20" : "bg-blue-100 text-blue-700";
-      break;
-    case "finance":
-      icon = <Shield size={14} className="mr-1" />;
-      text = "Vay/Tài chính";
-      bgColor = isActive ? "bg-white/20" : "bg-purple-100 text-purple-700";
-      break;
-    default:
-      return null;
-  }
-  return (
-    <div
-      className={`flex items-center text-xs font-semibold px-2 py-0.5 rounded-full ${bgColor}`}
-    >
-      {icon}
-      {text}
-    </div>
-  );
-};
+export default function Cashback() {
+  // Auth store
+  const { isAuthenticated, handleToggleAuthModal, user } = useAuthStore();
 
-// =========================================================================
-// 5. MAIN APPLICATION
-// =========================================================================
-
-export default function App() {
   const [activePlatformId, setActivePlatformId] = useState<string>(
     PLATFORMS[0].id
   );
@@ -281,13 +97,77 @@ export default function App() {
   const [currentOffer, setCurrentOffer] = useState<ProductOffer | null>(null);
   const [generatedLink, setGeneratedLink] = useState<string>("");
   const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(false);
   const [query, setQuery] = useState<string>("");
   const [isCopying, setIsCopying] = useState<boolean>(false);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [message, setMessage] = useState<{
-    msg: string;
-    type: "success" | "error" | "info";
+  const [qrModal, setQrModal] = useState<{
+    show: boolean;
+    link: string;
+    title: string;
   } | null>(null);
+
+  // Load link history from API
+  useEffect(() => {
+    const loadLinkHistory = async () => {
+      if (isAuthenticated && user?._id) {
+        setLoadingHistory(true);
+        try {
+          const response = await cashbackService.getUserLinks({
+            page: 1,
+            limit: 50,
+          });
+
+          // Transform API data to HistoryItem format
+          const transformedHistory: HistoryItem[] = response.links.map(
+            (link: any) => {
+              return {
+                id: link._id,
+                platform:
+                  link.platform?.name?.toLowerCase() ||
+                  link.platform ||
+                  "shopee",
+                title:
+                  link.productName ||
+                  link.productInfo?.name ||
+                  link.originalUrl ||
+                  "Link không có tên",
+                createdAt: link.createdAt,
+                link:
+                  link.shortUrl ||
+                  link.trackingUrl ||
+                  link.shortLink ||
+                  link.originalUrl,
+                type: link.platform?.type || "product",
+                imageUrl:
+                  link.productImage ||
+                  link.productInfo?.imageUrl ||
+                  link.productInfo?.thumbnail ||
+                  link.productInfo?.image ||
+                  link.imageUrl,
+                productPrice: link.productPrice,
+                // Use platform commissionValue if available, otherwise use commissionRate from Shopee
+                commissionRate: link.platform?.commissionValue
+                  ? link.platform.commissionValue / 100
+                  : link.commissionRate,
+                estimatedCommission: link.commission,
+                cashbackRate: link.cashbackRate,
+                estimatedCashback: link.estimatedCashback,
+              };
+            }
+          );
+
+          setHistory(transformedHistory);
+        } catch (error) {
+          console.error("Failed to load link history:", error);
+        } finally {
+          setLoadingHistory(false);
+        }
+      }
+    };
+
+    loadLinkHistory();
+  }, [isAuthenticated, user]);
 
   const activePlatform = useMemo(
     () => PLATFORMS.find((p) => p.id === activePlatformId) || PLATFORMS[0],
@@ -299,13 +179,6 @@ export default function App() {
     () =>
       activePlatform.type === "product" || activePlatform.type === "service",
     [activePlatform.type]
-  );
-
-  const showToast = useCallback(
-    (msg: string, type: "success" | "error" | "info" = "info") => {
-      setMessage({ msg, type });
-    },
-    []
   );
 
   // Hàm chứa logic tạo link cốt lõi (ASYNC để gọi API)
@@ -322,57 +195,84 @@ export default function App() {
       if (platform.type === "product" || platform.type === "service") {
         // Case PRODUCT/SERVICE: Yêu cầu dán link sản phẩm (BẮT BUỘC)
         if (!input || input.trim().length < 5) {
-          showToast("Vui lòng dán link sản phẩm hợp lệ", "error");
+          notification({
+            type: "error",
+            message: "Vui lòng dán link sản phẩm hợp lệ để tạo link cashback",
+          });
           setIsGenerating(false);
           return;
         }
 
-        // --- GỌI API ĐẾN MOCK SERVER ---
+        // --- GỌI API ĐẾN BACKEND SERVER ---
         try {
-          const response = await axios.get(`${API_BASE_URL}/api/convert`, {
-            params: { url: input.trim() },
-          });
+          // Sử dụng cashbackService để gọi API convert Shopee link
+          const userId = user?._id; // Get userId from auth store
+          const response = await cashbackService.convertShopeeLink(
+            input.trim(),
+            userId
+          );
+          const productInfo: ShopeeProductInfo = response;
 
-          const data = response.data;
-
-          if (data.success) {
+          if (productInfo && productInfo.affiliateUrl) {
             // Thành công: Lấy dữ liệu từ API
-            finalLink = data.affiliateLink;
+            // Use short link if available, otherwise use affiliate URL
+            finalLink =
+              productInfo.shortLink?.shortUrl || productInfo.affiliateUrl;
+
+            // Show message if existing link was returned
+            if ((productInfo as any).existingLink) {
+              notification({
+                type: "info",
+                message: "Link này đã tồn tại trong hệ thống của bạn.",
+              });
+            }
 
             finalOffer = {
-              id: "api-gen-" + Date.now(),
-              title: data.name,
+              id: (productInfo as any).linkId || "api-gen-" + Date.now(),
+              title: productInfo.productName || "Sản phẩm Shopee",
               shop: platform.name, // Use platform name for shop
-              feeText: formatCurrency(data.commission),
-              // Tỷ lệ hoàn tiền: Mock một giá trị hợp lý
-              rateText: `${Math.round((data.commission / data.price) * 100)}%`,
-              priceText: formatCurrency(data.price),
-              img: `https://via.placeholder.com/96/4B5563/FFFFFF?text=${platform.id
-                .toUpperCase()
-                .charAt(0)}`,
+              feeText: formatCurrency(productInfo.estimatedCashback || 0),
+              // Tỷ lệ hoàn tiền từ backend
+              rateText: `${productInfo.commissionRate}%`,
+              priceText: formatCurrency(productInfo.priceMin || 0),
+              img:
+                productInfo.imageUrl ||
+                `https://via.placeholder.com/96/EE4D2D/FFFFFF?text=${platform.id
+                  .toUpperCase()
+                  .charAt(0)}`,
               platform: platform.id,
             };
           } else {
-            // Lỗi từ server (ví dụ: URL không hợp lệ)
-            showToast(
-              data.error || "Lỗi không xác định từ máy chủ API.",
-              "error"
-            );
+            // Lỗi: Không thể convert link
+            notification({
+              type: "error",
+              message:
+                "Không thể tạo link hoàn tiền từ link đã cung cấp. Vui lòng kiểm tra lại.",
+            });
             setIsGenerating(false);
             return;
           }
         } catch (error: any) {
           console.error("API Error:", error);
           let errorMessage =
-            "Không thể kết nối API. Đảm bảo server.js đang chạy.";
+            "Không thể kết nối API. Vui lòng kiểm tra lại đường truyền.";
+
+          // Check for maintenance mode
           if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
+            error.response?.data?.message === "MAINTENANCE_MODE" ||
+            error.response?.data?.message?.includes("MAINTENANCE")
           ) {
-            errorMessage = error.response.data.error;
+            errorMessage =
+              "🔧 Hệ thống đang bảo trì. Vui lòng thử lại sau ít phút.";
+          } else if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+          } else if (error.message) {
+            errorMessage = error.message;
           }
-          showToast(errorMessage, "error");
+          notification({
+            type: "error",
+            message: errorMessage,
+          });
           setIsGenerating(false);
           return;
         }
@@ -425,31 +325,86 @@ export default function App() {
       setTimeout(() => {
         setCurrentOffer(finalOffer as ProductOffer);
         setGeneratedLink(finalLink as string);
-        showToast("Tạo link thành công!", "success");
+        notification({
+          type: "success",
+          message: "Tạo link hoàn tiền thành công!",
+        });
 
-        // Thêm vào lịch sử
-        setHistory((h) => [
-          {
-            id: finalLink!.split("/").pop()!, // Lấy token từ link
-            platform: platform.id,
-            title: finalOffer!.title,
-            createdAt: new Date().toISOString(),
-            link: finalLink!,
-            type: platform.type,
-          },
-          ...h,
-        ]);
+        // Reload history from API after creating new link
+        if (isAuthenticated && user?._id) {
+          cashbackService
+            .getUserLinks({ page: 1, limit: 50 })
+            .then((response) => {
+              const transformedHistory: HistoryItem[] = response.links.map(
+                (link: any) => {
+                  return {
+                    id: link._id,
+                    platform:
+                      link.platform?.logo?.toLowerCase() ||
+                      link.platform ||
+                      "shopee",
+                    title:
+                      link.productName ||
+                      link.productInfo?.name ||
+                      link.originalUrl ||
+                      "Link không có tên",
+                    createdAt: link.createdAt,
+                    link:
+                      link.shortUrl ||
+                      link.trackingUrl ||
+                      link.shortLink ||
+                      link.originalUrl,
+                    type: link.platform?.type || "product",
+                    imageUrl:
+                      link.productImage ||
+                      link.productInfo?.imageUrl ||
+                      link.productInfo?.thumbnail ||
+                      link.productInfo?.image ||
+                      link.imageUrl,
+                    productPrice: link.productPrice,
+                    // Use platform commissionValue if available, otherwise use commissionRate from Shopee
+                    commissionRate: link.platform?.commissionValue
+                      ? link.platform.commissionValue / 100
+                      : link.commissionRate,
+                    estimatedCommission: link.commission,
+                    cashbackRate: link.cashbackRate,
+                    estimatedCashback: link.estimatedCashback,
+                  };
+                }
+              );
+              setHistory(transformedHistory);
+            })
+            .catch((error) => {
+              console.error("Failed to reload history:", error);
+            });
+        }
 
         setIsGenerating(false);
       }, delay);
     },
-    [showToast, setHistory]
+    [isAuthenticated, user]
   );
 
   // Hàm xử lý khi nhấn nút TẠO LINK
   const handleGenerate = useCallback(() => {
+    // Check authentication first
+    if (!isAuthenticated) {
+      notification({
+        type: "info",
+        message: "Vui lòng đăng nhập để sử dụng tính năng này.",
+      });
+      handleToggleAuthModal();
+      return;
+    }
+
     generateLogic(activePlatform, inputLink);
-  }, [activePlatform, inputLink, generateLogic]);
+  }, [
+    isAuthenticated,
+    activePlatform,
+    inputLink,
+    generateLogic,
+    handleToggleAuthModal,
+  ]);
 
   // Hàm xử lý khi chọn Platform (TỰ ĐỘNG tạo link cho Trade/Finance)
   const handleSelectPlatform = useCallback(
@@ -478,8 +433,11 @@ export default function App() {
   );
 
   const handleCopy = useCallback(async () => {
-    if (!generatedLink) return showToast("Chưa có link để sao chép", "error");
-    setIsCopying(true);
+    if (!generatedLink)
+      return notification({
+        type: "error",
+        message: "Chưa có link",
+      });
     try {
       const tempInput = document.createElement("input");
       tempInput.value = generatedLink;
@@ -487,19 +445,28 @@ export default function App() {
       tempInput.select();
       document.execCommand("copy");
       document.body.removeChild(tempInput);
-
-      showToast("Đã sao chép link!", "success");
+      notification({
+        type: "success",
+        message: "Đã sao chép link vào clipboard!",
+      });
     } catch {
-      showToast("Lỗi: Không thể sao chép link", "error");
+      notification({
+        type: "error",
+        message: "Lỗi: Không thể sao chép link",
+      });
     } finally {
       setTimeout(() => setIsCopying(false), 1000); // 1s visual feedback
     }
-  }, [generatedLink, showToast]);
+  }, [generatedLink]);
 
   const handleOpen = useCallback(() => {
-    if (!generatedLink) return showToast("Chưa có link", "error");
+    if (!generatedLink)
+      return notification({
+        type: "error",
+        message: "Chưa có link",
+      });
     window.open(generatedLink, "_blank");
-  }, [generatedLink, showToast]);
+  }, [generatedLink]);
 
   const filteredHistory = useMemo(() => {
     if (!query) return history;
@@ -510,27 +477,32 @@ export default function App() {
 
   // Dynamic Input Label and Placeholder
   const inputLabel = useMemo(() => {
+    const commonClass =
+      "inline-flex items-center gap-2 text-gray-800 text-base sm:text-lg font-semibold";
+
     switch (activePlatform.type) {
       case "trade":
         return (
-          <>
-            <TrendingUp size={16} className="mr-2 text-gray-500" />
-            Yêu cầu Rebate/Mã giới thiệu (Tùy chọn)
-          </>
+          <span className={commonClass}>
+            <TrendingUp size={18} className="text-pink-500" />
+            Yêu cầu Rebate/Mã giới thiệu{" "}
+            <span className="text-gray-400">(Tùy chọn)</span>
+          </span>
         );
       case "finance":
         return (
-          <>
-            <Shield size={16} className="mr-2 text-gray-500" />
-            Nhu cầu tư vấn/vay vốn (Tùy chọn)
-          </>
+          <span className={commonClass}>
+            <Shield size={18} className="text-blue-500" />
+            Nhu cầu tư vấn/vay vốn{" "}
+            <span className="text-gray-400">(Tùy chọn)</span>
+          </span>
         );
       default:
         return (
-          <>
-            <Link size={16} className="mr-2 text-gray-500" />
-            Dán link sản phẩm hoặc affiliate (BẮT BUỘC)
-          </>
+          <span className={commonClass}>
+            <Link size={18} />
+            Dán link sản phẩm <span className="text-red-500">(BẮT BUỘC)</span>
+          </span>
         );
     }
   }, [activePlatform.type]);
@@ -561,383 +533,720 @@ export default function App() {
   }, [isLinkRequired]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 font-sans">
-      <div className="w-full max-w-6xl mx-auto px-4">
-        {/* Toast Message */}
-        {message && (
-          <ToastMessage
-            message={message.msg}
-            type={message.type}
-            onClose={() => setMessage(null)}
-          />
-        )}
-
-        {/* Header */}
-        <header className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-            Cashback Hub
-          </h1>
-          <p className="mt-2 text-lg text-gray-500">
-            Tạo link hoàn tiền, Rebate và tư vấn ưu đãi nhanh chóng
-          </p>
-        </header>
-
-        {/* Top hero */}
-        <section
-          className={`bg-linear-to-r from-[#00b47d] to-[#2ee59d] rounded-3xl p-8 shadow-2xl shadow-green-400/30 text-white flex flex-col md:flex-row gap-6 items-center`}
-        >
-          <div className="flex-1">
-            <h2 className="text-3xl font-black">
-              Nhận hoàn tiền/Rebate lên đến 30%
-            </h2>
-            <p className="mt-2 text-lg opacity-90">
-              Chỉ 3 bước: Chọn nền tảng, Cung cấp thông tin (nếu cần), Tạo link
-              và chia sẻ
-            </p>
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setInputLink("https://shopee.vn/product/17227968/41052353272");
-                handleSelectPlatform("shopee");
-              }}
-              className="px-5 py-2.5 bg-white/20 rounded-xl font-semibold hover:bg-white/30 transition duration-200 shadow-lg"
-            >
-              <Zap size={18} className="inline mr-1" />
-              Thử link mẫu (Shopee)
-            </button>
-            <button
-              onClick={() => window.scrollTo({ top: 400, behavior: "smooth" })}
-              className="px-5 py-2.5 bg-white/30 rounded-xl font-semibold hover:bg-white/40 transition duration-200 shadow-lg"
-            >
-              Bắt đầu
-            </button>
-          </div>
-        </section>
-
-        {/* Platform selector - Cải tiến UI/UX ở đây */}
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {PLATFORMS.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => handleSelectPlatform(p.id)}
-              className={`group flex flex-col items-center p-5 rounded-2xl border-2 transition-all duration-300 shadow-md transform hover:scale-[1.02] hover:shadow-lg ${
-                activePlatformId === p.id
-                  ? `${PRIMARY_COLOR} border-white ring-4 ring-offset-2 ${PRIMARY_RING_COLOR} text-white shadow-xl`
-                  : "bg-white border-gray-100 text-gray-800 hover:bg-gray-50"
-              }`}
-            >
-              {/* Icon / Logo Area */}
-              <div
-                className={`w-14 h-14 flex items-center justify-center rounded-xl text-3xl mb-2 transition duration-300 ${
-                  activePlatformId === p.id
-                    ? "bg-white text-gray-800"
-                    : `${p.color.replace("bg-", "text-")} bg-white shadow-inner`
-                }`}
-              >
-                {/* Check if logo is an image URL, React component, or emoji */}
-                {typeof p.logo === "string" && p.logo.startsWith("http") ? (
-                  <img
-                    src={p.logo}
-                    alt={p.name}
-                    className="w-8 h-8 object-contain"
-                  />
-                ) : typeof p.logo === "object" ? (
-                  p.logo
-                ) : (
-                  <span className="text-3xl">{p.logo}</span>
-                )}
-              </div>
-
-              {/* Name */}
-              <div
-                className={`font-black text-lg mt-1 ${
-                  activePlatformId === p.id ? "text-white" : "text-gray-800"
-                }`}
-              >
-                {p.name.split("(")[0].trim()}
-              </div>
-
-              {/* Badge/Type */}
-              <div className="mt-1">
-                <PlatformTypeBadge
-                  type={p.type}
-                  isActive={activePlatformId === p.id}
+    <>
+      <div className="min-h-screen py-2 md:py-6 lg:py-10 font-sans">
+        <div className="w-full max-w-6xl mx-auto px-2 md:px-4">
+          {/* QR Code Modal */}
+          <CommonModal
+            isOpen={!!qrModal}
+            onClose={() => setQrModal(null)}
+            title="Quét mã QR để mở link"
+          >
+            <div className="flex flex-col items-center justify-center gap-4 p-4 md:p-6">
+              <div className="bg-gradient-to-br from-white via-gray-50 to-white p-4 rounded-2xl border border-gray-200 shadow-lg flex items-center justify-center">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+                    qrModal?.link || ""
+                  )}`}
+                  alt="QR Code"
+                  className="w-64 h-64 md:w-72 md:h-72 object-contain"
                 />
               </div>
-            </button>
-          ))}
-        </div>
+              <p className="text-sm text-gray-500 text-center">
+                Quét mã QR để mở link
+              </p>
+            </div>
+          </CommonModal>
 
-        {/* Input and Output Section */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Input Card */}
-          <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
-            {isLinkRequired ? (
-              // Case 1: Cashback Product/Service (Link Required)
-              <>
-                <label className="text-sm text-gray-700 font-semibold flex items-center mb-3">
-                  {inputLabel}
-                </label>
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    value={inputLink}
-                    onChange={(e) => setInputLink(e.target.value)}
-                    placeholder={inputPlaceholder}
-                    className={`flex-1 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 ${PRIMARY_RING_COLOR} transition`}
-                    disabled={isGenerating}
-                  />
-                  <button
-                    onClick={handleGenerate}
-                    className={`px-6 py-3 ${PRIMARY_COLOR} text-white rounded-xl font-bold hover:bg-[#01966a] transition shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
-                    disabled={isButtonDisabled}
+          <section className="relative overflow-hidden group rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] p-6 sm:p-10 lg:p-14 shadow-[0_20px_50px_rgba(233,30,99,0.3)] flex flex-col gap-8">
+            {/* Background Layer with Animated Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#E91E63] via-[#FF4081] to-[#FF8C1A] transition-transform duration-700 group-hover:scale-105" />
+
+            {/* Decorative Orbs */}
+            <div className="absolute top-[-10%] right-[-5%] w-64 h-64 bg-white opacity-10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-[-10%] left-[-5%] w-48 h-48 bg-yellow-400 opacity-20 rounded-full blur-2xl" />
+
+            {/* Content Layer */}
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+              <div className="flex-1 text-center lg:text-left space-y-4 sm:space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-2 animate-bounce">
+                  <Sparkles size={14} />
+                  Hệ thống hoàn tiền tự động 24/7
+                </div>
+
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
+                  Nhận Rebate <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-white">
+                    Lên đến 30%
+                  </span>
+                </h1>
+
+                <div className="max-w-xl mx-auto lg:mx-0">
+                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 font-semibold leading-relaxed">
+                    Quy trình đơn giản:{" "}
+                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
+                      Chọn sàn
+                    </span>{" "}
+                    →{" "}
+                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
+                      Dán link
+                    </span>{" "}
+                    →{" "}
+                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
+                      Nhận tiền
+                    </span>
+                    . Tiết kiệm hơn mỗi ngày cùng cộng đồng mua sắm thông minh.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0">
+                <button
+                  onClick={() => {
+                    setInputLink(
+                      "https://shopee.vn/product/17227968/41052353272"
+                    );
+                    handleSelectPlatform("shopee");
+                  }}
+                  className="group/btn relative flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#E91E63] rounded-2xl font-bold text-base shadow-xl transition-all duration-300 hover:bg-yellow-50 hover:-translate-y-1 active:scale-95 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                  <Zap size={20} className="relative z-10 fill-current" />
+                  <span className="relative z-10">Thử link mẫu</span>
+                </button>
+
+                <button
+                  onClick={() =>
+                    window.scrollTo({ top: 600, behavior: "smooth" })
+                  }
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-4 bg-black/20 backdrop-blur-md border-2 border-white/50 text-white rounded-2xl font-bold text-base transition-all duration-300 hover:bg-white/20 hover:border-white active:scale-95"
+                >
+                  Bắt đầu ngay
+                  <ArrowRight size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom badge */}
+            <div className="relative z-10 mt-4 flex items-center justify-center lg:justify-start gap-6 pt-6 border-t border-white/20">
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-full border-2 border-[#E91E63] bg-slate-200 overflow-hidden"
                   >
-                    {isGenerating ? (
-                      <Loader size={20} className="animate-spin mr-2" />
-                    ) : (
-                      <CornerDownRight size={20} className="mr-2" />
-                    )}
-                    {isGenerating ? "Đang tạo..." : "Tạo link"}
-                  </button>
+                    <img
+                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                      alt="user"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+                <div className="w-8 h-8 rounded-full border-2 border-[#E91E63] bg-white flex items-center justify-center text-xs font-extrabold text-pink-600">
+                  +2k
                 </div>
-                <p className="text-xs text-gray-500 mt-2">{helperText}</p>
-              </>
-            ) : (
-              // Case 2: Trade/Finance (Link Auto-Generated, Input is Optional Update)
-              <div className="space-y-3">
-                <div className="text-sm text-gray-700 font-bold mb-4 flex items-center">
-                  <Shield size={16} className="inline mr-2 text-purple-600" />
-                  Link ĐĂNG KÝ/TƯ VẤN đã được tạo tự động!
-                </div>
+              </div>
+              <p className="text-white/90 text-sm sm:text-base font-bold">
+                Đang có <span className="text-white">2,415</span> người dùng
+                hoạt động hôm nay
+              </p>
+            </div>
+          </section>
 
-                <div className="flex flex-col gap-2 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                  <label className="text-xs text-gray-600 font-semibold flex items-center">
+          <div className="mt-4 md:mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
+            {PLATFORMS.map((p) => {
+              if (!p) return null; // Bỏ qua nếu item bị null
+
+              const isActive = activePlatformId === p.id;
+
+              return (
+                <button
+                  key={p.id}
+                  onClick={() =>
+                    handleSelectPlatform && handleSelectPlatform(p.id)
+                  }
+                  className={`group flex flex-col items-center p-2 md:p-2.5 lg:p-3 rounded-lg md:rounded-xl border-2 transition-all duration-300 shadow-sm transform hover:scale-[1.02] hover:shadow-md ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] border-white text-white shadow-xl"
+                      : "bg-white border-gray-100 text-gray-800 hover:bg-gray-50"
+                  }`}
+                >
+                  {/* Icon / Logo Area */}
+                  <div
+                    className={`w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-md md:rounded-lg text-xl md:text-2xl mb-1 md:mb-1.5 transition duration-300 ${
+                      isActive
+                        ? "bg-white text-gray-800"
+                        : `${(p.color || "bg-gray-100").replace(
+                            "bg-",
+                            "text-"
+                          )} bg-white shadow-inner`
+                    }`}
+                  >
+                    {/* Sửa lỗi render: Kiểm tra logo an toàn */}
+                    {typeof p.logo === "string" && p.logo.startsWith("http") ? (
+                      <img
+                        src={p.logo}
+                        alt={p.name || "platform"}
+                        className="w-6 h-6 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : React.isValidElement(p.logo) ? (
+                      /* Nếu là React Element (như Lucide Icon), render trực tiếp */
+                      p.logo
+                    ) : (
+                      /* Mặc định là string/emoji */
+                      <span className="text-xl md:text-2xl">
+                        {p.logo || "🛒"}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Name - Sử dụng Optional Chaining để tránh lỗi undefined */}
+                  <div
+                    className={`font-extrabold text-xs sm:text-sm md:text-base mt-0.5 md:mt-1 truncate w-full px-1 text-center ${
+                      isActive ? "text-white" : "text-gray-800"
+                    }`}
+                  >
+                    {(p.name || "").split("(")[0].trim() || "Nền tảng"}
+                  </div>
+
+                  {/* Badge/Type */}
+                  <div className="mt-1">
+                    {PlatformTypeBadge ? (
+                      <PlatformTypeBadge type={p.type} isActive={isActive} />
+                    ) : (
+                      <span
+                        className={`text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded uppercase font-extrabold ${
+                          isActive
+                            ? "bg-white/20 text-white"
+                            : "bg-gray-100 text-gray-400"
+                        }`}
+                      >
+                        {p.type || "Sàn"}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Input and Output Section */}
+          <div className="mt-4 sm:mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+            {/* Input Card */}
+            <div className="lg:col-span-2 bg-white rounded-lg sm:rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-xl border border-gray-100">
+              {isLinkRequired ? (
+                // Case 1: Cashback Product/Service (Link Required)
+                <>
+                  <label className="text-sm sm:text-base md:text-lg text-gray-800 font-bold flex items-center mb-2 sm:mb-3">
                     {inputLabel}
                   </label>
-                  <div className="flex gap-3">
-                    <input
-                      type="text"
-                      value={inputLink}
-                      onChange={(e) => setInputLink(e.target.value)}
-                      placeholder={inputPlaceholder}
-                      className={`flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 ${PRIMARY_RING_COLOR} transition`}
-                      disabled={isGenerating}
-                    />
+
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
+                    {/* Input + Paste icon trên mobile */}
+                    <div className="relative flex-1 w-full">
+                      <Input
+                        type="text"
+                        value={inputLink}
+                        onChange={(e) => setInputLink(e.target.value)}
+                        placeholder={inputPlaceholder}
+                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-base sm:text-lg rounded-lg md:rounded-xl bg-gray-50 transition pr-10 sm:pr-4"
+                        disabled={isGenerating}
+                      />
+                      {/* Paste icon chỉ hiển thị mobile */}
+                      <button
+                        onClick={async () => {
+                          try {
+                            const text = await navigator.clipboard.readText();
+                            setInputLink(text);
+                          } catch (err) {
+                            console.error("Failed to read clipboard:", err);
+                          }
+                        }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 sm:hidden flex items-center justify-center p-1 text-gray-600 hover:text-gray-800"
+                        title="Dán từ clipboard"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Desktop: Paste button */}
+                    <button
+                      onClick={async () => {
+                        try {
+                          const text = await navigator.clipboard.readText();
+                          setInputLink(text);
+                        } catch (err) {
+                          console.error("Failed to read clipboard:", err);
+                        }
+                      }}
+                      className="hidden sm:flex items-center justify-center gap-2 w-auto px-3 py-2.5 text-sm sm:text-base bg-gray-100 text-gray-700 rounded-lg md:rounded-xl font-semibold border border-gray-300 hover:bg-gray-200 transition"
+                      title="Dán từ clipboard"
+                    >
+                      <Clipboard size={16} />
+                    </button>
+
+                    {/* Tạo link button */}
                     <button
                       onClick={handleGenerate}
-                      className={`px-4 py-2 ${PRIMARY_COLOR} text-white rounded-lg font-bold hover:bg-[#01966a] transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
-                      disabled={isGenerating}
+                      disabled={isButtonDisabled}
+                      className="mt-2 sm:mt-0 w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 text-base sm:text-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl md:rounded-xl font-extrabold hover:from-[#AD1457] hover:to-[#E65100] transition shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isGenerating ? (
-                        <Loader size={16} className="animate-spin" />
+                        <Loader size={18} className="animate-spin sm:mr-2" />
                       ) : (
-                        <RefreshCcw size={16} className="mr-1" />
+                        <CornerDownRight size={18} className="sm:mr-2" />
                       )}
-                      {isGenerating ? "Đang tạo..." : "Cập nhật"}
+                      <span className="inline">
+                        {isGenerating ? "Đang tạo..." : "Tạo link"}
+                      </span>
                     </button>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">{helperText}</p>
-                </div>
-              </div>
-            )}
 
-            {/* Offer preview */}
-            {currentOffer && (
-              <OfferPreview offer={currentOffer} type={activePlatform.type} />
-            )}
+                  {helperText && (
+                    <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
+                      {helperText}
+                    </p>
+                  )}
+                </>
+              ) : (
+                // Case 2: Trade/Finance (Link Auto-Generated, Input is Optional Update)
+                <div className="space-y-2 md:space-y-3">
+                  <div className="text-sm sm:text-base md:text-lg text-gray-800 font-extrabold mb-3 md:mb-4 flex items-center">
+                    <Shield size={16} className="inline mr-2 text-purple-600" />
+                    Link ĐĂNG KÝ/TƯ VẤN đã được tạo tự động!
+                  </div>
 
-            {/* Disclaimer for trade/finance */}
-            {(activePlatform.type === "trade" ||
-              activePlatform.type === "finance") && (
-              <div className="mt-4 p-3 bg-yellow-50 rounded-lg text-yellow-800 text-sm border border-yellow-200">
-                <Shield size={16} className="inline mr-2" />
-                Link này là link đăng ký/tư vấn cá nhân hóa. Vui lòng không dán
-                link sản phẩm.
-              </div>
-            )}
-          </div>
-
-          {/* Output Link Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100 flex flex-col">
-            <div className="text-sm text-gray-700 font-semibold mb-3">
-              Link{" "}
-              {activePlatform.type === "trade"
-                ? "Rebate"
-                : activePlatform.type === "finance"
-                ? "Tư Vấn"
-                : "Hoàn Tiền"}{" "}
-              đã tạo
-            </div>
-            <input
-              readOnly
-              value={
-                generatedLink || (isGenerating ? "Đang tải..." : "Chưa có link")
-              }
-              placeholder="Chưa có link"
-              className="w-full px-4 py-3 bg-gray-100 rounded-xl border border-gray-200 text-sm truncate"
-            />
-
-            <div className="mt-4 flex gap-3">
-              <button
-                onClick={handleCopy}
-                className={`flex-1 px-4 py-3 ${
-                  isCopying ? "bg-green-600" : "bg-orange-500"
-                } text-white rounded-xl font-semibold transition duration-300 hover:opacity-95 flex items-center justify-center disabled:opacity-50`}
-                disabled={!generatedLink}
-              >
-                <Copy size={18} className="mr-2" />
-                {isCopying ? "Đã sao chép!" : "Sao chép"}
-              </button>
-              <button
-                onClick={handleOpen}
-                className="px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:opacity-95 disabled:opacity-50"
-                disabled={!generatedLink}
-              >
-                Mở
-              </button>
-              <button
-                onClick={() =>
-                  showToast("Chức năng QR đang phát triển", "info")
-                }
-                className="w-12 h-auto bg-gray-100 rounded-xl text-gray-600 hover:bg-gray-200 transition"
-              >
-                QR
-              </button>
-            </div>
-
-            <div className="mt-4 text-xs text-gray-500 border-t pt-3">
-              <p>Link có thời hạn 30 ngày kể từ ngày tạo.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* History and Recommended Offers */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Search history */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="font-bold text-xl text-gray-800">
-                Lịch sử tạo link
-              </div>
-              <div className="relative">
-                <Search
-                  size={16}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Tìm theo tiêu đề"
-                  className="text-sm px-10 py-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-              {filteredHistory.length === 0 && (
-                <div className="text-center text-gray-500 py-4">
-                  Chưa có lịch sử hoặc không tìm thấy kết quả.
+                  <div className="flex flex-col gap-2 p-3 md:p-4 bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
+                    <label className="text-sm sm:text-base text-gray-700 font-bold flex items-center">
+                      {inputLabel}
+                    </label>
+                    <div className="flex gap-2 md:gap-3">
+                      <input
+                        type="text"
+                        value={inputLink}
+                        onChange={(e) => setInputLink(e.target.value)}
+                        placeholder={inputPlaceholder}
+                        className="flex-1 px-3 py-2 md:px-4 md:py-2 text-base sm:text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 ring-pink-300 focus:border-[#E91E63] transition"
+                        disabled={isGenerating}
+                      />
+                      <button
+                        onClick={handleGenerate}
+                        className="px-3 py-2 md:px-4 md:py-2 text-sm sm:text-base bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-extrabold hover:from-[#AD1457] hover:to-[#E65100] transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
+                        disabled={isGenerating}
+                      >
+                        {isGenerating ? (
+                          <Loader size={14} className="animate-spin" />
+                        ) : (
+                          <RefreshCcw size={14} className="md:mr-1" />
+                        )}
+                        <span className="hidden md:inline">
+                          {isGenerating ? "Đang tạo..." : "Cập nhật"}
+                        </span>
+                      </button>
+                    </div>
+                    <p className="text-sm sm:text-base text-gray-600 mt-1 font-medium">
+                      {helperText}
+                    </p>
+                  </div>
                 </div>
               )}
 
-              {filteredHistory.map((h) => (
-                <div
-                  key={h.id}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100"
-                >
-                  <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold bg-gray-100 text-gray-600 shadow-md flex-shrink-0`}
-                  >
-                    {PLATFORMS.find((p) => p.id === h.platform)?.logo ||
-                      h.platform.charAt(0)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-800 truncate">
-                      {h.title}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-0.5 flex items-center">
-                      <PlatformTypeBadge type={h.type} isActive={false} />
-                      <span className="ml-2 text-gray-500">
-                        Tạo lúc: {new Date(h.createdAt).toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </div>
-                  <a
-                    href={h.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`px-4 py-2 ${PRIMARY_COLOR} text-white rounded-lg text-sm font-medium hover:bg-[#01966a] transition flex-shrink-0`}
-                  >
-                    Mở link
-                  </a>
+              {/* Offer preview */}
+              {currentOffer && (
+                <OfferPreview offer={currentOffer} type={activePlatform.type} />
+              )}
+
+              {/* Disclaimer for trade/finance */}
+              {(activePlatform.type === "trade" ||
+                activePlatform.type === "finance") && (
+                <div className="mt-3 md:mt-4 p-2.5 md:p-3 bg-yellow-50 rounded-lg text-yellow-800 text-sm sm:text-base font-semibold border border-yellow-200">
+                  <Shield size={16} className="inline mr-1.5 md:mr-2" />
+                  Link này là link đăng ký/tư vấn cá nhân hóa. Vui lòng không
+                  dán link sản phẩm.
                 </div>
-              ))}
+              )}
+            </div>
+
+            {/* Output Link Card */}
+            <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100 flex flex-col">
+              <div className="text-base sm:text-lg md:text-xl text-gray-800 font-extrabold mb-2 md:mb-3">
+                Link{" "}
+                {activePlatform.type === "trade"
+                  ? "Rebate"
+                  : activePlatform.type === "finance"
+                  ? "Tư Vấn"
+                  : "Hoàn Tiền"}{" "}
+                đã tạo
+              </div>
+              <Input
+                readOnly
+                value={
+                  generatedLink ||
+                  (isGenerating ? "Đang tải..." : "Chưa có link")
+                }
+                placeholder="Chưa có link"
+                className="w-full px-3 py-2 md:px-4 md:py-3 text-sm sm:text-base md:text-lg bg-gray-100 rounded-lg md:rounded-xl border border-gray-200 truncate font-medium"
+              />
+
+              <div className="mt-3 md:mt-4 flex gap-2 md:gap-3">
+                <button
+                  onClick={handleCopy}
+                  className={` px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg ${
+                    isCopying
+                      ? "bg-green-600"
+                      : "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"
+                  } text-white rounded-lg md:rounded-xl font-semibold transition duration-300 hover:opacity-90 flex items-center justify-center disabled:opacity-50`}
+                  disabled={!generatedLink}
+                >
+                  <Copy size={16} />
+                </button>
+                <button
+                  onClick={handleOpen}
+                  className="px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg md:rounded-xl font-extrabold hover:opacity-90 disabled:opacity-50"
+                  disabled={!generatedLink}
+                >
+                  <ExternalLink size={16} />
+                </button>
+                <button
+                  onClick={() => {
+                    if (generatedLink && currentOffer) {
+                      setQrModal({
+                        show: true,
+                        link: generatedLink,
+                        title: currentOffer.title,
+                      });
+                    } else {
+                      notification({
+                        type: "error",
+                        message: "Chưa có link để tạo QR",
+                      });
+                    }
+                  }}
+                  className="w-10 h-10 md:w-12 md:h-auto shrink-0 bg-gray-100 rounded-lg md:rounded-xl text-sm sm:text-base text-gray-600 hover:bg-gray-200 transition disabled:opacity-50 flex items-center justify-center"
+                  disabled={!generatedLink}
+                >
+                  <QrCode size={16} />
+                </button>
+              </div>
+
+              <div className="mt-3 md:mt-4 text-sm sm:text-base text-gray-600 border-t pt-2 md:pt-3 font-medium">
+                <p>Link có thời hạn 30 ngày kể từ ngày tạo.</p>
+              </div>
             </div>
           </div>
 
-          {/* Quick list of recommended offers */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
-            <div className="font-bold text-xl text-gray-800 mb-4">
-              Ưu đãi nổi bật đang hot (Sản phẩm & Dịch vụ)
-            </div>
-            <div className="space-y-4">
-              {SAMPLE_PRODUCTS.map((p) => (
-                <div
-                  key={p.id}
-                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition cursor-pointer"
-                  onClick={() => {
-                    setInputLink(
-                      p.platform === "shopee"
-                        ? "https://shopee.vn/product/17227968/41052353272" // Dùng link mẫu có sẵn trong server.js
-                        : `https://${p.platform}.com/product/${p.id}`
-                    );
-                    handleSelectPlatform(p.platform);
-                  }}
-                >
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-800 text-sm truncate">
-                      {p.title}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {p.shop} ({p.platform})
-                    </div>
+          {/* Priority Products Section */}
+          <div className="mt-6 md:mt-8">
+            <PriorityProducts
+              limit={6}
+              platform={activePlatformId}
+              onProductClick={(product) => {
+                // Auto-fill the product URL when clicked
+                setInputLink(product.productUrl);
+                handleSelectPlatform("shopee");
+              }}
+            />
+          </div>
+
+          {/* History and Recommended Offers */}
+          <div className="mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            {/* Search history */}
+            <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
+              <div className="flex items-center justify-between mb-3 md:mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shrink-0">
+                    <svg
+                      className="w-4 h-4 md:w-5 md:h-5 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
                   </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-red-600 font-bold text-base">
-                      {p.rateText}
+                  <div>
+                    <div className="font-extrabold text-lg sm:text-xl md:text-2xl text-gray-900">
+                      Lịch sử tạo link
                     </div>
-                    <div className="text-gray-500 text-xs mt-0.5 line-through">
-                      {p.priceText}
+                    <div className="text-sm sm:text-base text-gray-600 font-medium">
+                      {history.length} link đã tạo
                     </div>
                   </div>
                 </div>
-              ))}
-              {/* Placeholder for Loan/Trade Hot Deals */}
-              <div className="mt-4 p-3 bg-purple-50 rounded-lg text-purple-800 text-sm border border-purple-200">
-                <Shield size={16} className="inline mr-2" />
-                Liên hệ hỗ trợ viên để nhận link Rebate Crypto/Forex hoặc tư vấn
-                Vay ưu đãi tốt nhất.
+                <div className="relative hidden sm:block">
+                  <Search
+                    size={14}
+                    className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Tìm kiếm..."
+                    className="text-xs md:text-sm px-8 md:px-10 py-1.5 md:py-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300 w-32 md:w-48"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2 max-h-[400px] md:max-h-[500px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                {loadingHistory ? (
+                  <div className="text-center py-12">
+                    <Loader className="w-8 h-8 mx-auto mb-4 text-pink-500 animate-spin" />
+                    <p className="text-gray-500 font-medium">
+                      Đang tải lịch sử...
+                    </p>
+                  </div>
+                ) : filteredHistory.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                      <svg
+                        className="w-10 h-10 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-gray-500 font-medium">
+                      {query ? "Không tìm thấy kết quả" : "Chưa có lịch sử"}
+                    </p>
+                    <p className="text-sm text-gray-400 mt-1">
+                      {query ? "Thử từ khóa khác" : "Tạo link đầu tiên của bạn"}
+                    </p>
+                  </div>
+                ) : null}
+
+                {!loadingHistory &&
+                  filteredHistory.map((h) => {
+                    const platform = PLATFORMS.find((p) => p.id === h.platform);
+                    return (
+                      <div
+                        key={h.id}
+                        className="group flex items-center gap-2 md:gap-3 p-2.5 md:p-3 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-gray-100 hover:border-gray-200"
+                      >
+                        {/* Product image or platform icon */}
+                        <div className="shrink-0 relative">
+                          <img
+                            src={h.imageUrl || ""}
+                            alt={h.title}
+                            className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover border border-gray-200"
+                            style={{ display: h.imageUrl ? "block" : "none" }}
+                            onError={(e) => {
+                              // Fallback to platform icon if image fails
+                              const target =
+                                e.currentTarget as HTMLImageElement;
+                              target.style.display = "none";
+                            }}
+                          />
+                          <div
+                            className={`w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-white font-bold shadow-sm ${
+                              h.platform === "shopee"
+                                ? "bg-orange-500"
+                                : h.platform === "tiki"
+                                ? "bg-blue-500"
+                                : h.platform === "lazada"
+                                ? "bg-purple-600"
+                                : "bg-gray-400"
+                            }`}
+                            style={{ display: h.imageUrl ? "none" : "flex" }}
+                          >
+                            {platform?.logo &&
+                            typeof platform.logo === "string" ? (
+                              <img
+                                src={platform.logo}
+                                alt={h.platform}
+                                className="w-6 h-6 md:w-8 md:h-8 object-contain"
+                              />
+                            ) : (
+                              <span className="text-sm md:text-base">
+                                {h.platform.charAt(0).toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <h3 className="font-semibold text-gray-800 text-sm leading-tight line-clamp-2 group-hover:text-pink-700 transition-colors">
+                              {h.title}
+                            </h3>
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-wrap mt-2">
+                            <PlatformTypeBadge type={h.type} isActive={false} />
+                            <span className="text-xs text-gray-400 flex items-center gap-1">
+                              <svg
+                                className="w-3 h-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                              {new Date(h.createdAt).toLocaleString("vi-VN", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                day: "2-digit",
+                                month: "2-digit",
+                              })}
+                            </span>
+                          </div>
+
+                          {/* Price and Commission Info */}
+                          {h.productPrice && (
+                            <div className="flex items-center gap-3 mt-2 text-xs">
+                              <span className="text-gray-600">
+                                Giá:{" "}
+                                <span className="font-semibold text-gray-800">
+                                  {formatCurrency(h.productPrice)}
+                                </span>
+                              </span>
+                              {h.commissionRate && h.estimatedCommission && (
+                                <>
+                                  <span className="text-gray-300">•</span>
+                                  <span className="text-green-600 font-semibold flex items-center gap-1">
+                                    <Zap size={12} className="inline" />
+                                    {(h.commissionRate * 100).toFixed(1)}% (~
+                                    {formatCurrency(h.estimatedCommission)})
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Action buttons */}
+                          <div className="flex gap-1.5 mt-2">
+                            <a
+                              href={h.link}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="px-2 py-1 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded text-xs font-medium hover:opacity-90 transition flex items-center gap-1 cursor-pointer"
+                            >
+                              <ExternalLink size={10} />
+                            </a>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText(h.link);
+                                notification({
+                                  type: "success",
+                                  message: "Đã sao chép link vào clipboard",
+                                });
+                              }}
+                              className="px-2 py-1 bg-white border border-gray-200 text-gray-600 rounded text-xs font-medium hover:bg-gray-50 transition flex items-center gap-1
+                              cupointer"
+                            >
+                              <Copy size={10} />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setQrModal({
+                                  show: true,
+                                  link: h.link,
+                                  title: h.title,
+                                });
+                              }}
+                              className="px-2 py-1 bg-white border border-gray-200 text-gray-600 rounded text-xs font-medium hover:bg-gray-50 transition cursor-pointer"
+                            >
+                              <QrCode size={10} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Quick list of recommended offers */}
+            <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
+              <div className="font-bold text-lg md:text-xl lg:text-2xl text-gray-800 mb-4 md:mb-6">
+                Ưu đãi nổi bật đang hot (Sản phẩm & Dịch vụ)
+              </div>
+              <div className="space-y-4">
+                {SAMPLE_PRODUCTS.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition cursor-pointer"
+                    onClick={() => {
+                      setInputLink(
+                        p.platform === "shopee"
+                          ? "https://shopee.vn/product/17227968/41052353272" // Dùng link mẫu có sẵn trong server.js
+                          : `https://${p.platform}.com/product/${p.id}`
+                      );
+                      handleSelectPlatform(p.platform);
+                    }}
+                  >
+                    <img
+                      src={p.img}
+                      alt={p.title}
+                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover shadow-sm flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-gray-800 text-sm sm:text-base truncate">
+                        {p.title}
+                      </div>
+                      <div className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
+                        {p.shop} ({p.platform})
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <div className="text-[#E91E63] font-bold text-sm sm:text-base">
+                        {p.rateText}
+                      </div>
+                      <div className="text-gray-500 text-xs mt-0.5 line-through">
+                        {p.priceText}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {/* Placeholder for Loan/Trade Hot Deals */}
+                <div className="mt-4 p-3 bg-purple-50 rounded-lg text-purple-800 text-sm border border-purple-200">
+                  <Shield size={16} className="inline mr-2" />
+                  Liên hệ hỗ trợ viên để nhận link Rebate Crypto/Forex hoặc tư
+                  vấn Vay ưu đãi tốt nhất.
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Footer info (Completed the incomplete tag) */}
-        <footer className="mt-12 text-sm text-gray-500 text-center border-t border-gray-200 pt-6">
-          <p>
-            &copy; {new Date().getFullYear()} Cashback Hub. Tất cả quyền được
-            bảo lưu.
-          </p>
-        </footer>
       </div>
-    </div>
+    </>
   );
 }

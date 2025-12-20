@@ -122,6 +122,36 @@ export interface CashbackFilters {
   sortOrder?: "asc" | "desc";
 }
 
+export interface ShopeeProductInfo {
+  originalUrl: string;
+  cleanUrl: string;
+  productId: string | null;
+  shopId: string | number;
+  itemId: string | number;
+  productName: string | null;
+  imageUrl: string | null;
+  affiliateUrl: string | null;
+  productLink: string;
+  // Commission info
+  commission: number | null;
+  commissionRate: string | null;
+  sellerCommissionRate: string | null;
+  shopeeCommissionRate: string | null;
+  // Price info
+  priceMin: string | null;
+  // Cashback for user
+  estimatedCashback: number | null;
+  cashbackRate: number;
+  // Short link
+  shortLink?: {
+    shortCode: string;
+    shortUrl: string;
+    originalUrl: string;
+    createdAt: string;
+    expiresAt: string;
+  };
+}
+
 const cashbackService = {
   /**
    * Tạo cashback mới (admin)
@@ -321,6 +351,226 @@ const cashbackService = {
   }> => {
     const response = await http.get("/csv", { params });
     return response.data.data;
+  },
+
+  // ============================================
+  // Shopee Link Conversion APIs
+  // ============================================
+
+  /**
+   * Convert Shopee link to affiliate link with product info
+   */
+  convertShopeeLink: async (
+    url: string,
+    userId?: string
+  ): Promise<ShopeeProductInfo> => {
+    const params: any = { url };
+    if (userId) params.userId = userId;
+
+    const response = await http.get("/affiliate/convert", { params });
+    const { convertedLink, shortLink } = response.data.data;
+    // Merge shortLink info into convertedLink
+    return { ...convertedLink, shortLink };
+  },
+
+  // ============================================
+  // Link Management APIs
+  // ============================================
+
+  /**
+   * Lấy danh sách link của user
+   */
+  getUserLinks: async (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    platform?: string;
+    search?: string;
+  }): Promise<{ links: any[]; total: number; totalPages: number }> => {
+    const response = await http.get("/management/links/my-links", { params });
+    return response.data.data;
+  },
+
+  /**
+   * Lấy thống kê link của user
+   */
+  getUserLinkStats: async (): Promise<any> => {
+    const response = await http.get("/management/links/my-stats");
+    return response.data.data.stats;
+  },
+
+  /**
+   * Lấy tất cả links (admin)
+   */
+  getAllLinks: async (params?: {
+    userId?: string;
+    platform?: string;
+    status?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+  }): Promise<{ links: any[]; total: number; totalPages: number }> => {
+    const response = await http.get("/management/admin/links", { params });
+    return response.data.data;
+  },
+
+  /**
+   * Cập nhật status link (admin)
+   */
+  updateLinkStatus: async (
+    linkId: string,
+    status: "active" | "expired" | "suspended"
+  ): Promise<any> => {
+    const response = await http.patch(
+      `/management/admin/links/${linkId}/status`,
+      { status }
+    );
+    return response.data.data.link;
+  },
+
+  /**
+   * Xóa link (admin)
+   */
+  deleteLink: async (linkId: string): Promise<void> => {
+    await http.delete(`/management/admin/links/${linkId}`);
+  },
+
+  /**
+   * Lấy thống kê tổng quan links (admin)
+   */
+  getOverallLinkStats: async (): Promise<any> => {
+    const response = await http.get("/management/admin/links/stats/overall");
+    return response.data.data.stats;
+  },
+
+  // ============================================
+  // Order Tracking & Cashback History APIs
+  // ============================================
+
+  /**
+   * Lấy lịch sử cashback của user
+   */
+  getUserOrders: async (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    type?: string;
+    search?: string;
+  }): Promise<{ orders: any[]; total: number; totalPages: number }> => {
+    const response = await http.get("/cashback/history", { params });
+    return response.data.data;
+  },
+
+  /**
+   * Lấy thống kê cashback của user
+   */
+  getUserCashbackStatsNew: async (): Promise<any> => {
+    const response = await http.get("/cashback/stats");
+    return response.data.data.stats;
+  },
+
+  /**
+   * Lấy tất cả orders (admin)
+   */
+  getAllOrders: async (params?: {
+    userId?: string;
+    platform?: string;
+    orderStatus?: string;
+    cashbackStatus?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+    fromDate?: string;
+    toDate?: string;
+  }): Promise<{ orders: any[]; total: number; totalPages: number }> => {
+    const response = await http.get("/management/admin/orders", { params });
+    return response.data.data;
+  },
+
+  /**
+   * Tạo order tracking (admin)
+   */
+  createOrder: async (orderData: any): Promise<any> => {
+    const response = await http.post("/management/admin/orders", orderData);
+    return response.data.data.order;
+  },
+
+  /**
+   * Cập nhật order tracking (admin)
+   */
+  updateOrder: async (orderId: string, orderData: any): Promise<any> => {
+    const response = await http.put(
+      `/management/admin/orders/${orderId}`,
+      orderData
+    );
+    return response.data.data.order;
+  },
+
+  /**
+   * Xóa order tracking (admin)
+   */
+  deleteOrder: async (orderId: string): Promise<any> => {
+    const response = await http.delete(`/management/admin/orders/${orderId}`);
+    return response.data;
+  },
+
+  /**
+   * Duyệt order (admin)
+   */
+  approveOrder: async (orderId: string): Promise<any> => {
+    const response = await http.patch(
+      `/management/admin/orders/${orderId}/approve`
+    );
+    return response.data.data.order;
+  },
+
+  /**
+   * Từ chối order (admin)
+   */
+  rejectOrder: async (orderId: string, reason: string): Promise<any> => {
+    const response = await http.patch(
+      `/management/admin/orders/${orderId}/reject`,
+      { reason }
+    );
+    return response.data.data.order;
+  },
+
+  /**
+   * Đánh dấu đã thanh toán (admin)
+   */
+  markOrderAsPaid: async (orderId: string): Promise<any> => {
+    const response = await http.patch(
+      `/management/admin/orders/${orderId}/mark-paid`
+    );
+    return response.data.data.order;
+  },
+
+  /**
+   * Bulk approve orders (admin)
+   */
+  bulkApproveOrders: async (orderIds: string[]): Promise<number> => {
+    const response = await http.post("/management/admin/orders/bulk-approve", {
+      orderIds,
+    });
+    return response.data.data.count;
+  },
+
+  /**
+   * Bulk mark as paid (admin)
+   */
+  bulkMarkAsPaid: async (orderIds: string[]): Promise<number> => {
+    const response = await http.post("/management/admin/orders/bulk-paid", {
+      orderIds,
+    });
+    return response.data.data.count;
+  },
+
+  /**
+   * Lấy thống kê tổng quan orders (admin)
+   */
+  getOverallOrderStats: async (): Promise<any> => {
+    const response = await http.get("/management/admin/orders/stats/overall");
+    return response.data.data.stats;
   },
 
   // ============================================
