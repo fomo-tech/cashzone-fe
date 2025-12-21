@@ -163,7 +163,7 @@ const LeaderBoard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-orange-50 text-gray-900 font-sans p-2 md:p-3 lg:p-4">
+    <div className="min-h-screen  text-gray-900 font-sans p-2 md:p-3 lg:p-4">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         {/* Header Section */}
         <div className="relative w-full text-center mb-6 md:mb-8 lg:mb-12 mt-3 md:mt-4 lg:mt-6">

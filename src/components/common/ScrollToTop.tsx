@@ -33,7 +33,7 @@ const ScrollToTop: React.FC = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 group"
+          className="fixed bottom-20 sm:bottom-6  right-2 sm:right-6 z-50 group"
           aria-label="Lên đầu trang"
         >
           <div className="relative">

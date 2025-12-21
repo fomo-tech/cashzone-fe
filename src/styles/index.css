@@ -19,12 +19,39 @@
   --primary-shadow: rgba(233, 30, 99, 0.25);
 }
 
+/* Disable zoom on mobile */
+* {
+  touch-action: manipulation;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 input,
 textarea,
 select,
 button {
   font-family: "Inter", sans-serif;
   outline: none;
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+
+/* Prevent double-tap zoom */
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
 }
 /* 🚨 QUAN TRỌNG: Thử thêm các biến CSS vào lớp utilities */
 @layer utilities {

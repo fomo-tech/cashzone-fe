@@ -48,13 +48,19 @@ export interface User {
 export interface AuthState {
   user: User | null;
   accessToken: string | null;
-  handleToggleAuthModal: () => void;
+  handleToggleAuthModal: (payload?: {
+    isOpen?: boolean;
+    mode?: "signin" | "signup";
+  }) => void;
   refreshToken: string | null;
   tokens: string | null;
   loading: boolean;
   isAuthenticated: boolean;
   setUser: (user: User | null) => void;
-  isAuthModalOpen: boolean;
+  isAuthModalOpen: {
+    isOpen: boolean;
+    mode: "signin" | "signup";
+  };
   init: () => void;
   login: (data: {
     user: User;

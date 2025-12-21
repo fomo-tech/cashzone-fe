@@ -216,18 +216,18 @@ const NotificationDropdown = () => {
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
 
           <div
-            className="absolute right-0 mt-4 w-80 sm:w-[420px] bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl border border-gray-200/50 z-50 overflow-hidden animate-in slide-in-from-top-2 duration-300"
+            className="fixed sm:absolute right-2 sm:right-0 left-2 sm:left-auto top-16 sm:top-auto sm:mt-4 sm:w-[420px] bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl border border-gray-200/50 z-50 overflow-hidden animate-in slide-in-from-top-2 duration-300"
             style={{ transformOrigin: "top right" }}
           >
             {/* Header với gradient */}
-            <div className="relative px-5 py-4 border-b border-gray-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
+            <div className="relative px-4 sm:px-5 py-3 sm:py-4 border-b border-gray-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl shadow-lg">
                     <Bell className="w-4 h-4 text-white" strokeWidth={2} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
                       Thông báo
                     </h3>
                     <p className="text-xs text-slate-500">
@@ -239,7 +239,7 @@ const NotificationDropdown = () => {
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="group flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all duration-200 hover:shadow-lg"
+                    className="group flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-semibold text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all duration-200 hover:shadow-lg"
                   >
                     <CheckCheck className="w-3.5 h-3.5" strokeWidth={2.5} />
                     <span className="hidden sm:inline">Đọc hết</span>
@@ -249,7 +249,7 @@ const NotificationDropdown = () => {
             </div>
 
             {/* Body - Danh sách thông báo với custom scrollbar */}
-            <div className="max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+            <div className="max-h-[50vh] sm:max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-12 px-6">
                   <Loader2 className="w-8 h-8 text-[#E91E63] animate-spin mb-3" />
@@ -275,7 +275,7 @@ const NotificationDropdown = () => {
                     <div
                       key={item._id}
                       onClick={() => handleItemClick(item._id)}
-                      className={`group relative px-5 py-4 cursor-pointer transition-all duration-200 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50 ${
+                      className={`group relative px-3 sm:px-5 py-3 sm:py-4 cursor-pointer transition-all duration-200 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50 ${
                         !item.read ? "bg-pink-50/30" : "bg-white"
                       }`}
                       style={{
@@ -292,12 +292,12 @@ const NotificationDropdown = () => {
                         <div className="relative shrink-0 group-hover:scale-110 transition-transform duration-200">
                           {getNotificationIcon(item.type)}
                           {!item.read && (
-                            <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 sm:h-3 sm:w-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
                           )}
                         </div>
 
                         {/* Nội dung thông báo */}
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 pr-6 sm:pr-8">
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <h4
                               className={`text-sm font-semibold leading-snug line-clamp-2 ${
@@ -336,7 +336,7 @@ const NotificationDropdown = () => {
                       </div>
 
                       {/* Hover arrow indicator */}
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <svg
                           className="w-4 h-4 text-[#E91E63]"
                           fill="none"

@@ -13,7 +13,7 @@ class SocketService {
    */
   connect(token?: string): void {
     if (this.socket?.connected) {
-      console.log("Socket already connected");
+      // console.log("Socket already connected");
       return;
     }
 

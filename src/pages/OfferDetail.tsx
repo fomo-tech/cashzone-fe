@@ -431,7 +431,7 @@ const OfferDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen pb-16">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header and Back Button */}
         <div className="mb-6 flex justify-between items-center">
           <button

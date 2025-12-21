@@ -13,7 +13,7 @@ const MainLayout = () => {
         <Header />
 
         {/* Main Content */}
-        <main className="flex-1 p-4 lg:p-8 overflow-y-auto pt-16 md:pt-4">
+        <main className="flex-1 p-1 lg:p-8 overflow-y-auto  md:pt-4">
           <Outlet />
         </main>
       </div>

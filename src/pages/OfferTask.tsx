@@ -501,17 +501,24 @@ export default function App() {
                   Sắp xếp theo
                 </label>
                 <div className="relative">
+                  <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 pointer-events-none z-10">
+                    {sortOrder === "reward" ? (
+                      <TrendingUp size={16} className="text-[#E91E63]" />
+                    ) : (
+                      <Zap size={16} className="text-[#FF8C1A]" />
+                    )}
+                  </div>
                   <select
                     value={sortOrder}
                     onChange={(e) =>
                       setSortOrder(e.target.value as "reward" | "newest")
                     }
-                    className="w-full py-3 pl-4 pr-10 border-2 border-gray-200 bg-white rounded-xl text-sm font-medium 
+                    className="w-full py-3 pl-11 pr-10 border-2 border-gray-200 bg-white rounded-xl text-sm font-medium 
                              focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
                              hover:border-gray-300 transition-all appearance-none cursor-pointer"
                   >
-                    <option value="reward">💰 Phần thưởng cao nhất</option>
-                    <option value="newest">✨ Mới nhất</option>
+                    <option value="reward">Phần thưởng cao nhất</option>
+                    <option value="newest">Mới nhất</option>
                   </select>
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                     <svg

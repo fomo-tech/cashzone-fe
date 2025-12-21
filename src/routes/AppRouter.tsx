@@ -34,6 +34,7 @@ import SettingsPage from "@/pages/Setting";
 import Activities from "@/pages/Activities";
 import HomePage from "@/pages/Home";
 import CashbackHistory from "@/pages/CashbackHistory";
+import GuidePage from "@/pages/Guide";
 
 import { PrivateRoute } from "./PrivateRoute";
 import { RoleRoute } from "./RoleRoute";
@@ -88,6 +89,7 @@ export const AppRouter = () => (
         <Route path="/wallet" element={<WalletManagement />} />
         <Route path="/activities" element={<Activities />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/guide" element={<GuidePage />} />
         <Route path="/cashback-history" element={<CashbackHistory />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/notifications/:id" element={<NotificationDetail />} />

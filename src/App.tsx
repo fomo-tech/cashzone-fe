@@ -3,17 +3,13 @@ import { useAuthInit } from "./hooks/useAuthInit";
 import "sweetalert2/src/sweetalert2.scss";
 import CustomToast from "./components/common/CustomToast";
 import { useAppStore } from "./store/appStore";
-import { useConfirmModal } from "./hooks/useConfirmModal";
-import { ConfirmModal } from "./components/common/ConfirmModal";
 import AuthModal from "./components/element/AuthModal";
-import { useAuthStore } from "./store/authStore";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   useAuthInit();
   const { toast } = useAppStore();
-  const { isAuthModalOpen, handleToggleAuthModal } = useAuthStore();
 
   return (
     <>
@@ -24,7 +20,7 @@ function App() {
         isVisible={toast?.isVisible || false}
         timer={toast?.timer || 3000}
       />
-      <AuthModal onClose={handleToggleAuthModal} isOpen={isAuthModalOpen} />
+      <AuthModal />
       <Toaster
         position="top-right"
         toastOptions={{

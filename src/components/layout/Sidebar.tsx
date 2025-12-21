@@ -1,11 +1,10 @@
 import { useAuthStore } from "@/store/authStore";
 import { RoleEnum } from "@/utils/types";
-import { useTranslation } from "react-i18next";
 import logo from "@/assets/logo.svg";
 
 import clsx from "clsx";
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import authService from "@/services/authService";
 
 interface MenuItem {
@@ -110,13 +109,13 @@ const menuItemsClient: MenuItem[] = [
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke="currentColor"
         className="size-6"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"
         />
       </svg>
@@ -170,6 +169,7 @@ const menuItemsClient: MenuItem[] = [
     ),
     roles: ["guest", "user"],
   },
+
   {
     name: "Hồ Sơ",
     href: "/profile",
@@ -428,7 +428,6 @@ const Sidebar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { user, isAuthenticated } = useAuthStore();
-  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -496,7 +495,7 @@ const Sidebar: React.FC = () => {
       {/* Sidebar */}
       <div
         className={clsx(
-          "fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-white via-pink-50/30 to-orange-50/20 border-r border-pink-100/50 backdrop-blur-sm transition-transform duration-300 z-50 shadow-xl shadow-pink-100/20",
+          "fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-white via-pink-50/30 to-orange-50/20 border-r border-pink-100/50 backdrop-blur-2xl transition-transform duration-300 shadow-xl shadow-pink-100/20 z-100",
           {
             "transform -translate-x-full md:translate-x-0": !isMobileMenuOpen,
             "transform translate-x-0": isMobileMenuOpen,
@@ -557,25 +556,28 @@ const Sidebar: React.FC = () => {
                 <div className="px-4 text-xs font-semibold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent uppercase tracking-wider mb-2">
                   Hỗ Trợ
                 </div>
-                <a
-                  href="/guide"
+                <Link
+                  to="/guide"
                   className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
                     fill="none"
                     viewBox="0 0 24 24"
+                    strokeWidth={1.5}
                     stroke="currentColor"
-                    strokeWidth={2}
+                    className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
                   >
-                    <circle cx={12} cy={12} r={10} />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                    <path d="M12 17h.01" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                    />
                   </svg>
+
                   <span className="font-medium relative z-10">Hướng Dẫn</span>
-                </a>
+                </Link>
                 <a
                   href="/support"
                   className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"

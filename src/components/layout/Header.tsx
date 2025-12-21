@@ -1,46 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import logo_m from "@/assets/logo.svg";
 import UserMenu from "../element/UserMenu";
 import NotificationDropdown from "../element/NotificationDropdown";
-import AuthModal from "../element/AuthModal";
-import LanguageSwitcher from "../common/LanguageSwitcher";
 import { checkRole } from "@/utils/lib";
 import { useAuthStore } from "@/store/authStore";
 import { useSocketNotifications } from "@/hooks/useSocketNotifications";
-
-// Icons SVGs (Sử dụng inline SVG để giữ tính nhất quán với component gốc)
-
-const DollarSignIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-dollar-sign w-5 h-5"
-  >
-    <line x1="12" x2="12" y1="2" y2="22" />
-    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-  </svg>
-);
+import { Wallet2Icon } from "lucide-react";
 
 const Header = () => {
   const { user } = useAuthStore();
   const { t } = useTranslation();
-  const location = useLocation();
-  const [pageTitle, setPageTitle] = useState("Tổng Quan");
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState<{
-    isOpen: boolean;
-    mode: "signin" | "signup";
-  }>({ isOpen: false, mode: "signup" });
-
+  const { handleToggleAuthModal } = useAuthStore();
   // Socket notifications integration
   const { isConnected } = useSocketNotifications({
     onNewNotification: (notification) => {
@@ -51,8 +23,6 @@ const Header = () => {
         icon: "🔔",
       });
 
-      // You can trigger a refetch of notifications here if needed
-      // For example, emit a custom event to NotificationDropdown
       window.dispatchEvent(new CustomEvent("notification:new"));
     },
     onBroadcastNotification: (notification) => {
@@ -81,43 +51,9 @@ const Header = () => {
 
   useEffect(() => {
     if (isConnected && user) {
-      console.log("✅ Socket connected for user:", user.email);
+      console.log("Socket connected for user:", user.email);
     }
   }, [isConnected, user]);
-
-  // Update page title based on route
-  useEffect(() => {
-    const routeTitles: Record<string, string> = {
-      "/": "Trang Chủ",
-      "/dashboard": "Tổng Quan",
-      "/tasks": "Nhiệm Vụ",
-      "/cashback": "Cashback",
-      "/referrals": "Giới Thiệu",
-      "/ranks": "Bảng Xếp Hạng",
-      "/wallet": "Ví Tiền",
-      "/profile": "Hồ Sơ",
-      "/activities": "Hoạt Động",
-      "/settings": "Cài Đặt",
-      "/notifications": "Thông Báo",
-    };
-
-    // Check for dynamic routes
-    if (location.pathname.startsWith("/notifications/")) {
-      setPageTitle("Chi Tiết Thông Báo");
-    } else if (location.pathname.startsWith("/tasks/")) {
-      setPageTitle("Chi Tiết Nhiệm Vụ");
-    } else {
-      setPageTitle(routeTitles[location.pathname] || "Tổng Quan");
-    }
-  }, [location.pathname]);
-
-  const handleOpenAuthModal = (mode: "signin" | "signup") => {
-    setIsAuthModalOpen({ isOpen: true, mode });
-  };
-
-  const handleCloseAuthModal = () => {
-    setIsAuthModalOpen({ isOpen: false, mode: "signup" });
-  };
 
   return (
     <>
@@ -135,13 +71,20 @@ const Header = () => {
           {!user && (
             <>
               <button
-                onClick={() => handleOpenAuthModal("signin")}
+                onClick={() =>
+                  handleToggleAuthModal({ isOpen: true, mode: "signin" })
+                }
                 className="cursor-pointer px-3 sm:px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all text-sm"
               >
                 {t("auth.login")}
               </button>
               <button
-                onClick={() => handleOpenAuthModal("signup")}
+                onClick={() =>
+                  handleToggleAuthModal({
+                    isOpen: true,
+                    mode: "signup",
+                  })
+                }
                 className="cursor-pointer px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-all shadow-lg shadow-pink-500/30 text-sm"
               >
                 {t("auth.signup")}
@@ -158,7 +101,7 @@ const Header = () => {
               {/* Wallet Balance - Chỉ hiện cho user */}
               {checkRole(user.roles || [], "user") && (
                 <div className="hidden md:flex items-center px-3 py-1.5 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] rounded-full text-sm font-bold border border-[#E91E63]/30 shadow-md shadow-pink-500/10 backdrop-blur-sm">
-                  <DollarSignIcon />
+                  <Wallet2Icon className="size-5" />
                   <span className="ml-2">
                     {(user.wallet?.available || 0).toLocaleString("vi-VN")} VNĐ
                   </span>
@@ -172,9 +115,6 @@ const Header = () => {
 
               {/* Notification Dropdown */}
               <NotificationDropdown />
-
-              {/* Language Switcher */}
-              <LanguageSwitcher />
 
               {/* Divider */}
               <div className="h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-2" />
@@ -200,13 +140,6 @@ const Header = () => {
           )}
         </div>
       </header>
-
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen.isOpen}
-        onClose={handleCloseAuthModal}
-        mode={isAuthModalOpen.mode}
-      />
     </>
   );
 };

@@ -5,12 +5,6 @@ import authService from "../../services/authService";
 import { useAuthStore } from "../../store/authStore";
 import { notification } from "../../utils/notification";
 
-interface AuthModalProps {
-  onClose: () => void;
-  isOpen: boolean;
-  mode?: "signin" | "signup";
-}
-
 interface SignupFormData {
   name: string;
   email: string;
@@ -26,11 +20,10 @@ interface SigninFormData {
   password: string;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
-  const [currentMode, setCurrentMode] = useState<"signin" | "signup">();
+const AuthModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const { login } = useAuthStore();
+  const { isAuthModalOpen, handleToggleAuthModal, login } = useAuthStore();
+  const { isOpen, mode } = isAuthModalOpen;
 
   const signupForm = useForm<SignupFormData>({
     defaultValues: {
@@ -51,12 +44,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
     },
   });
 
+  const onClose = () => {
+    handleToggleAuthModal();
+  };
+
   // Reset form when switching modes
   useEffect(() => {
     signupForm.reset();
     signinForm.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [isAuthModalOpen.isOpen, isAuthModalOpen.mode]);
 
   const onSignupSubmit = async (data: SignupFormData) => {
     if (!data.agreed) {
@@ -96,7 +93,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
       });
 
       signupForm.reset();
-      onClose();
+      handleToggleAuthModal();
     } catch (error: any) {
       console.error("Signup error:", error);
 
@@ -141,7 +138,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
       });
 
       signinForm.reset();
-      onClose();
+      handleToggleAuthModal();
     } catch (error: any) {
       console.error("Login error:", error);
 
@@ -173,10 +170,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
       message: "Tính năng đăng nhập Google đang phát triển",
       type: "info",
     });
-  };
-
-  const toggleMode = () => {
-    setCurrentMode(currentMode === "signin" ? "signup" : "signin");
   };
 
   return (
@@ -212,8 +205,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, isOpen, mode }) => {
           <p className="text-slate-500 mt-1 text-sm">
             {mode === "signup" ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
             <span
-              onClick={toggleMode}
               className="text-[#E91E63] font-medium ml-1 cursor-pointer hover:underline"
+              onClick={() =>
+                handleToggleAuthModal({
+                  isOpen: true,
+                  mode: mode === "signup" ? "signin" : "signup",
+                })
+              }
             >
               {mode === "signup" ? "Đăng nhập" : "Đăng ký"}
             </span>

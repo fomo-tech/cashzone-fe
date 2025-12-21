@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Globe, Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
@@ -8,8 +8,18 @@ const LanguageSwitcher = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages = [
-    { code: "vi", name: "Tiếng Việt", flag: "🇻🇳", nativeName: "Vietnamese" },
-    { code: "en", name: "English", flag: "🇬🇧", nativeName: "English" },
+    {
+      code: "vi",
+      name: "Tiếng Việt",
+      flag: "https://img.icons8.com/?size=100&id=2egPD0I7yi4-&format=png&color=000000",
+      nativeName: "Vietnamese",
+    },
+    {
+      code: "en",
+      name: "English",
+      flag: "https://img.icons8.com/?size=100&id=t3NE3BsOAQwq&format=png&color=000000",
+      nativeName: "English",
+    },
   ];
 
   const currentLanguage =
@@ -46,7 +56,7 @@ const LanguageSwitcher = () => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-2 px-3 py-2 rounded-full bg-white/50 hover:bg-white border border-pink-100/50 hover:border-pink-200 transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-pink-100/50"
+        className="group relative flex items-center gap-2 px-3 py-2 rounded-full bg-white/50   transition-all duration-300 "
         aria-label="Change language"
         aria-expanded={isOpen}
       >
@@ -55,12 +65,15 @@ const LanguageSwitcher = () => {
 
         {/* Content */}
         <div className="relative flex items-center gap-2">
-          <Globe className="w-4 h-4 text-slate-500 group-hover:text-[#E91E63] transition-colors duration-300" />
           <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-[#E91E63] transition-colors duration-300">
-            {currentLanguage.flag}
+            <img
+              src={currentLanguage.flag}
+              alt={currentLanguage.name}
+              className="size-8 rounded-full object-cover inline-block"
+            />
           </span>
           <ChevronDown
-            className={`w-3.5 h-3.5 text-slate-400 group-hover:text-[#E91E63] transition-all duration-300 ${
+            className={`size-3.5 text-slate-400 group-hover:text-[#E91E63] transition-all duration-300 ${
               isOpen ? "rotate-180" : "rotate-0"
             }`}
           />
@@ -101,7 +114,13 @@ const LanguageSwitcher = () => {
                   role="menuitem"
                 >
                   {/* Flag */}
-                  <span className="text-2xl flex-shrink-0">{lang.flag}</span>
+                  <span className="text-2xl flex-shrink-0">
+                    <img
+                      src={lang.flag}
+                      alt={lang.name}
+                      className="size-6 rounded-full object-cover"
+                    />
+                  </span>
 
                   {/* Language Info */}
                   <div className="flex-1 min-w-0">
@@ -131,13 +150,6 @@ const LanguageSwitcher = () => {
                 </button>
               );
             })}
-          </div>
-
-          {/* Footer Hint */}
-          <div className="px-4 py-2 border-t border-pink-100/50 bg-gradient-to-r from-pink-50/30 to-orange-50/30">
-            <p className="text-xs text-slate-500 text-center">
-              Language preference saved
-            </p>
           </div>
         </div>
       )}

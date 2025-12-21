@@ -1,5 +1,4 @@
 import type { AuthState, User } from "@/utils/types";
-import { useNavigate } from "react-router-dom";
 import { create } from "zustand";
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -7,12 +6,18 @@ export const useAuthStore = create<AuthState>((set) => ({
   tokens: null,
   accessToken: null,
   refreshToken: null,
-  isAuthModalOpen: false,
+  isAuthModalOpen: {
+    isOpen: false,
+    mode: "signin",
+  },
   loading: true,
   isAuthenticated: true,
-  handleToggleAuthModal: () =>
+  handleToggleAuthModal: (payload) =>
     set((state) => ({
-      isAuthModalOpen: !state.isAuthModalOpen,
+      isAuthModalOpen: {
+        isOpen: payload?.isOpen ?? !state.isAuthModalOpen.isOpen,
+        mode: payload?.mode ?? state.isAuthModalOpen.mode,
+      },
     })),
   setUser: (user) =>
     set(() => {
