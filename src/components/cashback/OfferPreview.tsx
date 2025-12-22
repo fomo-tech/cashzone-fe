@@ -1,5 +1,5 @@
 import type { Platform } from "@/services/cashbackService";
-import { HomeIcon, PercentIcon } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 interface ProductOffer {
   id: string;
@@ -15,7 +15,8 @@ interface ProductOffer {
 const OfferPreview: React.FC<{
   offer: ProductOffer;
   type: Platform["type"];
-}> = ({ offer, type }) => {
+  cashbackLink?: string; // Link hoàn tiền để click vào
+}> = ({ offer, type, cashbackLink }) => {
   // Custom label based on type
   let rateLabel, feeLabel, rateColor;
 
@@ -42,39 +43,76 @@ const OfferPreview: React.FC<{
       rateColor = "text-green-500";
   }
 
+  const handleClick = () => {
+    if (cashbackLink) {
+      window.open(cashbackLink, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
-    <div className="mt-4 p-5 rounded-3xl bg-white border border-gray-100 flex gap-4 items-start shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+    <div
+      className={`mt-4 p-5 rounded-2xl bg-white border border-gray-200 flex gap-4 items-start shadow-sm hover:shadow-md transition-all duration-300 ${
+        cashbackLink ? "cursor-pointer hover:border-pink-400" : ""
+      }`}
+      onClick={handleClick}
+      role={cashbackLink ? "button" : undefined}
+      tabIndex={cashbackLink ? 0 : undefined}
+    >
       {/* Hình sản phẩm */}
-      <div className="flex-shrink-0 relative w-24 h-24">
+      <div className="flex-shrink-0 relative w-24 h-24 sm:w-28 sm:h-28">
         <img
           src={offer.img}
           alt={offer.title}
-          className="w-full h-full rounded-xl object-cover shadow-inner"
+          className="w-full h-full rounded-lg object-cover"
         />
+        {cashbackLink && (
+          <div className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full p-1 shadow">
+            <ExternalLink size={12} />
+          </div>
+        )}
       </div>
 
       {/* Thông tin sản phẩm */}
       <div className="flex-1 flex flex-col justify-between min-w-0">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
           {/* Tên sản phẩm */}
-          <div className="font-semibold text-gray-900 text-lg truncate">
+          <div className="font-semibold text-gray-900 text-base sm:text-lg line-clamp-2">
             {offer.title}
           </div>
 
           {/* Giá sản phẩm */}
-          <div className="text-gray-700 text-sm">
-            <span className="font-medium">Giá:</span> {offer.priceText}
+          <div className="text-gray-600 text-sm sm:text-base">
+            <span className="font-medium">Giá:</span>{" "}
+            <span className="font-semibold text-gray-900">
+              {offer.priceText}
+            </span>
           </div>
 
           {/* Cashback / hoa hồng */}
           {offer.feeText && (
-            <div className="flex items-center gap-2 text-sm mt-1 flex-wrap">
-              <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-green-600 text-white font-semibold shadow-md">
-                {offer.rateText} {rateLabel}
-              </span>
-              <span className="text-gray-500">
-                {feeLabel} <span className="font-medium">{offer.feeText}</span>
-              </span>
+            <div className="flex flex-col gap-1.5">
+              {/* Tỉ lệ hoàn tiền */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-3 py-1.5 rounded-lg bg-green-500 text-white font-semibold text-sm sm:text-base">
+                  {offer.rateText} {rateLabel}
+                </span>
+              </div>
+
+              {/* Số tiền hoàn */}
+              <div className="flex items-center gap-2 text-sm">
+                <span className="text-gray-600">{feeLabel}</span>
+                <span className="font-semibold text-green-600">
+                  {offer.feeText}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Clickable indicator */}
+          {cashbackLink && (
+            <div className="flex items-center gap-1 text-xs text-pink-600 font-medium">
+              <ExternalLink size={12} />
+              <span>Click để mua</span>
             </div>
           )}
         </div>

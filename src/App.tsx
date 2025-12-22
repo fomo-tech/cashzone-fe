@@ -6,6 +6,9 @@ import { useAppStore } from "./store/appStore";
 import AuthModal from "./components/element/AuthModal";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/common/ScrollToTop";
+import ReferralCodeTracker from "./components/common/ReferralCodeTracker";
+// import InstallPrompt from "./components/common/InstallPrompt";
+// import OfflineIndicator from "./components/common/OfflineIndicator";
 
 function App() {
   useAuthInit();
@@ -13,6 +16,7 @@ function App() {
 
   return (
     <>
+      <ReferralCodeTracker />
       <AppRouter />;
       <CustomToast
         title={toast?.title || ""}
@@ -47,6 +51,8 @@ function App() {
         }}
       />
       <ScrollToTop />
+      {/* <InstallPrompt />
+      <OfflineIndicator /> */}
     </>
   );
 }

@@ -593,7 +593,7 @@ const ProfilePage: React.FC = () => {
           Hồ Sơ Của Tôi
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Cột 1: Profile Card */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-center sticky md:top-8">

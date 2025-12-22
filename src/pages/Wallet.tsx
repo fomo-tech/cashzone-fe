@@ -738,7 +738,7 @@ const WalletManagement: React.FC = () => {
 
           <hr className="my-8 border-slate-100" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Withdrawal Form */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">

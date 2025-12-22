@@ -185,13 +185,13 @@ const NotificationDropdown = () => {
       {/* Nút chuông với animation */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`relative group text-white bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] p-3 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
+        className={`relative group text-white bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] p-2 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
           open ? "scale-110 ring-4 ring-pink-300/50" : ""
         }`}
         aria-label="Thông báo"
       >
         <Bell
-          className={`size-5 transition-all duration-300 ${
+          className={`size-4 transition-all duration-300 ${
             open ? "animate-wiggle" : ""
           }`}
           strokeWidth={2}

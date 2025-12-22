@@ -24,16 +24,8 @@ import PlatformTypeBadge from "@/components/cashback/PlatformTypeBadge";
 import { notification } from "@/utils/notification";
 import CommonModal from "@/components/common/Modal";
 import PriorityProducts from "@/components/cashback/PriorityProducts";
-
-const formatCurrency = (amount: number | string) => {
-  // Chuyển string (nếu có) thành number, hoặc mặc định là 0
-  const number = typeof amount === "string" ? parseFloat(amount) : amount;
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    minimumFractionDigits: 0,
-  }).format(number || 0);
-};
+import { formatCurrency } from "@/utils/lib";
+import SectionHero from "@/components/cashback/SectionHero";
 
 export interface Platform {
   id: string;
@@ -234,7 +226,7 @@ export default function Cashback() {
               feeText: formatCurrency(productInfo.estimatedCashback || 0),
               // Tỷ lệ hoàn tiền từ backend
               rateText: `${productInfo.commissionRate}%`,
-              priceText: formatCurrency(productInfo.priceMin || 0),
+              priceText: formatCurrency(Number(productInfo.priceMin) || 0),
               img:
                 productInfo.imageUrl ||
                 `https://via.placeholder.com/96/EE4D2D/FFFFFF?text=${platform.id
@@ -534,7 +526,7 @@ export default function Cashback() {
 
   return (
     <>
-      <div className="min-h-screen py-2 md:py-6 lg:py-10 font-sans">
+      <div className="min-h-screen py-2 xl:py-10 font-sans">
         <div className="w-full max-w-6xl mx-auto px-2 md:px-4">
           {/* QR Code Modal */}
           <CommonModal
@@ -558,101 +550,7 @@ export default function Cashback() {
             </div>
           </CommonModal>
 
-          <section className="relative overflow-hidden group rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] p-6 sm:p-10 lg:p-14 shadow-[0_20px_50px_rgba(233,30,99,0.3)] flex flex-col gap-8">
-            {/* Background Layer with Animated Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#E91E63] via-[#FF4081] to-[#FF8C1A] transition-transform duration-700 group-hover:scale-105" />
-
-            {/* Decorative Orbs */}
-            <div className="absolute top-[-10%] right-[-5%] w-64 h-64 bg-white opacity-10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-[-10%] left-[-5%] w-48 h-48 bg-yellow-400 opacity-20 rounded-full blur-2xl" />
-
-            {/* Content Layer */}
-            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
-              <div className="flex-1 text-center lg:text-left space-y-4 sm:space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-2 animate-bounce">
-                  <Sparkles size={14} />
-                  Hệ thống hoàn tiền tự động 24/7
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
-                  Nhận Rebate <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-white">
-                    Lên đến 30%
-                  </span>
-                </h1>
-
-                <div className="max-w-xl mx-auto lg:mx-0">
-                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 font-semibold leading-relaxed">
-                    Quy trình đơn giản:{" "}
-                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
-                      Chọn sàn
-                    </span>{" "}
-                    →{" "}
-                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
-                      Dán link
-                    </span>{" "}
-                    →{" "}
-                    <span className="font-bold underline decoration-yellow-300 underline-offset-4">
-                      Nhận tiền
-                    </span>
-                    . Tiết kiệm hơn mỗi ngày cùng cộng đồng mua sắm thông minh.
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0">
-                <button
-                  onClick={() => {
-                    setInputLink(
-                      "https://shopee.vn/product/17227968/41052353272"
-                    );
-                    handleSelectPlatform("shopee");
-                  }}
-                  className="group/btn relative flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-white text-[#E91E63] rounded-2xl font-bold text-base shadow-xl transition-all duration-300 hover:bg-yellow-50 hover:-translate-y-1 active:scale-95 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-                  <Zap size={20} className="relative z-10 fill-current" />
-                  <span className="relative z-10">Thử link mẫu</span>
-                </button>
-
-                <button
-                  onClick={() =>
-                    window.scrollTo({ top: 600, behavior: "smooth" })
-                  }
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-4 bg-black/20 backdrop-blur-md border-2 border-white/50 text-white rounded-2xl font-bold text-base transition-all duration-300 hover:bg-white/20 hover:border-white active:scale-95"
-                >
-                  Bắt đầu ngay
-                  <ArrowRight size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Bottom badge */}
-            <div className="relative z-10 mt-4 flex items-center justify-center lg:justify-start gap-6 pt-6 border-t border-white/20">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 rounded-full border-2 border-[#E91E63] bg-slate-200 overflow-hidden"
-                  >
-                    <img
-                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                      alt="user"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-                <div className="w-8 h-8 rounded-full border-2 border-[#E91E63] bg-white flex items-center justify-center text-xs font-extrabold text-pink-600">
-                  +2k
-                </div>
-              </div>
-              <p className="text-white/90 text-sm sm:text-base font-bold">
-                Đang có <span className="text-white">2,415</span> người dùng
-                hoạt động hôm nay
-              </p>
-            </div>
-          </section>
+          <SectionHero />
 
           <div className="mt-4 md:mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
             {PLATFORMS.map((p) => {
@@ -870,7 +768,11 @@ export default function Cashback() {
 
               {/* Offer preview */}
               {currentOffer && (
-                <OfferPreview offer={currentOffer} type={activePlatform.type} />
+                <OfferPreview
+                  offer={currentOffer}
+                  type={activePlatform.type}
+                  cashbackLink={generatedLink}
+                />
               )}
 
               {/* Disclaimer for trade/finance */}

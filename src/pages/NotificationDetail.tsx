@@ -83,7 +83,7 @@ const NotificationDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[#E91E63]" />
       </div>
     );
   }
@@ -93,46 +93,57 @@ const NotificationDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-3 sm:py-4 md:py-6 px-3 sm:px-4 md:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate("/notifications")}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 mb-4 sm:mb-5 md:mb-6 transition-colors active:scale-95"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-medium">Quay lại danh sách thông báo</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="font-medium text-sm sm:text-base">
+            <span className="hidden xs:inline">
+              Quay lại danh sách thông báo
+            </span>
+            <span className="xs:hidden">Quay lại</span>
+          </span>
         </button>
 
         {/* Notification Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
-          <div className="p-6 md:p-8 border-b border-gray-200">
-            <div className="flex items-center gap-3 mb-3">
+          <div className="p-4 sm:p-5 md:p-6 lg:p-8 border-b border-gray-200">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 md:gap-3 mb-3 sm:mb-4">
               <span
-                className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTypeColor(
                   notification.type
                 )}`}
               >
                 {getTypeLabel(notification.type)}
               </span>
               {notification.targetType === "broadcast" && (
-                <span className="px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                  Thông báo chung
+                <span className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-orange-100 text-orange-800">
+                  <span className="hidden xs:inline">Thông báo chung</span>
+                  <span className="xs:hidden">Chung</span>
                 </span>
               )}
               {notification.read ? (
-                <span className="text-sm text-green-600">✓ Đã đọc</span>
+                <span className="text-xs sm:text-sm text-green-600 font-medium">
+                  ✓ Đã đọc
+                </span>
               ) : (
-                <span className="text-sm text-blue-600">● Chưa đọc</span>
+                <span className="text-xs sm:text-sm text-blue-600 font-medium flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                  Chưa đọc
+                </span>
               )}
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
               {notification.title}
             </h1>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <Calendar className="w-4 h-4" />
-              <span>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500">
+              <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="line-clamp-1">
                 {new Date(notification.createdAt).toLocaleDateString("vi-VN", {
                   year: "numeric",
                   month: "long",
@@ -145,23 +156,23 @@ const NotificationDetail = () => {
           </div>
 
           {/* Content */}
-          <div className="p-6 md:p-8">
+          <div className="p-4 sm:p-5 md:p-6 lg:p-8">
             {/* Image */}
             {notification.imageUrl && (
-              <div className="mb-8">
+              <div className="mb-5 sm:mb-6 md:mb-8">
                 <img
                   src={notification.imageUrl}
                   alt={notification.title}
-                  className="w-full h-auto rounded-xl shadow-lg"
+                  className="w-full h-auto rounded-lg sm:rounded-xl shadow-lg"
                 />
               </div>
             )}
 
             {/* Message */}
             {notification.message && (
-              <div className="mb-8">
-                <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-lg">
+              <div className="mb-5 sm:mb-6 md:mb-8">
+                <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm sm:text-base md:text-lg">
                     {notification.message}
                   </p>
                 </div>
@@ -170,16 +181,16 @@ const NotificationDetail = () => {
 
             {/* Link */}
             {notification.link && (
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-5 md:mb-6">
                 <a
                   href={notification.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 font-medium text-sm sm:text-base active:scale-95"
                 >
                   <span>Xem chi tiết</span>
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

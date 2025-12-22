@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import authService from "../../services/authService";
 import { useAuthStore } from "../../store/authStore";
 import { notification } from "../../utils/notification";
+import { referralCodeUtils } from "../../utils/referralCode";
 
 interface SignupFormData {
   name: string;
@@ -48,9 +49,37 @@ const AuthModal: React.FC = () => {
     handleToggleAuthModal();
   };
 
-  // Reset form when switching modes
+  // Tự động điền referralCode từ URL hoặc sessionStorage khi mở modal
   useEffect(() => {
-    signupForm.reset();
+    if (isOpen && mode === "signup") {
+      const refCode = referralCodeUtils.getFromUrlOrStorage();
+
+      if (refCode) {
+        signupForm.setValue("referralCode", refCode);
+        notification({
+          message: `Đã áp dụng mã giới thiệu: ${refCode}`,
+          type: "success",
+          duration: 3000,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, mode]);
+
+  // Reset form when switching modes (nhưng giữ referralCode từ storage)
+  useEffect(() => {
+    const refCode = referralCodeUtils.get();
+
+    signupForm.reset({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      referralCode: refCode || "", // Giữ referralCode từ storage
+      agreed: false,
+    });
+
     signinForm.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthModalOpen.isOpen, isAuthModalOpen.mode]);
@@ -86,6 +115,9 @@ const AuthModal: React.FC = () => {
       });
 
       login(response);
+
+      // Xóa referral code sau khi đăng ký thành công
+      referralCodeUtils.clear();
 
       notification({
         message: "Đăng ký thành công!",

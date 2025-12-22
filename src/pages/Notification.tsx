@@ -168,20 +168,20 @@ const NotificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-3 sm:py-4 md:py-6 px-3 sm:px-4 md:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl border border-pink-100 p-6 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl shadow-lg">
-                <Bell className="w-7 h-7 text-white" />
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-pink-100 p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="p-2.5 sm:p-3 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl shadow-lg">
+                <Bell className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
                   Thông Báo
                 </h1>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5 sm:mt-1">
                   {unreadCount > 0
                     ? `Bạn có ${unreadCount} thông báo chưa đọc`
                     : "Tất cả thông báo đã được đọc"}
@@ -194,10 +194,11 @@ const NotificationPage: React.FC = () => {
               {unreadCount > 0 && (
                 <button
                   onClick={handleMarkAllAsRead}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors text-sm font-medium"
+                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-green-50 text-green-700 rounded-lg sm:rounded-xl hover:bg-green-100 transition-colors text-xs sm:text-sm font-medium"
                 >
-                  <Check className="w-4 h-4" />
-                  Đánh dấu tất cả
+                  <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="hidden xs:inline">Đánh dấu</span>
+                  <span className="xs:hidden">Đọc hết</span>
                 </button>
               )}
               {/* {notifications.length > 0 && (
@@ -213,90 +214,97 @@ const NotificationPage: React.FC = () => {
           </div>
 
           {/* Filter */}
-          <div className="flex gap-2 mt-4 border-t border-slate-100 pt-4">
+          <div className="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 border-t border-slate-100 pt-3 sm:pt-4 overflow-x-auto pb-1">
             <button
               onClick={() => setFilter("all")}
-              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "all"
                   ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
-              <Filter className="w-4 h-4" />
-              Tất cả ({notifications.length})
+              <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden xs:inline">
+                Tất cả ({notifications.length})
+              </span>
+              <span className="xs:hidden">Tất cả</span>
             </button>
             <button
               onClick={() => setFilter("unread")}
-              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "unread"
                   ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
-              Chưa đọc ({unreadCount})
+              <span className="hidden xs:inline">Chưa đọc ({unreadCount})</span>
+              <span className="xs:hidden">Chưa đọc</span>
             </button>
             <button
               onClick={() => setFilter("read")}
-              className={`cursor-pointerflex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "read"
                   ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
-              Đã đọc ({notifications.length - unreadCount})
+              <span className="hidden xs:inline">
+                Đã đọc ({notifications.length - unreadCount})
+              </span>
+              <span className="xs:hidden">Đã đọc</span>
             </button>
           </div>
         </div>
 
         {/* Notifications List */}
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {filteredNotifications.length > 0 ? (
             filteredNotifications.map((notif) => (
               <div
                 key={notif._id}
                 onClick={() => handleOpenDetail(notif)}
-                className={`bg-white rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl cursor-pointer ${
+                className={`bg-white rounded-xl sm:rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl cursor-pointer active:scale-[0.98] ${
                   !notif.read
                     ? "border-[#E91E63]/30 bg-gradient-to-r from-pink-50/50 to-white"
                     : "border-slate-100"
                 }`}
               >
-                <div className="p-5">
-                  <div className="flex items-start gap-4">
+                <div className="p-3 sm:p-4 md:p-5">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     {/* Icon/Image */}
                     <div className="flex-shrink-0">
                       {notif.imageUrl ? (
                         <img
                           src={notif.imageUrl}
                           alt="notification"
-                          className="w-16 h-16 rounded-xl object-cover border-2 border-slate-100"
+                          className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg sm:rounded-xl object-cover border-2 border-slate-100"
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl flex items-center justify-center">
-                          <Bell className="w-8 h-8 text-[#E91E63]" />
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Bell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#E91E63]" />
                         </div>
                       )}
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-bold text-slate-800">
+                      <div className="flex items-start justify-between gap-2 sm:gap-3 md:gap-4 mb-1.5 sm:mb-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                          <h3 className="text-sm sm:text-base md:text-lg font-bold text-slate-800 truncate">
                             {notif.title}
                           </h3>
                           {!notif.read && (
-                            <span className="w-2 h-2 bg-[#E91E63] rounded-full"></span>
+                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#E91E63] rounded-full flex-shrink-0"></span>
                           )}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                           {notif.targetType === "broadcast" && (
-                            <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-600">
+                            <span className="hidden sm:inline-block px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-orange-100 text-orange-600">
                               Chung
                             </span>
                           )}
                           <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(
+                            className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTypeColor(
                               notif.type
                             )}`}
                           >
@@ -306,20 +314,24 @@ const NotificationPage: React.FC = () => {
                       </div>
 
                       {notif.message && (
-                        <p className="text-slate-600 text-sm mb-3 line-clamp-2">
+                        <p className="text-slate-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">
                           {notif.message}
                         </p>
                       )}
 
-                      <div className="flex items-center gap-4 text-xs text-slate-400">
+                      <div className="flex flex-col xs:flex-row xs:items-center gap-2 xs:gap-4 text-[10px] xs:text-xs text-slate-400">
                         <div className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
-                          {new Date(notif.createdAt).toLocaleString("vi-VN")}
+                          <span className="truncate">
+                            {new Date(notif.createdAt).toLocaleString("vi-VN")}
+                          </span>
                         </div>
                         {notif.link && (
                           <span className="flex items-center gap-1 text-[#E91E63]">
                             <ExternalLink className="w-3 h-3" />
-                            Xem chi tiết
+                            <span className="whitespace-nowrap">
+                              Xem chi tiết
+                            </span>
                           </span>
                         )}
                       </div>
@@ -352,9 +364,9 @@ const NotificationPage: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-12 text-center">
-              <Bell className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-500 text-lg">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-slate-100 p-8 sm:p-10 md:p-12 text-center">
+              <Bell className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-slate-300 mx-auto mb-3 sm:mb-4" />
+              <p className="text-slate-500 text-sm sm:text-base md:text-lg">
                 {filter === "unread"
                   ? "Không có thông báo chưa đọc"
                   : filter === "read"
@@ -367,23 +379,25 @@ const NotificationPage: React.FC = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center items-center gap-2 sm:gap-3 mt-4 sm:mt-5 md:mt-6">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-sm font-medium"
+              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-medium transition-colors"
             >
-              Trang trước
+              <span className="hidden xs:inline">Trang trước</span>
+              <span className="xs:hidden">Trước</span>
             </button>
-            <span className="px-4 py-2 text-sm font-medium text-slate-600">
-              Trang {currentPage} / {totalPages}
+            <span className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-slate-600 whitespace-nowrap">
+              {currentPage} / {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-sm font-medium"
+              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-medium transition-colors"
             >
-              Trang sau
+              <span className="hidden xs:inline">Trang sau</span>
+              <span className="xs:hidden">Sau</span>
             </button>
           </div>
         )}

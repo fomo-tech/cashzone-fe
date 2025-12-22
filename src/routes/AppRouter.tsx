@@ -10,6 +10,7 @@ import OfferDetail from "@/pages/OfferDetail";
 import ProfilePage from "@/pages/Profile";
 import WalletManagement from "@/pages/Wallet";
 import SignupForm from "@/pages/Signup";
+import SignupRedirect from "@/pages/SignupRedirect";
 import NotificationPage from "@/pages/Notification";
 import NotificationDetail from "@/pages/NotificationDetail";
 import ScrollToTopOnNavigate from "@/components/common/ScrollToTopOnNavigate";
@@ -63,6 +64,15 @@ export const AppRouter = () => (
         element={
           <GuestRoute>
             <SignupForm />
+          </GuestRoute>
+        }
+      />
+
+      <Route
+        path="/signup"
+        element={
+          <GuestRoute>
+            <SignupRedirect />
           </GuestRoute>
         }
       />

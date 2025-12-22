@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/authStore";
 import { RoleEnum } from "@/utils/types";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/logo.png";
 
 import clsx from "clsx";
 import React, { useState } from "react";
@@ -465,14 +465,16 @@ const Sidebar: React.FC = () => {
       {/* Mobile hamburger button */}
       <button
         onClick={toggleMobileMenu}
-        className="fixed top-4 left-4 z-50 md:hidden p-2 rounded-lg bg-white shadow-lg border border-pink-100"
+        className="fixed left-2 z-50 md:hidden p-2 rounded-lg bg-white shadow border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+        style={{ top: "calc(var(--safe-area-inset-top) + 0.25rem)" }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-gray-700"
+          className="size-4 text-gray-700"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          strokeWidth={2}
         >
           {isMobileMenuOpen ? (
             <path
@@ -495,52 +497,53 @@ const Sidebar: React.FC = () => {
       {/* Sidebar */}
       <div
         className={clsx(
-          "fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-white via-pink-50/30 to-orange-50/20 border-r border-pink-100/50 backdrop-blur-2xl transition-transform duration-300 shadow-xl shadow-pink-100/20 z-100",
+          "fixed left-0 w-72 sm:w-64 bg-white border-r border-gray-200 transition-transform duration-300 shadow-sm z-100 sm:z-50 overflow-auto",
           {
             "transform -translate-x-full md:translate-x-0": !isMobileMenuOpen,
             "transform translate-x-0": isMobileMenuOpen,
           }
         )}
+        style={{
+          top: "var(--safe-area-inset-top)",
+          bottom: "var(--safe-area-inset-bottom)",
+          paddingTop: "var(--safe-area-inset-top)",
+          paddingBottom: "var(--safe-area-inset-bottom)",
+        }}
       >
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-8 relative">
-            <div className="absolute -inset-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl blur-sm"></div>
-            <img src={logo} alt="Caffiliate" className="h-14 relative z-10" />
+        <div className="p-4 sm:p-6">
+          <div className="flex items-center justify-center mb-6 pb-4 border-b border-gray-200">
+            <img src={logo} alt="Caffiliate" className="w-32 sm:w-28 h-auto" />
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5 mb-4">
             {accessibleMenus.map((item) => {
               const active = location.pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   to={item.href}
-                  onClick={closeMobileMenu} // Close mobile menu when clicking a link
+                  onClick={closeMobileMenu}
                   className={clsx(
-                    `sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative overflow-hidden`,
+                    `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg shadow-pink-500/30":
+                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
                         active,
-                      "text-slate-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63]":
-                        !active,
+                      "text-gray-700 hover:bg-gray-50": !active,
                     }
                   )}
                 >
-                  {!active && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/10 group-hover:to-[#FF8C1A]/10 rounded-xl transition-all duration-300"></div>
-                  )}
                   <div
-                    className={clsx("relative z-10", {
+                    className={clsx("w-5 h-5", {
                       "text-white": active,
-                      "text-slate-600 group-hover:text-[#E91E63]": !active,
+                      "text-gray-600": !active,
                     })}
                   >
                     {item.icon}
                   </div>
                   <span
-                    className={clsx("font-medium relative z-10", {
+                    className={clsx("font-medium text-sm", {
                       "text-white": active,
-                      "text-slate-700 group-hover:text-[#E91E63]": !active,
+                      "text-gray-700": !active,
                     })}
                   >
                     {item.name}
@@ -552,22 +555,21 @@ const Sidebar: React.FC = () => {
 
           {currentRoles.includes(RoleEnum.GUEST) && (
             <>
-              <div className="mt-8">
-                <div className="px-4 text-xs font-semibold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent uppercase tracking-wider mb-2">
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="px-4 py-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
                   Hỗ Trợ
                 </div>
                 <Link
                   to="/guide"
-                  className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
+                  className="flex items-center gap-3 px-4 py-2.5 mb-2 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth={1.5}
+                    strokeWidth={2}
                     stroke="currentColor"
-                    className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -575,17 +577,15 @@ const Sidebar: React.FC = () => {
                       d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
                     />
                   </svg>
-
-                  <span className="font-medium relative z-10">Hướng Dẫn</span>
+                  <span className="font-medium text-sm">Hướng Dẫn</span>
                 </Link>
                 <a
                   href="/support"
-                  className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
+                  className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
+                    className="w-5 h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -593,7 +593,7 @@ const Sidebar: React.FC = () => {
                   >
                     <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                   </svg>
-                  <span className="font-medium relative z-10">Hỗ Trợ</span>
+                  <span className="font-medium text-sm">Hỗ Trợ</span>
                 </a>
               </div>
             </>
@@ -601,18 +601,17 @@ const Sidebar: React.FC = () => {
           {currentRoles.includes(RoleEnum.USER) &&
             !currentRoles.includes(RoleEnum.ADMIN) && (
               <>
-                <div className="mt-8">
-                  <div className="px-4 text-xs font-semibold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent uppercase tracking-wider mb-2">
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="px-4 py-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
                     Hỗ Trợ
                   </div>
                   <a
                     href="/guide"
-                    className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
+                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
+                      className="w-5 h-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -622,16 +621,15 @@ const Sidebar: React.FC = () => {
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                       <path d="M12 17h.01" />
                     </svg>
-                    <span className="font-medium relative z-10">Hướng Dẫn</span>
+                    <span className="font-medium text-sm">Hướng Dẫn</span>
                   </a>
                   <a
                     href="/support"
-                    className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
+                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
+                      className="w-5 h-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -639,17 +637,17 @@ const Sidebar: React.FC = () => {
                     >
                       <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                     </svg>
-                    <span className="font-medium relative z-10">Hỗ Trợ</span>
+                    <span className="font-medium text-sm">Hỗ Trợ</span>
                   </a>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-pink-100/50 bg-gradient-to-b from-transparent to-pink-50/20">
+                <div className="mt-6 pt-6 border-t border-gray-200">
                   <div
                     onClick={() => {
                       authService.logout();
                       window.location.reload();
                     }}
-                    className=" cursor-pointer flex items-center gap-3 px-4 py-3 text-red-500 rounded-xl hover:bg-red-50 transition-all"
+                    className="cursor-pointer flex items-center gap-3 px-4 py-2.5 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -663,7 +661,7 @@ const Sidebar: React.FC = () => {
                       <path d="M21 12H9" />
                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     </svg>
-                    <span className="font-medium">Đăng Xuất</span>
+                    <span className="font-medium text-sm">Đăng Xuất</span>
                   </div>
                 </div>
               </>
@@ -671,31 +669,28 @@ const Sidebar: React.FC = () => {
           {currentRoles.includes(RoleEnum.ADMIN) && (
             <>
               <div className="mt-8">
-                <div className="px-4 text-xs font-semibold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent uppercase tracking-wider mb-2">
+                <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase mb-2">
                   Cài đặt
                 </div>
                 <Link
                   to="/admin/system-settings"
                   className={clsx(
-                    `sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative overflow-hidden`,
+                    `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg shadow-pink-500/30":
+                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
                         location.pathname === "/admin/management-configs",
-                      "text-slate-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63]":
+                      "text-gray-700 hover:bg-gray-50":
                         location.pathname !== "/admin/management-configs",
                     }
                   )}
                 >
-                  {location.pathname !== "/admin/management-configs" && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/10 group-hover:to-[#FF8C1A]/10 rounded-xl transition-all duration-300"></div>
-                  )}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth={1.5}
+                    strokeWidth={2}
                     stroke="currentColor"
-                    className="size-6 relative z-10"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -708,17 +703,15 @@ const Sidebar: React.FC = () => {
                       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
-
-                  <span className="font-medium relative z-10">Cài đặt</span>
+                  <span className="font-medium text-sm">Cài đặt</span>
                 </Link>
                 <a
                   href="/support"
-                  className="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all group relative overflow-hidden"
+                  className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/0 to-[#FF8C1A]/0 group-hover:from-[#E91E63]/5 group-hover:to-[#FF8C1A]/5 rounded-xl transition-all duration-300"></div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10"
+                    className="w-5 h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -726,22 +719,21 @@ const Sidebar: React.FC = () => {
                   >
                     <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                   </svg>
-                  <span className="font-medium relative z-10">Hỗ Trợ</span>
+                  <span className="font-medium text-sm">Hỗ Trợ</span>
                 </a>
               </div>
 
-              <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-pink-100/50 bg-gradient-to-b from-transparent to-pink-50/20">
+              <div className="mt-6 pt-6 border-t border-gray-200">
                 <div
                   onClick={() => {
                     authService.logout();
                     window.location.reload();
                   }}
-                  className="flex items-center gap-3 px-4 py-3 text-red-500 rounded-xl hover:bg-red-50 transition-all cursor-pointer group relative overflow-hidden"
+                  className="flex items-center gap-3 px-4 py-2.5 text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 to-rose-500/0 group-hover:from-red-500/5 group-hover:to-rose-500/5 rounded-xl transition-all duration-300"></div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform"
+                    className="w-5 h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -751,7 +743,7 @@ const Sidebar: React.FC = () => {
                     <path d="M21 12H9" />
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   </svg>
-                  <span className="font-medium relative z-10">Đăng Xuất</span>
+                  <span className="font-medium text-sm">Đăng Xuất</span>
                 </div>
               </div>
             </>

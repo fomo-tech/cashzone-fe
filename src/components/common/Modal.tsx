@@ -59,12 +59,12 @@ const CommonModal: React.FC<CommonModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[99999]  flex items-center justify-center p-4 animate-in fade-in duration-200"
       style={{ backdropFilter: "blur(2px)" }}
     >
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/60 transition-opacity"
+        className="absolute z-[99999] inset-0 bg-black/60 transition-opacity"
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
 

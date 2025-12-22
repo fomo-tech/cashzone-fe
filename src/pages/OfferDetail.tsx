@@ -432,46 +432,6 @@ const OfferDetail: React.FC = () => {
   return (
     <div className="min-h-screen pb-16">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header and Back Button */}
-        <div className="mb-6 flex justify-between items-center">
-          <button
-            onClick={() => navigate("/tasks")}
-            className="group inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-pink-50 text-gray-700 hover:text-[#E91E63] font-medium transition-all duration-200 rounded-full shadow-lg border border-gray-200"
-          >
-            <ArrowLeft
-              size={18}
-              className="group-hover:-translate-x-1 transition-transform"
-            />
-            <span className="hidden sm:inline">Danh sách nhiệm vụ</span>
-          </button>
-
-          {/* User Profile Info */}
-          {userProfile && (
-            <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-full shadow-lg border border-pink-200">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full">
-                  <User size={16} className="text-white" />
-                </div>
-                <span className="text-sm font-semibold text-gray-700 hidden sm:inline">
-                  {userProfile.name || userProfile.email}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
-                <Wallet size={16} className="text-[#E91E63]" />
-                <span className="text-sm font-bold text-gray-900">
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  })
-                    .format(userProfile.balance || 0)
-                    .replace("₫", " VNĐ")}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Main Offer Card */}
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-pink-100">
           {/* Section 1: Title and Reward */}

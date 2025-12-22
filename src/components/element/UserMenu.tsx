@@ -1,10 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { User, Settings, LogOut, Wallet, History } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setOpen(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   // Auto close when clicking outside
   useEffect(() => {
@@ -38,8 +51,10 @@ const UserMenu = () => {
       >
         {/* User Header */}
         <div className="px-4 pb-2 border-b border-slate-100">
-          <p className="text-sm font-semibold text-gray-700">Người dùng</p>
-          <p className="text-xs text-gray-500">example@gmail.com</p>
+          <p className="text-sm font-semibold text-gray-700">
+            {user?.name || "Người dùng"}
+          </p>
+          <p className="text-xs text-gray-500 truncate">{user?.email || ""}</p>
         </div>
 
         {/* Menu List */}
@@ -76,13 +91,13 @@ const UserMenu = () => {
             Cài đặt
           </Link>
 
-          <a
-            href="/auth/logout"
-            className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Đăng xuất
-          </a>
+          </button>
         </div>
       </div>
     </div>
