@@ -61,7 +61,7 @@ const TaskSubmissionManagement: React.FC = () => {
       const response = await taskService.getAllSubmissions(filters);
 
       setSubmissions(response.data || []);
-    } catch (error) {
+    } catch (error: any) {
       notification({
         message: "Không thể tải danh sách submissions",
         type: "error",
@@ -169,8 +169,8 @@ const TaskSubmissionManagement: React.FC = () => {
 
   const filteredSubmissions = submissions.filter(
     (s) =>
-      s.userId.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.taskId.title.toLowerCase().includes(searchQuery.toLowerCase())
+      s.userId?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.taskId?.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const stats = {
@@ -362,17 +362,17 @@ const TaskSubmissionManagement: React.FC = () => {
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900">
-                              {submission.userId.name}
+                              {submission.userId?.name || "N/A"}
                             </p>
                             <p className="text-sm text-gray-500">
-                              {submission.userId.email}
+                              {submission.userId?.email || "N/A"}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-5">
                         <p className="font-semibold text-gray-900 mb-1">
-                          {submission.taskId.title}
+                          {submission.taskId?.title || "N/A"}
                         </p>
                         {submission.note && (
                           <p className="text-sm text-gray-500 line-clamp-2">
@@ -382,7 +382,7 @@ const TaskSubmissionManagement: React.FC = () => {
                       </td>
                       <td className="px-6 py-5">
                         <span className="font-bold text-[#E91E63] text-lg">
-                          {formatCurrency(submission.taskId.reward)}
+                          {formatCurrency(submission.taskId?.reward || 0)}
                         </span>
                       </td>
                       <td className="px-6 py-5">
@@ -472,11 +472,11 @@ const TaskSubmissionManagement: React.FC = () => {
                   <div className="space-y-2">
                     <p>
                       <span className="font-semibold">Tên:</span>{" "}
-                      {selectedSubmission.userId.name}
+                      {selectedSubmission.userId?.name || "N/A"}
                     </p>
                     <p>
                       <span className="font-semibold">Email:</span>{" "}
-                      {selectedSubmission.userId.email}
+                      {selectedSubmission.userId?.email || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -489,12 +489,12 @@ const TaskSubmissionManagement: React.FC = () => {
                   <div className="space-y-2">
                     <p>
                       <span className="font-semibold">Tiêu đề:</span>{" "}
-                      {selectedSubmission.taskId.title}
+                      {selectedSubmission.taskId?.title || "N/A"}
                     </p>
                     <p>
                       <span className="font-semibold">Phần thưởng:</span>{" "}
                       <span className="text-[#E91E63] font-bold">
-                        {formatCurrency(selectedSubmission.taskId.reward)}
+                        {formatCurrency(selectedSubmission.taskId?.reward || 0)}
                       </span>
                     </p>
                   </div>

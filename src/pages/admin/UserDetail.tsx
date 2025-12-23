@@ -733,7 +733,7 @@ export default function UserDetailPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-8 pb-12">
+      <div className="p-6 lg:p-4 max-w-7xl mx-auto space-y-8 pb-12">
         {/* Thống kê Hoạt động (Stats) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {statCards.map((card, index) => (

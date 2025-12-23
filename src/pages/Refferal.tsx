@@ -344,7 +344,7 @@ const ReferralProgram: React.FC = () => {
         </div>
 
         {/* Referral Link Section */}
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 lg:p-8">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 lg:p-4">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 lg:mb-6">
             <div className="p-2 md:p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg md:rounded-xl">
               <Share2 className="w-5 h-5 md:w-6 md:h-6 text-[#E91E63]" />

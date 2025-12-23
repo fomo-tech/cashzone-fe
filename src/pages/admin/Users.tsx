@@ -166,7 +166,7 @@ const UserManagement: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6 lg:p-8 space-y-6">
+      <div className="max-w-7xl mx-auto p-6 lg:p-4 space-y-6">
         {/* Search and Stats Section */}
         <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">

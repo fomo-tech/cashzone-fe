@@ -399,7 +399,7 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Priority Products Section */}
-          <div className="p-4 sm:p-6 lg:p-8 bg-white">
+          <div className="p-4 sm:p-6 lg:p-4 bg-white">
             <PriorityProducts limit={6} />
           </div>
 
@@ -492,7 +492,7 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Latest Tasks - Chiến dịch mới nhất */}
-          <div className="p-4 sm:p-6 lg:p-8">
+          <div className="p-4 sm:p-6 lg:p-4">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center">
                 <svg
@@ -605,7 +605,7 @@ const HomePage: React.FC = () => {
 
           {/* Featured Tasks/Campaigns - Chiến dịch nổi bật */}
           {tasks.length > 0 && (
-            <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-pink-50 to-orange-50">
+            <div className="p-4 sm:p-6 lg:p-4 bg-gradient-to-br from-pink-50 to-orange-50">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl md:text-2xl font-black text-gray-800 flex items-center">
                   <svg

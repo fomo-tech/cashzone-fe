@@ -229,7 +229,8 @@ const InstructionStep = ({
 const OfferDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, setUser } = useAuthStore(); // Get user from authStore
+  const { user, setUser, isAuthModalOpen, handleToggleAuthModal } =
+    useAuthStore(); // Get user from authStore
 
   const [offer, setOffer] = useState<OfferTask | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -324,6 +325,7 @@ const OfferDetail: React.FC = () => {
 
   // Handle Task Submission
   const handleSubmitTask = async () => {
+    if (!user) return handleToggleAuthModal({ mode: "signin" });
     if (!offer || !id) return;
 
     if (uploadedImages.length === 0) {

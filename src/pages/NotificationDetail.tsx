@@ -112,7 +112,7 @@ const NotificationDetail = () => {
         {/* Notification Card */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Header */}
-          <div className="p-4 sm:p-5 md:p-6 lg:p-8 border-b border-gray-200">
+          <div className="p-4 sm:p-5 md:p-6 lg:p-4 border-b border-gray-200">
             <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 md:gap-3 mb-3 sm:mb-4">
               <span
                 className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTypeColor(
@@ -156,7 +156,7 @@ const NotificationDetail = () => {
           </div>
 
           {/* Content */}
-          <div className="p-4 sm:p-5 md:p-6 lg:p-8">
+          <div className="p-4 sm:p-5 md:p-6 lg:p-4">
             {/* Image */}
             {notification.imageUrl && (
               <div className="mb-5 sm:mb-6 md:mb-8">

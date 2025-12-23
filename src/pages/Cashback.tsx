@@ -381,11 +381,7 @@ export default function Cashback() {
   const handleGenerate = useCallback(() => {
     // Check authentication first
     if (!isAuthenticated) {
-      notification({
-        type: "info",
-        message: "Vui lòng đăng nhập để sử dụng tính năng này.",
-      });
-      handleToggleAuthModal();
+      handleToggleAuthModal({ mode: "signin" });
       return;
     }
 
@@ -526,7 +522,7 @@ export default function Cashback() {
 
   return (
     <>
-      <div className="min-h-screen py-2 xl:py-10 font-sans">
+      <div className="min-h-screen py-2  font-sans">
         <div className="w-full max-w-6xl mx-auto px-2 md:px-4">
           {/* QR Code Modal */}
           <CommonModal
@@ -870,12 +866,12 @@ export default function Cashback() {
           {/* History and Recommended Offers */}
           <div className="mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             {/* Search history */}
-            <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
-              <div className="flex items-center justify-between mb-3 md:mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shrink-0">
+            <div className="bg-white rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-6 shadow-xl border border-gray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 md:gap-2.5 mb-2.5 md:mb-3">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shrink-0 shadow-lg">
                     <svg
-                      className="w-4 h-4 md:w-5 md:h-5 text-white"
+                      className="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -889,42 +885,42 @@ export default function Cashback() {
                     </svg>
                   </div>
                   <div>
-                    <div className="font-extrabold text-lg sm:text-xl md:text-2xl text-gray-900">
+                    <div className="font-extrabold text-xs md:text-sm lg:text-base text-gray-900">
                       Lịch sử tạo link
                     </div>
-                    <div className="text-sm sm:text-base text-gray-600 font-medium">
+                    <div className="text-[10px] md:text-[11px] lg:text-xs text-gray-600 font-medium">
                       {history.length} link đã tạo
                     </div>
                   </div>
                 </div>
-                <div className="relative hidden sm:block">
+                <div className="relative w-full sm:w-auto">
                   <Search
-                    size={14}
-                    className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size={12}
+                    className="absolute left-2 md:left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400"
                   />
                   <input
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Tìm kiếm..."
-                    className="text-xs md:text-sm px-8 md:px-10 py-1.5 md:py-2 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300 w-32 md:w-48"
+                    className="text-[11px] md:text-xs lg:text-sm px-7 md:px-8 lg:px-9 py-1 md:py-1.5 bg-gray-50 rounded-md md:rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent w-full sm:w-36 md:w-40 lg:w-48 transition-all"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2 max-h-[400px] md:max-h-[500px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+              <div className="space-y-2 md:space-y-2.5 max-h-[320px] md:max-h-[360px] lg:max-h-[480px] overflow-y-auto pr-1 md:pr-1.5 custom-scrollbar">
                 {loadingHistory ? (
-                  <div className="text-center py-12">
-                    <Loader className="w-8 h-8 mx-auto mb-4 text-pink-500 animate-spin" />
-                    <p className="text-gray-500 font-medium">
+                  <div className="text-center py-10 md:py-12 lg:py-14">
+                    <Loader className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 mx-auto mb-2 md:mb-3 text-pink-500 animate-spin" />
+                    <p className="text-[11px] md:text-xs lg:text-sm text-gray-500 font-medium">
                       Đang tải lịch sử...
                     </p>
                   </div>
                 ) : filteredHistory.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                  <div className="text-center py-10 md:py-12 lg:py-14">
+                    <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 mx-auto mb-2 md:mb-3 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                       <svg
-                        className="w-10 h-10 text-gray-400"
+                        className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-gray-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -937,10 +933,10 @@ export default function Cashback() {
                         />
                       </svg>
                     </div>
-                    <p className="text-gray-500 font-medium">
+                    <p className="text-[11px] md:text-xs lg:text-sm text-gray-600 font-semibold mb-0.5 md:mb-1">
                       {query ? "Không tìm thấy kết quả" : "Chưa có lịch sử"}
                     </p>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <p className="text-[9px] md:text-[10px] lg:text-xs text-gray-400">
                       {query ? "Thử từ khóa khác" : "Tạo link đầu tiên của bạn"}
                     </p>
                   </div>
@@ -952,31 +948,30 @@ export default function Cashback() {
                     return (
                       <div
                         key={h.id}
-                        className="group flex items-center gap-2 md:gap-3 p-2.5 md:p-3 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-gray-100 hover:border-gray-200"
+                        className="group flex items-start gap-2 md:gap-2.5 lg:gap-3 p-2 md:p-2.5 lg:p-3 rounded-md md:rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-all duration-300 border border-gray-100 hover:border-pink-200 hover:shadow-lg"
                       >
                         {/* Product image or platform icon */}
                         <div className="shrink-0 relative">
                           <img
                             src={h.imageUrl || ""}
                             alt={h.title}
-                            className="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover border border-gray-200"
+                            className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md md:rounded-lg object-cover border-2 border-gray-200 group-hover:border-pink-300 shadow-sm transition-all duration-300"
                             style={{ display: h.imageUrl ? "block" : "none" }}
                             onError={(e) => {
-                              // Fallback to platform icon if image fails
                               const target =
                                 e.currentTarget as HTMLImageElement;
                               target.style.display = "none";
                             }}
                           />
                           <div
-                            className={`w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-white font-bold shadow-sm ${
+                            className={`w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md md:rounded-lg flex items-center justify-center text-white font-bold shadow-md ${
                               h.platform === "shopee"
-                                ? "bg-orange-500"
+                                ? "bg-gradient-to-br from-orange-500 to-orange-600"
                                 : h.platform === "tiki"
-                                ? "bg-blue-500"
+                                ? "bg-gradient-to-br from-blue-500 to-blue-600"
                                 : h.platform === "lazada"
-                                ? "bg-purple-600"
-                                : "bg-gray-400"
+                                ? "bg-gradient-to-br from-purple-600 to-purple-700"
+                                : "bg-gradient-to-br from-gray-400 to-gray-500"
                             }`}
                             style={{ display: h.imageUrl ? "none" : "flex" }}
                           >
@@ -985,10 +980,10 @@ export default function Cashback() {
                               <img
                                 src={platform.logo}
                                 alt={h.platform}
-                                className="w-6 h-6 md:w-8 md:h-8 object-contain"
+                                className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 object-contain"
                               />
                             ) : (
-                              <span className="text-sm md:text-base">
+                              <span className="text-sm md:text-base lg:text-lg">
                                 {h.platform.charAt(0).toUpperCase()}
                               </span>
                             )}
@@ -997,17 +992,17 @@ export default function Cashback() {
 
                         {/* Content */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2 mb-1">
-                            <h3 className="font-semibold text-gray-800 text-sm leading-tight line-clamp-2 group-hover:text-pink-700 transition-colors">
+                          <div className="flex items-start justify-between gap-1 md:gap-1.5 mb-1 md:mb-1.5">
+                            <h3 className="font-semibold text-gray-900 text-[11px] md:text-xs lg:text-sm leading-tight line-clamp-2 group-hover:text-pink-700 transition-colors">
                               {h.title}
                             </h3>
                           </div>
 
-                          <div className="flex items-center gap-2 flex-wrap mt-2">
+                          <div className="flex items-center gap-1 md:gap-1.5 flex-wrap mb-1 md:mb-1.5">
                             <PlatformTypeBadge type={h.type} isActive={false} />
-                            <span className="text-xs text-gray-400 flex items-center gap-1">
+                            <span className="text-[9px] md:text-[10px] lg:text-xs text-gray-500 flex items-center gap-0.5 font-medium">
                               <svg
-                                className="w-3 h-3"
+                                className="w-2 h-2 md:w-2.5 md:h-2.5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -1030,36 +1025,39 @@ export default function Cashback() {
 
                           {/* Price and Commission Info */}
                           {h.productPrice && (
-                            <div className="flex items-center gap-3 mt-2 text-xs">
-                              <span className="text-gray-600">
-                                Giá:{" "}
-                                <span className="font-semibold text-gray-800">
-                                  {formatCurrency(h.productPrice)}
-                                </span>
+                            <div className="flex flex-wrap items-center gap-1 md:gap-1.5 lg:gap-2 mb-1.5 md:mb-2 text-[9px] md:text-[10px] lg:text-xs">
+                              <span className="px-1 py-0.5 md:px-1.5 md:py-0.5 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800 font-bold rounded text-[9px] md:text-[10px] border border-gray-200">
+                                {formatCurrency(h.productPrice)}
                               </span>
                               {h.commissionRate && h.estimatedCommission && (
-                                <>
-                                  <span className="text-gray-300">•</span>
-                                  <span className="text-green-600 font-semibold flex items-center gap-1">
-                                    <Zap size={12} className="inline" />
-                                    {(h.commissionRate * 100).toFixed(1)}% (~
-                                    {formatCurrency(h.estimatedCommission)})
+                                <span className="px-1 py-0.5 md:px-1.5 md:py-0.5 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 font-bold rounded text-[9px] md:text-[10px] flex items-center gap-0.5 border border-green-200">
+                                  <Zap
+                                    size={9}
+                                    className="inline md:w-2.5 md:h-2.5"
+                                  />
+                                  {(h.commissionRate * 100).toFixed(1)}%
+                                  <span className="hidden sm:inline text-green-600">
+                                    (~{formatCurrency(h.estimatedCommission)})
                                   </span>
-                                </>
+                                </span>
                               )}
                             </div>
                           )}
 
                           {/* Action buttons */}
-                          <div className="flex gap-1.5 mt-2">
+                          <div className="flex flex-wrap gap-1 md:gap-1.5">
                             <a
                               href={h.link}
                               target="_blank"
                               rel="noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="px-2 py-1 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded text-xs font-medium hover:opacity-90 transition flex items-center gap-1 cursor-pointer"
+                              className="flex-1 sm:flex-none px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-bold hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-0.5 md:gap-1 cursor-pointer"
                             >
-                              <ExternalLink size={10} />
+                              <ExternalLink
+                                size={10}
+                                className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
+                              />
+                              <span>Mở link</span>
                             </a>
                             <button
                               onClick={(e) => {
@@ -1070,10 +1068,13 @@ export default function Cashback() {
                                   message: "Đã sao chép link vào clipboard",
                                 });
                               }}
-                              className="px-2 py-1 bg-white border border-gray-200 text-gray-600 rounded text-xs font-medium hover:bg-gray-50 transition flex items-center gap-1
-                              cupointer"
+                              className="px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-white border border-gray-200 text-gray-700 rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-semibold hover:bg-gray-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 flex items-center gap-0.5 md:gap-1 cursor-pointer"
                             >
-                              <Copy size={10} />
+                              <Copy
+                                size={10}
+                                className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
+                              />
+                              <span className="hidden sm:inline">Copy</span>
                             </button>
                             <button
                               onClick={(e) => {
@@ -1084,9 +1085,13 @@ export default function Cashback() {
                                   title: h.title,
                                 });
                               }}
-                              className="px-2 py-1 bg-white border border-gray-200 text-gray-600 rounded text-xs font-medium hover:bg-gray-50 transition cursor-pointer"
+                              className="px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-white border border-gray-200 text-gray-700 rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-semibold hover:bg-gray-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 flex items-center gap-0.5 md:gap-1 cursor-pointer"
                             >
-                              <QrCode size={10} />
+                              <QrCode
+                                size={10}
+                                className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
+                              />
+                              <span className="hidden sm:inline">QR</span>
                             </button>
                           </div>
                         </div>
