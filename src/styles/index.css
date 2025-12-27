@@ -64,6 +64,24 @@ select,
 textarea {
   touch-action: manipulation;
 }
+/* Reset CSS for Swiper */
+@layer base {
+  .swiper {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .swiper-slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition-property: transform;
+    box-sizing: border-box;
+  }
+}
+
 /* 🚨 QUAN TRỌNG: Thử thêm các biến CSS vào lớp utilities */
 @layer utilities {
   .bg-primary-gradient {

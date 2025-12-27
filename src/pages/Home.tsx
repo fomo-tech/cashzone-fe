@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "@/store/authStore";
 import cashbackService, {
   type CashbackStatistics,
@@ -9,6 +9,47 @@ import { Link } from "react-router-dom";
 import { TrendingUp, UserIcon, Wallet2Icon } from "lucide-react";
 import PriorityProducts from "@/components/cashback/PriorityProducts";
 
+// Custom hook for counting animation
+const useCountUp = (
+  end: number,
+  duration: number = 2000,
+  shouldStart: boolean = false
+) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    if (!shouldStart || hasAnimated) return;
+
+    setHasAnimated(true);
+    let startTime: number | null = null;
+    const startValue = 0;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = Math.floor(
+        easeOutQuart * (end - startValue) + startValue
+      );
+
+      setCount(currentCount);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [end, duration, shouldStart, hasAnimated]);
+
+  return count;
+};
+
 const HomePage: React.FC = () => {
   const { user } = useAuthStore();
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -16,6 +57,49 @@ const HomePage: React.FC = () => {
   const [statistics, setStatistics] = useState<CashbackStatistics | null>(null);
   const [loading, setLoading] = useState(true);
   const [dataFetched, setDataFetched] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  // Counting animations
+  const userCount = useCountUp(50, 2000, statsVisible);
+  const cashbackCount = useCountUp(450, 2000, statsVisible);
+  const brandCount = useCountUp(1000, 2000, statsVisible);
+  const campaignCount = useCountUp(200, 2000, statsVisible);
+
+  // Intersection Observer for stats section
+  useEffect(() => {
+    const currentRef = statsRef.current;
+
+    // Fallback: nếu section đã visible ngay từ đầu, trigger animation sau 500ms
+    const fallbackTimer = setTimeout(() => {
+      if (!statsVisible) {
+        setStatsVisible(true);
+      }
+    }, 500);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !statsVisible) {
+            clearTimeout(fallbackTimer);
+            setStatsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [statsVisible]);
 
   // Fetch data from APIs - Only once on mount
   useEffect(() => {
@@ -197,33 +281,6 @@ const HomePage: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
-                <div className="flex flex-wrap gap-4">
-                  <Link to="/cashback">
-                    <button className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 bg-white text-[#E91E63] font-bold text-sm sm:text-base rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                      <Wallet2Icon className="w-5 h-5" />
-                      Khám Phá Hoàn Tiền
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
-                    </button>
-                  </Link>
-                  <Link to="/tasks">
-                    <button className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 bg-white/10 backdrop-blur-sm text-white font-semibold text-sm sm:text-base rounded-full border-2 border-white/30 hover:bg-white/20 transition-all duration-300">
-                      Làm Nhiệm Vụ
-                    </button>
-                  </Link>
-                </div>
               </div>
 
               {/* Ví Hoàn Tiền - Hiển thị trên cả mobile và desktop */}
@@ -298,7 +355,10 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Stats Section - Số liệu ấn tượng */}
-          <div className="p-2 sm:p-3 md:p-4 lg:p-6 bg-gradient-to-br from-gray-50 to-white">
+          <div
+            ref={statsRef}
+            className="p-2 sm:p-3 md:p-4 lg:p-6 bg-gradient-to-br from-gray-50 to-white"
+          >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 max-w-5xl mx-auto">
               <div className="text-center p-3 md:p-4 lg:p-6 bg-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl md:rounded-2xl mx-auto mb-2 md:mb-3 lg:mb-4 flex items-center justify-center">
@@ -317,7 +377,7 @@ const HomePage: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  50K+
+                  {userCount}K+
                 </p>
                 <p className="text-xs md:text-sm text-gray-500 font-medium">
                   Người dùng
@@ -341,7 +401,7 @@ const HomePage: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  450M+
+                  {cashbackCount}M+
                 </p>
                 <p className="text-xs md:text-sm text-gray-500 font-medium">
                   Đã hoàn tiền
@@ -365,7 +425,7 @@ const HomePage: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  1000+
+                  {brandCount}+
                 </p>
                 <p className="text-xs md:text-sm text-gray-500 font-medium">
                   Thương hiệu
@@ -389,7 +449,7 @@ const HomePage: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  200+
+                  {campaignCount}+
                 </p>
                 <p className="text-xs md:text-sm text-gray-500 font-medium">
                   Chiến dịch

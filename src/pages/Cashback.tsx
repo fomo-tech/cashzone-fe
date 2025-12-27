@@ -25,7 +25,7 @@ import { notification } from "@/utils/notification";
 import CommonModal from "@/components/common/Modal";
 import PriorityProducts from "@/components/cashback/PriorityProducts";
 import { formatCurrency } from "@/utils/lib";
-import SectionHero from "@/components/cashback/SectionHero";
+import CashbackHeroSection from "@/components/cashback/CashbackHeroSection";
 
 export interface Platform {
   id: string;
@@ -546,8 +546,7 @@ export default function Cashback() {
             </div>
           </CommonModal>
 
-          <SectionHero />
-
+          <CashbackHeroSection />
           <div className="mt-4 md:mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
             {PLATFORMS.map((p) => {
               if (!p) return null; // Bỏ qua nếu item bị null

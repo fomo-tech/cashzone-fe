@@ -1,3 +1,5 @@
+import "swiper/css";
+
 import { AppRouter } from "./routes/AppRouter";
 import { useAuthInit } from "./hooks/useAuthInit";
 import "sweetalert2/src/sweetalert2.scss";
