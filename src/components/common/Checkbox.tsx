@@ -39,13 +39,13 @@ const Checkbox: React.FC<CheckboxProps> = ({
         <div
           className={`
             w-5 h-5 flex items-center justify-center rounded-md border-2 transition-all duration-200 ease-in-out mr-3
-            bg-white border-gray-300 hover:border-[#E91E63]
+            bg-white border-gray-300 hover:border-orange-500
             
             // Trạng thái khi PEER (input) được CHECKED
-            peer-checked:bg-[#E91E63] peer-checked:border-[#E91E63]
+            peer-checked:bg-orange-500 peer-checked:border-orange-500
             
             // Trạng thái khi PEER (input) được FOCUS
-            peer-focus:ring-4 peer-focus:ring-offset-2 peer-focus:ring-pink-200
+            peer-focus:ring-4 peer-focus:ring-offset-2 peer-focus:ring-orange-200
           `}
         >
           {/* Checkmark (Chỉ hiển thị khi checked) */}

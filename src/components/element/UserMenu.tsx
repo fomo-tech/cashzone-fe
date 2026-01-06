@@ -61,7 +61,7 @@ const UserMenu = () => {
         <div className="py-1">
           <Link
             to="/profile"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-500 transition"
           >
             <User className="w-4 h-4 mr-2" />
             Trang cá nhân
@@ -69,7 +69,7 @@ const UserMenu = () => {
 
           <Link
             to="/wallet"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-500 transition"
           >
             <Wallet className="w-4 h-4 mr-2" />
             Ví của tôi
@@ -77,7 +77,7 @@ const UserMenu = () => {
 
           <Link
             to="/cashback-history"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-500 transition"
           >
             <History className="w-4 h-4 mr-2" />
             Lịch sử hoàn tiền
@@ -85,7 +85,7 @@ const UserMenu = () => {
 
           <Link
             to="/settings"
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition"
+            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-500 transition"
           >
             <Settings className="w-4 h-4 mr-2" />
             Cài đặt

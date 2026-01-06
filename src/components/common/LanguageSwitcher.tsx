@@ -61,11 +61,11 @@ const LanguageSwitcher = () => {
         aria-expanded={isOpen}
       >
         {/* Gradient Background on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-50 to-orange-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Content */}
         <div className="relative flex items-center gap-2">
-          <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-[#E91E63] transition-colors duration-300">
+          <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-orange-500 transition-colors duration-300">
             <img
               src={currentLanguage.flag}
               alt={currentLanguage.name}
@@ -73,7 +73,7 @@ const LanguageSwitcher = () => {
             />
           </span>
           <ChevronDown
-            className={`size-3.5 text-slate-400 group-hover:text-[#E91E63] transition-all duration-300 ${
+            className={`size-3.5 text-slate-400 group-hover:text-orange-500 transition-all duration-300 ${
               isOpen ? "rotate-180" : "rotate-0"
             }`}
           />
@@ -83,11 +83,11 @@ const LanguageSwitcher = () => {
       {/* Dropdown Menu */}
       {isOpen && (
         <div
-          className="absolute right-0 mt-3 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-pink-500/20 border border-pink-100/50 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+          className="absolute right-0 mt-3 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-orange-500/20 border border-orange-100/50 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
         >
           {/* Header */}
-          <div className="px-4 py-3 border-b border-pink-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
+          <div className="px-4 py-3 border-b border-orange-100/50 bg-gradient-to-r from-orange-50/50 to-orange-100/50">
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
               Select Language
             </p>
@@ -106,8 +106,8 @@ const LanguageSwitcher = () => {
                     w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200
                     ${
                       isActive
-                        ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63]"
-                        : "text-slate-700 hover:bg-gradient-to-r hover:from-pink-50/80 hover:to-orange-50/80"
+                        ? "bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500"
+                        : "text-slate-700 hover:bg-gradient-to-r hover:from-orange-50/80 hover:to-orange-100/80"
                     }
                     ${index !== 0 ? "border-t border-slate-100/50" : ""}
                   `}
@@ -126,7 +126,7 @@ const LanguageSwitcher = () => {
                   <div className="flex-1 min-w-0">
                     <div
                       className={`text-sm font-medium ${
-                        isActive ? "text-[#E91E63]" : "text-slate-700"
+                        isActive ? "text-orange-500" : "text-slate-700"
                       }`}
                     >
                       {lang.name}
@@ -139,7 +139,7 @@ const LanguageSwitcher = () => {
                   {/* Active Indicator */}
                   {isActive && (
                     <div className="flex-shrink-0">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg shadow-pink-500/30">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-orange-1000 flex items-center justify-center shadow-lg shadow-orange-500/30">
                         <Check
                           className="w-3.5 h-3.5 text-white"
                           strokeWidth={3}

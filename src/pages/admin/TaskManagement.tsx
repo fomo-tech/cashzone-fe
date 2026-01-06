@@ -221,7 +221,7 @@ const TaskManagement: React.FC = () => {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       active:
-        "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30",
+        "bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500 border border-orange-500/30",
       inactive: "bg-gray-100 text-gray-800",
     };
     return colors[status] || "bg-gray-100 text-gray-800";
@@ -393,30 +393,30 @@ const TaskManagement: React.FC = () => {
           <p className="text-gray-600 font-semibold">Đang tải dữ liệu...</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-[#E91E63]">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-500">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 border-b-2 border-[#E91E63]/20">
+              <thead className="bg-gradient-to-r from-orange-400/10 to-orange-1000/10 border-b-2 border-orange-500/20">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Tiêu đề
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Logo
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Loại
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Phần thưởng
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Tiến độ
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Trạng thái
                   </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-[#E91E63] uppercase tracking-wide">
+                  <th className="px-6 py-4 text-right text-xs font-bold text-orange-500 uppercase tracking-wide">
                     Hành động
                   </th>
                 </tr>
@@ -425,7 +425,7 @@ const TaskManagement: React.FC = () => {
                 {tasks.map((task) => (
                   <tr
                     key={task._id}
-                    className="hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors"
+                    className="hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 transition-colors"
                   >
                     <td className="px-6 py-4">
                       <div className="font-medium text-gray-900 line-clamp-1">
@@ -456,12 +456,12 @@ const TaskManagement: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500 border border-orange-500/30">
                         {getTaskTypeLabel(task.type)}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-base font-bold text-[#E91E63]">
+                      <span className="text-base font-bold text-orange-500">
                         {formatReward(task.reward)}
                       </span>
                     </td>
@@ -473,7 +473,7 @@ const TaskManagement: React.FC = () => {
                       {task.maxCompletions && (
                         <div className="w-32 bg-gray-200 rounded-full h-2 mt-1.5 overflow-hidden">
                           <div
-                            className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] h-2 rounded-full transition-all shadow-sm"
+                            className="bg-gradient-to-r from-orange-400 to-orange-1000 h-2 rounded-full transition-all shadow-sm"
                             style={{
                               width: `${Math.min(
                                 (task.completedCount / task.maxCompletions) *
@@ -515,7 +515,7 @@ const TaskManagement: React.FC = () => {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleEdit(task)}
-                          className="p-2 text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded-lg transition-all hover:shadow-md"
+                          className="p-2 text-orange-500 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 rounded-lg transition-all hover:shadow-md"
                           title="Chỉnh sửa"
                         >
                           <Edit size={18} />
@@ -572,11 +572,11 @@ const TaskManagement: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden border border-gray-200">
             {/* Header */}
             <div className="relative bg-gradient-to-br from-slate-50 via-white to-gray-50 px-8 py-6 border-b border-gray-100">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-1000"></div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-2xl flex items-center justify-center">
-                    <Edit className="w-6 h-6 text-[#E91E63]" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-400/10 to-orange-1000/10 rounded-2xl flex items-center justify-center">
+                    <Edit className="w-6 h-6 text-orange-500" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800">
@@ -604,7 +604,7 @@ const TaskManagement: React.FC = () => {
                 {/* Basic Information */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-2 h-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"></div>
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-1000 rounded-full"></div>
                     <h3 className="text-lg font-semibold text-gray-800">
                       Thông tin cơ bản
                     </h3>
@@ -613,7 +613,7 @@ const TaskManagement: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <FileText className="w-4 h-4 text-[#E91E63]" />
+                        <FileText className="w-4 h-4 text-orange-500" />
                         Tiêu đề nhiệm vụ *
                       </label>
                       <input
@@ -624,13 +624,13 @@ const TaskManagement: React.FC = () => {
                         }
                         required
                         placeholder="Nhập tiêu đề hấp dẫn cho nhiệm vụ..."
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all text-gray-800 placeholder-gray-400"
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-gray-800 placeholder-gray-400"
                       />
                     </div>
 
                     <div>
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <Smartphone className="w-4 h-4 text-[#E91E63]" />
+                        <Smartphone className="w-4 h-4 text-orange-500" />
                         Nền tảng *
                       </label>
                       <PlatformSelect
@@ -645,7 +645,7 @@ const TaskManagement: React.FC = () => {
 
                     <div>
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <Target className="w-4 h-4 text-[#E91E63]" />
+                        <Target className="w-4 h-4 text-orange-500" />
                         Loại nhiệm vụ *
                       </label>
                       <select
@@ -653,7 +653,7 @@ const TaskManagement: React.FC = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, type: e.target.value })
                         }
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all bg-white text-gray-800"
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all bg-white text-gray-800"
                       >
                         <option value="survey">📊 Khảo sát</option>
                         <option value="app">📱 Cài đặt ứng dụng</option>
@@ -670,7 +670,7 @@ const TaskManagement: React.FC = () => {
 
                   <div>
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                      <FileText className="w-4 h-4 text-[#E91E63]" />
+                      <FileText className="w-4 h-4 text-orange-500" />
                       Mô tả nhiệm vụ
                     </label>
                     <textarea
@@ -683,13 +683,13 @@ const TaskManagement: React.FC = () => {
                       }
                       rows={4}
                       placeholder="Mô tả chi tiết về nhiệm vụ, yêu cầu thực hiện..."
-                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all resize-none text-gray-800 placeholder-gray-400"
+                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all resize-none text-gray-800 placeholder-gray-400"
                     />
                   </div>
 
                   <div>
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                      <ImageIcon className="w-4 h-4 text-[#E91E63]" />
+                      <ImageIcon className="w-4 h-4 text-orange-500" />
                       Logo URL (tùy chọn)
                     </label>
                     <input
@@ -699,7 +699,7 @@ const TaskManagement: React.FC = () => {
                         setFormData({ ...formData, logoUrl: e.target.value })
                       }
                       placeholder="https://example.com/logo.png"
-                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all text-gray-800 placeholder-gray-400"
+                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-gray-800 placeholder-gray-400"
                     />
                   </div>
                 </div>
@@ -781,15 +781,15 @@ const TaskManagement: React.FC = () => {
                 {/* Requirements Section */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-2 h-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"></div>
+                    <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-1000 rounded-full"></div>
                     <h3 className="text-lg font-semibold text-gray-800">
                       Các bước thực hiện nhiệm vụ
                     </h3>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 p-6 rounded-3xl border border-blue-200">
+                  <div className="bg-gradient-to-br from-orange-50 to-blue-100/50 p-6 rounded-3xl border border-orange-200">
                     <div className="flex items-start gap-3 mb-6">
-                      <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
                         <List className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -821,10 +821,10 @@ const TaskManagement: React.FC = () => {
                           return (
                             <div
                               key={index}
-                              className="bg-white p-6 rounded-2xl border-2 border-blue-100 hover:border-blue-300 hover:shadow-md transition-all group"
+                              className="bg-white p-6 rounded-2xl border-2 border-orange-100 hover:border-orange-300 hover:shadow-md transition-all group"
                             >
                               <div className="flex items-start gap-4 mb-4">
-                                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white text-sm font-bold rounded-xl flex items-center justify-center shadow-lg">
+                                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-1000 text-white text-sm font-bold rounded-xl flex items-center justify-center shadow-lg">
                                   {index + 1}
                                 </div>
                                 <div className="flex-1">
@@ -848,7 +848,7 @@ const TaskManagement: React.FC = () => {
                                       });
                                     }}
                                     placeholder={`Ví dụ: Đăng ký tài khoản, Chia sẻ bài viết...`}
-                                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-semibold text-gray-800 placeholder-gray-400"
+                                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-orange-500 transition-all font-semibold text-gray-800 placeholder-gray-400"
                                   />
                                 </div>
                                 <button
@@ -890,7 +890,7 @@ const TaskManagement: React.FC = () => {
                                   }}
                                   placeholder="Hướng dẫn chi tiết cách thực hiện bước này. Ví dụ: Truy cập vào trang chủ, nhấn nút Đăng ký, điền thông tin cá nhân..."
                                   rows={3}
-                                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none text-gray-700 placeholder-gray-400"
+                                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-orange-500 transition-all resize-none text-gray-700 placeholder-gray-400"
                                 />
                               </div>
                             </div>
@@ -927,7 +927,7 @@ const TaskManagement: React.FC = () => {
                             ],
                           });
                         }}
-                        className="flex-1 px-6 py-4 bg-white border-2 border-dashed border-blue-300 text-blue-600 rounded-2xl hover:bg-blue-50 hover:border-blue-400 hover:shadow-md transition-all font-semibold flex items-center justify-center gap-2 group"
+                        className="flex-1 px-6 py-4 bg-white border-2 border-dashed border-blue-300 text-orange-600 rounded-2xl hover:bg-orange-50 hover:border-blue-400 hover:shadow-md transition-all font-semibold flex items-center justify-center gap-2 group"
                       >
                         <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
                         Thêm bước mới
@@ -972,7 +972,7 @@ const TaskManagement: React.FC = () => {
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:from-[#D81B60] hover:to-[#FF7043] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.01] active:scale-[0.98]"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-xl hover:from-[#D81B60] hover:to-[#FF7043] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.01] active:scale-[0.98]"
                     >
                       {editingTask ? (
                         <>

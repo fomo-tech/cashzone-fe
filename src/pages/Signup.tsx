@@ -78,7 +78,7 @@ const SignupForm: React.FC = () => {
             Already have an account?
             <a
               href="/login"
-              className="text-pink-500 font-medium hover:underline ml-1"
+              className="text-orange-600 font-medium hover:underline ml-1"
             >
               Sign in
             </a>
@@ -112,7 +112,7 @@ const SignupForm: React.FC = () => {
               type="email"
               placeholder="Email"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-700 font-medium placeholder-slate-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -124,7 +124,7 @@ const SignupForm: React.FC = () => {
               type="password"
               placeholder="Mật khẩu"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-700 font-medium placeholder-slate-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -135,7 +135,7 @@ const SignupForm: React.FC = () => {
             <input
               type="text"
               placeholder="Mã Giới Thiệu (Không bắt buộc)"
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-700 placeholder-slate-400"
               value={referralCode}
               onChange={(e) => setReferralCode(e.target.value)}
             />
@@ -149,21 +149,21 @@ const SignupForm: React.FC = () => {
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="w-4 h-4 text-[#E91E63] bg-gray-100 border-gray-300 rounded focus:ring-pink-500"
+                className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 rounded focus:ring-orange-500"
               />
             </div>
             <label htmlFor="terms" className="ml-3 text-sm text-slate-600">
               I agree to
               <a
                 href="#"
-                className="text-pink-500 hover:underline font-medium ml-1"
+                className="text-orange-500 hover:underline font-medium ml-1"
               >
                 Terms of Service
               </a>
               and
               <a
                 href="#"
-                className="text-pink-500 hover:underline font-medium ml-1"
+                className="text-orange-500 hover:underline font-medium ml-1"
               >
                 Privacy Policy
               </a>
@@ -176,7 +176,7 @@ const SignupForm: React.FC = () => {
             disabled={!agreed}
             className={`w-full py-3 rounded-xl font-bold text-white transition-colors duration-200 shadow-md ${
               agreed
-                ? "bg-[#E91E63] hover:bg-[#AD1457]"
+                ? "bg-orange-500 hover:bg-orange-600"
                 : "bg-gray-400 cursor-not-allowed opacity-80"
             }`}
           >

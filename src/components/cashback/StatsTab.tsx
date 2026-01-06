@@ -116,7 +116,7 @@ const StatsTab: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
       </div>
     );
   }
@@ -223,10 +223,10 @@ const StatsTab: React.FC = () => {
             <CardTitle className="text-xs sm:text-sm font-medium">
               Đã thanh toán
             </CardTitle>
-            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500" />
+            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-orange-500" />
           </CardHeader>
           <CardContent className="p-0">
-            <div className="text-lg sm:text-2xl font-bold text-blue-600 mb-1">
+            <div className="text-lg sm:text-2xl font-bold text-orange-600 mb-1">
               {formatCurrency(stats.paidAmount)}
             </div>
             <p className="text-xs text-gray-500">
@@ -274,7 +274,7 @@ const StatsTab: React.FC = () => {
                   className="flex items-center justify-between p-4 rounded-lg bg-gray-50"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center text-sm font-semibold text-white">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-orange-1000 flex items-center justify-center text-sm font-semibold text-white">
                       {month.month}
                     </div>
                     <div>
@@ -290,7 +290,7 @@ const StatsTab: React.FC = () => {
                     </p>
                     <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
                       <div
-                        className="h-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"
+                        className="h-full bg-gradient-to-r from-orange-400 to-orange-1000 rounded-full"
                         style={{
                           width: `${
                             Math.max(stats.monthlyStats)
@@ -348,14 +348,14 @@ const StatsTab: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-              <div className="w-4 h-4 bg-[#E91E63] rounded-full"></div>
+            <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg">
+              <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
               <div>
-                <p className="font-medium text-blue-900">Đã thanh toán</p>
-                <p className="text-blue-700">
+                <p className="font-medium text-orange-900">Đã thanh toán</p>
+                <p className="text-orange-700">
                   {formatCurrency(stats.statusBreakdown.paid.amount)}
                 </p>
-                <p className="text-sm text-blue-600">
+                <p className="text-sm text-orange-600">
                   {stats.statusBreakdown.paid.count} giao dịch
                 </p>
               </div>
@@ -387,16 +387,16 @@ const StatsTab: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-blue-900 mb-2">
+            <div className="p-4 bg-orange-50 rounded-lg">
+              <h4 className="font-semibold text-orange-900 mb-2">
                 Thu nhập trung bình/tháng
               </h4>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-orange-600">
                 {formatCurrency(
                   stats.totalEarned / Math.max(stats.monthlyStats.length, 1)
                 )}
               </p>
-              <p className="text-sm text-blue-700 mt-1">Trung bình mỗi tháng</p>
+              <p className="text-sm text-orange-700 mt-1">Trung bình mỗi tháng</p>
             </div>
 
             <div className="p-4 bg-green-50 rounded-lg">
@@ -419,18 +419,18 @@ const StatsTab: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 bg-purple-50 rounded-lg">
-              <h4 className="font-semibold text-purple-900 mb-2">
+            <div className="p-4 bg-orange-50 rounded-lg">
+              <h4 className="font-semibold text-orange-900 mb-2">
                 Giá trị trung bình/giao dịch
               </h4>
-              <p className="text-2xl font-bold text-purple-600">
+              <p className="text-2xl font-bold text-orange-500">
                 {formatCurrency(
                   stats.totalTransactions > 0
                     ? stats.totalEarned / stats.totalTransactions
                     : 0
                 )}
               </p>
-              <p className="text-sm text-purple-700 mt-1">Mỗi giao dịch</p>
+              <p className="text-sm text-orange-700 mt-1">Mỗi giao dịch</p>
             </div>
           </div>
         </CardContent>

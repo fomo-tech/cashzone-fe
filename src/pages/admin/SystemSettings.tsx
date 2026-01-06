@@ -226,7 +226,7 @@ const SystemSettingsPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader className="w-8 h-8 text-blue-600 animate-spin" />
+        <Loader className="w-8 h-8 text-orange-600 animate-spin" />
       </div>
     );
   }
@@ -270,8 +270,8 @@ const SystemSettingsPage: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="border-b border-gray-200 p-6">
               <div className="flex items-center gap-3">
-                <div className="bg-blue-50 p-2 rounded-lg">
-                  <Wallet className="w-5 h-5 text-blue-600" />
+                <div className="bg-orange-50 p-2 rounded-lg">
+                  <Wallet className="w-5 h-5 text-orange-600" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900">
                   Cài Đặt Ví
@@ -298,7 +298,7 @@ const SystemSettingsPage: React.FC = () => {
                           parseInt(e.target.value) || 0
                         )
                       }
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500 transition-all duration-200"
                     />
                   </div>
                 </div>
@@ -321,7 +321,7 @@ const SystemSettingsPage: React.FC = () => {
                           parseInt(e.target.value) || 0
                         )
                       }
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500 transition-all duration-200"
                     />
                   </div>
                 </div>
@@ -352,7 +352,7 @@ const SystemSettingsPage: React.FC = () => {
                     type="text"
                     value={settings.systemName}
                     onChange={(e) => updateField("systemName", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500 transition-all duration-200"
                   />
                 </div>
 
@@ -369,7 +369,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         updateField("contactEmail", e.target.value)
                       }
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                     />
                   </div>
                 </div>
@@ -387,7 +387,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         updateField("contactPhone", e.target.value)
                       }
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                     />
                   </div>
                 </div>
@@ -409,7 +409,7 @@ const SystemSettingsPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowBep20Modal(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium"
                 >
                   <Plus className="w-4 h-4" />
                   Thêm
@@ -431,7 +431,7 @@ const SystemSettingsPage: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => navigator.clipboard.writeText(address)}
-                        className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                         title="Copy"
                       >
                         <Copy className="w-4 h-4" />
@@ -480,7 +480,7 @@ const SystemSettingsPage: React.FC = () => {
                     setEditingBank(null);
                     setShowBankModal(true);
                   }}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium"
                 >
                   <Plus className="w-4 h-4" />
                   Thêm
@@ -508,7 +508,7 @@ const SystemSettingsPage: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => openEditBank(bank, index)}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Settings className="w-4 h-4" />
@@ -590,7 +590,7 @@ const SystemSettingsPage: React.FC = () => {
                       })
                     }
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500 resize-none"
                     placeholder="Nhập thông báo bảo trì..."
                   />
                 </div>
@@ -602,8 +602,8 @@ const SystemSettingsPage: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="border-b border-gray-200 p-6">
               <div className="flex items-center gap-3">
-                <div className="bg-purple-50 p-2 rounded-lg">
-                  <Link className="w-5 h-5 text-purple-600" />
+                <div className="bg-orange-50 p-2 rounded-lg">
+                  <Link className="w-5 h-5 text-orange-500" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900">
                   Marketing API
@@ -631,7 +631,7 @@ const SystemSettingsPage: React.FC = () => {
                     }
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                       settings.marketingApi.enabled
-                        ? "bg-blue-600"
+                        ? "bg-orange-600"
                         : "bg-gray-300"
                     }`}
                   >
@@ -661,7 +661,7 @@ const SystemSettingsPage: React.FC = () => {
                             apiKey: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                         placeholder="Nhập API key..."
                       />
                     </div>
@@ -679,7 +679,7 @@ const SystemSettingsPage: React.FC = () => {
                             apiUrl: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                         placeholder="https://api.example.com"
                       />
                     </div>
@@ -697,7 +697,7 @@ const SystemSettingsPage: React.FC = () => {
                             webhookUrl: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                         placeholder="https://webhook.example.com"
                       />
                     </div>
@@ -711,7 +711,7 @@ const SystemSettingsPage: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="border-b border-gray-200 p-6">
               <div className="flex items-center gap-3">
-                <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-2 rounded-lg">
+                <div className="bg-gradient-to-r from-orange-400 to-orange-1000 p-2 rounded-lg">
                   <DollarSign className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900">
@@ -722,7 +722,7 @@ const SystemSettingsPage: React.FC = () => {
             <div className="p-6">
               <div className="space-y-6">
                 {/* Enable/Disable Commission */}
-                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-pink-50 to-orange-50 rounded-lg border border-pink-100">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-100">
                   <div>
                     <h3 className="font-semibold text-gray-800">
                       Kích hoạt hệ thống hoa hồng
@@ -740,7 +740,7 @@ const SystemSettingsPage: React.FC = () => {
                     }
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                       settings.commission?.enabled
-                        ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"
+                        ? "bg-gradient-to-r from-orange-400 to-orange-1000"
                         : "bg-gray-300"
                     }`}
                   >
@@ -794,9 +794,9 @@ const SystemSettingsPage: React.FC = () => {
                     </div>
 
                     {/* Level 2 Commission */}
-                    <div className="p-4 border border-gray-200 rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gradient-to-br from-orange-50 to-red-50">
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                         <h4 className="font-semibold text-gray-800">
                           Cấp 2 (F2)
                         </h4>
@@ -817,7 +817,7 @@ const SystemSettingsPage: React.FC = () => {
                               level2Rate: parseFloat(e.target.value) || 0,
                             })
                           }
-                          className="w-full px-4 py-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full px-4 py-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                           placeholder="3.0"
                         />
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
@@ -830,9 +830,9 @@ const SystemSettingsPage: React.FC = () => {
                     </div>
 
                     {/* Level 3 Commission */}
-                    <div className="p-4 border border-gray-200 rounded-lg bg-gradient-to-br from-purple-50 to-violet-50">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gradient-to-br from-orange-50 to-red-50">
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                         <h4 className="font-semibold text-gray-800">
                           Cấp 3 (F3)
                         </h4>
@@ -853,7 +853,7 @@ const SystemSettingsPage: React.FC = () => {
                               level3Rate: parseFloat(e.target.value) || 0,
                             })
                           }
-                          className="w-full px-4 py-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                          className="w-full px-4 py-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                           placeholder="1.0"
                         />
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
@@ -913,7 +913,7 @@ const SystemSettingsPage: React.FC = () => {
               type="text"
               value={newBep20Address}
               onChange={(e) => setNewBep20Address(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="0x..."
               autoFocus
             />
@@ -928,7 +928,7 @@ const SystemSettingsPage: React.FC = () => {
             </button>
             <button
               onClick={addBep20Address}
-              className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="flex-1 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors"
             >
               Thêm
             </button>
@@ -954,7 +954,7 @@ const SystemSettingsPage: React.FC = () => {
               onChange={(e) =>
                 setBankForm({ ...bankForm, bankName: e.target.value })
               }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="Vietcombank, Techcombank..."
               autoFocus
             />
@@ -970,7 +970,7 @@ const SystemSettingsPage: React.FC = () => {
               onChange={(e) =>
                 setBankForm({ ...bankForm, accountNumber: e.target.value })
               }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="1234567890"
             />
           </div>
@@ -985,7 +985,7 @@ const SystemSettingsPage: React.FC = () => {
               onChange={(e) =>
                 setBankForm({ ...bankForm, accountName: e.target.value })
               }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="NGUYEN VAN A"
             />
           </div>
@@ -1000,7 +1000,7 @@ const SystemSettingsPage: React.FC = () => {
               onChange={(e) =>
                 setBankForm({ ...bankForm, branchName: e.target.value })
               }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="Chi nhánh Hà Nội"
             />
           </div>
@@ -1015,7 +1015,7 @@ const SystemSettingsPage: React.FC = () => {
               onChange={(e) =>
                 setBankForm({ ...bankForm, qrCode: e.target.value })
               }
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
               placeholder="https://example.com/qr-code.png"
             />
           </div>
@@ -1029,7 +1029,7 @@ const SystemSettingsPage: React.FC = () => {
             </button>
             <button
               onClick={saveBankInfo}
-              className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
             >
               <Save className="w-4 h-4" />
               {editingBank ? "Cập nhật" : "Thêm"}

@@ -270,7 +270,7 @@ export default function PlatformManagement() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-            <Globe className="text-pink-600" size={32} />
+            <Globe className="text-orange-500" size={32} />
             Quản lý Platform
           </h1>
           <p className="text-gray-600 mt-2">
@@ -292,14 +292,14 @@ export default function PlatformManagement() {
                   placeholder="Tìm kiếm platform..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="">Tất cả loại</option>
                 {platformTypes.map((type) => (
@@ -312,7 +312,7 @@ export default function PlatformManagement() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="">Tất cả trạng thái</option>
                 <option value="active">Active</option>
@@ -322,7 +322,7 @@ export default function PlatformManagement() {
 
             <button
               onClick={handleCreatePlatform}
-              className="px-4 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
+              className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-1000 text-white rounded-lg hover:from-red-500 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
             >
               <Plus size={20} />
               Thêm Platform
@@ -333,7 +333,7 @@ export default function PlatformManagement() {
         {/* Platforms Grid */}
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="inline-block w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-500 mt-4">Đang tải...</p>
           </div>
         ) : filteredPlatforms.length === 0 ? (
@@ -359,7 +359,7 @@ export default function PlatformManagement() {
                           className="w-12 h-12 rounded-lg object-cover"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold text-xl">
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-orange-1000 flex items-center justify-center text-white font-bold text-xl">
                           {platform.name.charAt(0)}
                         </div>
                       )}
@@ -411,7 +411,7 @@ export default function PlatformManagement() {
                         href={platform.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
+                        className="flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700"
                       >
                         <ExternalLink size={14} />
                         Website
@@ -423,7 +423,7 @@ export default function PlatformManagement() {
                   <div className="flex items-center gap-2 pt-4 border-t">
                     <button
                       onClick={() => handleEditPlatform(platform)}
-                      className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 flex items-center justify-center gap-2"
+                      className="flex-1 px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 flex items-center justify-center gap-2"
                     >
                       <Edit size={16} />
                       Sửa
@@ -479,7 +479,7 @@ export default function PlatformManagement() {
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="Shopee, Tiki, Lazada..."
                       />
                     </div>
@@ -494,7 +494,7 @@ export default function PlatformManagement() {
                         onChange={(e) =>
                           setFormData({ ...formData, type: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       >
                         {platformTypes.map((type) => (
                           <option key={type.value} value={type.value}>
@@ -514,7 +514,7 @@ export default function PlatformManagement() {
                         onChange={(e) =>
                           setFormData({ ...formData, logo: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="https://..."
                       />
                     </div>
@@ -529,7 +529,7 @@ export default function PlatformManagement() {
                         onChange={(e) =>
                           setFormData({ ...formData, website: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="https://..."
                       />
                     </div>
@@ -548,7 +548,7 @@ export default function PlatformManagement() {
                         })
                       }
                       rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="Mô tả về platform..."
                     />
                   </div>
@@ -574,7 +574,7 @@ export default function PlatformManagement() {
                             trackingMode: e.target.value as any,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       >
                         <option value="deeplink">Deeplink</option>
                         <option value="redirect">Redirect</option>
@@ -595,7 +595,7 @@ export default function PlatformManagement() {
                             status: e.target.value as any,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -613,7 +613,7 @@ export default function PlatformManagement() {
                       onChange={(e) =>
                         setFormData({ ...formData, refLink: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="https://..."
                     />
                   </div>
@@ -638,7 +638,7 @@ export default function PlatformManagement() {
                             commissionType: e.target.value as any,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       >
                         <option value="percentage">Percentage (%)</option>
                         <option value="fixed">Fixed (VND)</option>
@@ -660,7 +660,7 @@ export default function PlatformManagement() {
                             commissionValue: Number(e.target.value),
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="0"
                       />
                     </div>
@@ -690,7 +690,7 @@ export default function PlatformManagement() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="https://api.platform.com"
                       />
                     </div>
@@ -711,7 +711,7 @@ export default function PlatformManagement() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="/deeplink"
                       />
                     </div>
@@ -732,7 +732,7 @@ export default function PlatformManagement() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="API Key"
                       />
                     </div>
@@ -753,7 +753,7 @@ export default function PlatformManagement() {
                             },
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="API Secret"
                       />
                     </div>
@@ -771,7 +771,7 @@ export default function PlatformManagement() {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-1000 text-white rounded-lg hover:from-red-500 hover:to-orange-600"
                   >
                     {modalMode === "create" ? "Thêm Platform" : "Cập nhật"}
                   </button>

@@ -36,10 +36,10 @@ const colors: Record<
     icon: "text-yellow-600",
   },
   info: {
-    bg: "bg-blue-50",
-    text: "text-blue-700",
-    border: "border-blue-500",
-    icon: "text-blue-600",
+    bg: "bg-orange-50",
+    text: "text-orange-700",
+    border: "border-orange-500",
+    icon: "text-orange-600",
   },
 };
 

@@ -123,7 +123,7 @@ const WalletManagement: React.FC = () => {
     <div className="p-6">
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-orange-500 text-white px-6 py-3 rounded-xl shadow-lg">
           {toastMessage}
         </div>
       )}
@@ -135,7 +135,7 @@ const WalletManagement: React.FC = () => {
           <input
             type="text"
             placeholder="Tìm kiếm theo email, tên, số điện thoại..."
-            className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63]"
+            className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -148,7 +148,7 @@ const WalletManagement: React.FC = () => {
       {/* User List */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
+          <Loader className="w-8 h-8 text-orange-500 animate-spin" />
         </div>
       ) : (
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
@@ -184,7 +184,7 @@ const WalletManagement: React.FC = () => {
                   >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-1000 rounded-full flex items-center justify-center text-white font-bold">
                           {(user.name || user.email).charAt(0).toUpperCase()}
                         </div>
                         <div>
@@ -275,9 +275,9 @@ const WalletManagement: React.FC = () => {
         {adjustForm && (
           <>
             {/* User Info */}
-            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+            <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-100">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                   {adjustForm.userName.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -315,7 +315,7 @@ const WalletManagement: React.FC = () => {
                   type="number"
                   min="0"
                   step="1000"
-                  className="w-full pl-4 pr-20 py-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-bold text-xl transition-all"
+                  className="w-full pl-4 pr-20 py-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500 font-bold text-xl transition-all"
                   placeholder="0"
                   value={adjustForm.amount || ""}
                   onChange={(e) =>
@@ -343,7 +343,7 @@ const WalletManagement: React.FC = () => {
                 Lý Do <span className="text-red-500">*</span>
               </label>
               <textarea
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all"
+                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500 resize-none transition-all"
                 rows={4}
                 placeholder="Nhập lý do điều chỉnh số dư (bắt buộc)..."
                 value={adjustForm.reason}

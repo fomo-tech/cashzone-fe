@@ -29,8 +29,8 @@ const NotFoundPage = () => {
         {/* Icon và Mã Lỗi Chính */}
         <div className="mb-10 flex flex-col items-center">
           {/* Icon (lớn hơn và màu xanh lá cây) */}
-          <div className="p-4 rounded-full bg-pink-50 inline-block mb-6 shadow-md">
-            <Frown className="w-12 h-12 text-[#E91E63] animate-bounce-slow" />
+          <div className="p-4 rounded-full bg-orange-50 inline-block mb-6 shadow-md">
+            <Frown className="w-12 h-12 text-orange-500 animate-bounce-slow" />
           </div>
 
           {/* Số 404 với Gradient Text (Xanh lá - Xanh ngọc) */}
@@ -62,9 +62,9 @@ const NotFoundPage = () => {
         {/* Nút Hành động (Màu xanh lá cây) */}
         <button
           onClick={handleGoBack}
-          className="inline-flex items-center justify-center px-10 py-3.5 border border-transparent text-lg font-bold rounded-xl shadow-xl text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]
-            hover:from-[#AD1457] hover:to-[#E65100] transition duration-300 ease-in-out transform hover:-translate-y-1 
-            focus:outline-none focus:ring-4 focus:ring-pink-500/50 focus:ring-opacity-50 active:translate-y-0 cursor-pointer shadow-pink-500/30"
+          className="inline-flex items-center justify-center px-10 py-3.5 border border-transparent text-lg font-bold rounded-xl shadow-xl text-white bg-gradient-to-r from-orange-400 to-orange-1000
+            hover:from-orange-500 hover:to-orange-600 transition duration-300 ease-in-out transform hover:-translate-y-1 
+            focus:outline-none focus:ring-4 focus:ring-orange-500/50 focus:ring-opacity-50 active:translate-y-0 cursor-pointer shadow-orange-500/30"
         >
           <ArrowLeft className="w-5 h-5 mr-3" />
           Quay Về Trang Chủ An Toàn
@@ -76,7 +76,7 @@ const NotFoundPage = () => {
             Cần giúp đỡ?
             <a
               href="/contact"
-              className="text-[#E91E63] font-semibold hover:text-[#AD1457] hover:underline ml-1 transition-colors"
+              className="text-orange-500 font-semibold hover:text-orange-600 hover:underline ml-1 transition-colors"
             >
               Liên hệ với đội ngũ hỗ trợ
             </a>

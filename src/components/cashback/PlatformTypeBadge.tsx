@@ -21,12 +21,12 @@ const PlatformTypeBadge: React.FC<{
     case "service":
       icon = <Plane size={14} className="mr-1" />;
       text = "Dịch vụ/Du lịch";
-      bgColor = isActive ? "bg-white/20" : "bg-blue-100 text-blue-700";
+      bgColor = isActive ? "bg-white/20" : "bg-orange-100 text-orange-700";
       break;
     case "finance":
       icon = <Shield size={14} className="mr-1" />;
       text = "Vay/Tài chính";
-      bgColor = isActive ? "bg-white/20" : "bg-purple-100 text-purple-700";
+      bgColor = isActive ? "bg-white/20" : "bg-orange-100 text-orange-700";
       break;
     default:
       return null;

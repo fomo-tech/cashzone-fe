@@ -24,17 +24,17 @@ const OfferPreview: React.FC<{
     case "trade":
       rateLabel = "Rebate";
       feeLabel = "Hoàn phí:";
-      rateColor = "text-pink-500";
+      rateColor = "text-orange-500";
       break;
     case "finance":
       rateLabel = "Ưu đãi Lãi suất";
       feeLabel = "Phí tư vấn:";
-      rateColor = "text-blue-500";
+      rateColor = "text-orange-500";
       break;
     case "service":
       rateLabel = "Cashback";
       feeLabel = "Hoa hồng:";
-      rateColor = "text-purple-500";
+      rateColor = "text-orange-500";
       break;
     case "product":
     default:
@@ -52,7 +52,7 @@ const OfferPreview: React.FC<{
   return (
     <div
       className={`mt-4 p-5 rounded-2xl bg-white border border-gray-200 flex gap-4 items-start shadow-sm hover:shadow-md transition-all duration-300 ${
-        cashbackLink ? "cursor-pointer hover:border-pink-400" : ""
+        cashbackLink ? "cursor-pointer hover:border-orange-400" : ""
       }`}
       onClick={handleClick}
       role={cashbackLink ? "button" : undefined}
@@ -66,7 +66,7 @@ const OfferPreview: React.FC<{
           className="w-full h-full rounded-lg object-cover"
         />
         {cashbackLink && (
-          <div className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full p-1 shadow">
+          <div className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full p-1 shadow">
             <ExternalLink size={12} />
           </div>
         )}
@@ -110,7 +110,7 @@ const OfferPreview: React.FC<{
 
           {/* Clickable indicator */}
           {cashbackLink && (
-            <div className="flex items-center gap-1 text-xs text-pink-600 font-medium">
+            <div className="flex items-center gap-1 text-xs text-orange-500 font-medium">
               <ExternalLink size={12} />
               <span>Click để mua</span>
             </div>

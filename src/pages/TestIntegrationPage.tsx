@@ -27,7 +27,7 @@ const TestIntegrationPage: React.FC = () => {
           <div className="text-center">
             <button
               onClick={() => setShowLeaderBoard(!showLeaderBoard)}
-              className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-1000 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
             >
               {showLeaderBoard ? "🙈 Ẩn Leaderboard" : "👀 Hiện Leaderboard"}
             </button>
@@ -50,11 +50,11 @@ const TestIntegrationPage: React.FC = () => {
         )}
 
         {/* Instructions */}
-        <div className="bg-blue-50 rounded-lg p-4">
-          <h3 className="font-semibold text-blue-800 mb-2">
+        <div className="bg-orange-50 rounded-lg p-4">
+          <h3 className="font-semibold text-orange-800 mb-2">
             📋 Hướng dẫn kiểm tra:
           </h3>
-          <ol className="text-blue-700 text-sm space-y-1 list-decimal list-inside">
+          <ol className="text-orange-700 text-sm space-y-1 list-decimal list-inside">
             <li>
               Kiểm tra phần test trên có hiển thị "✅ Kết nối thành công!" không
             </li>

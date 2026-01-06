@@ -54,11 +54,11 @@ export const TestLeaderboard: React.FC<TestLeaderboardProps> = ({
 
   if (loading) {
     return (
-      <div className="p-4 bg-blue-50 rounded-lg">
-        <h3 className="text-lg font-semibold text-blue-800">
+      <div className="p-4 bg-orange-50 rounded-lg">
+        <h3 className="text-lg font-semibold text-orange-800">
           🧪 Testing Leaderboard Integration...
         </h3>
-        <p className="text-blue-600">Đang kiểm tra kết nối với dữ liệu...</p>
+        <p className="text-orange-600">Đang kiểm tra kết nối với dữ liệu...</p>
       </div>
     );
   }

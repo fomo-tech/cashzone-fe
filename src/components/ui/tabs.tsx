@@ -84,7 +84,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       {isActive && (
         <motion.span
           layoutId="activeTabIndicator"
-          className="absolute inset-0 rounded-xl shadow-[0_4px_12px_rgba(233,30,99,0.3)] bg-gradient-to-br from-[#E91E63] via-[#F44336] to-[#FF8C1A]"
+          className="absolute inset-0 rounded-xl shadow-[0_4px_12px_rgba(233,30,99,0.3)] bg-gradient-to-br from-orange-400 via-[#F44336] to-orange-1000"
           transition={{
             type: "spring",
             stiffness: 400,

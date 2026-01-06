@@ -78,25 +78,25 @@ export const THEME = {
   // Primary Background Classes - Gradient Theme
   PRIMARY_BG: "bg-primary-gradient",
   PRIMARY_BG_HOVER: "hover:opacity-90",
-  PRIMARY_BG_LIGHT: "bg-pink-50",
-  PRIMARY_BG_GRADIENT: "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]",
-  PRIMARY_BG_GRADIENT_HOVER: "hover:from-[#AD1457] hover:to-[#E65100]",
+  PRIMARY_BG_LIGHT: "bg-orange-50",
+  PRIMARY_BG_GRADIENT: "bg-gradient-to-r from-orange-500 to-orange-600",
+  PRIMARY_BG_GRADIENT_HOVER: "hover:from-orange-600 hover:to-orange-700",
 
   // Primary Text Classes
-  PRIMARY_TEXT: "text-[#E91E63]",
+  PRIMARY_TEXT: "text-orange-500",
   PRIMARY_TEXT_LIGHT: "text-[#F48FB1]",
-  PRIMARY_TEXT_DARK: "text-[#AD1457]",
+  PRIMARY_TEXT_DARK: "text-orange-600",
 
   // Primary Border Classes
-  PRIMARY_BORDER: "border-[#E91E63]",
+  PRIMARY_BORDER: "border-orange-500",
   PRIMARY_BORDER_LIGHT: "border-[#F48FB1]",
 
   // Secondary Classes
-  SECONDARY_BG: "bg-[#FF8C1A]",
-  SECONDARY_BG_HOVER: "hover:bg-[#E65100]",
+  SECONDARY_BG: "bg-orange-600",
+  SECONDARY_BG_HOVER: "hover:bg-orange-700",
   SECONDARY_BG_LIGHT: "bg-[#FFE0B2]",
-  SECONDARY_TEXT: "text-[#FF8C1A]",
-  SECONDARY_BORDER: "border-[#FF8C1A]",
+  SECONDARY_TEXT: "text-orange-600",
+  SECONDARY_BORDER: "border-orange-600",
 
   // Accent Classes
   ACCENT_BG: "bg-amber-500",
@@ -106,10 +106,10 @@ export const THEME = {
   ACCENT_BORDER: "border-amber-500",
 
   // Status Classes
-  SUCCESS_BG: "bg-[#E91E63]",
-  SUCCESS_BG_LIGHT: "bg-pink-50",
-  SUCCESS_TEXT: "text-[#E91E63]",
-  SUCCESS_BORDER: "border-[#E91E63]",
+  SUCCESS_BG: "bg-orange-500",
+  SUCCESS_BG_LIGHT: "bg-orange-50",
+  SUCCESS_TEXT: "text-orange-500",
+  SUCCESS_BORDER: "border-orange-500",
 
   WARNING_BG: "bg-amber-500",
   WARNING_BG_LIGHT: "bg-amber-50",
@@ -144,16 +144,16 @@ export const REFERRAL_CONFIG = {
   // Level Colors (using new theme)
   LEVEL_COLORS: {
     1: {
-      bg: "bg-blue-50",
-      border: "border-blue-200",
-      text: "text-blue-700",
-      accent: "text-blue-600",
+      bg: "bg-orange-50",
+      border: "border-orange-200",
+      text: "text-orange-700",
+      accent: "text-orange-600",
     },
     2: {
       bg: "bg-orange-50",
       border: "border-orange-200",
-      text: "text-[#E65100]",
-      accent: "text-[#FF8C1A]",
+      text: "text-orange-700",
+      accent: "text-orange-600",
     },
     3: {
       bg: "bg-amber-50",

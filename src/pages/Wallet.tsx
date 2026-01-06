@@ -91,7 +91,7 @@ const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div className="bg-white rounded-xl md:rounded-2xl shadow-2xl w-full max-w-md p-4 md:p-5 lg:p-6">
         <div className="flex justify-between items-center mb-3 md:mb-4">
           <h3 className="text-lg md:text-xl font-bold text-slate-800 flex items-center">
-            <PlusCircle className="w-5 h-5 md:w-6 md:h-6 mr-2 text-blue-600" />{" "}
+            <PlusCircle className="w-5 h-5 md:w-6 md:h-6 mr-2 text-orange-600" />{" "}
             Nạp Tiền
           </h3>
           <button
@@ -107,8 +107,8 @@ const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </p>
 
         <div className="space-y-3 md:space-y-4">
-          <div className="p-3 md:p-4 bg-blue-50 border border-blue-200 rounded-lg md:rounded-xl">
-            <p className="text-[10px] md:text-xs text-blue-600 font-medium mb-1">
+          <div className="p-3 md:p-4 bg-orange-50 border border-orange-200 rounded-lg md:rounded-xl">
+            <p className="text-[10px] md:text-xs text-orange-600 font-medium mb-1">
               NGÂN HÀNG VIETCOMBANK
             </p>
             <p className="text-base md:text-lg font-bold text-slate-800">
@@ -118,8 +118,8 @@ const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               Chủ TK: CÔNG TY TNHH ABC
             </p>
           </div>
-          <div className="p-3 md:p-4 bg-pink-50 border border-pink-200 rounded-lg md:rounded-xl">
-            <p className="text-[10px] md:text-xs text-pink-600 font-medium mb-1">
+          <div className="p-3 md:p-4 bg-orange-50 border border-orange-200 rounded-lg md:rounded-xl">
+            <p className="text-[10px] md:text-xs text-orange-600 font-medium mb-1">
               VÍ ĐIỆN TỬ MOMO
             </p>
             <p className="text-base md:text-lg font-bold text-slate-800">
@@ -133,7 +133,7 @@ const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <button
           onClick={onClose}
-          className="mt-4 md:mt-5 lg:mt-6 w-full py-2.5 md:py-3 bg-blue-600 text-white rounded-lg md:rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center text-sm md:text-base"
+          className="mt-4 md:mt-5 lg:mt-6 w-full py-2.5 md:py-3 bg-orange-600 text-white rounded-lg md:rounded-xl font-bold hover:bg-orange-700 transition-colors flex items-center justify-center text-sm md:text-base"
         >
           Đã Hiểu và Thực Hiện{" "}
           <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4 ml-2" />
@@ -227,7 +227,7 @@ const PaymentInfoModal: React.FC<{
             onClick={() => setActiveTab("bank")}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === "bank"
-                ? "border-b-2 border-blue-500 text-blue-600"
+                ? "border-b-2 border-orange-500 text-orange-600"
                 : "text-slate-600 hover:text-slate-800"
             }`}
           >
@@ -238,7 +238,7 @@ const PaymentInfoModal: React.FC<{
             onClick={() => setActiveTab("momo")}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === "momo"
-                ? "border-b-2 border-pink-500 text-pink-600"
+                ? "border-b-2 border-pink-500 text-orange-600"
                 : "text-slate-600 hover:text-slate-800"
             }`}
           >
@@ -249,7 +249,7 @@ const PaymentInfoModal: React.FC<{
             onClick={() => setActiveTab("bep20")}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === "bep20"
-                ? "border-b-2 border-indigo-500 text-indigo-600"
+                ? "border-b-2 border-orange-500 text-orange-600"
                 : "text-slate-600 hover:text-slate-800"
             }`}
           >
@@ -275,7 +275,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                   placeholder="VD: Vietcombank, Techcombank..."
                   value={bankForm.bankName}
                   onChange={(e) =>
@@ -290,7 +290,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                   placeholder="Nhập số tài khoản"
                   value={bankForm.accountNumber}
                   onChange={(e) =>
@@ -305,7 +305,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                   placeholder="NGUYEN VAN A"
                   value={bankForm.accountName}
                   onChange={(e) =>
@@ -319,7 +319,7 @@ const PaymentInfoModal: React.FC<{
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                   placeholder="VD: Hà Nội, TP. HCM..."
                   value={bankForm.branch}
                   onChange={(e) =>
@@ -340,7 +340,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="tel"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-pink-500"
                   placeholder="0987654321"
                   value={momoForm.phoneNumber}
                   onChange={(e) =>
@@ -355,7 +355,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-pink-500"
                   placeholder="NGUYEN VAN A"
                   value={momoForm.accountName}
                   onChange={(e) =>
@@ -376,7 +376,7 @@ const PaymentInfoModal: React.FC<{
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono text-sm"
                   placeholder="0x..."
                   value={bep20Form.walletAddress}
                   onChange={(e) =>
@@ -392,7 +392,7 @@ const PaymentInfoModal: React.FC<{
                   Network
                 </label>
                 <select
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   value={bep20Form.network}
                   onChange={(e) =>
                     setBep20Form({ ...bep20Form, network: e.target.value })
@@ -421,7 +421,7 @@ const PaymentInfoModal: React.FC<{
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-3 bg-[#E91E63] text-white rounded-xl font-bold hover:bg-[#AD1457] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="flex-1 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
@@ -658,26 +658,26 @@ const WalletManagement: React.FC = () => {
     <div className="min-h-screen py-6 sm:py-8 lg:py-10">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in">
+        <div className="fixed top-4 right-4 z-50 bg-orange-500 text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in">
           {toastMessage}
         </div>
       )}
 
       {isLoading ? (
         <div className="flex items-center justify-center min-h-[400px]">
-          <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
+          <Loader className="w-8 h-8 text-orange-500 animate-spin" />
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 sm:gap-3">
-            <Wallet className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#E91E63]" />
+            <Wallet className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-orange-500" />
             Quản Lý Tài Chính
           </h2>
 
           {/* Balance Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-7 lg:mb-8">
             {/* Số Dư Khả Dụng */}
-            <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 text-white shadow-xl">
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 text-white shadow-xl">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-white/80 text-sm font-medium">
                   Số Dư Khả Dụng
@@ -743,7 +743,7 @@ const WalletManagement: React.FC = () => {
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                  <ArrowDownRight className="w-6 h-6 mr-2 text-[#E91E63]" />
+                  <ArrowDownRight className="w-6 h-6 mr-2 text-orange-500" />
                   Tạo Yêu Cầu Rút Tiền
                 </h3>
 
@@ -788,7 +788,7 @@ const WalletManagement: React.FC = () => {
                           type="number"
                           name="amount"
                           required
-                          className="block w-full pl-4 pr-16 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63] font-semibold text-lg"
+                          className="block w-full pl-4 pr-16 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-lg"
                           placeholder={MIN_WITHDRAWAL_AMOUNT.toLocaleString(
                             "vi-VN"
                           )}
@@ -811,7 +811,7 @@ const WalletManagement: React.FC = () => {
                         </span>
                         <button
                           type="button"
-                          className="text-[#E91E63] font-medium hover:underline"
+                          className="text-orange-500 font-medium hover:underline"
                           onClick={() => setWithdrawalAmount(availableBalance)}
                         >
                           Tối đa: {formatCurrency(availableBalance)}
@@ -838,21 +838,21 @@ const WalletManagement: React.FC = () => {
                           <div
                             className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
                               selectedMethod === "bank"
-                                ? "border-blue-500 bg-blue-50"
+                                ? "border-orange-500 bg-orange-50"
                                 : "border-slate-200 hover:border-slate-300 bg-white"
                             }`}
                           >
                             <Landmark
                               className={`w-8 h-8 mb-2 ${
                                 selectedMethod === "bank"
-                                  ? "text-blue-600"
+                                  ? "text-orange-600"
                                   : "text-slate-500"
                               }`}
                             />
                             <span
                               className={`text-sm font-semibold ${
                                 selectedMethod === "bank"
-                                  ? "text-blue-700"
+                                  ? "text-orange-700"
                                   : "text-slate-700"
                               }`}
                             >
@@ -877,21 +877,21 @@ const WalletManagement: React.FC = () => {
                           <div
                             className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
                               selectedMethod === "momo"
-                                ? "border-pink-500 bg-pink-50"
+                                ? "border-pink-500 bg-orange-50"
                                 : "border-slate-200 hover:border-slate-300 bg-white"
                             }`}
                           >
                             <Smartphone
                               className={`w-8 h-8 mb-2 ${
                                 selectedMethod === "momo"
-                                  ? "text-pink-600"
+                                  ? "text-orange-600"
                                   : "text-slate-500"
                               }`}
                             />
                             <span
                               className={`text-sm font-semibold ${
                                 selectedMethod === "momo"
-                                  ? "text-pink-700"
+                                  ? "text-orange-700"
                                   : "text-slate-700"
                               }`}
                             >
@@ -916,21 +916,21 @@ const WalletManagement: React.FC = () => {
                           <div
                             className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
                               selectedMethod === "bep20"
-                                ? "border-indigo-500 bg-indigo-50"
+                                ? "border-orange-500 bg-orange-50"
                                 : "border-slate-200 hover:border-slate-300 bg-white"
                             }`}
                           >
                             <Wallet
                               className={`w-8 h-8 mb-2 ${
                                 selectedMethod === "bep20"
-                                  ? "text-indigo-600"
+                                  ? "text-orange-600"
                                   : "text-slate-500"
                               }`}
                             />
                             <span
                               className={`text-sm font-semibold ${
                                 selectedMethod === "bep20"
-                                  ? "text-indigo-700"
+                                  ? "text-orange-700"
                                   : "text-slate-700"
                               }`}
                             >
@@ -950,7 +950,7 @@ const WalletManagement: React.FC = () => {
                       disabled={!canWithdraw || isSubmitting}
                       className={`w-full py-3.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
                         canWithdraw && !isSubmitting
-                          ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:shadow-lg hover:shadow-pink-500/30"
+                          ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg hover:shadow-orange-500/30"
                           : "bg-slate-300 text-slate-500 cursor-not-allowed"
                       }`}
                     >
@@ -984,7 +984,7 @@ const WalletManagement: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-[#E91E63]" />
+                  <Clock className="w-6 h-6 text-orange-500" />
                   Lịch Sử Giao Dịch
                 </h3>
                 <div className="overflow-x-auto">
@@ -1025,10 +1025,10 @@ const WalletManagement: React.FC = () => {
                               <span
                                 className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                                   tx.method === "BANK"
-                                    ? "bg-blue-100 text-blue-800"
+                                    ? "bg-orange-100 text-orange-800"
                                     : tx.method === "MOMO"
-                                    ? "bg-pink-100 text-pink-800"
-                                    : "bg-indigo-100 text-indigo-800"
+                                    ? "bg-orange-100 text-pink-800"
+                                    : "bg-orange-100 text-orange-800"
                                 }`}
                               >
                                 {tx.method}
@@ -1038,7 +1038,7 @@ const WalletManagement: React.FC = () => {
                               className={`py-4 px-4 font-bold text-right ${
                                 tx.type === "RÚT"
                                   ? "text-red-600"
-                                  : "text-[#E91E63]"
+                                  : "text-orange-500"
                               }`}
                             >
                               {tx.type === "RÚT" ? "-" : "+"}

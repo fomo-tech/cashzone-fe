@@ -78,7 +78,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-pink-600 to-orange-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-500 to-orange-1000 flex items-center justify-center">
             <Sparkles className="text-white" size={20} />
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-gray-900">
@@ -133,7 +133,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
 
             {/* Product Info */}
             <div className="p-4">
-              <h3 className="font-bold text-base md:text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-pink-600 transition">
+              <h3 className="font-bold text-base md:text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-orange-500 transition">
                 {product.productName}
               </h3>
 
@@ -152,14 +152,14 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-gray-500 mb-1">Hoàn tiền</div>
-                  <div className="text-lg font-black text-pink-600">
+                  <div className="text-lg font-black text-orange-500">
                     {product.commissionRate}%
                   </div>
                 </div>
               </div>
 
               {/* Estimated Cashback */}
-              <div className="p-3 bg-gradient-to-r from-pink-50 to-orange-50 rounded-xl mb-3">
+              <div className="p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl mb-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-gray-700">
                     Nhận về
@@ -179,7 +179,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
                   e.stopPropagation();
                   handleProductClick(product);
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-pink-600 to-orange-500 text-white rounded-xl font-extrabold text-sm hover:from-pink-700 hover:to-orange-600 transition shadow-lg group-hover:shadow-xl"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-1000 text-white rounded-xl font-extrabold text-sm hover:from-orange-700 hover:to-orange-600 transition shadow-lg group-hover:shadow-xl"
               >
                 Tạo link ngay
                 <ExternalLink size={16} />

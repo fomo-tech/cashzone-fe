@@ -12,7 +12,7 @@ function badgeVariants({
 }) {
   const variants = {
     default:
-      "border-transparent bg-blue-600 text-white shadow hover:bg-blue-700",
+      "border-transparent bg-orange-600 text-white shadow hover:bg-orange-700",
     secondary: "border-transparent bg-gray-100 text-gray-900 hover:bg-gray-200",
     destructive:
       "border-transparent bg-red-600 text-white shadow hover:bg-red-700",

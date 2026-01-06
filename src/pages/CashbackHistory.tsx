@@ -83,20 +83,20 @@ const CashbackHistory: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-orange-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50/30 to-orange-50/30">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Premium Header with Gradient */}
         <div className="relative mb-8 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] opacity-5 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 opacity-5 rounded-3xl"></div>
           <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white p-6 md:p-8">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
                       Thu Nhập & Hoàn Tiền
                     </h1>
                     <p className="text-gray-600 text-sm mt-1">
@@ -123,15 +123,15 @@ const CashbackHistory: React.FC = () => {
         {/* Premium Stats Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
           {/* Total Links Card */}
-          <div className="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-pink-200">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-100/50 to-transparent rounded-full -mr-16 -mt-16"></div>
+          <div className="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-orange-200">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-100/50 to-transparent rounded-full -mr-16 -mt-16"></div>
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <LinkIcon className="w-7 h-7 text-white" />
                 </div>
-                <div className="px-3 py-1 bg-pink-50 rounded-full">
-                  <p className="text-xs font-bold text-pink-600">Active</p>
+                <div className="px-3 py-1 bg-orange-50 rounded-full">
+                  <p className="text-xs font-bold text-orange-600">Active</p>
                 </div>
               </div>
               <p className="text-sm text-gray-500 font-medium mb-1">
@@ -173,22 +173,22 @@ const CashbackHistory: React.FC = () => {
           </div>
 
           {/* Approved Amount Card */}
-          <div className="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+          <div className="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-orange-200">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/50 to-transparent rounded-full -mr-16 -mt-16"></div>
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <CheckCircle className="w-7 h-7 text-white" />
                 </div>
-                <div className="px-3 py-1 bg-blue-50 rounded-full">
-                  <p className="text-xs font-bold text-blue-600">Approved</p>
+                <div className="px-3 py-1 bg-orange-50 rounded-full">
+                  <p className="text-xs font-bold text-orange-600">Approved</p>
                 </div>
               </div>
               <p className="text-sm text-gray-500 font-medium mb-1">Đã duyệt</p>
               <p className="text-3xl font-black text-gray-900 mb-2">
                 {formatCurrency(quickStats.approvedAmount)}
               </p>
-              <div className="flex items-center gap-1 text-blue-600">
+              <div className="flex items-center gap-1 text-orange-600">
                 <CheckCircle className="w-4 h-4" />
                 <span className="text-xs font-bold">Xác nhận</span>
               </div>
@@ -223,13 +223,13 @@ const CashbackHistory: React.FC = () => {
 
         {/* Performance Indicators */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-5 border border-purple-100">
+          <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-5 border border-orange-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 font-medium mb-1">
                   Tỷ lệ chuyển đổi
                 </p>
-                <p className="text-2xl font-black text-purple-600">
+                <p className="text-2xl font-black text-orange-600">
                   {quickStats.totalLinks > 0
                     ? (
                         (quickStats.paidAmount /
@@ -240,7 +240,7 @@ const CashbackHistory: React.FC = () => {
                   %
                 </p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-violet-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
                 <Percent className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -266,13 +266,13 @@ const CashbackHistory: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-5 border border-pink-100">
+          <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-5 border border-orange-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 font-medium mb-1">
                   Đang xử lý
                 </p>
-                <p className="text-2xl font-black text-pink-600">
+                <p className="text-2xl font-black text-orange-600">
                   {quickStats.totalEarned > 0
                     ? (
                         (quickStats.pendingAmount / quickStats.totalEarned) *
@@ -282,7 +282,7 @@ const CashbackHistory: React.FC = () => {
                   %
                 </p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
                 <ArrowDownRight className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -293,7 +293,7 @@ const CashbackHistory: React.FC = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white">
           <div className="p-6 md:p-8 border-b border-gray-100">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
                 <History className="w-5 h-5 text-white" />
               </div>
               <h2 className="text-xl md:text-2xl font-black text-gray-900">
@@ -314,21 +314,21 @@ const CashbackHistory: React.FC = () => {
               <TabsList className="grid w-full grid-cols-3 h-auto bg-gray-50 rounded-xl p-1 border border-gray-200">
                 <TabsTrigger
                   value="link-history"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E91E63] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
+                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
                 >
                   <LinkIcon className="w-4 h-4" />
                   <span>Link</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="cashback-history"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E91E63] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
+                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
                 >
                   <DollarSign className="w-4 h-4" />
                   <span>Hoàn tiền</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="stats"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E91E63] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
+                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
                 >
                   <BarChart3 className="w-4 h-4" />
                   <span>Thống kê</span>
@@ -356,9 +356,9 @@ const CashbackHistory: React.FC = () => {
         </div>
 
         {/* Tips Section */}
-        <div className="mt-8 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+        <div className="mt-8 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>

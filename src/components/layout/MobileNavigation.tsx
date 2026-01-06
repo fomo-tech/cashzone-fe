@@ -16,10 +16,10 @@ const MobileNavigation = () => {
       "mobile-nav-link flex flex-col items-center justify-center p-1.5 rounded-lg transition-all duration-200";
 
     if (isActive(path)) {
-      return `${baseClasses} text-[#E91E63]`;
+      return `${baseClasses} text-orange-500`;
     }
 
-    return `${baseClasses} text-slate-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50`;
+    return `${baseClasses} text-slate-600 hover:text-orange-500 hover:bg-gradient-to-r hover:from-orange-50/50 hover:to-orange-100/50`;
   };
 
   return (
@@ -69,7 +69,7 @@ const MobileNavigation = () => {
           <div className="relative -top-4 flex justify-center">
             <Link
               to="/cashback"
-              className="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-md transform transition-all duration-200 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-pink-500/30 hover:shadow-pink-500/40"
+              className="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-md transform transition-all duration-200 bg-gradient-to-r from-orange-400 to-orange-1000 shadow-orange-500/30 hover:shadow-orange-500/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

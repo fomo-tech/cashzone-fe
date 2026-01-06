@@ -62,7 +62,7 @@ const PLATFORMS: Platform[] = [
   {
     id: "lazada",
     name: "Lazada",
-    color: "bg-blue-600",
+    color: "bg-orange-600",
     logo: "🛍️",
     type: "product",
   },
@@ -103,7 +103,7 @@ const ToastMessage: React.FC<{
   const colorMap = {
     success: "bg-green-500",
     error: "bg-red-500",
-    info: "bg-blue-500",
+    info: "bg-orange-500",
   };
 
   React.useEffect(() => {
@@ -318,7 +318,7 @@ export default function CashbackHub() {
                 onClick={() => setActivePlatformId(platform.id)}
                 className={`p-4 rounded-xl border-2 transition-colors ${
                   activePlatformId === platform.id
-                    ? "border-blue-500 bg-blue-50"
+                    ? "border-orange-500 bg-orange-50"
                     : "border-gray-200 bg-white hover:border-gray-300"
                 }`}
               >
@@ -346,13 +346,13 @@ export default function CashbackHub() {
                   value={inputLink}
                   onChange={(e) => setInputLink(e.target.value)}
                   placeholder={`Dán link từ ${activePlatform.name}...`}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-orange-500"
                   disabled={isGenerating}
                 />
                 <button
                   onClick={handleGenerate}
                   disabled={!inputLink.trim() || isGenerating}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isGenerating ? (
                     <Loader size={20} className="animate-spin" />
@@ -455,7 +455,7 @@ export default function CashbackHub() {
                       href={item.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700"
+                      className="px-3 py-1 bg-orange-600 text-white rounded-lg text-xs font-medium hover:bg-orange-700"
                     >
                       Mở
                     </a>

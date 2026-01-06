@@ -72,9 +72,9 @@ const OfferCard: React.FC<{
   const navigate = useNavigate();
   const badgeColors = {
     Hot: "bg-red-500",
-    New: "bg-[#E91E63]",
+    New: "bg-orange-500",
     Expiring: "bg-yellow-500",
-    "High Rate": "bg-[#E91E63]",
+    "High Rate": "bg-orange-500",
   };
 
   const rewardText = formatReward(offer.rewardAmount, offer.rewardUnit);
@@ -84,10 +84,10 @@ const OfferCard: React.FC<{
 
   const rewardStyle = useMemo(() => {
     if (isVND) {
-      return "text-[#E91E63] font-black";
+      return "text-orange-500 font-black";
     }
     if (isCashback) {
-      return "text-[#FF8C1A] font-black";
+      return "text-orange-600 font-black";
     }
     // Mặc định cho Points (Cam/Vàng)
     return "text-orange-500 font-black";
@@ -109,7 +109,7 @@ const OfferCard: React.FC<{
   );
 
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden transition duration-300 hover:shadow-xl hover:border-pink-200 hover:ring-2 hover:ring-pink-100 cursor-pointer">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden transition duration-300 hover:shadow-xl hover:border-orange-200 hover:ring-2 hover:ring-orange-100 cursor-pointer">
       {/* Main Content */}
       <div className="p-3 sm:p-4">
         <div className="flex gap-3 items-start">
@@ -139,7 +139,7 @@ const OfferCard: React.FC<{
           {/* Content Column */}
           <div className="flex-1 min-w-0">
             {/* Title & Description */}
-            <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1.5 leading-tight hover:text-[#E91E63] transition">
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1.5 leading-tight hover:text-orange-500 transition">
               {offer.title}
             </h3>
             <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 mb-2">
@@ -149,11 +149,11 @@ const OfferCard: React.FC<{
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 mb-3">
               <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
-                <Clock size={12} className="mr-1 text-[#E91E63]" />
+                <Clock size={12} className="mr-1 text-orange-500" />
                 {offer.timeEstimate}
               </span>
               <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
-                <CheckCircle size={12} className="mr-1 text-[#FF8C1A]" />
+                <CheckCircle size={12} className="mr-1 text-orange-600" />
                 {offer.completionRate}%
               </span>
               <span className="text-xs font-semibold text-gray-700 bg-gray-100 px-2 py-1 rounded-lg border border-gray-200">
@@ -178,7 +178,7 @@ const OfferCard: React.FC<{
           {/* CTA Button */}
           <button
             onClick={handleJoinClick}
-            className="px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold rounded-xl transition duration-200 text-xs sm:text-sm shadow-md hover:shadow-lg transform hover:scale-105 flex items-center gap-1.5 whitespace-nowrap"
+            className="px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl transition duration-200 text-xs sm:text-sm shadow-md hover:shadow-lg transform hover:scale-105 flex items-center gap-1.5 whitespace-nowrap"
           >
             <Zap size={14} className="sm:w-4 sm:h-4" />
             Tham gia
@@ -315,17 +315,17 @@ export default function App() {
   const getCategoryColor = (id: string) => {
     switch (id) {
       case "finance":
-        return "text-indigo-600";
+        return "text-orange-600";
       case "cashback":
-        return "text-[#FF8C1A]";
+        return "text-orange-600";
       case "point":
         return "text-orange-500";
       case "game":
-        return "text-purple-600";
+        return "text-orange-600";
       case "survey":
-        return "text-blue-600";
+        return "text-orange-600";
       case "shopping":
-        return "text-pink-600";
+        return "text-orange-600";
       default:
         return "text-primary";
     }
@@ -338,7 +338,7 @@ export default function App() {
     >
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6">
         {/* HERO SECTION - Responsive và compact hơn */}
-        <header className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-xl text-white relative overflow-hidden">
+        <header className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-xl text-white relative overflow-hidden">
           <div className="relative z-10">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1">
               Săn Tiền Thưởng & Hoàn Tiền Hot!
@@ -413,16 +413,16 @@ export default function App() {
         {/* CONTROLS (Filters, Search, Sort) - Premium Design */}
         <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white mb-6">
           {/* Gradient Background Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/5 via-[#EC407A]/5 to-[#FF8C1A]/5 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-orange-500/5 to-orange-600/5 rounded-3xl"></div>
 
           {/* Header */}
           <div className="relative px-6 py-5 border-b border-gray-100">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
                 <Filter size={18} className="text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                <h2 className="text-lg font-black bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
                   Bộ lọc & Tìm kiếm
                 </h2>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -436,7 +436,7 @@ export default function App() {
             {/* Category Filter - Enhanced */}
             <div className="mb-5">
               <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
-                <span className="w-1 h-4 bg-gradient-to-b from-[#E91E63] to-[#FF8C1A] rounded-full"></span>
+                <span className="w-1 h-4 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></span>
                 Danh mục
               </label>
               <div className="flex flex-wrap gap-2">
@@ -447,10 +447,10 @@ export default function App() {
                     className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 
                                   ${
                                     activeCategory === cat.id
-                                      ? `bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg shadow-pink-500/30 scale-105`
+                                      ? `bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 scale-105`
                                       : `bg-white ${getCategoryColor(
                                           cat.id
-                                        )} border border-gray-200 hover:border-pink-300 hover:shadow-md hover:scale-105`
+                                        )} border border-gray-200 hover:border-orange-300 hover:shadow-md hover:scale-105`
                                   }`}
                   >
                     <span
@@ -478,10 +478,10 @@ export default function App() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Nhập tên nhiệm vụ hoặc nền tảng..."
                     className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-gray-700 text-sm font-medium 
-                             focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
+                             focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 
                              hover:border-gray-300 transition-all placeholder:text-gray-400"
                   />
-                  <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+                  <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
                     <Search size={14} className="text-white" />
                   </div>
                   {searchTerm && (
@@ -503,9 +503,9 @@ export default function App() {
                 <div className="relative">
                   <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 pointer-events-none z-10">
                     {sortOrder === "reward" ? (
-                      <TrendingUp size={16} className="text-[#E91E63]" />
+                      <TrendingUp size={16} className="text-orange-500" />
                     ) : (
-                      <Zap size={16} className="text-[#FF8C1A]" />
+                      <Zap size={16} className="text-orange-600" />
                     )}
                   </div>
                   <select
@@ -514,7 +514,7 @@ export default function App() {
                       setSortOrder(e.target.value as "reward" | "newest")
                     }
                     className="w-full py-3 pl-11 pr-10 border-2 border-gray-200 bg-white rounded-xl text-sm font-medium 
-                             focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
+                             focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-100 
                              hover:border-gray-300 transition-all appearance-none cursor-pointer"
                   >
                     <option value="reward">Phần thưởng cao nhất</option>
@@ -547,25 +547,25 @@ export default function App() {
                     Bộ lọc đang áp dụng:
                   </span>
                   {activeCategory !== "all" && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-100 to-orange-100 text-pink-700 text-xs font-bold rounded-lg border border-pink-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-100 to-orange-100 text-orange-700 text-xs font-bold rounded-lg border border-orange-200">
                       {
                         OFFER_CATEGORIES.find((c) => c.id === activeCategory)
                           ?.name
                       }
                       <button
                         onClick={() => setActiveCategory("all")}
-                        className="ml-1 hover:text-pink-900"
+                        className="ml-1 hover:text-orange-900"
                       >
                         ✕
                       </button>
                     </span>
                   )}
                   {searchTerm && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 text-xs font-bold rounded-lg border border-blue-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-100 to-red-100 text-orange-700 text-xs font-bold rounded-lg border border-orange-200">
                       "{searchTerm}"
                       <button
                         onClick={() => setSearchTerm("")}
-                        className="ml-1 hover:text-blue-900"
+                        className="ml-1 hover:text-orange-900"
                       >
                         ✕
                       </button>
@@ -581,7 +581,7 @@ export default function App() {
         <main>
           {loading ? (
             <div className="text-center py-12 sm:py-20 bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100">
-              <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#E91E63] animate-spin mx-auto mb-4" />
+              <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500 animate-spin mx-auto mb-4" />
               <p className="text-gray-600 text-base sm:text-lg font-semibold">
                 Đang tải nhiệm vụ...
               </p>
@@ -607,7 +607,7 @@ export default function App() {
               <div className="flex items-center justify-between mb-3 sm:mb-4 px-1">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
                   Kết quả
-                  <span className="ml-2 text-base sm:text-xl text-[#E91E63]">
+                  <span className="ml-2 text-base sm:text-xl text-orange-500">
                     ({filteredAndSortedOffers.length})
                   </span>
                 </h2>
@@ -631,12 +631,12 @@ export default function App() {
 
                   {/* Load More Button */}
                   <div className="text-center pt-4 pb-2">
-                    <button className="group inline-flex items-center gap-2 px-5 py-2 bg-white text-gray-700 text-sm font-semibold rounded-xl border border-gray-200 hover:border-pink-300 hover:shadow-md hover:scale-[1.02] transition-all duration-200">
+                    <button className="group inline-flex items-center gap-2 px-5 py-2 bg-white text-gray-700 text-sm font-semibold rounded-xl border border-gray-200 hover:border-orange-300 hover:shadow-md hover:scale-[1.02] transition-all duration-200">
                       <TrendingUp
                         size={16}
-                        className="text-gray-400 group-hover:text-[#E91E63] group-hover:rotate-12 transition-all"
+                        className="text-gray-400 group-hover:text-orange-500 group-hover:rotate-12 transition-all"
                       />
-                      <span className="group-hover:bg-gradient-to-r group-hover:from-[#E91E63] group-hover:to-[#FF8C1A] group-hover:bg-clip-text group-hover:text-transparent">
+                      <span className="group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-orange-600 group-hover:bg-clip-text group-hover:text-transparent">
                         Tải thêm nhiệm vụ
                       </span>
                     </button>

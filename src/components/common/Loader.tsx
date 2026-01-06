@@ -15,10 +15,10 @@ const Loader: React.FC<LoaderProps> = ({ size = "md", color = "green" }) => {
 
   const colorClass =
     color === "blue"
-      ? "border-blue-500"
+      ? "border-orange-500"
       : color === "gray"
       ? "border-gray-400"
-      : "border-[#E91E63]";
+      : "border-orange-500";
 
   return (
     <div

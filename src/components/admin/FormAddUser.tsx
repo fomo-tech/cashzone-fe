@@ -126,7 +126,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
         <input
           type="text"
           placeholder="Nhập tên"
-          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:outline-none"
+          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
           {...register("name", { required: "Vui lòng nhập tên" })}
         />
         {errors.name && (
@@ -142,7 +142,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
         <input
           type="text"
           placeholder="Nhập số điện thoại"
-          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:outline-none"
+          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
           {...register("phone", { required: "Vui lòng nhập số điện thoại" })}
         />
         {errors.phone && (
@@ -158,7 +158,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
         <input
           type="email"
           placeholder="Nhập email"
-          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:outline-none"
+          className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
           {...register("email", {
             required: "Vui lòng nhập email",
             pattern: { value: /^\S+@\S+$/i, message: "Email không hợp lệ" },
@@ -178,7 +178,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
           <input
             type="password"
             placeholder="Nhập mật khẩu"
-            className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:outline-none"
+            className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
             {...register("password", {
               required: "Vui lòng nhập mật khẩu",
               minLength: { value: 6, message: "Tối thiểu 6 ký tự" },
@@ -261,7 +261,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
             }
           />
           <div
-            className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[#E91E63] 
+            className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-orange-500 
             after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all 
             peer-checked:after:translate-x-full"
@@ -273,7 +273,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
       <div className="pt-4">
         <button
           type="submit"
-          className="cursor-pointer w-full py-2 rounded-xl bg-[#E91E63] text-white font-medium hover:bg-[#E91E63] transition"
+          className="cursor-pointer w-full py-2 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-500 transition"
         >
           {editingUser ? "Lưu Thay Đổi" : "Thêm Người Dùng"}
         </button>

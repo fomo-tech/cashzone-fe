@@ -33,7 +33,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className="relative w-full">
       <button
         type="button"
-        className="inline-flex justify-between items-center w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+        className="inline-flex justify-between items-center w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         {selectedLabel}
@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               onClick={() => handleSelect(opt)}
               className={`w-full text-left px-4 py-2 text-sm transition ${
                 opt.value === selectedValue
-                  ? "bg-[#E91E63] text-white font-semibold"
+                  ? "bg-orange-500 text-white font-semibold"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >

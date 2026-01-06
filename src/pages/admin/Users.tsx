@@ -141,9 +141,9 @@ const UserManagement: React.FC = () => {
   }, [searchTerm]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-100/30">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
+      <div className="bg-gradient-to-r from-orange-400 to-orange-1000 shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
@@ -177,7 +177,7 @@ const UserManagement: React.FC = () => {
                 placeholder="Tìm theo Tên hoặc Email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent text-gray-700 transition-all"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 transition-all"
               />
               {searchTerm && (
                 <button
@@ -189,16 +189,16 @@ const UserManagement: React.FC = () => {
               )}
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl border border-[#E91E63]/30">
-                <Users className="w-5 h-5 text-[#E91E63]" />
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-400/10 to-orange-1000/10 rounded-xl border border-orange-500/30">
+                <Users className="w-5 h-5 text-orange-500" />
                 <span className="text-sm text-gray-600">Tổng:</span>
-                <span className="font-bold text-[#E91E63] text-lg">
+                <span className="font-bold text-orange-500 text-lg">
                   {pagination?.totalItems || 0}
                 </span>
               </div>
               <button
                 onClick={() => window.location.reload()}
-                className="p-2.5 text-gray-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded-xl transition-all"
+                className="p-2.5 text-gray-600 hover:text-orange-500 hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 rounded-xl transition-all"
                 title="Làm mới"
               >
                 <RefreshCw className="w-5 h-5" />
@@ -211,7 +211,7 @@ const UserManagement: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-gray-50 to-orange-50/50">
+              <thead className="bg-gradient-to-r from-gray-50 to-orange-100/50">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Tên
@@ -238,11 +238,11 @@ const UserManagement: React.FC = () => {
                   users.map((user) => (
                     <tr
                       key={user._id}
-                      className="hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors"
+                      className="hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-1000 rounded-full flex items-center justify-center text-white font-bold">
                             {user.name?.charAt(0).toUpperCase() || "U"}
                           </div>
                           <span className="text-sm font-medium text-gray-900">
@@ -268,7 +268,7 @@ const UserManagement: React.FC = () => {
                           <Link to={`/admin/user/${user._id}`}>
                             <button
                               title="Chi Tiết"
-                              className="inline-flex items-center gap-1 px-3 py-2 text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all border border-[#E91E63] hover:border-[#E91E63]"
+                              className="inline-flex items-center gap-1 px-3 py-2 text-orange-500 hover:text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-orange-1000 rounded-lg transition-all border border-orange-500 hover:border-orange-500"
                             >
                               <Eye className="w-4 h-4" />
                               <span className="text-xs font-semibold">Xem</span>
@@ -278,7 +278,7 @@ const UserManagement: React.FC = () => {
                           <button
                             onClick={() => openModal(user)}
                             title="Sửa"
-                            className="inline-flex items-center gap-1 px-3 py-2 text-blue-600 hover:text-white hover:bg-blue-600 rounded-lg transition-all border border-blue-600"
+                            className="inline-flex items-center gap-1 px-3 py-2 text-orange-600 hover:text-white hover:bg-orange-600 rounded-lg transition-all border border-orange-600"
                           >
                             <Edit className="w-4 h-4" />
                             <span className="text-xs font-semibold">Sửa</span>

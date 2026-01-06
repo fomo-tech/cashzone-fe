@@ -17,10 +17,10 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, error, icon, ...props }, ref) => {
     return (
-      <div className="relative w-full group">
+      <div className="relative w-full group h-full">
         {/* Icon support */}
         {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-pink-500 transition-colors pointer-events-none">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors pointer-events-none">
             {icon}
           </div>
         )}
@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "flex h-11 w-full rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm  transition-all duration-200",
+            "flex h-full w-full rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm  transition-all duration-200",
             "placeholder:text-gray-400",
             "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100",
             // Padding adjustment if icon exists

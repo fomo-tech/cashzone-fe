@@ -33,9 +33,9 @@ export default function ConfirmModal({
         };
       case "info":
         return {
-          icon: "text-blue-600",
-          bg: "bg-blue-50",
-          button: "bg-blue-600 hover:bg-blue-700",
+          icon: "text-orange-600",
+          bg: "bg-orange-50",
+          button: "bg-orange-600 hover:bg-orange-700",
         };
       default:
         return {

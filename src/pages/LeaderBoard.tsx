@@ -169,21 +169,21 @@ const LeaderBoard = () => {
         <div className="relative w-full text-center mb-6 md:mb-8 lg:mb-12 mt-3 md:mt-4 lg:mt-6">
           {/* Glow background */}
           <div className="absolute inset-0 flex justify-center opacity-30">
-            <div className="w-96 h-96 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] blur-[80px] rounded-full"></div>
+            <div className="w-96 h-96 bg-gradient-to-r from-orange-400 to-orange-1000 blur-[80px] rounded-full"></div>
           </div>
 
           {/* Title */}
-          <h1 className="relative z-10 font-extrabold tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]">
+          <h1 className="relative z-10 font-extrabold tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-1000">
             BẢNG XẾP HẠNG
           </h1>
 
           {/* Subtitle & Controls */}
           <div className="relative z-10 flex flex-col md:flex-row justify-center items-center mt-4 gap-4">
             <div className="flex items-center space-x-2 text-sm md:text-base lg:text-xl font-semibold text-gray-600">
-              <Trophy className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[#E91E63]" />
+              <Trophy className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-orange-500" />
               <span>
                 <span className="hidden sm:inline">Top Earners: </span>
-                <span className="text-[#E91E63]">#{timeFilter}</span>
+                <span className="text-orange-500">#{timeFilter}</span>
               </span>
             </div>
 
@@ -195,7 +195,7 @@ const LeaderBoard = () => {
                   onClick={() => setTimeFilter(period)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     timeFilter === period
-                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                      ? "bg-gradient-to-r from-orange-400 to-orange-1000 text-white shadow-md"
                       : "text-gray-600 hover:text-gray-800"
                   }`}
                 >
@@ -224,14 +224,14 @@ const LeaderBoard = () => {
 
         {/* Stats Cards */}
         <div className="w-full max-w-4xl mb-6 md:mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-200">
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-orange-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl">
-                <Users className="w-6 h-6 text-[#E91E63]" />
+              <div className="p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
+                <Users className="w-6 h-6 text-orange-500" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Tổng thành viên</p>
-                <p className="text-2xl font-bold text-[#E91E63]">
+                <p className="text-2xl font-bold text-orange-500">
                   {loading ? (
                     <div className="w-16 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -245,11 +245,11 @@ const LeaderBoard = () => {
           <div className="bg-white rounded-xl p-6 shadow-lg border border-orange-200">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl">
-                <DollarSign className="w-6 h-6 text-[#FF8C1A]" />
+                <DollarSign className="w-6 h-6 text-orange-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Tổng thu nhập</p>
-                <p className="text-2xl font-bold text-[#FF8C1A]">
+                <p className="text-2xl font-bold text-orange-600">
                   {loading ? (
                     <div className="w-20 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -351,7 +351,7 @@ const LeaderBoard = () => {
                     </div>
 
                     {/* Prize */}
-                    <div className="p-1.5 px-3 rounded-full text-xs font-extrabold bg-linear-to-r from-pink-500 to-[#FF8C1A] text-white shadow-lg">
+                    <div className="p-1.5 px-3 rounded-full text-xs font-extrabold bg-linear-to-r from-orange-500 to-orange-1000 text-white shadow-lg">
                       {user.totalReferrals || 0} refs
                     </div>
                   </div>
@@ -437,7 +437,7 @@ const LeaderBoard = () => {
                     </p>
 
                     {/* Referrals */}
-                    <div className="p-1.5 md:p-2 px-3 md:px-4 lg:px-5 rounded-full text-xs md:text-sm lg:text-base font-extrabold bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-xl mt-auto">
+                    <div className="p-1.5 md:p-2 px-3 md:px-4 lg:px-5 rounded-full text-xs md:text-sm lg:text-base font-extrabold bg-gradient-to-r from-orange-500 to-orange-1000 text-white shadow-xl mt-auto">
                       {user.totalReferrals || 0} refs
                     </div>
                   </div>
@@ -456,7 +456,7 @@ const LeaderBoard = () => {
         {/* --- Bảng Xếp Hạng Chính (Hạng 4+) --- */}
         <div className="w-full max-w-4xl space-y-2 md:space-y-3 lg:space-y-4">
           {/* Thanh thông tin người dùng hiện tại */}
-          <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] border border-pink-200 shadow-xl flex justify-between items-center transition-all duration-300">
+          <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-r from-orange-400 to-orange-1000 border border-orange-200 shadow-xl flex justify-between items-center transition-all duration-300">
             {loading ? (
               <>
                 <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
@@ -481,7 +481,7 @@ const LeaderBoard = () => {
                     <p className="text-sm md:text-base lg:text-lg font-extrabold text-white truncate max-w-[120px] md:max-w-none">
                       {currentUserStats.name || "User"} (Bạn)
                     </p>
-                    <p className="text-sm font-semibold text-pink-100">
+                    <p className="text-sm font-semibold text-orange-100">
                       Hạng hiện tại: #
                       {(currentUserStats.rank || 0).toLocaleString()}
                     </p>
@@ -496,7 +496,7 @@ const LeaderBoard = () => {
                     />
                     ${(currentUserStats.totalEarnings || 0).toLocaleString()}
                   </p>
-                  <p className="text-xs md:text-sm text-pink-100">
+                  <p className="text-xs md:text-sm text-orange-100">
                     {currentUserStats.totalReferrals || 0} lượt giới thiệu
                   </p>
                 </div>
@@ -562,10 +562,10 @@ const LeaderBoard = () => {
                       return (
                         <tr
                           key={user.id || idx}
-                          className="transition-colors border-b border-gray-100 last:border-b-0 hover:bg-pink-50"
+                          className="transition-colors border-b border-gray-100 last:border-b-0 hover:bg-orange-50"
                         >
                           {/* Ranking */}
-                          <td className="py-2 px-2 md:py-3 md:px-5 text-center font-extrabold text-base md:text-lg text-[#E91E63]">
+                          <td className="py-2 px-2 md:py-3 md:px-5 text-center font-extrabold text-base md:text-lg text-orange-500">
                             #{user.rank}
                           </td>
 
@@ -574,7 +574,7 @@ const LeaderBoard = () => {
                             <div className="flex items-center space-x-2 md:space-x-3">
                               {/* Avatar */}
                               <div
-                                className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] ring-2 ring-pink-200 shadow-md shrink-0`}
+                                className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm bg-gradient-to-r from-orange-400 to-orange-1000 ring-2 ring-orange-200 shadow-md shrink-0`}
                               >
                                 {(user.name || "?").charAt(0).toUpperCase()}
                               </div>
@@ -602,7 +602,7 @@ const LeaderBoard = () => {
 
                           {/* Referrals */}
                           <td className="py-2 px-2 md:py-3 md:px-5 text-center">
-                            <span className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-extrabold text-xs md:text-sm p-1 px-2 md:p-1.5 md:px-3 rounded-full shadow-md">
+                            <span className="bg-gradient-to-r from-orange-400 to-orange-1000 text-white font-extrabold text-xs md:text-sm p-1 px-2 md:p-1.5 md:px-3 rounded-full shadow-md">
                               {user.totalReferrals || 0}
                             </span>
                           </td>
@@ -636,7 +636,7 @@ const LeaderBoard = () => {
             <div className="text-center p-4">
               <button
                 onClick={() => loadLeaderBoard()}
-                className="text-sm font-semibold text-gray-600 hover:text-[#E91E63] transition flex items-center gap-2 mx-auto"
+                className="text-sm font-semibold text-gray-600 hover:text-orange-500 transition flex items-center gap-2 mx-auto"
               >
                 <RefreshCw className="w-4 h-4" />
                 Làm mới dữ liệu

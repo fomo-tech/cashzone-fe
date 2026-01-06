@@ -146,8 +146,8 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
   }) => (
     <button
       onClick={onClick}
-      className={`relative flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-pink-500 hover:text-pink-600 hover:bg-pink-50/50 transition-all duration-200 active:scale-95 disabled:opacity-50 ${
-        active ? "border-pink-500 bg-pink-50 text-pink-600" : ""
+      className={`relative flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-orange-500 hover:text-orange-500 hover:bg-orange-50/50 transition-all duration-200 active:scale-95 disabled:opacity-50 ${
+        active ? "border-orange-500 bg-orange-50 text-orange-500" : ""
       } ${className}`}
       {...props}
     >
@@ -163,7 +163,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
           {/* Search Bar - Full Width */}
           <div className="relative group">
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-[#E91E63] transition-colors" />
+              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
             </div>
             <Input
               placeholder="Tìm kiếm sản phẩm, mã giảm giá..."
@@ -171,7 +171,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
               onChange={(e) =>
                 setFilters({ ...filters, search: e.target.value })
               }
-              className="pl-11 pr-10 h-12 text-base border-gray-200 focus:border-[#E91E63] focus:ring-[#E91E63] rounded-xl"
+              className="pl-11 pr-10 h-12 text-base border-gray-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl"
             />
             {filters.search && (
               <button
@@ -204,7 +204,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 <SelectTrigger
                   className={`h-10 min-w-[140px] border-gray-200 rounded-xl transition-all ${
                     filters.status
-                      ? "border-[#E91E63] bg-pink-50 text-[#E91E63] font-semibold"
+                      ? "border-orange-500 bg-orange-50 text-orange-500 font-semibold"
                       : "hover:border-gray-300 bg-white"
                   }`}
                 >
@@ -241,7 +241,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 <SelectTrigger
                   className={`h-10 min-w-[140px] border-gray-200 rounded-xl transition-all ${
                     filters.platform
-                      ? "border-[#E91E63] bg-pink-50 text-[#E91E63] font-semibold"
+                      ? "border-orange-500 bg-orange-50 text-orange-500 font-semibold"
                       : "hover:border-gray-300 bg-white"
                   }`}
                 >
@@ -279,7 +279,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 onClick={loadLinks}
                 variant="outline"
                 disabled={loading}
-                className="h-10 px-4 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl"
+                className="h-10 px-4 border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-500 transition-all rounded-xl"
               >
                 <RefreshCw
                   className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
@@ -291,7 +291,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 <Button
                   onClick={clearFilters}
                   variant="outline"
-                  className="h-10 px-4 border-pink-200 bg-pink-50 text-[#E91E63] hover:bg-pink-100 hover:border-pink-300 transition-all rounded-xl font-semibold"
+                  className="h-10 px-4 border-orange-200 bg-orange-50 text-orange-500 hover:bg-orange-100 hover:border-orange-300 transition-all rounded-xl font-semibold"
                 >
                   <X className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Xóa lọc</span>
@@ -307,8 +307,8 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 Đang lọc:
               </span>
               {filters.status && (
-                <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                <div className="flex items-center gap-1 px-2.5 py-1 bg-orange-50 border border-orange-200 rounded-lg">
+                  <span className="text-xs font-medium text-orange-500">
                     Trạng thái:{" "}
                     {filters.status === "active"
                       ? "Hoạt động"
@@ -318,37 +318,37 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, status: "" })}
-                    className="p-0.5 hover:bg-pink-100 rounded"
+                    className="p-0.5 hover:bg-orange-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-orange-500" />
                   </button>
                 </div>
               )}
               {filters.platform && (
-                <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                <div className="flex items-center gap-1 px-2.5 py-1 bg-orange-50 border border-orange-200 rounded-lg">
+                  <span className="text-xs font-medium text-orange-500">
                     Sàn:{" "}
                     {filters.platform.charAt(0).toUpperCase() +
                       filters.platform.slice(1)}
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, platform: "" })}
-                    className="p-0.5 hover:bg-pink-100 rounded"
+                    className="p-0.5 hover:bg-orange-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-orange-500" />
                   </button>
                 </div>
               )}
               {filters.search && (
-                <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                <div className="flex items-center gap-1 px-2.5 py-1 bg-orange-50 border border-orange-200 rounded-lg">
+                  <span className="text-xs font-medium text-orange-500">
                     Tìm kiếm: "{filters.search}"
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, search: "" })}
-                    className="p-0.5 hover:bg-pink-100 rounded"
+                    className="p-0.5 hover:bg-orange-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-orange-500" />
                   </button>
                 </div>
               )}
@@ -361,15 +361,15 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl shadow-md border border-gray-100">
           <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-[#E91E63]"></div>
-            <Link2 className="w-8 h-8 text-[#E91E63] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-orange-500"></div>
+            <Link2 className="w-8 h-8 text-orange-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
           <p className="mt-4 text-gray-600 font-medium">Đang tải dữ liệu...</p>
         </div>
       ) : links.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl shadow-md border border-gray-100">
-          <div className="w-20 h-20 bg-gradient-to-br from-pink-100 to-orange-100 rounded-full flex items-center justify-center mb-4">
-            <Link2 className="w-10 h-10 text-[#E91E63]" />
+          <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-100 rounded-full flex items-center justify-center mb-4">
+            <Link2 className="w-10 h-10 text-orange-500" />
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-2">
             Chưa có link nào
@@ -380,7 +380,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
           </p>
           <Button
             onClick={() => (window.location.href = "/create-link")}
-            className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:shadow-lg transition-all"
+            className="bg-gradient-to-r from-orange-400 to-orange-1000 text-white hover:shadow-lg transition-all"
           >
             <Link2 className="w-4 h-4 mr-2" />
             Tạo link đầu tiên
@@ -393,7 +393,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
             {links.map((link) => (
               <div
                 key={link._id}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#E91E63] overflow-hidden"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-orange-500 overflow-hidden"
               >
                 {/* Header with Status Badge */}
                 <div className="relative">
@@ -440,25 +440,25 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-2 px-4 pb-3">
-                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 border border-blue-100">
+                  <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-3 border border-orange-100">
                     <div className="flex items-center gap-2 mb-1">
-                      <MousePointerClick className="w-3.5 h-3.5 text-blue-600" />
-                      <p className="text-xs font-medium text-blue-900">
+                      <MousePointerClick className="w-3.5 h-3.5 text-orange-600" />
+                      <p className="text-xs font-medium text-orange-900">
                         Clicks
                       </p>
                     </div>
-                    <p className="text-lg font-black text-blue-600">
+                    <p className="text-lg font-black text-orange-600">
                       {link.clicks}
                     </p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-100">
+                  <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-3 border border-orange-100">
                     <div className="flex items-center gap-2 mb-1">
-                      <TrendingUp className="w-3.5 h-3.5 text-purple-600" />
-                      <p className="text-xs font-medium text-purple-900">
+                      <TrendingUp className="w-3.5 h-3.5 text-orange-500" />
+                      <p className="text-xs font-medium text-orange-900">
                         Chuyển đổi
                       </p>
                     </div>
-                    <p className="text-lg font-black text-purple-600">
+                    <p className="text-lg font-black text-orange-500">
                       {link.conversions}
                     </p>
                   </div>
@@ -502,7 +502,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                       size="sm"
                       variant="outline"
                       onClick={() => copyToClipboard(link.shortUrl)}
-                      className="flex-1 h-10 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl font-semibold"
+                      className="flex-1 h-10 border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-500 transition-all rounded-xl font-semibold"
                     >
                       <Copy className="w-4 h-4 mr-2" />
                       Copy
@@ -511,7 +511,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                       size="sm"
                       variant="outline"
                       onClick={() => window.open(link.shortUrl, "_blank")}
-                      className="flex-1 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none hover:shadow-lg transition-all rounded-xl font-semibold"
+                      className="flex-1 h-10 bg-gradient-to-r from-orange-400 to-orange-1000 text-white border-none hover:shadow-lg transition-all rounded-xl font-semibold"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Mở link
@@ -563,7 +563,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 {links.map((link, index) => (
                   <tr
                     key={link._id}
-                    className="hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50 transition-all duration-200 group"
+                    className="hover:bg-gradient-to-r hover:from-orange-50/50 hover:to-orange-100/50 transition-all duration-200 group"
                   >
                     {/* Sản phẩm */}
                     <td className="px-6 py-4">
@@ -573,12 +573,12 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                             <img
                               src={link.productImage}
                               alt={link.productName}
-                              className="w-16 h-16 object-cover rounded-xl border-2 border-gray-100 shadow-sm group-hover:border-[#E91E63] transition-all"
+                              className="w-16 h-16 object-cover rounded-xl border-2 border-gray-100 shadow-sm group-hover:border-orange-500 transition-all"
                             />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-[#E91E63] transition-colors">
+                          <p className="font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-orange-500 transition-colors">
                             {link.productName}
                           </p>
                           <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -622,19 +622,19 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                     {/* Hiệu suất */}
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-3">
-                        <div className="text-center px-3 py-2 bg-blue-50 rounded-lg border border-blue-100">
-                          <p className="text-xs text-blue-600 font-medium mb-0.5">
+                        <div className="text-center px-3 py-2 bg-orange-50 rounded-lg border border-orange-100">
+                          <p className="text-xs text-orange-600 font-medium mb-0.5">
                             Clicks
                           </p>
-                          <p className="text-base font-bold text-blue-700">
+                          <p className="text-base font-bold text-orange-700">
                             {link.clicks}
                           </p>
                         </div>
-                        <div className="text-center px-3 py-2 bg-purple-50 rounded-lg border border-purple-100">
-                          <p className="text-xs text-purple-600 font-medium mb-0.5">
+                        <div className="text-center px-3 py-2 bg-orange-50 rounded-lg border border-orange-100">
+                          <p className="text-xs text-orange-500 font-medium mb-0.5">
                             Chuyển đổi
                           </p>
-                          <p className="text-base font-bold text-purple-700">
+                          <p className="text-base font-bold text-orange-700">
                             {link.conversions}
                           </p>
                         </div>
@@ -671,7 +671,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                           variant="outline"
                           onClick={() => copyToClipboard(link.shortUrl)}
                           title="Copy link"
-                          className="h-9 w-9 p-0 border-gray-200 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all"
+                          className="h-9 w-9 p-0 border-gray-200 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-600 transition-all"
                         >
                           <Copy className="w-4 h-4" />
                         </Button>
@@ -679,7 +679,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                           size="sm"
                           onClick={() => window.open(link.shortUrl, "_blank")}
                           title="Mở link"
-                          className="h-9 px-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none hover:shadow-lg transition-all font-semibold"
+                          className="h-9 px-4 bg-gradient-to-r from-orange-400 to-orange-1000 text-white border-none hover:shadow-lg transition-all font-semibold"
                         >
                           <ExternalLink className="w-4 h-4 mr-1.5" />
                           Mở
@@ -705,7 +705,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   {Math.min(page * limit, total)}
                 </span>{" "}
                 trong tổng số{" "}
-                <span className="font-bold text-[#E91E63]">{total}</span> link
+                <span className="font-bold text-orange-500">{total}</span> link
               </p>
               <div className="flex items-center gap-2">
                 <Button
@@ -713,7 +713,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   variant="outline"
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="h-10 px-4 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="h-10 px-4 border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-500 transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4 mr-1" />
                   <span className="hidden sm:inline">Trước</span>
@@ -740,8 +740,8 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                         onClick={() => setPage(pageNum)}
                         className={`h-10 w-10 p-0 rounded-xl transition-all ${
                           page === pageNum
-                            ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none shadow-lg font-bold"
-                            : "border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63]"
+                            ? "bg-gradient-to-r from-orange-400 to-orange-1000 text-white border-none shadow-lg font-bold"
+                            : "border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-500"
                         }`}
                       >
                         {pageNum}
@@ -755,7 +755,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   variant="outline"
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="h-10 px-4 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="h-10 px-4 border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-500 transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="hidden sm:inline">Sau</span>
                   <ChevronRight className="w-4 h-4 ml-1" />

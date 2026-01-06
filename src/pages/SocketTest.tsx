@@ -104,7 +104,7 @@ const SocketTestPage = () => {
             <button
               onClick={handleTestPing}
               disabled={!isConnected}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
             >
               Test Ping/Pong
             </button>
@@ -137,7 +137,7 @@ const SocketTestPage = () => {
                         : log.includes("❌")
                         ? "text-red-400"
                         : log.includes("📥")
-                        ? "text-blue-400"
+                        ? "text-orange-400"
                         : log.includes("📤")
                         ? "text-yellow-400"
                         : "text-gray-300"
@@ -152,11 +152,11 @@ const SocketTestPage = () => {
         </div>
 
         {/* Instructions */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-6">
-          <h2 className="text-xl font-semibold mb-3 text-blue-900">
+        <div className="bg-orange-50 border border-orange-200 rounded-lg p-6 mt-6">
+          <h2 className="text-xl font-semibold mb-3 text-orange-900">
             Instructions
           </h2>
-          <ul className="space-y-2 text-blue-800">
+          <ul className="space-y-2 text-orange-800">
             <li>✓ Make sure you're logged in to test socket features</li>
             <li>
               ✓ Open browser console to see detailed socket connection logs

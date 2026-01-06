@@ -50,8 +50,8 @@ const AccessTradeDemoPage: React.FC = () => {
       <div className="mt-4 p-4 border rounded-lg">
         <div className="flex items-center gap-2 mb-2">
           {result.success ? (
-            <div className="flex items-center gap-1 text-[#E91E63]">
-              <div className="w-2 h-2 bg-[#E91E63] rounded-full"></div>
+            <div className="flex items-center gap-1 text-orange-500">
+              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
               <span className="text-sm font-medium">Success</span>
             </div>
           ) : (
@@ -86,7 +86,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Quick Connection Test",
       description: "Test API connection with campaigns endpoint",
       icon: Zap,
-      color: "bg-[#E91E63]",
+      color: "bg-orange-500",
       action: () => accessTradeDemo.quickTest(),
     },
     {
@@ -94,7 +94,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Get Campaigns",
       description: "Fetch list of available campaigns",
       icon: Play,
-      color: "bg-[#E91E63]",
+      color: "bg-orange-500",
       action: () => accessTradeDemo.getCampaigns({ limit: 5 }),
     },
     {
@@ -102,7 +102,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Get Categories",
       description: "Fetch product categories",
       icon: Tag,
-      color: "bg-purple-500",
+      color: "bg-orange-500",
       action: () => accessTradeDemo.getCategories(),
     },
     {
@@ -118,7 +118,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Get Transactions",
       description: "Fetch commission transactions",
       icon: DollarSign,
-      color: "bg-pink-500",
+      color: "bg-orange-500",
       action: () => accessTradeDemo.getTransactions({ limit: 5 }),
     },
   ];
@@ -134,8 +134,8 @@ const AccessTradeDemoPage: React.FC = () => {
           <p className="text-gray-600">
             Test integration with AccessTrade API endpoints
           </p>
-          <div className="mt-4 p-3 bg-gradient-to-r from-pink-50 to-orange-50 rounded-lg border border-pink-200">
-            <p className="text-sm text-blue-800">
+          <div className="mt-4 p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200">
+            <p className="text-sm text-orange-800">
               <strong>API Base:</strong> https://api.accesstrade.vn
               <br />
               <strong>Authorization:</strong> Token jFogCAEIT6...VI
@@ -211,7 +211,7 @@ const AccessTradeDemoPage: React.FC = () => {
               className={`py-3 px-6 rounded-lg font-medium transition-colors ${
                 loading === "fullDemo"
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-[#AD1457]"
+                  : "bg-orange-600 text-white hover:bg-orange-600"
               }`}
             >
               {loading === "fullDemo" ? (

@@ -228,7 +228,7 @@ const AccordionItem: React.FC<{
         className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition-all"
       >
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg">
             <Icon className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
@@ -240,7 +240,7 @@ const AccordionItem: React.FC<{
         </div>
         <div className="flex-shrink-0">
           {isOpen ? (
-            <ChevronUp className="w-6 h-6 text-[#E91E63]" />
+            <ChevronUp className="w-6 h-6 text-orange-500" />
           ) : (
             <ChevronDown className="w-6 h-6 text-gray-400" />
           )}
@@ -257,8 +257,8 @@ const AccordionItem: React.FC<{
               return (
                 <div key={index} className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 flex items-center justify-center border-2 border-[#E91E63]/20">
-                      <StepIcon className="w-5 h-5 text-[#E91E63]" />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500/10 to-red-600/10 flex items-center justify-center border-2 border-orange-500/20">
+                      <StepIcon className="w-5 h-5 text-orange-500" />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -276,9 +276,9 @@ const AccordionItem: React.FC<{
 
           {/* Tips */}
           {section.tips && section.tips.length > 0 && (
-            <div className="bg-gradient-to-r from-orange-50 to-pink-50 rounded-xl p-5 border border-orange-100">
+            <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-5 border border-orange-100">
               <div className="flex items-center gap-2 mb-3">
-                <AlertCircle className="w-5 h-5 text-[#FF8C1A]" />
+                <AlertCircle className="w-5 h-5 text-orange-600" />
                 <h4 className="text-sm font-bold text-gray-800">
                   💡 Mẹo quan trọng
                 </h4>
@@ -289,7 +289,7 @@ const AccordionItem: React.FC<{
                     key={index}
                     className="flex items-start gap-2 text-sm text-gray-700"
                   >
-                    <span className="text-[#E91E63] font-bold flex-shrink-0">
+                    <span className="text-orange-500 font-bold flex-shrink-0">
                       •
                     </span>
                     <span>{tip}</span>
@@ -314,14 +314,14 @@ const GuidePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-pink-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] shadow-xl mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 shadow-xl mb-4">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mb-3">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-3">
             Hướng dẫn Sử dụng
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -340,14 +340,14 @@ const GuidePage: React.FC = () => {
                 onClick={() => toggleSection(section.id)}
                 className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                   openSections.includes(section.id)
-                    ? "bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 border-[#E91E63]/30 shadow-lg"
-                    : "bg-white border-gray-200 hover:border-pink-200 hover:shadow-md"
+                    ? "bg-gradient-to-br from-orange-500/10 to-red-600/10 border-orange-500/30 shadow-lg"
+                    : "bg-white border-gray-200 hover:border-orange-200 hover:shadow-md"
                 }`}
               >
                 <Icon
                   className={`w-8 h-8 mx-auto mb-2 ${
                     openSections.includes(section.id)
-                      ? "text-[#E91E63]"
+                      ? "text-orange-500"
                       : "text-gray-400"
                   }`}
                 />
@@ -372,7 +372,7 @@ const GuidePage: React.FC = () => {
         </div>
 
         {/* Contact Support */}
-        <div className="mt-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-2xl p-8 text-center text-white shadow-xl">
+        <div className="mt-10 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-8 text-center text-white shadow-xl">
           <h3 className="text-2xl font-bold mb-3">Cần Hỗ trợ Thêm?</h3>
           <p className="text-white/90 mb-6 max-w-2xl mx-auto">
             Nếu bạn có bất kỳ câu hỏi nào hoặc gặp vấn đề, đội ngũ hỗ trợ của
@@ -381,7 +381,7 @@ const GuidePage: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:support@example.com"
-              className="px-6 py-3 bg-white text-[#E91E63] font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+              className="px-6 py-3 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
             >
               📧 Email Support
             </a>

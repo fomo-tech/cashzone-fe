@@ -68,7 +68,7 @@ const StatCard = ({
 }) => {
   const isPositive = detail > 0;
   const detailColor = isPositive
-    ? "text-[#E91E63]"
+    ? "text-orange-500"
     : detail < 0
     ? "text-red-600"
     : "text-gray-500";
@@ -187,7 +187,7 @@ const SystemStatusCard = ({
       <span
         className={`px-3 py-1 text-xs font-bold rounded-full ${
           status === "Hoạt động"
-            ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30"
+            ? "bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500 border border-orange-500/30"
             : status === "Tắt"
             ? "bg-gray-100 text-gray-700"
             : "bg-yellow-100 text-yellow-700"
@@ -200,7 +200,7 @@ const SystemStatusCard = ({
     <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
       <button
         onClick={onAction}
-        className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:from-[#AD1457] hover:to-[#E65100] transition-all duration-150 shadow-lg shadow-pink-500/30"
+        className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-orange-400 to-orange-1000 text-white hover:from-orange-500 hover:to-orange-600 transition-all duration-150 shadow-lg shadow-orange-500/30"
       >
         {buttonLabel}
       </button>
@@ -266,7 +266,7 @@ const AdminDashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải dữ liệu...</p>
         </div>
       </div>
@@ -286,7 +286,7 @@ const AdminDashboard = () => {
           )}
           <button
             onClick={fetchDashboardStats}
-            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:opacity-90 transition-opacity"
+            className="mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             Thử lại
           </button>
@@ -300,8 +300,8 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center space-x-3">
-          <Shield className="w-8 h-8 text-[#E91E63]" />
-          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+          <Shield className="w-8 h-8 text-orange-500" />
+          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-orange-400 to-orange-1000 bg-clip-text text-transparent">
             Tổng Quan Hệ Thống (Admin)
           </h1>
         </div>
@@ -316,14 +316,14 @@ const AdminDashboard = () => {
             title="Tổng Người Dùng"
             value={stats?.users?.total || 0}
             detail={stats?.users?.newToday || 0}
-            color="text-[#E91E63]"
+            color="text-orange-500"
           />
           <StatCard
             icon={Wallet}
             title="Tổng Số Dư Ví"
             value={stats?.wallet?.totalBalance || 0}
             detail={0}
-            color="text-[#E91E63]"
+            color="text-orange-500"
             isCurrency={true}
           />
           <StatCard
@@ -331,7 +331,7 @@ const AdminDashboard = () => {
             title="Đã Rút Ra"
             value={stats?.wallet?.totalWithdrawn || 0}
             detail={0}
-            color="text-[#FF8C1A]"
+            color="text-orange-600"
             isCurrency={true}
           />
           <StatCard
@@ -350,28 +350,28 @@ const AdminDashboard = () => {
             title="Chiến Dịch Hoạt Động"
             value={stats?.tasks?.active || 0}
             detail={stats?.tasks?.featured || 0}
-            color="text-purple-600"
+            color="text-orange-500"
           />
           <StatCard
             icon={ShoppingBag}
             title="Tổng Submissions"
             value={stats?.tasks?.totalSubmissions || 0}
             detail={stats?.tasks?.pendingReview || 0}
-            color="text-blue-600"
+            color="text-orange-600"
           />
           <StatCard
             icon={Server}
             title="Nền Tảng Hoạt Động"
             value={stats?.platforms?.active || 0}
             detail={stats?.platforms?.total || 0}
-            color="text-indigo-600"
+            color="text-orange-600"
           />
           <StatCard
             icon={CheckCircle}
             title="Giao Dịch Hoàn Thành"
             value={stats?.transactions?.completed || 0}
             detail={0}
-            color="text-[#E91E63]"
+            color="text-orange-500"
           />
         </div>
 
@@ -404,10 +404,10 @@ const AdminDashboard = () => {
           <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-gray-800 flex items-center">
-                <Activity className="w-5 h-5 text-[#E91E63] mr-2" />
+                <Activity className="w-5 h-5 text-orange-500 mr-2" />
                 Tổng Quan Hệ Thống
               </h3>
-              <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30">
+              <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500 border border-orange-500/30">
                 Hoạt động
               </span>
             </div>
@@ -444,7 +444,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions Section */}
-        <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-6 rounded-2xl shadow-xl">
+        <div className="bg-gradient-to-r from-orange-400 to-orange-1000 p-6 rounded-2xl shadow-xl">
           <h3 className="text-xl font-bold text-white mb-4">Truy Cập Nhanh</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
@@ -482,13 +482,13 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-              <Wallet className="w-5 h-5 text-[#E91E63] mr-2" />
+              <Wallet className="w-5 h-5 text-orange-500 mr-2" />
               Thống Kê Ví
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Tổng Số Dư:</span>
-                <span className="text-lg font-bold text-[#E91E63]">
+                <span className="text-lg font-bold text-orange-500">
                   {formatCurrency(stats?.wallet?.totalBalance || 0)}
                 </span>
               </div>
@@ -509,19 +509,19 @@ const AdminDashboard = () => {
 
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-              <Gift className="w-5 h-5 text-purple-600 mr-2" />
+              <Gift className="w-5 h-5 text-orange-500 mr-2" />
               Thống Kê Tasks
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Đang Hoạt Động:</span>
-                <span className="text-lg font-bold text-purple-600">
+                <span className="text-lg font-bold text-orange-500">
                   {stats?.tasks?.active || 0}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Nổi Bật:</span>
-                <span className="text-lg font-bold text-[#E91E63]">
+                <span className="text-lg font-bold text-orange-500">
                   {stats?.tasks?.featured || 0}
                 </span>
               </div>
@@ -565,19 +565,19 @@ const AdminDashboard = () => {
         {/* Khu vực 4: Recent Activity Summary */}
         <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100">
           <h3 className="text-lg font-bold text-gray-800 flex items-center mb-4 border-b pb-3">
-            <Activity className="w-5 h-5 text-[#E91E63] mr-2" />
+            <Activity className="w-5 h-5 text-orange-500 mr-2" />
             Hoạt Động Gần Đây
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
+            <div className="p-4 bg-gradient-to-br from-orange-50 to-red-100 rounded-xl">
               <p className="text-sm text-gray-600 mb-1">Users mới hôm nay</p>
-              <p className="text-2xl font-black text-purple-600">
+              <p className="text-2xl font-black text-orange-500">
                 {stats?.users?.newToday || 0}
               </p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+            <div className="p-4 bg-gradient-to-br from-orange-50 to-blue-100 rounded-xl">
               <p className="text-sm text-gray-600 mb-1">Submissions hôm nay</p>
-              <p className="text-2xl font-black text-blue-600">
+              <p className="text-2xl font-black text-orange-600">
                 {Math.floor((stats?.tasks?.totalSubmissions || 0) * 0.05)}
               </p>
             </div>

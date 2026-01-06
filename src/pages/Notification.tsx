@@ -141,9 +141,9 @@ const NotificationPage: React.FC = () => {
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      task_new: "bg-blue-100 text-blue-800",
+      task_new: "bg-orange-100 text-orange-800",
       task_reward: "bg-green-100 text-green-800",
-      referral: "bg-purple-100 text-purple-800",
+      referral: "bg-orange-100 text-orange-800",
       system: "bg-orange-100 text-orange-800",
     };
     return colors[type] || "bg-gray-100 text-gray-800";
@@ -162,7 +162,7 @@ const NotificationPage: React.FC = () => {
   if (isLoading && notifications.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-8 h-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -171,14 +171,14 @@ const NotificationPage: React.FC = () => {
     <div className="min-h-screen py-3 sm:py-4 md:py-6 px-3 sm:px-4 md:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-pink-100 p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-orange-100 p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="p-2.5 sm:p-3 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl shadow-lg">
+              <div className="p-2.5 sm:p-3 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl sm:rounded-2xl shadow-lg">
                 <Bell className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                   Thông Báo
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-500 mt-0.5 sm:mt-1">
@@ -219,7 +219,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("all")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "all"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -233,7 +233,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("unread")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "unread"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -244,7 +244,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("read")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "read"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -265,7 +265,7 @@ const NotificationPage: React.FC = () => {
                 onClick={() => handleOpenDetail(notif)}
                 className={`bg-white rounded-xl sm:rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl cursor-pointer active:scale-[0.98] ${
                   !notif.read
-                    ? "border-[#E91E63]/30 bg-gradient-to-r from-pink-50/50 to-white"
+                    ? "border-orange-500/30 bg-gradient-to-r from-orange-50/50 to-white"
                     : "border-slate-100"
                 }`}
               >
@@ -280,8 +280,8 @@ const NotificationPage: React.FC = () => {
                           className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg sm:rounded-xl object-cover border-2 border-slate-100"
                         />
                       ) : (
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-lg sm:rounded-xl flex items-center justify-center">
-                          <Bell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#E91E63]" />
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-orange-500/10 to-red-600/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Bell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-orange-500" />
                         </div>
                       )}
                     </div>
@@ -294,7 +294,7 @@ const NotificationPage: React.FC = () => {
                             {notif.title}
                           </h3>
                           {!notif.read && (
-                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#E91E63] rounded-full flex-shrink-0"></span>
+                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full flex-shrink-0"></span>
                           )}
                         </div>
                         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
@@ -327,7 +327,7 @@ const NotificationPage: React.FC = () => {
                           </span>
                         </div>
                         {notif.link && (
-                          <span className="flex items-center gap-1 text-[#E91E63]">
+                          <span className="flex items-center gap-1 text-orange-500">
                             <ExternalLink className="w-3 h-3" />
                             <span className="whitespace-nowrap">
                               Xem chi tiết

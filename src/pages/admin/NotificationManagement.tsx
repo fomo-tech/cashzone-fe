@@ -226,7 +226,7 @@ const NotificationManagement: React.FC = () => {
   if (isLoading && notifications.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-8 h-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -237,7 +237,7 @@ const NotificationManagement: React.FC = () => {
         {/* Header */}
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-extrabold text-slate-800 flex items-center gap-3">
-            <Bell className="w-8 h-8 text-[#E91E63]" />
+            <Bell className="w-8 h-8 text-orange-500" />
             Quản Lý Thông Báo
           </h1>
         </div>
@@ -254,13 +254,13 @@ const NotificationManagement: React.FC = () => {
             icon={<CheckCircle />}
             title="Chưa Đọc"
             value={stats.unread}
-            color="text-[#E91E63]"
+            color="text-orange-500"
           />
           <StatCard
             icon={<Bell />}
             title="Thông Báo Hệ Thống"
             value={stats.byType.system || 0}
-            color="text-blue-600"
+            color="text-orange-600"
           />
           <StatCard
             icon={<Users />}
@@ -275,7 +275,7 @@ const NotificationManagement: React.FC = () => {
         {/* 2. Form Gửi Thông Báo Mới */}
         <div className="bg-white rounded-xl shadow-lg border border-slate-100 p-6">
           <h2 className="text-xl font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
-            <Send className="w-6 h-6 text-[#E91E63]" /> Gửi Thông Báo Mới
+            <Send className="w-6 h-6 text-orange-500" /> Gửi Thông Báo Mới
           </h2>
 
           <form onSubmit={handleSendNotification} className="space-y-4">
@@ -295,7 +295,7 @@ const NotificationManagement: React.FC = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Ví dụ: Thông báo quan trọng"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
 
@@ -315,7 +315,7 @@ const NotificationManagement: React.FC = () => {
                 onChange={handleChange}
                 rows={4}
                 placeholder="Nhập nội dung đầy đủ của thông báo..."
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -333,7 +333,7 @@ const NotificationManagement: React.FC = () => {
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-slate-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-slate-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
                   <option value="system">Hệ thống</option>
                   <option value="task_new">Task mới</option>
@@ -355,7 +355,7 @@ const NotificationManagement: React.FC = () => {
                   name="targetType"
                   value={formData.targetType}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-slate-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-slate-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
                   <option value="all">Tất cả User</option>
                   <option value="individual">User cụ thể</option>
@@ -380,7 +380,7 @@ const NotificationManagement: React.FC = () => {
                   value={formData.userId}
                   onChange={handleChange}
                   placeholder="Nhập User ID"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
             )}
@@ -400,7 +400,7 @@ const NotificationManagement: React.FC = () => {
                 value={formData.link}
                 onChange={handleChange}
                 placeholder="https://..."
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
 
@@ -412,7 +412,7 @@ const NotificationManagement: React.FC = () => {
               {!imagePreview ? (
                 <label
                   htmlFor="image-upload"
-                  className="flex items-center justify-center w-full h-32 px-4 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-[#E91E63] hover:bg-pink-50 transition-colors"
+                  className="flex items-center justify-center w-full h-32 px-4 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition-colors"
                 >
                   <div className="text-center">
                     <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
@@ -455,7 +455,7 @@ const NotificationManagement: React.FC = () => {
                   ${
                     isSending
                       ? "bg-slate-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63]/50"
+                      : "bg-gradient-to-r from-orange-400 to-orange-1000 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500/50"
                   }`}
               >
                 {isSending ? (
@@ -484,7 +484,7 @@ const NotificationManagement: React.FC = () => {
               placeholder="Tìm kiếm theo tiêu đề..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-[#E91E63] focus:border-[#E91E63] text-slate-700"
+              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-orange-500 focus:border-orange-500 text-slate-700"
             />
           </div>
 
@@ -521,7 +521,7 @@ const NotificationManagement: React.FC = () => {
                   notifications.map((n) => (
                     <tr
                       key={n._id}
-                      className="hover:bg-gradient-to-r from-pink-50 to-orange-50 transition-colors"
+                      className="hover:bg-gradient-to-r from-orange-50 to-orange-100 transition-colors"
                     >
                       <td className="px-6 py-4 text-sm text-slate-700 max-w-xs truncate">
                         <div className="font-semibold">{n.title}</div>
@@ -532,7 +532,7 @@ const NotificationManagement: React.FC = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">
                           {getTypeLabel(n.type)}
                         </span>
                       </td>

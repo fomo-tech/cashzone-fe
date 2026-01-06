@@ -34,7 +34,7 @@ const menuItemsClient: MenuItem[] = [
         <rect width={7} height={5} x={3} y={16} rx={1} />
       </svg>
     ),
-    bgActive: "bg-(--color-secondary) text-[#E91E63]",
+    bgActive: "bg-(--color-secondary) text-orange-500",
     roles: ["guest", "user"], // Hiển thị cho cả guest và user
   },
   {
@@ -490,7 +490,7 @@ const Sidebar: React.FC = () => {
                   className={clsx(
                     `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
+                      "bg-gradient-to-r from-orange-400 to-orange-1000 text-white shadow-md":
                         active,
                       "text-gray-700 hover:bg-gray-50": !active,
                     }
@@ -641,7 +641,7 @@ const Sidebar: React.FC = () => {
                   className={clsx(
                     `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
+                      "bg-gradient-to-r from-orange-400 to-orange-1000 text-white shadow-md":
                         location.pathname === "/admin/management-configs",
                       "text-gray-700 hover:bg-gray-50":
                         location.pathname !== "/admin/management-configs",

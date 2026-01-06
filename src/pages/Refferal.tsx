@@ -57,16 +57,16 @@ const ReferralProgram: React.FC = () => {
     },
     levelColors: {
       1: {
-        bg: "bg-gradient-to-r from-pink-50 to-rose-50",
-        border: "border-pink-200",
-        text: "text-[#E91E63]",
-        accent: "text-[#E91E63]",
+        bg: "bg-gradient-to-r from-orange-50 to-red-50",
+        border: "border-orange-200",
+        text: "text-orange-500",
+        accent: "text-orange-500",
       },
       2: {
         bg: "bg-gradient-to-r from-orange-50 to-amber-50",
         border: "border-orange-200",
-        text: "text-[#FF8C1A]",
-        accent: "text-[#FF8C1A]",
+        text: "text-orange-600",
+        accent: "text-orange-600",
       },
       3: {
         bg: "bg-gradient-to-r from-amber-50 to-yellow-50",
@@ -252,7 +252,7 @@ const ReferralProgram: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#E91E63]"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -262,7 +262,7 @@ const ReferralProgram: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-3 md:space-y-4 lg:space-y-6">
         {/* Header & Quick Stats */}
         <div className="text-center mb-3 md:mb-4 lg:mb-6">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mb-2 md:mb-3">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2 md:mb-3">
             🚀 Chương Trình Giới Thiệu 3 Cấp
           </h1>
           <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
@@ -273,26 +273,26 @@ const ReferralProgram: React.FC = () => {
 
         {/* Quick Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4 lg:mb-6">
-          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border-l-4 border-[#E91E63] p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
             <div className="flex items-center">
-              <Users className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#E91E63] mr-2 md:mr-3" />
+              <Users className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-orange-500 mr-2 md:mr-3" />
               <div>
                 <p className="text-xs md:text-sm text-gray-600">
                   Tổng Giới Thiệu
                 </p>
-                <p className="text-lg md:text-xl lg:text-2xl font-bold text-[#E91E63]">
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-orange-500">
                   {formatNumber(currentReferrals)}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-[#FF8C1A] p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-orange-600 p-6 rounded-xl shadow-md">
             <div className="flex items-center">
-              <DollarSign className="w-8 h-8 text-[#FF8C1A] mr-3" />
+              <DollarSign className="w-8 h-8 text-orange-600 mr-3" />
               <div>
                 <p className="text-sm text-gray-600">Tổng Hoa Hồng</p>
-                <p className="text-2xl font-bold text-[#FF8C1A]">
+                <p className="text-2xl font-bold text-orange-600">
                   {formatCurrency(
                     referralStats?.totalCommissions?.totalEarned || 0
                   )}
@@ -338,8 +338,8 @@ const ReferralProgram: React.FC = () => {
         {/* Referral Link Section */}
         <div className="bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 lg:p-4">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 lg:mb-6">
-            <div className="p-2 md:p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg md:rounded-xl">
-              <Share2 className="w-5 h-5 md:w-6 md:h-6 text-[#E91E63]" />
+            <div className="p-2 md:p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg md:rounded-xl">
+              <Share2 className="w-5 h-5 md:w-6 md:h-6 text-orange-500" />
             </div>
             <div>
               <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800">
@@ -354,17 +354,17 @@ const ReferralProgram: React.FC = () => {
           {referralCode ? (
             <div className="space-y-6">
               {/* Referral Code Display */}
-              <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-6 border border-pink-200">
+              <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-6 border border-orange-200">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600 mb-1">
                       Mã Giới Thiệu
                     </p>
-                    <p className="text-3xl font-bold font-mono text-[#E91E63]">
+                    <p className="text-3xl font-bold font-mono text-orange-500">
                       {referralCode.code}
                     </p>
                   </div>
-                  <QrCode className="w-12 h-12 text-[#E91E63]" />
+                  <QrCode className="w-12 h-12 text-orange-500" />
                 </div>
               </div>
 
@@ -378,7 +378,7 @@ const ReferralProgram: React.FC = () => {
                 />
                 <button
                   onClick={handleCopyLink}
-                  className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
                 >
                   {isCopied ? (
                     <Check className="w-5 h-5" />
@@ -393,7 +393,7 @@ const ReferralProgram: React.FC = () => {
             <div className="text-center py-8">
               <button
                 onClick={generateReferralCode}
-                className="px-8 py-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] text-white rounded-xl font-semibold shadow-lg transition-colors"
+                className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold shadow-lg transition-colors"
               >
                 Tạo Mã Giới Thiệu
               </button>
@@ -402,10 +402,10 @@ const ReferralProgram: React.FC = () => {
         </div>
 
         {/* Commission Calculation Explanation */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl border border-blue-200 p-6 md:p-8">
+        <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl shadow-xl border border-orange-200 p-6 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-blue-100 rounded-xl">
-              <DollarSign className="w-6 h-6 text-blue-600" />
+            <div className="p-3 bg-orange-100 rounded-xl">
+              <DollarSign className="w-6 h-6 text-orange-600" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">
@@ -424,7 +424,7 @@ const ReferralProgram: React.FC = () => {
               </h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                  <div className="w-2 h-2 bg-[#E91E63] rounded-full mt-2 shrink-0"></div>
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-800">
                       Hoàn thành Task
@@ -435,7 +435,7 @@ const ReferralProgram: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                  <div className="w-2 h-2 bg-[#FF8C1A] rounded-full mt-2 shrink-0"></div>
+                  <div className="w-2 h-2 bg-orange-600 rounded-full mt-2 shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-800">
                       Affiliate Commission
@@ -465,11 +465,11 @@ const ReferralProgram: React.FC = () => {
               </h3>
               <div className="bg-white rounded-xl p-5 border border-gray-200">
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
+                  <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
                     <span className="font-semibold text-gray-800">
                       Bạn B hoàn thành task
                     </span>
-                    <span className="font-bold text-[#E91E63]">+100,000đ</span>
+                    <span className="font-bold text-orange-500">+100,000đ</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
                     <span className="text-sm text-gray-700">
@@ -489,7 +489,7 @@ const ReferralProgram: React.FC = () => {
                     <span className="font-semibold text-gray-800">
                       Bạn C hoàn thành task
                     </span>
-                    <span className="font-bold text-[#FF8C1A]">+200,000đ</span>
+                    <span className="font-bold text-orange-600">+200,000đ</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
                     <span className="text-sm text-gray-700">
@@ -616,7 +616,7 @@ const ReferralProgram: React.FC = () => {
               </div>
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
-                  className="h-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full transition-all duration-500"
+                  className="h-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(progressPercentage, 100)}%` }}
                 ></div>
               </div>
@@ -655,7 +655,7 @@ const ReferralProgram: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:opacity-90 transition-colors">
+              <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:opacity-90 transition-colors">
                 Xem Tất Cả
               </button>
             </div>
@@ -692,7 +692,7 @@ const ReferralProgram: React.FC = () => {
                     <p
                       className={`text-xs px-2 py-1 rounded-full ${
                         item.status === "approved"
-                          ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30"
+                          ? "bg-gradient-to-r from-orange-500/10 to-orange-600/10 text-orange-500 border border-orange-500/30"
                           : item.status === "pending"
                           ? "bg-yellow-100 text-yellow-700"
                           : "bg-red-100 text-red-700"

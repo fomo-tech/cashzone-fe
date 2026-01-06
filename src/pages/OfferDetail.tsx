@@ -68,15 +68,15 @@ const RewardPill = ({
   const rewardText = formatReward(amount, unit);
 
   return (
-    <div className="flex items-center gap-4 px-6 py-4 rounded-xl bg-white/70 shadow-lg border border-pink-200 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
-      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] shadow-lg shrink-0">
+    <div className="flex items-center gap-4 px-6 py-4 rounded-xl bg-white/70 shadow-lg border border-orange-200 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
+      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shrink-0">
         <span className="text-white w-6 h-6">{icon}</span>
       </div>
       <div>
         <p className="text-sm text-gray-500 font-medium uppercase tracking-wider">
           Phần thưởng
         </p>
-        <p className="text-2xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+        <p className="text-2xl font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
           {rewardText}
         </p>
       </div>
@@ -99,20 +99,20 @@ const InstructionStep = ({
       <div className="relative pl-20 pt-4 pb-2">
         {/* Vertical connecting line */}
         {!isLast && (
-          <div className="absolute top-16 left-6 w-0.5 h-full bg-gradient-to-b from-[#E91E63] via-pink-300 to-[#FF8C1A] opacity-40"></div>
+          <div className="absolute top-16 left-6 w-0.5 h-full bg-gradient-to-b from-orange-500 via-orange-300 to-orange-600 opacity-40"></div>
         )}
 
         {/* Step Number Badge with enhanced gradient */}
-        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
+        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-500 to-orange-600 text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-orange-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-orange-500/50">
           <span className="relative z-10">{index + 1}</span>
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-pink-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-red-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
         </div>
 
-        <div className="group bg-gradient-to-br from-white via-pink-50/20 to-orange-50/20 rounded-2xl p-6 border-2 border-pink-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-pink-400 hover:-translate-y-1">
+        <div className="group bg-gradient-to-br from-white via-orange-50/20 to-orange-50/20 rounded-2xl p-6 border-2 border-orange-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-orange-400 hover:-translate-y-1">
           <div className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 text-white text-xs font-black rounded-full shadow-lg ring-2 ring-orange-100 hover:ring-4 hover:ring-orange-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
@@ -127,18 +127,18 @@ const InstructionStep = ({
                   <span>Bước {index + 1}</span>
                 </span>
               </div>
-              <h3 className="font-black text-lg text-gray-900 mb-2 group-hover:bg-gradient-to-r group-hover:from-[#E91E63] group-hover:to-[#FF8C1A] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+              <h3 className="font-black text-lg text-gray-900 mb-2 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-orange-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                 {step.title}
               </h3>
               {step.description && (
-                <p className="text-sm text-gray-700 leading-relaxed border-l-4 border-pink-300 pl-3 py-1 italic bg-pink-50/50 rounded-r">
+                <p className="text-sm text-gray-700 leading-relaxed border-l-4 border-orange-300 pl-3 py-1 italic bg-orange-50/50 rounded-r">
                   {step.description}
                 </p>
               )}
             </div>
             <Zap
               size={20}
-              className="text-[#FF8C1A] shrink-0 mt-1 animate-pulse"
+              className="text-orange-600 shrink-0 mt-1 animate-pulse"
             />
           </div>
         </div>
@@ -162,20 +162,20 @@ const InstructionStep = ({
       <div className="relative pl-20 pt-4 pb-2">
         {/* Vertical connecting line */}
         {!isLast && (
-          <div className="absolute top-16 left-6 w-0.5 h-full bg-gradient-to-b from-[#E91E63] via-pink-300 to-[#FF8C1A] opacity-40"></div>
+          <div className="absolute top-16 left-6 w-0.5 h-full bg-gradient-to-b from-orange-500 via-orange-300 to-orange-600 opacity-40"></div>
         )}
 
         {/* Step Number Badge with enhanced gradient */}
-        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
+        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-500 to-orange-600 text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-orange-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-orange-500/50">
           <span className="relative z-10">{index + 1}</span>
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-pink-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-red-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
         </div>
 
-        <div className="group bg-gradient-to-br from-white via-pink-50/20 to-orange-50/20 rounded-2xl p-6 border-2 border-pink-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-pink-400 hover:-translate-y-1">
+        <div className="group bg-gradient-to-br from-white via-orange-50/20 to-orange-50/20 rounded-2xl p-6 border-2 border-orange-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-orange-400 hover:-translate-y-1">
           <div className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 text-white text-xs font-black rounded-full shadow-lg ring-2 ring-orange-100 hover:ring-4 hover:ring-orange-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
@@ -190,18 +190,18 @@ const InstructionStep = ({
                   <span>Bước {index + 1}</span>
                 </span>
               </div>
-              <h3 className="font-black text-lg text-gray-900 mb-2 group-hover:bg-gradient-to-r group-hover:from-[#E91E63] group-hover:to-[#FF8C1A] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+              <h3 className="font-black text-lg text-gray-900 mb-2 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-orange-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                 {stepTitle}
               </h3>
               {description && (
-                <p className="text-sm text-gray-700 leading-relaxed border-l-4 border-pink-300 pl-3 py-1 italic bg-pink-50/50 rounded-r">
+                <p className="text-sm text-gray-700 leading-relaxed border-l-4 border-orange-300 pl-3 py-1 italic bg-orange-50/50 rounded-r">
                   {description}
                 </p>
               )}
             </div>
             <Zap
               size={20}
-              className="text-[#FF8C1A] shrink-0 mt-1 animate-pulse"
+              className="text-orange-600 shrink-0 mt-1 animate-pulse"
             />
           </div>
         </div>
@@ -211,8 +211,8 @@ const InstructionStep = ({
     // Detail step (use index as key, but don't show index)
     return (
       <div className="flex items-start gap-3 pl-20 text-gray-700 py-2">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-pink-100 to-orange-100 border-2 border-pink-200 shrink-0 mt-0.5 shadow-sm">
-          <span className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent font-bold text-sm">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-red-100 border-2 border-orange-200 shrink-0 mt-0.5 shadow-sm">
+          <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent font-bold text-sm">
             {index + 1}
           </span>
         </div>
@@ -393,7 +393,7 @@ const OfferDetail: React.FC = () => {
         <div className="text-center">
           <Loader2
             size={48}
-            className="animate-spin text-[#E91E63] mx-auto mb-4"
+            className="animate-spin text-orange-500 mx-auto mb-4"
           />
           <p className="text-gray-600 font-medium">
             Đang tải thông tin nhiệm vụ...
@@ -413,7 +413,7 @@ const OfferDetail: React.FC = () => {
           </p>
           <button
             onClick={() => navigate("/tasks")}
-            className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             Quay lại danh sách
           </button>
@@ -435,9 +435,9 @@ const OfferDetail: React.FC = () => {
     <div className="min-h-screen pb-16">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Main Offer Card */}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-pink-100">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-orange-100">
           {/* Section 1: Title and Reward */}
-          <div className="relative p-6 sm:p-10 bg-gradient-to-br from-pink-50 to-orange-50/70 border-b border-pink-200">
+          <div className="relative p-6 sm:p-10 bg-gradient-to-br from-orange-50 to-red-50/70 border-b border-orange-200">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug mb-4">
               {offer.title}
             </h1>
@@ -462,16 +462,16 @@ const OfferDetail: React.FC = () => {
               </div>
             </div>
 
-            <p className="mt-6 text-base text-gray-700 italic border-l-4 border-pink-400 pl-4 py-1">
+            <p className="mt-6 text-base text-gray-700 italic border-l-4 border-orange-400 pl-4 py-1">
               "{offer.description}"
             </p>
           </div>
 
           {/* Section 2: Instructions */}
           <div className="p-6 sm:p-10">
-            <div className="mb-8 pb-6 border-b-2 border-pink-200">
+            <div className="mb-8 pb-6 border-b-2 border-orange-200">
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl shadow-lg">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl shadow-lg">
                   <Target size={24} className="text-white" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-gray-900">
@@ -516,13 +516,13 @@ const OfferDetail: React.FC = () => {
           </div>
 
           {/* Section 3: Call to Action - Start Task */}
-          <div className="p-6 sm:p-8 bg-gradient-to-r from-pink-50 to-orange-50/30 border-t-2 border-pink-200">
+          <div className="p-6 sm:p-8 bg-gradient-to-r from-orange-50 to-red-50/30 border-t-2 border-orange-200">
             <div className="flex items-center justify-center">
               <a
                 href={offer.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#E91E63] via-pink-500 to-[#FF8C1A] text-white font-bold rounded-xl transition-all duration-300 hover:shadow-xl text-base transform hover:scale-105 active:scale-95 gap-2 shadow-lg hover:gap-3"
+                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 text-white font-bold rounded-xl transition-all duration-300 hover:shadow-xl text-base transform hover:scale-105 active:scale-95 gap-2 shadow-lg hover:gap-3"
               >
                 <Zap size={18} className="shrink-0" />
                 <span>Bắt đầu thực hiện nhiệm vụ</span>
@@ -548,9 +548,9 @@ const OfferDetail: React.FC = () => {
         </div>
 
         {/* Submission Card (Always Visible) */}
-        <div className="mt-8 p-6 sm:p-8 bg-white rounded-3xl shadow-2xl border-4 border-pink-200/50">
+        <div className="mt-8 p-6 sm:p-8 bg-white rounded-3xl shadow-2xl border-4 border-orange-200/50">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl shadow-xl shrink-0">
+            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-xl shrink-0">
               <UploadCloud size={24} className="text-white" />
             </div>
             <div>
@@ -569,7 +569,7 @@ const OfferDetail: React.FC = () => {
               className={`border-2 border-dashed ${
                 uploadedImages.length >= 5
                   ? "border-gray-400 bg-gray-50"
-                  : "border-pink-400 hover:border-[#E91E63] hover:bg-pink-50/50"
+                  : "border-orange-400 hover:border-orange-600 hover:bg-orange-50/50"
               } rounded-xl p-8 text-center transition-all duration-200`}
             >
               <label className="cursor-pointer">
@@ -586,7 +586,7 @@ const OfferDetail: React.FC = () => {
                     className={`flex items-center justify-center w-16 h-16 rounded-full mx-auto shadow-md ${
                       uploadedImages.length >= 5
                         ? "bg-gray-200"
-                        : "bg-gradient-to-br from-pink-100 to-orange-100"
+                        : "bg-gradient-to-br from-orange-100 to-red-100"
                     }`}
                   >
                     <UploadCloud
@@ -594,7 +594,7 @@ const OfferDetail: React.FC = () => {
                       className={`${
                         uploadedImages.length >= 5
                           ? "text-gray-500"
-                          : "text-[#E91E63]"
+                          : "text-orange-600"
                       }`}
                     />
                   </div>
@@ -624,7 +624,7 @@ const OfferDetail: React.FC = () => {
                     <img
                       src={url}
                       alt={`Preview ${index + 1}`}
-                      className="w-full h-24 sm:h-32 object-cover rounded-lg border-2 border-pink-300"
+                      className="w-full h-24 sm:h-32 object-cover rounded-lg border-2 border-orange-300"
                     />
                     <button
                       onClick={() => removeImage(index)}
@@ -641,7 +641,7 @@ const OfferDetail: React.FC = () => {
             <button
               onClick={handleSubmitTask}
               disabled={uploadedImages.length === 0 || submitting}
-              className="w-full py-4 px-8 bg-gradient-to-r from-[#E91E63] via-pink-500 to-[#FF8C1A] text-white font-black rounded-2xl hover:shadow-2xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-300 shadow-xl flex items-center justify-center gap-3 text-lg mt-6 transform hover:scale-[1.01] active:scale-[0.99] ring-2 ring-pink-200"
+              className="w-full py-4 px-8 bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 text-white font-black rounded-2xl hover:shadow-2xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-300 shadow-xl flex items-center justify-center gap-3 text-lg mt-6 transform hover:scale-[1.01] active:scale-[0.99] ring-2 ring-orange-200"
             >
               {submitting ? (
                 <>
@@ -657,7 +657,7 @@ const OfferDetail: React.FC = () => {
             </button>
 
             <p className="text-center text-sm text-gray-600 font-medium pt-2 flex items-center justify-center gap-1">
-              <Clock size={16} className="text-blue-500" />
+              <Clock size={16} className="text-orange-500" />
               Thời gian xét duyệt dự kiến: 24 - 48 giờ.
             </p>
           </div>

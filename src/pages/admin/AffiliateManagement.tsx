@@ -194,7 +194,7 @@ const AffiliateManagement = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải dữ liệu...</p>
         </div>
       </div>
@@ -207,7 +207,7 @@ const AffiliateManagement = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-orange-400 to-orange-1000 bg-clip-text text-transparent">
               Quản Lý Hoa Hồng Affiliate
             </h1>
             <p className="text-gray-500 mt-1">
@@ -219,7 +219,7 @@ const AffiliateManagement = () => {
               setEditingCommission(null);
               setShowModal(true);
             }}
-            className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg"
+            className="px-6 py-3 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg"
           >
             <Plus className="w-5 h-5" />
             Thêm Hoa Hồng
@@ -239,8 +239,8 @@ const AffiliateManagement = () => {
             icon={Wallet}
             title="Đã Thanh Toán"
             value={formatCurrency(stats?.paidCommission || 0)}
-            color="text-blue-600"
-            bgColor="bg-blue-50"
+            color="text-orange-600"
+            bgColor="bg-orange-50"
           />
           <StatCard
             icon={Activity}
@@ -253,8 +253,8 @@ const AffiliateManagement = () => {
             icon={BarChart3}
             title="Tổng Đơn Hàng"
             value={(stats?.totalOrders || 0).toString()}
-            color="text-purple-600"
-            bgColor="bg-purple-50"
+            color="text-orange-500"
+            bgColor="bg-orange-50"
           />
         </div>
 
@@ -263,7 +263,7 @@ const AffiliateManagement = () => {
           {/* Top Platforms */}
           <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-              <TrendingUp className="w-5 h-5 text-[#E91E63] mr-2" />
+              <TrendingUp className="w-5 h-5 text-orange-500 mr-2" />
               Nền Tảng Hàng Đầu (Tháng Này)
             </h3>
             <div className="space-y-4">
@@ -273,7 +273,7 @@ const AffiliateManagement = () => {
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-1000 flex items-center justify-center text-white font-bold">
                       {index + 1}
                     </div>
                     <div>
@@ -298,7 +298,7 @@ const AffiliateManagement = () => {
           {/* Quick Stats */}
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-              <Calendar className="w-5 h-5 text-[#E91E63] mr-2" />
+              <Calendar className="w-5 h-5 text-orange-500 mr-2" />
               Tháng Này
             </h3>
             <div className="space-y-4">
@@ -308,9 +308,9 @@ const AffiliateManagement = () => {
                   {formatCurrency(stats?.thisMonthCommission || 0)}
                 </p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+              <div className="p-4 bg-gradient-to-br from-orange-50 to-blue-100 rounded-lg">
                 <p className="text-sm text-gray-600 mb-1">Đơn Hàng</p>
-                <p className="text-2xl font-black text-blue-600">
+                <p className="text-2xl font-black text-orange-600">
                   {stats?.totalOrders || 0}
                 </p>
               </div>
@@ -322,7 +322,7 @@ const AffiliateManagement = () => {
         <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-bold text-gray-800 flex items-center">
-              <DollarSign className="w-5 h-5 text-[#E91E63] mr-2" />
+              <DollarSign className="w-5 h-5 text-orange-500 mr-2" />
               Danh Sách Hoa Hồng ({commissions.length})
             </h3>
             <div className="flex gap-2">
@@ -330,7 +330,7 @@ const AffiliateManagement = () => {
                 onClick={() => setFilterStatus("all")}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                   filterStatus === "all"
-                    ? "bg-[#E91E63] text-white"
+                    ? "bg-orange-500 text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
               >
@@ -391,7 +391,7 @@ const AffiliateManagement = () => {
                   <tr key={commission._id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-1000 flex items-center justify-center">
                           <Globe className="w-5 h-5 text-white" />
                         </div>
                         <span className="font-semibold text-gray-800">
@@ -403,7 +403,7 @@ const AffiliateManagement = () => {
                       {formatCurrency(commission.orderValue)}
                     </td>
                     <td className="px-4 py-4">
-                      <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-sm font-semibold">
+                      <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-sm font-semibold">
                         {commission.commissionRate}%
                       </span>
                     </td>
@@ -440,7 +440,7 @@ const AffiliateManagement = () => {
                             setEditingCommission(commission);
                             setShowModal(true);
                           }}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -464,7 +464,7 @@ const AffiliateManagement = () => {
               <p className="text-gray-500">Chưa có hoa hồng nào</p>
               <button
                 onClick={() => setShowModal(true)}
-                className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                className="mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
                 Thêm Hoa Hồng Đầu Tiên
               </button>
@@ -652,7 +652,7 @@ const CommissionModal = ({
                 onChange={(e) =>
                   setFormData({ ...formData, orderDate: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -667,7 +667,7 @@ const CommissionModal = ({
               onChange={(e) =>
                 setFormData({ ...formData, platformLogo: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               placeholder="https://..."
             />
           </div>
@@ -682,7 +682,7 @@ const CommissionModal = ({
                 required
                 value={formData.orderValue}
                 onChange={(e) => handleOrderValueChange(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder="0"
                 min="0"
               />
@@ -702,7 +702,7 @@ const CommissionModal = ({
                 onChange={(e) =>
                   handleCommissionRateChange(Number(e.target.value))
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder="0"
                 min="0"
                 max="100"
@@ -731,7 +731,7 @@ const CommissionModal = ({
               onChange={(e: any) =>
                 setFormData({ ...formData, status: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             >
               <option value="pending">Chờ xử lý</option>
               <option value="paid">Đã thanh toán</option>
@@ -748,7 +748,7 @@ const CommissionModal = ({
               onChange={(e) =>
                 setFormData({ ...formData, notes: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E91E63] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               rows={3}
               placeholder="Ghi chú về đơn hàng..."
             />
@@ -765,7 +765,7 @@ const CommissionModal = ({
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               {saving ? "Đang lưu..." : commission ? "Cập Nhật" : "Tạo Mới"}
             </button>

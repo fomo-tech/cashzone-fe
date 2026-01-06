@@ -53,11 +53,11 @@ const NotificationDetail = () => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "task_new":
-        return "bg-blue-100 text-blue-800";
+        return "bg-orange-100 text-orange-800";
       case "task_reward":
         return "bg-green-100 text-green-800";
       case "referral":
-        return "bg-purple-100 text-purple-800";
+        return "bg-orange-100 text-orange-800";
       case "system":
         return "bg-gray-100 text-gray-800";
       default:
@@ -83,7 +83,7 @@ const NotificationDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -132,8 +132,8 @@ const NotificationDetail = () => {
                   ✓ Đã đọc
                 </span>
               ) : (
-                <span className="text-xs sm:text-sm text-blue-600 font-medium flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                <span className="text-xs sm:text-sm text-orange-600 font-medium flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></span>
                   Chưa đọc
                 </span>
               )}
@@ -186,7 +186,7 @@ const NotificationDetail = () => {
                   href={notification.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 font-medium text-sm sm:text-base active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-6 py-3 bg-gradient-to-r from-orange-400 to-orange-1000 text-white rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 font-medium text-sm sm:text-base active:scale-95"
                 >
                   <span>Xem chi tiết</span>
                   <svg

@@ -59,7 +59,7 @@ const Header = () => {
     <>
       {/* Header Container */}
       <header
-        className="sticky z-20 bg-white/95 backdrop-blur-md border-b border-pink-100/50 shadow-lg shadow-pink-100/20"
+        className="sticky z-20 bg-white/95 backdrop-blur-md border-b border-orange-100/50 shadow-lg shadow-orange-100/20"
         style={{ top: "var(--safe-area-inset-top)" }}
       >
         <div className="flex items-center justify-between h-14 sm:h-16 pl-14 sm:pl-16 pr-3 sm:pr-4 md:px-8">
@@ -81,7 +81,7 @@ const Header = () => {
                   onClick={() =>
                     handleToggleAuthModal({ isOpen: true, mode: "signin" })
                   }
-                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all duration-300 text-xs sm:text-sm active:scale-95"
+                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-500 transition-all duration-300 text-xs sm:text-sm active:scale-95"
                 >
                   {t("auth.login")}
                 </button>
@@ -92,13 +92,13 @@ const Header = () => {
                       mode: "signup",
                     })
                   }
-                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-all duration-300 shadow-lg shadow-pink-500/30 text-xs sm:text-sm active:scale-95"
+                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-orange-400 to-orange-1000 text-white font-semibold hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-500/30 text-xs sm:text-sm active:scale-95"
                 >
                   {t("auth.signup")}
                 </button>
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1" />
+                <div className="hidden sm:block h-6 w-px bg-gradient-to-b from-transparent via-orange-200 to-transparent mx-1" />
               </>
             )}
 
@@ -107,7 +107,7 @@ const Header = () => {
               <>
                 {/* Wallet Balance - Chỉ hiện cho user */}
                 {checkRole(user.roles || [], "user") && (
-                  <div className="hidden sm:flex items-center px-2 sm:px-3 py-1.5 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] rounded-full text-xs sm:text-sm font-bold border border-[#E91E63]/30 shadow-md shadow-pink-500/10 backdrop-blur-sm">
+                  <div className="hidden sm:flex items-center px-2 sm:px-3 py-1.5 bg-gradient-to-r from-orange-400/10 to-orange-1000/10 text-orange-500 rounded-full text-xs sm:text-sm font-bold border border-orange-500/30 shadow-md shadow-orange-500/10 backdrop-blur-sm">
                     <Wallet2Icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                     <span className="ml-1.5 sm:ml-2 whitespace-nowrap">
                       <span className="hidden md:inline">
@@ -123,20 +123,20 @@ const Header = () => {
 
                 {/* Divider */}
                 {checkRole(user.roles || [], "user") && (
-                  <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1 sm:mx-2" />
+                  <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-orange-200 to-transparent mx-1 sm:mx-2" />
                 )}
 
                 {/* Notification Dropdown */}
                 <NotificationDropdown />
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1 sm:mx-2" />
+                <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-orange-200 to-transparent mx-1 sm:mx-2" />
 
                 {/* User Info & Menu */}
                 <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
                   {/* User Name - Hidden on mobile */}
                   <div className="text-right hidden lg:block">
-                    <div className="text-sm font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent truncate max-w-[150px] xl:max-w-[200px]">
+                    <div className="text-sm font-bold bg-gradient-to-r from-orange-400 to-orange-1000 bg-clip-text text-transparent truncate max-w-[150px] xl:max-w-[200px]">
                       {user.name || user.email?.split("@")[0]}
                     </div>
                     {checkRole(user.roles || [], "admin") && (

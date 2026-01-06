@@ -58,9 +58,9 @@ const SectionHero = () => {
       >
         {heroSlides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-pink-400 via-pink-300 to-yellow-200 rounded-2xl shadow-lg px-3 py-6 sm:px-6 sm:py-8 md:px-10 md:py-12 min-h-[180px] sm:min-h-[220px] md:min-h-[260px] lg:min-h-[320px] relative overflow-hidden w-full mx-auto">
+            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-orange-400 via-orange-300 to-yellow-200 rounded-2xl shadow-lg px-3 py-6 sm:px-6 sm:py-8 md:px-10 md:py-12 min-h-[180px] sm:min-h-[220px] md:min-h-[260px] lg:min-h-[320px] relative overflow-hidden w-full mx-auto">
               {/* Badge */}
-              <div className="flex items-center gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/30 backdrop-blur-md border border-white/40 text-pink-700 text-xs sm:text-sm font-bold uppercase tracking-wide mb-3 sm:mb-4 shadow-lg animate-bounce">
+              <div className="flex items-center gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/30 backdrop-blur-md border border-white/40 text-orange-600 text-xs sm:text-sm font-bold uppercase tracking-wide mb-3 sm:mb-4 shadow-lg animate-bounce">
                 <span className="text-base sm:text-lg">{slide.icon}</span>
                 <span>{slide.badge}</span>
               </div>
@@ -68,7 +68,7 @@ const SectionHero = () => {
               <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 mb-1 sm:mb-2 text-center drop-shadow-lg">
                 {slide.title}
                 <br />
-                <span className="inline-block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-pink-400 font-black text-lg sm:text-2xl md:text-3xl lg:text-4xl">
+                <span className="inline-block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-red-400 font-black text-lg sm:text-2xl md:text-3xl lg:text-4xl">
                   {slide.highlight}
                 </span>
               </h2>

@@ -89,7 +89,7 @@ export default function LinkManagement() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-            <ExternalLink className="text-pink-600" size={32} />
+            <ExternalLink className="text-orange-500" size={32} />
             Quản lý Link Affiliate
           </h1>
           <p className="text-gray-600 mt-2">
@@ -108,7 +108,7 @@ export default function LinkManagement() {
                     {stats.overall?.totalLinks || 0}
                   </p>
                 </div>
-                <BarChart3 className="text-blue-500" size={32} />
+                <BarChart3 className="text-orange-500" size={32} />
               </div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-md">
@@ -137,11 +137,11 @@ export default function LinkManagement() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Conversion</p>
-                  <p className="text-2xl font-bold text-purple-600 mt-1">
+                  <p className="text-2xl font-bold text-orange-500 mt-1">
                     {stats.overall?.totalConversions || 0}
                   </p>
                 </div>
-                <BarChart3 className="text-purple-500" size={32} />
+                <BarChart3 className="text-orange-500" size={32} />
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function LinkManagement() {
                   onChange={(e) =>
                     setFilters({ ...filters, search: e.target.value, page: 1 })
                   }
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function LinkManagement() {
               onChange={(e) =>
                 setFilters({ ...filters, status: e.target.value, page: 1 })
               }
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             >
               <option value="">Tất cả Status</option>
               <option value="active">Active</option>
@@ -194,7 +194,7 @@ export default function LinkManagement() {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+              <div className="inline-block w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
               <p className="text-gray-500 mt-4">Đang tải...</p>
             </div>
           ) : links.length === 0 ? (
@@ -286,7 +286,7 @@ export default function LinkManagement() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <code
-                            className="text-xs bg-blue-50 px-2 py-1 rounded font-mono truncate max-w-[120px]"
+                            className="text-xs bg-orange-50 px-2 py-1 rounded font-mono truncate max-w-[120px]"
                             title={(link.userId as any)?._id}
                           >
                             {((link.userId as any)?._id || "").substring(0, 8)}

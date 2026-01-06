@@ -135,9 +135,9 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
     case "currency":
       icon =
         config.type === "currency" ? (
-          <DollarSign className="w-5 h-5 text-[#E91E63]" />
+          <DollarSign className="w-5 h-5 text-orange-500" />
         ) : (
-          <Hash className="w-5 h-5 text-[#E91E63]" />
+          <Hash className="w-5 h-5 text-orange-500" />
         );
       valueDisplay =
         config.type === "currency"
@@ -148,7 +148,7 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
           type="number"
           value={localValue}
           onChange={handleChange}
-          className="w-full border border-gray-300 p-2 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition duration-150"
+          className="w-full border border-gray-300 p-2 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150"
           min={
             config.type === "number" || config.type === "currency"
               ? 0
@@ -161,14 +161,14 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
       icon = (
         <ToggleRight
           className={`w-5 h-5 ${
-            config.value ? "text-[#E91E63]" : "text-red-500"
+            config.value ? "text-orange-500" : "text-red-500"
           }`}
         />
       );
       valueDisplay = (
         <span
           className={`font-bold ${
-            config.value ? "text-[#E91E63]" : "text-red-600"
+            config.value ? "text-orange-500" : "text-red-600"
           }`}
         >
           {config.value ? "BẬT (Enabled)" : "TẮT (Disabled)"}
@@ -179,7 +179,7 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
           onClick={handleChange}
           className={`px-3 py-1 rounded-full font-semibold text-sm transition duration-200 ${
             localValue
-              ? "bg-[#E91E63] text-white hover:bg-[#E91E63]"
+              ? "bg-orange-500 text-white hover:bg-orange-500"
               : "bg-gray-300 text-gray-800 hover:bg-gray-400"
           }`}
         >
@@ -189,14 +189,14 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
       break;
     case "text":
     default:
-      icon = <TextCursor className="w-5 h-5 text-[#E91E63]" />;
+      icon = <TextCursor className="w-5 h-5 text-orange-500" />;
       valueDisplay = <p className="truncate max-w-lg">{config.value}</p>;
       inputField = (
         <textarea
           value={localValue}
           onChange={handleChange}
           rows={3}
-          className="w-full border border-gray-300 p-2 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition duration-150 resize-none"
+          className="w-full border border-gray-300 p-2 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150 resize-none"
         />
       );
       break;
@@ -224,7 +224,7 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
               disabled={!hasChanged || isSaving}
               className={`px-3 py-1 text-sm font-semibold rounded-lg transition duration-200 flex items-center ${
                 hasChanged && !isSaving
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:from-[#AD1457] hover:to-[#E65100] shadow-md shadow-pink-500/30"
+                  ? "bg-gradient-to-r from-orange-400 to-orange-1000 text-white hover:from-orange-500 hover:to-orange-600 shadow-md shadow-orange-500/30"
                   : "bg-gray-200 text-gray-500 cursor-not-allowed"
               }`}
             >
@@ -246,7 +246,7 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
         ) : (
           <button
             onClick={() => setIsEditing(true)}
-            className="px-3 py-1 text-sm font-semibold rounded-lg bg-pink-100 text-[#E91E63] hover:bg-purple-200 transition duration-200 flex items-center"
+            className="px-3 py-1 text-sm font-semibold rounded-lg bg-orange-100 text-orange-500 hover:bg-orange-100 transition duration-200 flex items-center"
           >
             <Edit className="w-4 h-4 mr-1" />
             Chỉnh Sửa
@@ -301,7 +301,7 @@ const ConfigManagement = () => {
         {/* Header */}
         <div className="flex items-center justify-between border-b pb-4">
           <div className="flex items-center space-x-3">
-            <Settings className="w-8 h-8 text-[#E91E63]" />
+            <Settings className="w-8 h-8 text-orange-500" />
             <h1 className="text-3xl font-extrabold text-gray-900">
               Quản Lý Cấu Hình Ứng Dụng
             </h1>
@@ -319,10 +319,10 @@ const ConfigManagement = () => {
             placeholder="Tìm kiếm theo Tên hoặc Key (e.g. MAX_DAILY_TXNS)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-[#E91E63] focus:border-[#E91E63] transition duration-150"
+            className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-orange-500 focus:border-orange-500 transition duration-150"
           />
           <button
-            className="px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:bg-purple-700 transition duration-150 shadow-md flex items-center shrink-0"
+            className="px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-orange-400 to-orange-1000 text-white hover:bg-orange-700 transition duration-150 shadow-md flex items-center shrink-0"
             onClick={() =>
               alert("Chức năng thêm cấu hình mới chưa được hỗ trợ.")
             } // Sử dụng alert thay cho modal
@@ -338,8 +338,8 @@ const ConfigManagement = () => {
             key={groupName}
             className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 space-y-2"
           >
-            <h2 className="text-xl font-bold text-gray-800 pb-3 border-b border-purple-100 flex items-center space-x-2">
-              <MinusCircle className="w-5 h-5 text-[#E91E63]" />
+            <h2 className="text-xl font-bold text-gray-800 pb-3 border-b border-orange-100 flex items-center space-x-2">
+              <MinusCircle className="w-5 h-5 text-orange-500" />
               <span>{groupName}</span>
               <span className="text-sm text-gray-500 font-normal">
                 ({groupedConfigs[groupName].length} mục)
@@ -372,7 +372,7 @@ const ConfigManagement = () => {
 
         {/* Thông báo trạng thái lưu */}
         {isSaving && (
-          <div className="fixed bottom-4 right-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white p-3 rounded-lg shadow-xl flex items-center space-x-2">
+          <div className="fixed bottom-4 right-4 bg-gradient-to-r from-orange-400 to-orange-1000 text-white p-3 rounded-lg shadow-xl flex items-center space-x-2">
             <Loader className="w-5 h-5 animate-spin" />
             <span>Đang lưu thay đổi...</span>
           </div>

@@ -54,7 +54,7 @@ const LoginForm: React.FC = () => {
       <div className="w-full max-w-md bg-gray-50 rounded-3xl shadow-2xl p-6 md:p-10 space-y-6">
         {/* Header and Icon */}
         <div className="text-center">
-          <Key className="w-12 h-12 text-[#E91E63] mx-auto mb-4" />
+          <Key className="w-12 h-12 text-orange-500 mx-auto mb-4" />
           <h1 className="text-3xl font-extrabold text-slate-800">
             Sign in to your account
           </h1>
@@ -90,7 +90,7 @@ const LoginForm: React.FC = () => {
               type="email"
               placeholder="Email hoặc Tên đăng nhập"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-700 font-medium placeholder-slate-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -102,7 +102,7 @@ const LoginForm: React.FC = () => {
               type="password"
               placeholder="Mật khẩu"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-700 font-medium placeholder-slate-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -116,13 +116,13 @@ const LoginForm: React.FC = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 text-[#E91E63] bg-gray-100 border-gray-300 rounded focus:ring-pink-500"
+                className="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 rounded focus:ring-orange-500"
               />
               <label htmlFor="remember" className="ml-2 text-slate-600">
                 Ghi nhớ đăng nhập
               </label>
             </div>
-            <a href="#" className="text-pink-500 hover:underline font-medium">
+            <a href="#" className="text-orange-500 hover:underline font-medium">
               Quên Mật Khẩu?
             </a>
           </div>
@@ -130,7 +130,7 @@ const LoginForm: React.FC = () => {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full py-3 rounded-xl font-bold text-white transition-colors duration-200 shadow-md bg-[#E91E63] hover:bg-[#AD1457]"
+            className="w-full py-3 rounded-xl font-bold text-white transition-colors duration-200 shadow-md bg-orange-500 hover:bg-orange-600"
           >
             Sign in
           </button>
@@ -142,7 +142,7 @@ const LoginForm: React.FC = () => {
             Chưa có tài khoản?
             <a
               href="/signup" // Thay đổi link này nếu cần
-              className="text-pink-500 font-semibold hover:underline ml-2"
+              className="text-orange-500 font-semibold hover:underline ml-2"
             >
               Đăng Ký Ngay
             </a>

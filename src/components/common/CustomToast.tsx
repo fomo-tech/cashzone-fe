@@ -13,8 +13,8 @@ const CustomToast: React.FC<{
   const isSuccess = type === "success";
 
   // Định nghĩa màu sắc dựa trên type
-  const iconColor = isSuccess ? "text-[#E91E63]" : "text-red-500";
-  const bgColor = isSuccess ? "bg-[#E91E63]" : "bg-red-500";
+  const iconColor = isSuccess ? "text-orange-500" : "text-red-500";
+  const bgColor = isSuccess ? "bg-orange-500" : "bg-red-500";
   const Icon = isSuccess ? CheckCircle : XCircle;
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const CustomToast: React.FC<{
           <div
             className={`
               mx-auto w-16 h-16 flex items-center justify-center rounded-full mb-4
-              ${isSuccess ? "bg-[#E91E63]" : "bg-red-100"}
+              ${isSuccess ? "bg-orange-500" : "bg-red-100"}
             `}
           >
             <Icon className={`w-8 h-8 ${iconColor} stroke-2`} />

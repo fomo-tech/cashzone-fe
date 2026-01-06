@@ -43,7 +43,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
     <button
       onClick={onToggle}
       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-        isChecked ? "bg-[#E91E63]" : "bg-gray-200"
+        isChecked ? "bg-orange-500" : "bg-gray-200"
       }`}
     >
       <span className="sr-only">Toggle {label}</span>
@@ -78,7 +78,7 @@ const SelectSetting: React.FC<SelectSettingProps> = ({
       id={label}
       value={value}
       onChange={onChange}
-      className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-[#E91E63] focus:border-[#E91E63] text-sm"
+      className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
@@ -105,7 +105,7 @@ const SettingCard: React.FC<SettingCardProps> = ({
 }) => (
   <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
     <div className="flex items-center space-x-3 mb-4 border-b pb-3">
-      <Icon className="w-6 h-6 text-[#E91E63]" />
+      <Icon className="w-6 h-6 text-orange-500" />
       <h3 className="text-lg font-bold text-gray-800">{title}</h3>
     </div>
     <p className="text-sm text-gray-500 mb-4">{description}</p>
@@ -214,7 +214,7 @@ const SettingsPage = () => {
                 {user?.phone || "Chưa cập nhật"}
               </p>
             </div>
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[#E91E63] hover:text-[#E91E63] transition duration-150">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-orange-500 hover:text-orange-500 transition duration-150">
               Chỉnh sửa Hồ sơ <ArrowRight className="w-4 h-4" />
             </button>
           </SettingCard>
@@ -305,10 +305,10 @@ const SettingsPage = () => {
             title="Dữ liệu & Quyền riêng tư"
             description="Xem chính sách, quản lý dữ liệu và yêu cầu xuất dữ liệu."
           >
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[#E91E63] hover:text-[#E91E63] transition duration-150 border-b border-gray-100">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-orange-500 hover:text-orange-500 transition duration-150 border-b border-gray-100">
               Xem Chính sách Quyền riêng tư <Info className="w-4 h-4" />
             </button>
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[#E91E63] hover:text-[#E91E63] transition duration-150 border-b border-gray-100">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-orange-500 hover:text-orange-500 transition duration-150 border-b border-gray-100">
               Yêu cầu Xuất dữ liệu cá nhân <Server className="w-4 h-4" />
             </button>
             <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-red-600 hover:text-red-800 transition duration-150">
@@ -325,7 +325,7 @@ const SettingsPage = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-        <Loader2 className="w-12 h-12 text-[#E91E63] animate-spin" />
+        <Loader2 className="w-12 h-12 text-orange-500 animate-spin" />
         <span className="text-lg font-semibold text-gray-700">
           Đang tải cài đặt...
         </span>
@@ -338,7 +338,7 @@ const SettingsPage = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center space-x-3">
-          <Settings className="w-8 h-8 text-[#E91E63]" />
+          <Settings className="w-8 h-8 text-orange-500" />
           <h1 className="text-3xl font-extrabold text-gray-900">
             Cài Đặt Cá Nhân
           </h1>
@@ -363,8 +363,8 @@ const SettingsPage = () => {
                     className={`flex items-center w-full px-4 py-3 rounded-lg text-left text-sm font-medium transition duration-200 
                       ${
                         activeTab === item.id
-                          ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 font-bold"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-[#E91E63]"
+                          ? "bg-gradient-to-r from-orange-500/10 to-red-600/10 text-orange-600 border border-orange-500/30 font-bold"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-orange-500"
                       }`}
                   >
                     <item.icon className="w-5 h-5 mr-3" />
@@ -382,7 +382,7 @@ const SettingsPage = () => {
             {/* Nút lưu (Chỉ hiện nếu có thay đổi) - Mock up */}
             <div className="mt-8 pt-4 border-t border-gray-200">
               <button
-                className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold rounded-xl shadow-lg hover:from-[#AD1457] hover:to-[#E65100] transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl shadow-lg hover:from-orange-600 hover:to-red-700 transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                 onClick={handleSave}
                 disabled={saving}
               >

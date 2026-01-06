@@ -68,8 +68,8 @@ export const SelectTrigger: React.FC<SelectTriggerProps> = ({
     <button
       type="button"
       className={cn(
-        "flex h-11 w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium transition-all duration-200 hover:border-gray-300 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 shadow-sm",
-        isOpen && "border-pink-500 ring-2 ring-pink-500/10",
+        "flex h-11 w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium transition-all duration-200 hover:border-gray-300 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 shadow-sm",
+        isOpen && "border-orange-500 ring-2 ring-orange-500/10",
         className
       )}
       onClick={() => setIsOpen(!isOpen)}
@@ -165,7 +165,7 @@ export const SelectItem = ({
       className={cn(
         "relative flex w-full cursor-pointer select-none items-center rounded-lg py-2.5 px-3 text-sm transition-colors",
         isSelected
-          ? "bg-pink-50 text-pink-700 font-semibold"
+          ? "bg-orange-50 text-orange-600 font-semibold"
           : "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
         className
       )}
@@ -178,7 +178,7 @@ export const SelectItem = ({
       {isSelected && (
         <motion.div layoutId="selected-check" className="ml-auto">
           <svg
-            className="h-4 w-4 text-pink-500"
+            className="h-4 w-4 text-orange-500"
             fill="none"
             stroke="currentColor"
             strokeWidth="3"

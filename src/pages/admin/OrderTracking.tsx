@@ -295,7 +295,7 @@ export default function OrderTracking() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-            <Package className="text-pink-600" size={32} />
+            <Package className="text-orange-500" size={32} />
             Quản lý Đơn hàng & Duyệt hoàn tiền
           </h1>
           <p className="text-gray-600 mt-2">
@@ -314,7 +314,7 @@ export default function OrderTracking() {
                     {stats.overall?.totalOrders || 0}
                   </p>
                 </div>
-                <Package className="text-blue-500" size={32} />
+                <Package className="text-orange-500" size={32} />
               </div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-md">
@@ -344,12 +344,12 @@ export default function OrderTracking() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Đã duyệt</p>
-                  <p className="text-2xl font-bold text-purple-600 mt-1">
+                  <p className="text-2xl font-bold text-orange-500 mt-1">
                     {stats.byStatus?.find((s: any) => s._id === "approved")
                       ?.count || 0}
                   </p>
                 </div>
-                <CheckCircle className="text-purple-500" size={32} />
+                <CheckCircle className="text-orange-500" size={32} />
               </div>
             </div>
           </div>
@@ -376,7 +376,7 @@ export default function OrderTracking() {
                         page: 1,
                       })
                     }
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -397,7 +397,7 @@ export default function OrderTracking() {
                     page: 1,
                   })
                 }
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               >
                 <option value="">Tất cả Status</option>
                 <option value="pending">Chờ duyệt</option>
@@ -408,7 +408,7 @@ export default function OrderTracking() {
             </div>
             <button
               onClick={handleCreateOrder}
-              className="ml-4 px-4 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
+              className="ml-4 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-1000 text-white rounded-lg hover:from-red-500 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
             >
               <Plus size={20} />
               Thêm đơn hàng
@@ -430,7 +430,7 @@ export default function OrderTracking() {
               </button>
               <button
                 onClick={handleBulkMarkPaid}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2"
+                className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-700 flex items-center gap-2"
               >
                 <DollarSign size={18} />
                 Đánh dấu đã trả
@@ -443,7 +443,7 @@ export default function OrderTracking() {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+              <div className="inline-block w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
               <p className="text-gray-500 mt-4">Đang tải...</p>
             </div>
           ) : orders.length === 0 ? (
@@ -574,7 +574,7 @@ export default function OrderTracking() {
                         <span
                           className={`px-2 py-1 text-xs rounded-full font-medium ${
                             order.cashbackStatus === "paid"
-                              ? "bg-purple-100 text-purple-700"
+                              ? "bg-orange-100 text-orange-700"
                               : order.cashbackStatus === "approved"
                               ? "bg-green-100 text-green-700"
                               : order.cashbackStatus === "pending"
@@ -608,14 +608,14 @@ export default function OrderTracking() {
                           {order.cashbackStatus === "approved" && (
                             <button
                               onClick={() => handleMarkAsPaid(order._id)}
-                              className="px-3 py-1 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700"
+                              className="px-3 py-1 bg-orange-400 text-white text-xs rounded-lg hover:bg-orange-700"
                             >
                               Đánh dấu đã trả
                             </button>
                           )}
                           <button
                             onClick={() => handleEditOrder(order)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                            className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg"
                             title="Chỉnh sửa"
                           >
                             <Edit size={18} />
@@ -668,7 +668,7 @@ export default function OrderTracking() {
                       onChange={(e) =>
                         setFormData({ ...formData, userId: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="ID của user"
                     />
                   </div>
@@ -686,7 +686,7 @@ export default function OrderTracking() {
                           affiliateLinkId: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="ID của link đã tạo (nếu có)"
                     />
                   </div>
@@ -702,7 +702,7 @@ export default function OrderTracking() {
                       onChange={(e) =>
                         setFormData({ ...formData, orderId: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="ORD123456"
                     />
                   </div>
@@ -733,7 +733,7 @@ export default function OrderTracking() {
                       onChange={(e) =>
                         setFormData({ ...formData, orderDate: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
 
@@ -754,7 +754,7 @@ export default function OrderTracking() {
                         })
                       }
                       onBlur={calculateCashback}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="500000"
                     />
                   </div>
@@ -776,7 +776,7 @@ export default function OrderTracking() {
                           commissionRate: Number(e.target.value),
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="10"
                     />
                   </div>
@@ -797,7 +797,7 @@ export default function OrderTracking() {
                           commissionAmount: Number(e.target.value),
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50"
                       placeholder="50000"
                     />
                   </div>
@@ -820,7 +820,7 @@ export default function OrderTracking() {
                         })
                       }
                       onBlur={calculateCashback}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       placeholder="80"
                     />
                   </div>
@@ -840,7 +840,7 @@ export default function OrderTracking() {
                           cashbackAmount: Number(e.target.value),
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-gray-50"
                       placeholder="400000"
                     />
                   </div>
@@ -858,7 +858,7 @@ export default function OrderTracking() {
                           cashbackStatus: e.target.value as any,
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     >
                       <option value="pending">Chờ duyệt</option>
                       <option value="approved">Đã duyệt</option>
@@ -878,7 +878,7 @@ export default function OrderTracking() {
                     onChange={(e) =>
                       setFormData({ ...formData, productName: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Tên sản phẩm..."
                   />
                 </div>
@@ -893,7 +893,7 @@ export default function OrderTracking() {
                     onChange={(e) =>
                       setFormData({ ...formData, productImage: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="https://..."
                   />
                 </div>
@@ -908,7 +908,7 @@ export default function OrderTracking() {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-1000 text-white rounded-lg hover:from-red-500 hover:to-orange-600"
                   >
                     {modalMode === "create" ? "Thêm đơn hàng" : "Cập nhật"}
                   </button>

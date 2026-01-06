@@ -93,7 +93,7 @@ const PlatformSelect: React.FC<PlatformSelectProps> = ({
       onChange={(e) => onChange(e.target.value)}
       required={required}
       disabled={disabled}
-      className={`w-full px-3 py-2.5 md:px-4 md:py-3 border-2 border-gray-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all bg-white text-gray-800 text-sm md:text-base ${className}`}
+      className={`w-full px-3 py-2.5 md:px-4 md:py-3 border-2 border-gray-200 rounded-xl md:rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all bg-white text-gray-800 text-sm md:text-base ${className}`}
     >
       <option value="">{placeholder}</option>
       {platforms.map((platform) => (

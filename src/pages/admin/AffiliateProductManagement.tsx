@@ -201,9 +201,9 @@ const AffiliateProductManagement: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-100/30">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
+      <div className="bg-gradient-to-r from-orange-400 to-orange-1000 shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
@@ -240,7 +240,7 @@ const AffiliateProductManagement: React.FC = () => {
                 placeholder="Tìm kiếm sản phẩm..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
             <select
@@ -252,7 +252,7 @@ const AffiliateProductManagement: React.FC = () => {
                   e.target.value === "" ? undefined : e.target.value === "true"
                 )
               }
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
             >
               <option value="">Tất cả (Ưu tiên)</option>
               <option value="true">Ưu tiên</option>
@@ -265,7 +265,7 @@ const AffiliateProductManagement: React.FC = () => {
                   e.target.value === "" ? undefined : e.target.value === "true"
                 )
               }
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
             >
               <option value="">Tất cả (Trạng thái)</option>
               <option value="true">Đang hiển thị</option>
@@ -285,7 +285,7 @@ const AffiliateProductManagement: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-pink-600 to-orange-500 text-white">
+              <thead className="bg-gradient-to-r from-red-500 to-orange-1000 text-white">
                 <tr>
                   <th className="px-4 py-4 text-left font-bold">Sản phẩm</th>
                   <th className="px-4 py-4 text-left font-bold">Nền tảng</th>
@@ -362,7 +362,7 @@ const AffiliateProductManagement: React.FC = () => {
                         {formatCurrency(product.price)}
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <div className="font-bold text-pink-600">
+                        <div className="font-bold text-orange-500">
                           {product.commissionRate}%
                         </div>
                         <div className="text-sm text-gray-500">
@@ -405,7 +405,7 @@ const AffiliateProductManagement: React.FC = () => {
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => handleEdit(product)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                            className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition"
                             title="Sửa"
                           >
                             <Edit size={18} />
@@ -469,7 +469,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, productName: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 required
               />
             </div>
@@ -485,7 +485,7 @@ const AffiliateProductManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, shopName: e.target.value })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 />
               </div>
               <div>
@@ -498,7 +498,7 @@ const AffiliateProductManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, category: e.target.value })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -512,7 +512,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, platform: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 required
               >
                 <option value="">-- Chọn nền tảng --</option>
@@ -534,7 +534,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, productUrl: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 required
               />
             </div>
@@ -549,7 +549,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, affiliateUrl: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
               />
             </div>
 
@@ -563,7 +563,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, imageUrl: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 required
               />
               {formData.imageUrl && (
@@ -586,7 +586,7 @@ const AffiliateProductManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, price: Number(e.target.value) })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                   required
                   min="0"
                 />
@@ -604,7 +604,7 @@ const AffiliateProductManagement: React.FC = () => {
                       commissionRate: Number(e.target.value),
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                   required
                   min="0"
                   max="100"
@@ -622,7 +622,7 @@ const AffiliateProductManagement: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                 rows={3}
               />
             </div>
@@ -636,7 +636,7 @@ const AffiliateProductManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, isPriority: e.target.checked })
                   }
-                  className="w-5 h-5 text-pink-600 rounded focus:ring-pink-500"
+                  className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
                 />
                 <label
                   htmlFor="isPriority"
@@ -653,7 +653,7 @@ const AffiliateProductManagement: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, isActive: e.target.checked })
                   }
-                  className="w-5 h-5 text-pink-600 rounded focus:ring-pink-500"
+                  className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500"
                 />
                 <label
                   htmlFor="isActive"
@@ -678,7 +678,7 @@ const AffiliateProductManagement: React.FC = () => {
                       priority: Number(e.target.value),
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
                   min="0"
                 />
               </div>
@@ -695,7 +695,7 @@ const AffiliateProductManagement: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-600 to-orange-500 text-white rounded-lg font-bold hover:from-pink-700 hover:to-orange-600 transition disabled:opacity-50"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-orange-1000 text-white rounded-lg font-bold hover:from-orange-700 hover:to-orange-600 transition disabled:opacity-50"
               >
                 {loading
                   ? "Đang xử lý..."

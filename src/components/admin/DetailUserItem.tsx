@@ -16,7 +16,7 @@ const DetailItemUser = ({
 }: DetailItemUserProps) => (
   <div className={`flex flex-col ${className}`}>
     <span className="font-semibold text-slate-500 flex items-center gap-2 mb-1">
-      {React.cloneElement(icon, { className: "w-4 h-4 text-indigo-400" })}{" "}
+      {React.cloneElement(icon, { className: "w-4 h-4 text-orange-400" })}{" "}
       {label}
     </span>
     <span
