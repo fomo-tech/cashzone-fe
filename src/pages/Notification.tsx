@@ -174,11 +174,11 @@ const NotificationPage: React.FC = () => {
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-pink-100 p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="p-2.5 sm:p-3 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl shadow-lg">
+              <div className="p-2.5 sm:p-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl sm:rounded-2xl shadow-lg">
                 <Bell className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                   Thông Báo
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-500 mt-0.5 sm:mt-1">
@@ -219,7 +219,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("all")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "all"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -233,7 +233,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("unread")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "unread"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -244,7 +244,7 @@ const NotificationPage: React.FC = () => {
               onClick={() => setFilter("read")}
               className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === "read"
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                  ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
               }`}
             >

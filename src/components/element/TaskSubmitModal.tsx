@@ -206,7 +206,7 @@ export default function TaskSubmitModal({
             <button
               onClick={handleSubmit}
               disabled={!selectedFile || isSubmitting}
-              className="flex-1 px-6 py-3 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:from-[#E91E63] hover:to-[#FF8C1A] disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
+              className="flex-1 px-6 py-3 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-[#E91E63] hover:to-[#FF8C1A] disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>

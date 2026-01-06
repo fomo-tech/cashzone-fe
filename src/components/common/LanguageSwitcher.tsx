@@ -139,7 +139,7 @@ const LanguageSwitcher = () => {
                   {/* Active Indicator */}
                   {isActive && (
                     <div className="flex-shrink-0">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg shadow-pink-500/30">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shadow-lg shadow-pink-500/30">
                         <Check
                           className="w-3.5 h-3.5 text-white"
                           strokeWidth={3}

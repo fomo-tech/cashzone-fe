@@ -185,7 +185,7 @@ const NotificationDropdown = () => {
       {/* Nút chuông với animation */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`relative group text-white bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] p-2 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
+        className={`relative group text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 p-2 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
           open ? "scale-110 ring-4 ring-pink-300/50" : ""
         }`}
         aria-label="Thông báo"
@@ -223,11 +223,11 @@ const NotificationDropdown = () => {
             <div className="relative px-4 sm:px-5 py-3 sm:py-4 border-b border-gray-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl shadow-lg">
+                  <div className="p-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl shadow-lg">
                     <Bell className="w-4 h-4 text-white" strokeWidth={2} />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <h3 className="text-base sm:text-lg font-bold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       Thông báo
                     </h3>
                     <p className="text-xs text-slate-500">
@@ -284,7 +284,7 @@ const NotificationDropdown = () => {
                     >
                       {/* Unread indicator bar */}
                       {!item.read && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#E91E63] to-[#FF8C1A]" />
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-orange-600 to-amber-600" />
                       )}
 
                       <div className="flex items-start gap-3">
@@ -361,7 +361,7 @@ const NotificationDropdown = () => {
             <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-gray-100/50 p-3">
               <button
                 onClick={handleViewAll}
-                className="w-full py-2.5 px-4 text-sm font-semibold text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 text-sm font-semibold text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
               >
                 <span>Xem tất cả thông báo</span>
                 <svg

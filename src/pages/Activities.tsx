@@ -226,7 +226,7 @@ const ActivityCard: React.FC<{
         </div>
         <button
           // Nút chi tiết màu xanh lá cây đậm
-          className="px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white text-sm font-semibold rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition shadow-md"
+          className="px-4 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-sm font-semibold rounded-lg hover:from-orange-600 hover:to-amber-700 transition shadow-md"
         >
           Chi tiết
         </button>

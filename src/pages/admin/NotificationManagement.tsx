@@ -455,7 +455,7 @@ const NotificationManagement: React.FC = () => {
                   ${
                     isSending
                       ? "bg-slate-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63]/50"
+                      : "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63]/50"
                   }`}
               >
                 {isSending ? (

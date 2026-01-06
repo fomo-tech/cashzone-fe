@@ -473,7 +473,7 @@ const TaskManagement: React.FC = () => {
                       {task.maxCompletions && (
                         <div className="w-32 bg-gray-200 rounded-full h-2 mt-1.5 overflow-hidden">
                           <div
-                            className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] h-2 rounded-full transition-all shadow-sm"
+                            className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 h-2 rounded-full transition-all shadow-sm"
                             style={{
                               width: `${Math.min(
                                 (task.completedCount / task.maxCompletions) *
@@ -572,7 +572,7 @@ const TaskManagement: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden border border-gray-200">
             {/* Header */}
             <div className="relative bg-gradient-to-br from-slate-50 via-white to-gray-50 px-8 py-6 border-b border-gray-100">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600"></div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-2xl flex items-center justify-center">
@@ -604,7 +604,7 @@ const TaskManagement: React.FC = () => {
                 {/* Basic Information */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-2 h-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"></div>
+                    <div className="w-2 h-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full"></div>
                     <h3 className="text-lg font-semibold text-gray-800">
                       Thông tin cơ bản
                     </h3>
@@ -781,7 +781,7 @@ const TaskManagement: React.FC = () => {
                 {/* Requirements Section */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-2 h-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"></div>
+                    <div className="w-2 h-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full"></div>
                     <h3 className="text-lg font-semibold text-gray-800">
                       Các bước thực hiện nhiệm vụ
                     </h3>
@@ -824,7 +824,7 @@ const TaskManagement: React.FC = () => {
                               className="bg-white p-6 rounded-2xl border-2 border-blue-100 hover:border-blue-300 hover:shadow-md transition-all group"
                             >
                               <div className="flex items-start gap-4 mb-4">
-                                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white text-sm font-bold rounded-xl flex items-center justify-center shadow-lg">
+                                <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-sm font-bold rounded-xl flex items-center justify-center shadow-lg">
                                   {index + 1}
                                 </div>
                                 <div className="flex-1">
@@ -972,7 +972,7 @@ const TaskManagement: React.FC = () => {
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:from-[#D81B60] hover:to-[#FF7043] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.01] active:scale-[0.98]"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl hover:from-[#D81B60] hover:to-[#FF7043] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.01] active:scale-[0.98]"
                     >
                       {editingTask ? (
                         <>

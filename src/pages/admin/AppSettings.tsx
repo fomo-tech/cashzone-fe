@@ -316,7 +316,7 @@ const AppSettings: React.FC = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-[#FF8C1A] p-4 sm:p-6">
       {/* Header */}
-      <div className="bg-linear-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] rounded-2xl shadow-xl p-6 sm:p-8 mb-6 text-white">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl shadow-xl p-6 sm:p-8 mb-6 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 flex items-center gap-3">
@@ -363,7 +363,7 @@ const AppSettings: React.FC = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:from-[#AD1457] hover:to-[#E65100] font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl hover:from-orange-600 hover:to-amber-700 font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
             >
               {saving ? (
                 <>
@@ -390,7 +390,7 @@ const AppSettings: React.FC = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "bg-linear-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg"
+                  ? "bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 text-white shadow-lg"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
@@ -513,7 +513,7 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   🌐 Social Media Links
                 </h3>
@@ -656,7 +656,7 @@ const AppSettings: React.FC = () => {
               </h2>
 
               <div className="space-y-4">
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
                   <input
                     type="checkbox"
                     checked={settings.enableBankTransfer}
@@ -699,7 +699,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableZaloPay}
@@ -722,7 +722,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableViettelPay}
@@ -746,7 +746,7 @@ const AppSettings: React.FC = () => {
                 </label>
               </div>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] border-2 border-[#E91E63] rounded-xl p-6 shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 border-2 border-[#E91E63] rounded-xl p-6 shadow-sm">
                 <div className="flex items-start gap-3">
                   <Lightbulb className="text-3xl text-yellow-500 shrink-0" />
                   <div>
@@ -773,7 +773,7 @@ const AppSettings: React.FC = () => {
                 Cấu hình nâng cao
               </h2>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   🔌 API Configuration
                 </h3>
@@ -837,7 +837,7 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Configuration
@@ -1070,7 +1070,7 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <Percent size={22} className="text-[#E91E63]" />
                   Hoa hồng
@@ -1330,7 +1330,7 @@ const AppSettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-linear-to-br from-[#E91E63] to-[#FF8C1A] p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
+              <div className="bg-linear-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-xl border-2 border-[#E91E63] shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <Users size={22} className="text-[#E91E63]" />
                   Xác thực người dùng
@@ -1395,7 +1395,7 @@ const AppSettings: React.FC = () => {
               </h2>
 
               <div className="space-y-4">
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enableEmailNotifications}
@@ -1420,7 +1420,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all shadow-sm">
                   <input
                     type="checkbox"
                     checked={settings.enablePushNotifications}
@@ -1444,7 +1444,7 @@ const AppSettings: React.FC = () => {
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 rounded-xl border-2 border-[#E91E63] hover:border-[#E91E63] transition-all">
                   <input
                     type="checkbox"
                     checked={settings.enableSMSNotifications}

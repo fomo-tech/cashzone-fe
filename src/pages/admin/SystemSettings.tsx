@@ -711,7 +711,7 @@ const SystemSettingsPage: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="border-b border-gray-200 p-6">
               <div className="flex items-center gap-3">
-                <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-2 rounded-lg">
+                <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-2 rounded-lg">
                   <DollarSign className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900">
@@ -740,7 +740,7 @@ const SystemSettingsPage: React.FC = () => {
                     }
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                       settings.commission?.enabled
-                        ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"
+                        ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600"
                         : "bg-gray-300"
                     }`}
                   >

@@ -69,14 +69,14 @@ const RewardPill = ({
 
   return (
     <div className="flex items-center gap-4 px-6 py-4 rounded-xl bg-white/70 shadow-lg border border-pink-200 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
-      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] shadow-lg shrink-0">
+      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-lg shrink-0">
         <span className="text-white w-6 h-6">{icon}</span>
       </div>
       <div>
         <p className="text-sm text-gray-500 font-medium uppercase tracking-wider">
           Phần thưởng
         </p>
-        <p className="text-2xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+        <p className="text-2xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
           {rewardText}
         </p>
       </div>
@@ -103,7 +103,7 @@ const InstructionStep = ({
         )}
 
         {/* Step Number Badge with enhanced gradient */}
-        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
+        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
           <span className="relative z-10">{index + 1}</span>
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-pink-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
         </div>
@@ -112,7 +112,7 @@ const InstructionStep = ({
           <div className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
@@ -166,7 +166,7 @@ const InstructionStep = ({
         )}
 
         {/* Step Number Badge with enhanced gradient */}
-        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
+        <div className="absolute top-4 left-0 z-10 flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-2xl font-black text-xl shadow-2xl ring-4 ring-pink-50 transform hover:scale-110 transition-all duration-300 hover:rotate-6 hover:shadow-pink-500/50">
           <span className="relative z-10">{index + 1}</span>
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-tl from-orange-400 via-pink-500 to-rose-600 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
         </div>
@@ -175,7 +175,7 @@ const InstructionStep = ({
           <div className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-xs font-black rounded-full shadow-lg ring-2 ring-pink-100 hover:ring-4 hover:ring-pink-200 hover:shadow-xl transition-all duration-200 hover:scale-105">
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
@@ -212,7 +212,7 @@ const InstructionStep = ({
     return (
       <div className="flex items-start gap-3 pl-20 text-gray-700 py-2">
         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-pink-100 to-orange-100 border-2 border-pink-200 shrink-0 mt-0.5 shadow-sm">
-          <span className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent font-bold text-sm">
+          <span className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent font-bold text-sm">
             {index + 1}
           </span>
         </div>
@@ -413,7 +413,7 @@ const OfferDetail: React.FC = () => {
           </p>
           <button
             onClick={() => navigate("/tasks")}
-            className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             Quay lại danh sách
           </button>
@@ -471,7 +471,7 @@ const OfferDetail: React.FC = () => {
           <div className="p-6 sm:p-10">
             <div className="mb-8 pb-6 border-b-2 border-pink-200">
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl shadow-lg">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl shadow-lg">
                   <Target size={24} className="text-white" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-gray-900">

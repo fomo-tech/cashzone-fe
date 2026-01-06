@@ -506,7 +506,7 @@ export default function Cashback() {
                   }
                   className={`group flex flex-col items-center p-2 md:p-2.5 lg:p-3 rounded-lg md:rounded-xl border-2 transition-all duration-300 shadow-sm transform hover:scale-[1.02] hover:shadow-md ${
                     isActive
-                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] border-white text-white shadow-xl"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 border-white text-white shadow-xl"
                       : "bg-white border-gray-100 text-gray-800 hover:bg-gray-50"
                   }`}
                 >
@@ -651,7 +651,7 @@ export default function Cashback() {
                     <button
                       onClick={handleGenerate}
                       disabled={isButtonDisabled}
-                      className="mt-2 sm:mt-0 w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 text-base sm:text-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl md:rounded-xl font-extrabold hover:from-[#AD1457] hover:to-[#E65100] transition shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="mt-2 sm:mt-0 w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 text-base sm:text-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl md:rounded-xl font-extrabold hover:from-orange-600 hover:to-amber-700 transition shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isGenerating ? (
                         <Loader size={18} className="animate-spin sm:mr-2" />
@@ -705,7 +705,7 @@ export default function Cashback() {
                       </div>
                       <button
                         onClick={handleGenerate}
-                        className="px-3 py-2 md:px-4 md:py-2 text-sm sm:text-base bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-extrabold hover:from-[#AD1457] hover:to-[#E65100] transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
+                        className="px-3 py-2 md:px-4 md:py-2 text-sm sm:text-base bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg font-extrabold hover:from-orange-600 hover:to-amber-700 transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
                         disabled={isGenerating}
                       >
                         {isGenerating ? (
@@ -896,7 +896,7 @@ export default function Cashback() {
                   className={` px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg ${
                     isCopying
                       ? "bg-green-600"
-                      : "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]"
+                      : "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600"
                   } text-white rounded-lg md:rounded-xl font-semibold transition duration-300 hover:opacity-90 flex items-center justify-center disabled:opacity-50`}
                   disabled={!generatedLink}
                 >
@@ -904,7 +904,7 @@ export default function Cashback() {
                 </button>
                 <button
                   onClick={handleOpen}
-                  className="px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg md:rounded-xl font-extrabold hover:opacity-90 disabled:opacity-50"
+                  className="px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg md:rounded-xl font-extrabold hover:opacity-90 disabled:opacity-50"
                   disabled={!generatedLink}
                 >
                   <ExternalLink size={16} />
@@ -958,7 +958,7 @@ export default function Cashback() {
               <div className="bg-white rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-6 shadow-xl border border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 md:gap-2.5 mb-2.5 md:mb-3">
                   <div className="flex items-center gap-1.5 md:gap-2">
-                    <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shrink-0 shadow-lg">
+                    <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shrink-0 shadow-lg">
                       <svg
                         className="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-white"
                         fill="none"
@@ -1147,7 +1147,7 @@ export default function Cashback() {
                                 target="_blank"
                                 rel="noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="flex-1 sm:flex-none px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-bold hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-0.5 md:gap-1 cursor-pointer"
+                                className="flex-1 sm:flex-none px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-bold hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-0.5 md:gap-1 cursor-pointer"
                               >
                                 <ExternalLink
                                   size={10}

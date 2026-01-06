@@ -677,7 +677,7 @@ const WalletManagement: React.FC = () => {
           {/* Balance Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-7 lg:mb-8">
             {/* Số Dư Khả Dụng */}
-            <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 text-white shadow-xl">
+            <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 text-white shadow-xl">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-white/80 text-sm font-medium">
                   Số Dư Khả Dụng
@@ -950,7 +950,7 @@ const WalletManagement: React.FC = () => {
                       disabled={!canWithdraw || isSubmitting}
                       className={`w-full py-3.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
                         canWithdraw && !isSubmitting
-                          ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:shadow-lg hover:shadow-pink-500/30"
+                          ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white hover:shadow-lg hover:shadow-pink-500/30"
                           : "bg-slate-300 text-slate-500 cursor-not-allowed"
                       }`}
                     >

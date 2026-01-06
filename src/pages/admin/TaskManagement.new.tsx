@@ -648,7 +648,7 @@ const TaskManagement: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100]"
+                  className="flex-1 px-4 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg hover:from-orange-600 hover:to-amber-700"
                 >
                   {editingTask ? "Cập nhật" : "Tạo mới"}
                 </button>

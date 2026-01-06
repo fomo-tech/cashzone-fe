@@ -38,10 +38,10 @@ const ScrollToTop: React.FC = () => {
         >
           <div className="relative">
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
 
             {/* Button */}
-            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95">
               <ArrowUp
                 size={24}
                 className="text-white font-bold group-hover:animate-bounce"

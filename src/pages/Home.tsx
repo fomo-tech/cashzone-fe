@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
       <div className="max-w-7xl mx-auto p-2 sm:p-3 lg:p-4">
         <div className="bg-white/80 backdrop-blur-md rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] overflow-hidden border border-white">
           {/* Header Section */}
-          <div className="bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] text-white p-3 sm:p-4 lg:p-5 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white p-3 sm:p-4 lg:p-5 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-2xl" />
 
@@ -289,14 +289,14 @@ const HomePage: React.FC = () => {
                 <div className="hidden lg:flex w-52 h-96 bg-gray-800 rounded-[3rem] shadow-2xl p-2 items-center justify-center border-4 border-gray-700 transform rotate-3 hover:rotate-0 transition-transform duration-300">
                   <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-[2.5rem] p-4 text-center flex flex-col justify-center">
                     <div className="mb-3">
-                      <div className="w-16 h-16 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
                         <Wallet2Icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
                     <p className="text-gray-500 text-sm font-semibold uppercase tracking-wide">
                       Ví Hoàn Tiền
                     </p>
-                    <p className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mt-2 mb-1">
+                    <p className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mt-2 mb-1">
                       {user
                         ? formatCurrency(user.wallet?.available || 0)
                         : "0đ"}
@@ -305,7 +305,7 @@ const HomePage: React.FC = () => {
                       Số dư có thể rút
                     </p>
                     <Link to="/cashback">
-                      <button className="w-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold text-sm py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                      <button className="w-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-bold text-sm py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
                         Mua sắm ngay
                       </button>
                     </Link>
@@ -317,7 +317,7 @@ const HomePage: React.FC = () => {
                   <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-5 lg:p-6 border border-white/50">
                     <div className="flex items-center justify-between mb-3 sm:mb-4">
                       <div className="flex items-center gap-2 sm:gap-3">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-lg sm:rounded-xl flex items-center justify-center shadow-md">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-md">
                           <Wallet2Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         </div>
                         <div>
@@ -332,7 +332,7 @@ const HomePage: React.FC = () => {
                     </div>
 
                     <div className="text-center py-2 md:py-3">
-                      <p className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mb-1">
+                      <p className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-1">
                         {user
                           ? formatCurrency(user.wallet?.available || 0)
                           : "0đ"}
@@ -343,7 +343,7 @@ const HomePage: React.FC = () => {
                     </div>
 
                     <Link to="/cashback" className="block">
-                      <button className="w-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold py-2 md:py-3 px-3 md:px-4 rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
+                      <button className="w-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-bold py-2 md:py-3 px-3 md:px-4 rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                         <Wallet2Icon className="w-5 h-5" />
                         Mua sắm & Nhận hoàn tiền
                       </button>
@@ -361,7 +361,7 @@ const HomePage: React.FC = () => {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 max-w-5xl mx-auto">
               <div className="text-center p-3 md:p-4 lg:p-6 bg-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl md:rounded-2xl mx-auto mb-2 md:mb-3 lg:mb-4 flex items-center justify-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-2 md:mb-3 lg:mb-4 flex items-center justify-center">
                   <svg
                     className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-white"
                     fill="none"
@@ -385,7 +385,7 @@ const HomePage: React.FC = () => {
               </div>
 
               <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                   <svg
                     className="w-8 h-8 text-white"
                     fill="none"
@@ -409,7 +409,7 @@ const HomePage: React.FC = () => {
               </div>
 
               <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                   <svg
                     className="w-8 h-8 text-white"
                     fill="none"
@@ -433,7 +433,7 @@ const HomePage: React.FC = () => {
               </div>
 
               <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                   <svg
                     className="w-8 h-8 text-white"
                     fill="none"
@@ -464,7 +464,7 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* How It Works Section */}
-          <div className="p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-[#E91E63] via-[#EC407A] to-[#FF8C1A] relative overflow-hidden">
+          <div className="p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
 
@@ -482,7 +482,7 @@ const HomePage: React.FC = () => {
                 {/* Step 1 */}
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
                   <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       1
                     </span>
                   </div>
@@ -498,7 +498,7 @@ const HomePage: React.FC = () => {
                 {/* Step 2 */}
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
                   <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       2
                     </span>
                   </div>
@@ -514,7 +514,7 @@ const HomePage: React.FC = () => {
                 {/* Step 3 */}
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
                   <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       3
                     </span>
                   </div>
@@ -594,7 +594,7 @@ const HomePage: React.FC = () => {
                           className="w-11 h-11 rounded-xl object-cover shadow-md"
                         />
                       ) : (
-                        <div className="text-white text-xl font-bold rounded-xl w-11 h-11 flex items-center justify-center bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-md">
+                        <div className="text-white text-xl font-bold rounded-xl w-11 h-11 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-md">
                           <svg
                             className="w-6 h-6"
                             fill="none"
@@ -616,7 +616,7 @@ const HomePage: React.FC = () => {
                       <h3 className="text-lg font-bold text-gray-800 group-hover:text-[#E91E63] transition">
                         {task.title}
                       </h3>
-                      <span className="text-xs font-bold text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full px-2 py-1 shadow-md uppercase">
+                      <span className="text-xs font-bold text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full px-2 py-1 shadow-md uppercase">
                         {task.type === "app_install"
                           ? "App"
                           : task.type === "registration"
@@ -636,7 +636,7 @@ const HomePage: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs text-gray-400">Phần thưởng</p>
-                        <p className="text-lg font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                        <p className="text-lg font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                           {formatCurrency(task.reward)}
                         </p>
                       </div>
@@ -732,7 +732,7 @@ const HomePage: React.FC = () => {
                       )}
 
                       {/* Badge */}
-                      <div className="absolute top-3 right-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <div className="absolute top-3 right-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         Nổi bật
                       </div>
 
@@ -783,7 +783,7 @@ const HomePage: React.FC = () => {
                           </p>
                         </div>
 
-                        <button className="px-4 py-2 text-sm font-bold text-white rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-md group-hover:scale-105 transition">
+                        <button className="px-4 py-2 text-sm font-bold text-white rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-md group-hover:scale-105 transition">
                           Làm ngay
                         </button>
                       </div>
@@ -818,7 +818,7 @@ const HomePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
               <Link
                 to={user ? "/wallet" : "/"}
-                className="group w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-2xl text-white bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
+                className="group w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-2xl text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <UserIcon />
                 {user ? "Vào Dashboard" : "Đăng nhập ngay"}

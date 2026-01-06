@@ -781,7 +781,7 @@ const TransactionManagementPage: React.FC = () => {
                       className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 
                         ${
                           activeTab === tab.key
-                            ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                            ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                     >

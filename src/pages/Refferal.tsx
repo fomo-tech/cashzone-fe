@@ -262,7 +262,7 @@ const ReferralProgram: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-3 md:space-y-4 lg:space-y-6">
         {/* Header & Quick Stats */}
         <div className="text-center mb-3 md:mb-4 lg:mb-6">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mb-2 md:mb-3">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-2 md:mb-3">
             🚀 Chương Trình Giới Thiệu 3 Cấp
           </h1>
           <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
@@ -378,7 +378,7 @@ const ReferralProgram: React.FC = () => {
                 />
                 <button
                   onClick={handleCopyLink}
-                  className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
                 >
                   {isCopied ? (
                     <Check className="w-5 h-5" />
@@ -393,7 +393,7 @@ const ReferralProgram: React.FC = () => {
             <div className="text-center py-8">
               <button
                 onClick={generateReferralCode}
-                className="px-8 py-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] text-white rounded-xl font-semibold shadow-lg transition-colors"
+                className="px-8 py-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-semibold shadow-lg transition-colors"
               >
                 Tạo Mã Giới Thiệu
               </button>
@@ -616,7 +616,7 @@ const ReferralProgram: React.FC = () => {
               </div>
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
-                  className="h-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full transition-all duration-500"
+                  className="h-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(progressPercentage, 100)}%` }}
                 ></div>
               </div>
@@ -655,7 +655,7 @@ const ReferralProgram: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:opacity-90 transition-colors">
+              <button className="px-4 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg hover:opacity-90 transition-colors">
                 Xem Tất Cả
               </button>
             </div>

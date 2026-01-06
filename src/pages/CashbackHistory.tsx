@@ -87,16 +87,16 @@ const CashbackHistory: React.FC = () => {
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Premium Header with Gradient */}
         <div className="relative mb-8 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63] via-[#EC407A] to-[#FF8C1A] opacity-5 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 opacity-5 rounded-3xl"></div>
           <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white p-6 md:p-8">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shadow-lg">
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                    <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                       Thu Nhập & Hoàn Tiền
                     </h1>
                     <p className="text-gray-600 text-sm mt-1">
@@ -293,7 +293,7 @@ const CashbackHistory: React.FC = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white">
           <div className="p-6 md:p-8 border-b border-gray-100">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center">
                 <History className="w-5 h-5 text-white" />
               </div>
               <h2 className="text-xl md:text-2xl font-black text-gray-900">

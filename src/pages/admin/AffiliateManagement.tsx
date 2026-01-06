@@ -207,7 +207,7 @@ const AffiliateManagement = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+            <h1 className="text-3xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
               Quản Lý Hoa Hồng Affiliate
             </h1>
             <p className="text-gray-500 mt-1">
@@ -219,7 +219,7 @@ const AffiliateManagement = () => {
               setEditingCommission(null);
               setShowModal(true);
             }}
-            className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg"
+            className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg"
           >
             <Plus className="w-5 h-5" />
             Thêm Hoa Hồng
@@ -273,7 +273,7 @@ const AffiliateManagement = () => {
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center text-white font-bold">
                       {index + 1}
                     </div>
                     <div>
@@ -391,7 +391,7 @@ const AffiliateManagement = () => {
                   <tr key={commission._id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center">
                           <Globe className="w-5 h-5 text-white" />
                         </div>
                         <span className="font-semibold text-gray-800">
@@ -464,7 +464,7 @@ const AffiliateManagement = () => {
               <p className="text-gray-500">Chưa có hoa hồng nào</p>
               <button
                 onClick={() => setShowModal(true)}
-                className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                className="mt-4 px-6 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
                 Thêm Hoa Hồng Đầu Tiên
               </button>
@@ -765,7 +765,7 @@ const CommissionModal = ({
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="flex-1 px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               {saving ? "Đang lưu..." : commission ? "Cập Nhật" : "Tạo Mới"}
             </button>

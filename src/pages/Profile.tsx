@@ -492,7 +492,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center px-6 py-2.5 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -564,7 +564,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center px-6 py-2.5 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -597,7 +597,7 @@ const ProfilePage: React.FC = () => {
           <div className="md:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-center sticky md:top-8">
               <div className="relative inline-block mb-4">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center text-white text-4xl font-bold shadow-lg">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
                   {userProfile.name
                     ? userProfile.name.charAt(0).toUpperCase()
                     : userProfile.email.charAt(0).toUpperCase()}
@@ -648,7 +648,7 @@ const ProfilePage: React.FC = () => {
                     </span>
                     <Wallet className="w-5 h-5 text-[#E91E63]" />
                   </div>
-                  <p className="text-2xl font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                  <p className="text-2xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                     {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
@@ -810,7 +810,7 @@ const ProfilePage: React.FC = () => {
                       <button
                         type="submit"
                         disabled={saving}
-                        className="flex items-center px-6 py-2.5 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-colors shadow-lg shadow-pink-500/30 disabled:opacity-50 cursor-pointer"
+                        className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 disabled:opacity-50 cursor-pointer"
                       >
                         {saving ? (
                           <>
@@ -864,7 +864,7 @@ const ProfilePage: React.FC = () => {
                   onClick={() => setActivePaymentTab("banking")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
                     activePaymentTab === "banking"
-                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md shadow-pink-500/30"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-pink-500/30"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
@@ -878,7 +878,7 @@ const ProfilePage: React.FC = () => {
                   onClick={() => setActivePaymentTab("bep20")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
                     activePaymentTab === "bep20"
-                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md shadow-pink-500/30"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-pink-500/30"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >

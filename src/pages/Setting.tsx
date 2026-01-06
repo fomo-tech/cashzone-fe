@@ -382,7 +382,7 @@ const SettingsPage = () => {
             {/* Nút lưu (Chỉ hiện nếu có thay đổi) - Mock up */}
             <div className="mt-8 pt-4 border-t border-gray-200">
               <button
-                className="px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold rounded-xl shadow-lg hover:from-[#AD1457] hover:to-[#E65100] transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:from-orange-600 hover:to-amber-700 transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                 onClick={handleSave}
                 disabled={saving}
               >

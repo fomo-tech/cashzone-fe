@@ -92,7 +92,7 @@ const Header = () => {
                       mode: "signup",
                     })
                   }
-                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-semibold hover:from-[#AD1457] hover:to-[#E65100] transition-all duration-300 shadow-lg shadow-pink-500/30 text-xs sm:text-sm active:scale-95"
+                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-semibold hover:from-orange-600 hover:to-amber-700 transition-all duration-300 shadow-lg shadow-pink-500/30 text-xs sm:text-sm active:scale-95"
                 >
                   {t("auth.signup")}
                 </button>
@@ -136,7 +136,7 @@ const Header = () => {
                 <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
                   {/* User Name - Hidden on mobile */}
                   <div className="text-right hidden lg:block">
-                    <div className="text-sm font-bold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent truncate max-w-[150px] xl:max-w-[200px]">
+                    <div className="text-sm font-bold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent truncate max-w-[150px] xl:max-w-[200px]">
                       {user.name || user.email?.split("@")[0]}
                     </div>
                     {checkRole(user.roles || [], "admin") && (

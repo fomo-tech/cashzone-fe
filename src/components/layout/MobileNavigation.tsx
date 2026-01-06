@@ -69,7 +69,7 @@ const MobileNavigation = () => {
           <div className="relative -top-4 flex justify-center">
             <Link
               to="/cashback"
-              className="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-md transform transition-all duration-200 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-pink-500/30 hover:shadow-pink-500/40"
+              className="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-md transform transition-all duration-200 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-pink-500/30 hover:shadow-pink-500/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

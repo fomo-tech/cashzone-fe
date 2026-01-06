@@ -224,7 +224,7 @@ const ConfigItem = ({ config, onValueChange, onSave, isSaving }) => {
               disabled={!hasChanged || isSaving}
               className={`px-3 py-1 text-sm font-semibold rounded-lg transition duration-200 flex items-center ${
                 hasChanged && !isSaving
-                  ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:from-[#AD1457] hover:to-[#E65100] shadow-md shadow-pink-500/30"
+                  ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white hover:from-orange-600 hover:to-amber-700 shadow-md shadow-pink-500/30"
                   : "bg-gray-200 text-gray-500 cursor-not-allowed"
               }`}
             >
@@ -322,7 +322,7 @@ const ConfigManagement = () => {
             className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-[#E91E63] focus:border-[#E91E63] transition duration-150"
           />
           <button
-            className="px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:bg-purple-700 transition duration-150 shadow-md flex items-center shrink-0"
+            className="px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white hover:bg-purple-700 transition duration-150 shadow-md flex items-center shrink-0"
             onClick={() =>
               alert("Chức năng thêm cấu hình mới chưa được hỗ trợ.")
             } // Sử dụng alert thay cho modal
@@ -372,7 +372,7 @@ const ConfigManagement = () => {
 
         {/* Thông báo trạng thái lưu */}
         {isSaving && (
-          <div className="fixed bottom-4 right-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white p-3 rounded-lg shadow-xl flex items-center space-x-2">
+          <div className="fixed bottom-4 right-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white p-3 rounded-lg shadow-xl flex items-center space-x-2">
             <Loader className="w-5 h-5 animate-spin" />
             <span>Đang lưu thay đổi...</span>
           </div>

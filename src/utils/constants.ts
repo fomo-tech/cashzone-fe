@@ -79,8 +79,8 @@ export const THEME = {
   PRIMARY_BG: "bg-primary-gradient",
   PRIMARY_BG_HOVER: "hover:opacity-90",
   PRIMARY_BG_LIGHT: "bg-pink-50",
-  PRIMARY_BG_GRADIENT: "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]",
-  PRIMARY_BG_GRADIENT_HOVER: "hover:from-[#AD1457] hover:to-[#E65100]",
+  PRIMARY_BG_GRADIENT: "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600",
+  PRIMARY_BG_GRADIENT_HOVER: "hover:from-orange-600 hover:to-amber-700",
 
   // Primary Text Classes
   PRIMARY_TEXT: "text-[#E91E63]",

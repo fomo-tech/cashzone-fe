@@ -143,7 +143,7 @@ const UserManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
@@ -242,7 +242,7 @@ const UserManagement: React.FC = () => {
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold">
                             {user.name?.charAt(0).toUpperCase() || "U"}
                           </div>
                           <span className="text-sm font-medium text-gray-900">

@@ -62,8 +62,8 @@ const NotFoundPage = () => {
         {/* Nút Hành động (Màu xanh lá cây) */}
         <button
           onClick={handleGoBack}
-          className="inline-flex items-center justify-center px-10 py-3.5 border border-transparent text-lg font-bold rounded-xl shadow-xl text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]
-            hover:from-[#AD1457] hover:to-[#E65100] transition duration-300 ease-in-out transform hover:-translate-y-1 
+          className="inline-flex items-center justify-center px-10 py-3.5 border border-transparent text-lg font-bold rounded-xl shadow-xl text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600
+            hover:from-orange-600 hover:to-amber-700 transition duration-300 ease-in-out transform hover:-translate-y-1 
             focus:outline-none focus:ring-4 focus:ring-pink-500/50 focus:ring-opacity-50 active:translate-y-0 cursor-pointer shadow-pink-500/30"
         >
           <ArrowLeft className="w-5 h-5 mr-3" />

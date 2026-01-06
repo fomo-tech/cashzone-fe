@@ -169,11 +169,11 @@ const LeaderBoard = () => {
         <div className="relative w-full text-center mb-6 md:mb-8 lg:mb-12 mt-3 md:mt-4 lg:mt-6">
           {/* Glow background */}
           <div className="absolute inset-0 flex justify-center opacity-30">
-            <div className="w-96 h-96 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] blur-[80px] rounded-full"></div>
+            <div className="w-96 h-96 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 blur-[80px] rounded-full"></div>
           </div>
 
           {/* Title */}
-          <h1 className="relative z-10 font-extrabold tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-[#E91E63] to-[#FF8C1A]">
+          <h1 className="relative z-10 font-extrabold tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600">
             BẢNG XẾP HẠNG
           </h1>
 
@@ -195,7 +195,7 @@ const LeaderBoard = () => {
                   onClick={() => setTimeFilter(period)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     timeFilter === period
-                      ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                       : "text-gray-600 hover:text-gray-800"
                   }`}
                 >
@@ -456,7 +456,7 @@ const LeaderBoard = () => {
         {/* --- Bảng Xếp Hạng Chính (Hạng 4+) --- */}
         <div className="w-full max-w-4xl space-y-2 md:space-y-3 lg:space-y-4">
           {/* Thanh thông tin người dùng hiện tại */}
-          <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] border border-pink-200 shadow-xl flex justify-between items-center transition-all duration-300">
+          <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 border border-pink-200 shadow-xl flex justify-between items-center transition-all duration-300">
             {loading ? (
               <>
                 <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
@@ -574,7 +574,7 @@ const LeaderBoard = () => {
                             <div className="flex items-center space-x-2 md:space-x-3">
                               {/* Avatar */}
                               <div
-                                className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] ring-2 ring-pink-200 shadow-md shrink-0`}
+                                className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 ring-2 ring-pink-200 shadow-md shrink-0`}
                               >
                                 {(user.name || "?").charAt(0).toUpperCase()}
                               </div>
@@ -602,7 +602,7 @@ const LeaderBoard = () => {
 
                           {/* Referrals */}
                           <td className="py-2 px-2 md:py-3 md:px-5 text-center">
-                            <span className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-extrabold text-xs md:text-sm p-1 px-2 md:p-1.5 md:px-3 rounded-full shadow-md">
+                            <span className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-extrabold text-xs md:text-sm p-1 px-2 md:p-1.5 md:px-3 rounded-full shadow-md">
                               {user.totalReferrals || 0}
                             </span>
                           </td>

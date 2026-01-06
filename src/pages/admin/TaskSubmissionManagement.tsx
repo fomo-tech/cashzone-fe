@@ -184,7 +184,7 @@ const TaskSubmissionManagement: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-pink-50 to-orange-50 p-4 sm:p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-2xl shadow-xl p-6 sm:p-8 text-white">
+        <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl shadow-xl p-6 sm:p-8 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 flex items-center gap-3">
@@ -328,7 +328,7 @@ const TaskSubmissionManagement: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white">
+                  <tr className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white">
                     <th className="px-6 py-5 text-left font-bold text-white">
                       Người dùng
                     </th>
@@ -357,7 +357,7 @@ const TaskSubmissionManagement: React.FC = () => {
                     >
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center shadow-md">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center shadow-md">
                             <User className="text-white" size={20} />
                           </div>
                           <div>
@@ -449,7 +449,7 @@ const TaskSubmissionManagement: React.FC = () => {
         {showModal && selectedSubmission && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-6 text-white relative">
+              <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-6 text-white relative">
                 <h2 className="text-2xl font-black">Chi Tiết Submission</h2>
                 <button
                   onClick={() => {
@@ -602,7 +602,7 @@ const TaskSubmissionManagement: React.FC = () => {
                         setShowModal(false);
                         setRejectReason("");
                       }}
-                      className="w-full px-6 py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl hover:opacity-90 font-bold transition-all"
+                      className="w-full px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl hover:opacity-90 font-bold transition-all"
                     >
                       Đóng
                     </button>

@@ -178,7 +178,7 @@ const OfferCard: React.FC<{
           {/* CTA Button */}
           <button
             onClick={handleJoinClick}
-            className="px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white font-bold rounded-xl transition duration-200 text-xs sm:text-sm shadow-md hover:shadow-lg transform hover:scale-105 flex items-center gap-1.5 whitespace-nowrap"
+            className="px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-bold rounded-xl transition duration-200 text-xs sm:text-sm shadow-md hover:shadow-lg transform hover:scale-105 flex items-center gap-1.5 whitespace-nowrap"
           >
             <Zap size={14} className="sm:w-4 sm:h-4" />
             Tham gia
@@ -338,7 +338,7 @@ export default function App() {
     >
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6">
         {/* HERO SECTION - Responsive và compact hơn */}
-        <header className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-xl text-white relative overflow-hidden">
+        <header className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-xl text-white relative overflow-hidden">
           <div className="relative z-10">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1">
               Săn Tiền Thưởng & Hoàn Tiền Hot!
@@ -418,11 +418,11 @@ export default function App() {
           {/* Header */}
           <div className="relative px-6 py-5 border-b border-gray-100">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shadow-lg">
                 <Filter size={18} className="text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-black bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+                <h2 className="text-lg font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
                   Bộ lọc & Tìm kiếm
                 </h2>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -436,7 +436,7 @@ export default function App() {
             {/* Category Filter - Enhanced */}
             <div className="mb-5">
               <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
-                <span className="w-1 h-4 bg-gradient-to-b from-[#E91E63] to-[#FF8C1A] rounded-full"></span>
+                <span className="w-1 h-4 bg-gradient-to-b from-orange-500 via-orange-600 to-amber-600 rounded-full"></span>
                 Danh mục
               </label>
               <div className="flex flex-wrap gap-2">
@@ -447,7 +447,7 @@ export default function App() {
                     className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 
                                   ${
                                     activeCategory === cat.id
-                                      ? `bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-lg shadow-pink-500/30 scale-105`
+                                      ? `bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-lg shadow-pink-500/30 scale-105`
                                       : `bg-white ${getCategoryColor(
                                           cat.id
                                         )} border border-gray-200 hover:border-pink-300 hover:shadow-md hover:scale-105`
@@ -481,7 +481,7 @@ export default function App() {
                              focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
                              hover:border-gray-300 transition-all placeholder:text-gray-400"
                   />
-                  <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center">
+                  <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center">
                     <Search size={14} className="text-white" />
                   </div>
                   {searchTerm && (

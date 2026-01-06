@@ -380,7 +380,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
           </p>
           <Button
             onClick={() => (window.location.href = "/create-link")}
-            className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:shadow-lg transition-all"
+            className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white hover:shadow-lg transition-all"
           >
             <Link2 className="w-4 h-4 mr-2" />
             Tạo link đầu tiên
@@ -511,7 +511,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                       size="sm"
                       variant="outline"
                       onClick={() => window.open(link.shortUrl, "_blank")}
-                      className="flex-1 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none hover:shadow-lg transition-all rounded-xl font-semibold"
+                      className="flex-1 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white border-none hover:shadow-lg transition-all rounded-xl font-semibold"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Mở link
@@ -679,7 +679,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                           size="sm"
                           onClick={() => window.open(link.shortUrl, "_blank")}
                           title="Mở link"
-                          className="h-9 px-4 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none hover:shadow-lg transition-all font-semibold"
+                          className="h-9 px-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white border-none hover:shadow-lg transition-all font-semibold"
                         >
                           <ExternalLink className="w-4 h-4 mr-1.5" />
                           Mở
@@ -740,7 +740,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                         onClick={() => setPage(pageNum)}
                         className={`h-10 w-10 p-0 rounded-xl transition-all ${
                           page === pageNum
-                            ? "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white border-none shadow-lg font-bold"
+                            ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white border-none shadow-lg font-bold"
                             : "border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63]"
                         }`}
                       >

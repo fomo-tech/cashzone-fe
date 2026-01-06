@@ -80,7 +80,7 @@ const InstallPrompt = () => {
         </button>
 
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-xl flex items-center justify-center shadow-lg">
+          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
             <Download className="w-6 h-6 text-white" />
           </div>
 
@@ -96,7 +96,7 @@ const InstallPrompt = () => {
             <div className="flex gap-2">
               <button
                 onClick={handleInstall}
-                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 active:scale-95"
+                className="flex-1 px-4 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 active:scale-95"
               >
                 Cài đặt
               </button>

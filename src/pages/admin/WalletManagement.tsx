@@ -184,7 +184,7 @@ const WalletManagement: React.FC = () => {
                   >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold">
                           {(user.name || user.email).charAt(0).toUpperCase()}
                         </div>
                         <div>

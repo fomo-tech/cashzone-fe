@@ -274,7 +274,7 @@ const StatsTab: React.FC = () => {
                   className="flex items-center justify-between p-4 rounded-lg bg-gray-50"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] flex items-center justify-center text-sm font-semibold text-white">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center text-sm font-semibold text-white">
                       {month.month}
                     </div>
                     <div>
@@ -290,7 +290,7 @@ const StatsTab: React.FC = () => {
                     </p>
                     <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
                       <div
-                        className="h-full bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-full"
+                        className="h-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full"
                         style={{
                           width: `${
                             Math.max(stats.monthlyStats)

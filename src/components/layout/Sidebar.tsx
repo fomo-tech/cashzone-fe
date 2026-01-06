@@ -490,7 +490,7 @@ const Sidebar: React.FC = () => {
                   className={clsx(
                     `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
+                      "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md":
                         active,
                       "text-gray-700 hover:bg-gray-50": !active,
                     }
@@ -641,7 +641,7 @@ const Sidebar: React.FC = () => {
                   className={clsx(
                     `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors`,
                     {
-                      "bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white shadow-md":
+                      "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md":
                         location.pathname === "/admin/management-configs",
                       "text-gray-700 hover:bg-gray-50":
                         location.pathname !== "/admin/management-configs",

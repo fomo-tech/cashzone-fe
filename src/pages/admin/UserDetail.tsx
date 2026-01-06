@@ -246,7 +246,7 @@ const ReferralSystemDisplay = ({
 
       {/* Referral Overview Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] p-4 rounded-xl border border-[#E91E63]">
+        <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-4 rounded-xl border border-[#E91E63]">
           <div className="flex items-center gap-2 mb-2">
             <Target className="w-4 h-4 text-white" />
             <span className="text-sm font-medium text-white">
@@ -644,7 +644,7 @@ export default function UserDetailPage() {
           </p>
           <button
             onClick={() => navigate("/admin/users")}
-            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition"
+            className="mt-4 px-6 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg hover:from-orange-600 hover:to-amber-700 transition"
           >
             Quay lại danh sách
           </button>
@@ -663,7 +663,7 @@ export default function UserDetailPage() {
           </p>
           <button
             onClick={() => navigate("/admin/users")}
-            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:from-[#AD1457] hover:to-[#E65100] transition"
+            className="mt-4 px-6 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg hover:from-orange-600 hover:to-amber-700 transition"
           >
             Quay lại danh sách
           </button>
@@ -703,7 +703,7 @@ export default function UserDetailPage() {
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30 font-sans">
       {/* HEADER - Green theme */}
-      <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] shadow-lg">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <button
@@ -743,7 +743,7 @@ export default function UserDetailPage() {
             >
               <div className="flex items-center justify-between">
                 <div
-                  className={`p-3 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] ${card.color}`}
+                  className={`p-3 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 ${card.color}`}
                 >
                   {React.cloneElement(card.icon, { className: "w-6 h-6" })}
                 </div>
@@ -835,7 +835,7 @@ export default function UserDetailPage() {
             </div>
 
             {/* 2. Thông tin Ví tiền */}
-            <div className="bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] p-6 sm:p-8 rounded-2xl shadow-lg text-white">
+            <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <Wallet className="w-5 h-5" /> Thông tin Ví
               </h4>
@@ -933,7 +933,7 @@ export default function UserDetailPage() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={() => navigate(`/admin/users/edit/${user._id}`)}
-                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] hover:from-[#AD1457] hover:to-[#E65100] shadow-lg shadow-pink-500/30 transition duration-200 transform hover:scale-[1.02]"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-base font-semibold rounded-xl text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 shadow-lg shadow-pink-500/30 transition duration-200 transform hover:scale-[1.02]"
                 >
                   <Edit2 className="w-5 h-5" />
                   Chỉnh sửa

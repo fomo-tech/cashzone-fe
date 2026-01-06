@@ -228,7 +228,7 @@ const AccordionItem: React.FC<{
         className="w-full px-6 py-5 flex items-center justify-between bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition-all"
       >
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shadow-lg">
             <Icon className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
@@ -318,10 +318,10 @@ const GuidePage: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#E91E63] to-[#FF8C1A] shadow-xl mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-xl mb-4">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent mb-3">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-3">
             Hướng dẫn Sử dụng
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -372,7 +372,7 @@ const GuidePage: React.FC = () => {
         </div>
 
         {/* Contact Support */}
-        <div className="mt-10 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] rounded-2xl p-8 text-center text-white shadow-xl">
+        <div className="mt-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl p-8 text-center text-white shadow-xl">
           <h3 className="text-2xl font-bold mb-3">Cần Hỗ trợ Thêm?</h3>
           <p className="text-white/90 mb-6 max-w-2xl mx-auto">
             Nếu bạn có bất kỳ câu hỏi nào hoặc gặp vấn đề, đội ngũ hỗ trợ của

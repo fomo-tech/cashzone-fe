@@ -200,7 +200,7 @@ const SystemStatusCard = ({
     <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
       <button
         onClick={onAction}
-        className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white hover:from-[#AD1457] hover:to-[#E65100] transition-all duration-150 shadow-lg shadow-pink-500/30"
+        className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white hover:from-orange-600 hover:to-amber-700 transition-all duration-150 shadow-lg shadow-pink-500/30"
       >
         {buttonLabel}
       </button>
@@ -286,7 +286,7 @@ const AdminDashboard = () => {
           )}
           <button
             onClick={fetchDashboardStats}
-            className="mt-4 px-6 py-2 bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg hover:opacity-90 transition-opacity"
+            className="mt-4 px-6 py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             Thử lại
           </button>
@@ -301,7 +301,7 @@ const AdminDashboard = () => {
         {/* Header */}
         <div className="flex items-center space-x-3">
           <Shield className="w-8 h-8 text-[#E91E63]" />
-          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] bg-clip-text text-transparent">
+          <h1 className="text-3xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
             Tổng Quan Hệ Thống (Admin)
           </h1>
         </div>
@@ -444,7 +444,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions Section */}
-        <div className="bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] p-6 rounded-2xl shadow-xl">
+        <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-6 rounded-2xl shadow-xl">
           <h3 className="text-xl font-bold text-white mb-4">Truy Cập Nhanh</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
