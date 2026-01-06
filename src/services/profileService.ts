@@ -23,6 +23,7 @@ export interface PaymentInfo {
 }
 
 export interface UserProfile {
+  _id: string;
   phone: string;
   password?: string;
   name?: string;

@@ -70,7 +70,7 @@ const CommonModal: React.FC<CommonModalProps> = ({
 
       {/* Modal Container */}
       <div
-        className={`relative z-10 w-full ${width} bg-white rounded-2xl shadow-2xl transform transition-all duration-300 animate-in zoom-in-95 ${className}`}
+        className={`relative z-[99999] w-full ${width} bg-white rounded-2xl shadow-2xl transform transition-all duration-300 animate-in zoom-in-95 ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

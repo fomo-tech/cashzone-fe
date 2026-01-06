@@ -1,4 +1,5 @@
-import type { AuthState, User } from "@/utils/types";
+import type { UserProfile } from "@/services/profileService";
+import type { AuthState } from "@/utils/types";
 import { create } from "zustand";
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -39,7 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     if (savedUser && savedToken) {
       set({
-        user: JSON.parse(savedUser) as User,
+        user: JSON.parse(savedUser) as UserProfile,
         tokens: JSON.parse(savedToken),
         accessToken: JSON.parse(savedToken).accessToken,
         refreshToken: JSON.parse(savedToken).refreshToken,

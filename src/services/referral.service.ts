@@ -23,6 +23,7 @@ export interface ReferralCode {
   code: string;
   shareUrl: string;
   qrCodeUrl?: string;
+  createdAt: string;
 }
 
 export interface ReferralHistory {
@@ -143,33 +144,37 @@ class ReferralService {
           .then(() => true)
           .catch(() => false);
 
-      case "facebook":
+      case "facebook": {
         const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
           shareUrl
         )}&quote=${encodeURIComponent(shareText)}`;
         window.open(fbUrl, "_blank", "width=600,height=400");
         return Promise.resolve(true);
+      }
 
-      case "zalo":
+      case "zalo": {
         const zaloUrl = `https://zalo.me/share?url=${encodeURIComponent(
           shareUrl
         )}&text=${encodeURIComponent(shareText)}`;
         window.open(zaloUrl, "_blank", "width=600,height=400");
         return Promise.resolve(true);
+      }
 
-      case "telegram":
+      case "telegram": {
         const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
           shareUrl
         )}&text=${encodeURIComponent(shareText)}`;
         window.open(telegramUrl, "_blank", "width=600,height=400");
         return Promise.resolve(true);
+      }
 
-      case "whatsapp":
+      case "whatsapp": {
         const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
           shareText
         )}`;
         window.open(whatsappUrl, "_blank", "width=600,height=400");
         return Promise.resolve(true);
+      }
 
       default:
         return Promise.resolve(false);

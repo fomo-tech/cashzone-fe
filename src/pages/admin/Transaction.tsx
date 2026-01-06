@@ -179,7 +179,7 @@ const TransactionTable: React.FC<{
           {transactions.length === 0 ? (
             <tr>
               <td
-                colSpan="6"
+                colSpan={6}
                 className="px-6 py-4 text-center text-sm text-gray-500"
               >
                 Không tìm thấy giao dịch nào ở trạng thái "{activeTab}".
@@ -555,7 +555,7 @@ const TransactionDetails: React.FC<{
             </label>
             <textarea
               id="adminNote"
-              rows="3"
+              rows={3}
               value={adminNote}
               onChange={(e) => setAdminNote(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] text-sm"

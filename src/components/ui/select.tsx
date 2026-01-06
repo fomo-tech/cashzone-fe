@@ -29,7 +29,7 @@ export const Select: React.FC<SelectProps> = ({
 
   // Đóng menu khi click bên ngoài
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target)
@@ -147,7 +147,15 @@ export const SelectContent: React.FC<SelectContentProps> = ({
   );
 };
 
-export const SelectItem = ({ value: itemValue, children, className }) => {
+export const SelectItem = ({
+  value: itemValue,
+  children,
+  className = "",
+}: {
+  value: any;
+  children: any;
+  className?: any;
+}) => {
   const context = React.useContext(SelectContext);
   const { value: selectedValue, onValueChange, setIsOpen } = context;
   const isSelected = selectedValue === itemValue;

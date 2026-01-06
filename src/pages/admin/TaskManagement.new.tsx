@@ -41,6 +41,7 @@ const TaskManagement: React.FC = () => {
     platform: "",
     proofType: "image",
     verificationMode: "manual",
+    status: "active",
   });
 
   // Fetch tasks
@@ -93,6 +94,7 @@ const TaskManagement: React.FC = () => {
       platform: "",
       proofType: "image",
       verificationMode: "manual",
+      status: "active",
     });
     setIsModalOpen(true);
   };
@@ -114,6 +116,7 @@ const TaskManagement: React.FC = () => {
       platform: task.platform,
       proofType: task.proofType,
       verificationMode: task.verificationMode,
+      status: task.status,
     });
     setIsModalOpen(true);
   };

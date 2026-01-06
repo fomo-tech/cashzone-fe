@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import settingsService, { AppSettings } from "../services/settingsService";
+import settingsService, { type AppSettings } from "../services/settingsService";
 
 /**
  * Hook để lấy public settings của app

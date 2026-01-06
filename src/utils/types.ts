@@ -1,3 +1,5 @@
+import type { UserProfile } from "@/services/profileService";
+
 export const RoleEnum = {
   GUEST: "guest",
   USER: "user",
@@ -46,7 +48,7 @@ export interface User {
 }
 
 export interface AuthState {
-  user: User | null;
+  user: UserProfile | null;
   accessToken: string | null;
   handleToggleAuthModal: (payload?: {
     isOpen?: boolean;
@@ -56,14 +58,14 @@ export interface AuthState {
   tokens: string | null;
   loading: boolean;
   isAuthenticated: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: UserProfile | null) => void;
   isAuthModalOpen: {
     isOpen: boolean;
     mode: "signin" | "signup";
   };
   init: () => void;
   login: (data: {
-    user: User;
+    user: UserProfile;
     tokens: {
       accessToken: string;
       refreshToken: string;

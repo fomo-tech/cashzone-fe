@@ -3,17 +3,11 @@ import {
   Copy,
   Check,
   Share2,
-  Gift,
   Users,
-  Zap,
   Clock,
   Trophy,
   TrendingUp,
-  Facebook,
-  Send,
-  MessageCircle,
   QrCode,
-  Download,
   ArrowRight,
   Star,
   Target,
@@ -42,9 +36,6 @@ const ReferralProgram: React.FC = () => {
   const [referralHistory, setReferralHistory] = useState<ReferralHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<"overview" | "history" | "tree">(
-    "overview"
-  );
 
   // Dynamic settings from admin
   const [dynamicConfig, setDynamicConfig] = useState({
@@ -94,17 +85,18 @@ const ReferralProgram: React.FC = () => {
   const loadDynamicSettings = async () => {
     try {
       const settings = await settingsService.getSettings();
-      if (settings && settings.commission) {
+      if (settings && settings.data && (settings.data as any).commission) {
+        const commission = (settings.data as any).commission;
         setDynamicConfig((prev) => ({
           ...prev,
           commissionRates: {
-            level1: settings.commission.level1Rate || 10,
-            level2: settings.commission.level2Rate || 5,
-            level3: settings.commission.level3Rate || 2,
+            level1: commission.level1Rate || 10,
+            level2: commission.level2Rate || 5,
+            level3: commission.level3Rate || 2,
           },
         }));
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.log("Using default commission rates");
     }
   };

@@ -1,6 +1,14 @@
 import http from "./api";
 
 // Task Types
+export type TaskType =
+  | "survey"
+  | "app_install"
+  | "registration"
+  | "purchase"
+  | "social_media"
+  | "other";
+
 export interface Task {
   _id: string;
   offerId?: string;
@@ -8,19 +16,17 @@ export interface Task {
   description?: string;
   requirements?: Array<{ title: string; description: string } | string>;
   logoUrl?: string; // Logo URL for the task
-  type:
-    | "survey"
-    | "app_install"
-    | "registration"
-    | "purchase"
-    | "social_media"
-    | "other";
+  type: TaskType;
   reward: number;
   platform?: string;
   completedCount: number;
+  currentCompletion?: number;
   maxCompletions?: number;
+  maxCompletion?: number;
   status: "active" | "inactive";
   isFeatured: boolean;
+  proofType?: string;
+  verificationMode?: "manual" | "ai";
   createdAt: string;
   updatedAt: string;
 }
@@ -53,7 +59,11 @@ export interface CreateTaskData {
   reward: number;
   platform?: string;
   maxCompletions?: number;
+  maxCompletion?: number;
   status: string;
+  isFeatured?: boolean;
+  proofType?: string;
+  verificationMode?: "manual" | "ai";
 }
 
 export interface TaskFilters {
@@ -195,6 +205,12 @@ class TaskService {
     });
     return response.data;
   }
+
+  // Get task type label - utility method
+  getTaskTypeLabel = getTaskTypeLabel;
+
+  // Format reward - utility method
+  formatReward = formatReward;
 }
 
 // Utility functions

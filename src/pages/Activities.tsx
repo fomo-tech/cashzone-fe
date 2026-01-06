@@ -59,40 +59,6 @@ const DAILY_ACTIVITIES: { [key: string]: ActivityDetail } = {
       "Lưu ý: Nếu trúng 'Thử Lại', chi phí 50 Points sẽ được hoàn lại.",
     ],
   },
-  adwatch: {
-    title: "Xem Video Quảng Cáo",
-    icon: <MessageSquare size={24} className="text-indigo-500" />, // Màu Indigo làm nhấn
-    reward: "+50 Points",
-    cost: "Miễn phí (5 lần/ngày)",
-    description:
-      "Kiếm Points nhanh chóng bằng cách xem các đoạn video ngắn từ đối tác quảng cáo.",
-    requirements: [
-      "Bước 1: Bấm 'Bắt Đầu Xem'.",
-      "Một cửa sổ video quảng cáo sẽ hiện ra.",
-      "Bước 2: Xem hết video.",
-      "Bạn **phải xem hết** thời lượng video (thường là 15-30 giây). **Tuyệt đối không chuyển tab hoặc đóng cửa sổ.**",
-      "Bước 3: Xác nhận.",
-      "Sau khi video kết thúc, một nút **'Xác Nhận'** sẽ hiện ra. Bấm nút đó.",
-      "Lưu ý: Bạn có thể thực hiện hoạt động này tối đa **5 lần/ngày**.",
-    ],
-  },
-  invite: {
-    title: "Mời Bạn Bè",
-    icon: <Users size={24} className="text-[#FF8C1A]" />, // Màu Teal
-    reward: "5,000 Points/Lượt",
-    cost: "Không giới hạn",
-    description:
-      "Mời bạn bè tham gia hệ thống và nhận thưởng lớn khi họ hoàn thành nhiệm vụ đầu tiên.",
-    requirements: [
-      "Bước 1: Lấy Mã Giới Thiệu Cá Nhân.",
-      "Truy cập mục **'Hồ sơ'** để sao chép mã hoặc link giới thiệu của bạn.",
-      "Bước 2: Chia sẻ.",
-      "Gửi link/mã cho bạn bè qua Zalo, Facebook, Email, v.v.",
-      "Bước 3: Bạn bè hoàn thành nhiệm vụ.",
-      "Bạn sẽ nhận được **5,000 Points** khi người bạn mời **tải ứng dụng và hoàn thành nhiệm vụ** đầu tiên của họ.",
-      "Lưu ý: Phần thưởng chỉ được tính cho bạn bè mới, chưa từng đăng ký hệ thống trước đó.",
-    ],
-  },
 };
 
 // =========================================================================
@@ -330,14 +296,6 @@ export default function Activities() {
             ))}
           </div>
         </main>
-
-        {/* Footer/Info */}
-        <footer className="pt-4 text-center text-xs text-gray-400 border-t mt-8">
-          <p>
-            Mọi hoạt động đều tuân theo Quy tắc Cộng đồng. Vui lòng đọc kỹ **Chi
-            tiết** trước khi tham gia.
-          </p>
-        </footer>
       </div>
 
       {/* Modal Chi Tiết */}

@@ -12,7 +12,9 @@ import {
   Clipboard,
   QrCode,
   ExternalLink,
+  X,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import cashbackService from "@/services/cashbackService";
 import type { ShopeeProductInfo } from "@/services/cashbackService";
 import { useAuthStore } from "@/store/authStore";
@@ -97,66 +99,63 @@ export default function Cashback() {
   } | null>(null);
 
   // Load link history from API
-  useEffect(() => {
-    const loadLinkHistory = async () => {
-      if (isAuthenticated && user?._id) {
-        setLoadingHistory(true);
-        try {
-          const response = await cashbackService.getUserLinks({
-            page: 1,
-            limit: 50,
-          });
+  const loadLinkHistory = useCallback(async () => {
+    if (isAuthenticated && user?._id) {
+      setLoadingHistory(true);
+      try {
+        const response = await cashbackService.getUserLinks({
+          page: 1,
+          limit: 10,
+        });
 
-          // Transform API data to HistoryItem format
-          const transformedHistory: HistoryItem[] = response.links.map(
-            (link: any) => {
-              return {
-                id: link._id,
-                platform:
-                  link.platform?.name?.toLowerCase() ||
-                  link.platform ||
-                  "shopee",
-                title:
-                  link.productName ||
-                  link.productInfo?.name ||
-                  link.originalUrl ||
-                  "Link không có tên",
-                createdAt: link.createdAt,
-                link:
-                  link.shortUrl ||
-                  link.trackingUrl ||
-                  link.shortLink ||
-                  link.originalUrl,
-                type: link.platform?.type || "product",
-                imageUrl:
-                  link.productImage ||
-                  link.productInfo?.imageUrl ||
-                  link.productInfo?.thumbnail ||
-                  link.productInfo?.image ||
-                  link.imageUrl,
-                productPrice: link.productPrice,
-                // Use platform commissionValue if available, otherwise use commissionRate from Shopee
-                commissionRate: link.platform?.commissionValue
-                  ? link.platform.commissionValue / 100
-                  : link.commissionRate,
-                estimatedCommission: link.commission,
-                cashbackRate: link.cashbackRate,
-                estimatedCashback: link.estimatedCashback,
-              };
-            }
-          );
+        // Transform API data to HistoryItem format
+        const transformedHistory: HistoryItem[] = response.links.map(
+          (link: any) => {
+            return {
+              id: link._id,
+              platform:
+                link.platform?.name?.toLowerCase() || link.platform || "shopee",
+              title:
+                link.productName ||
+                link.productInfo?.name ||
+                link.originalUrl ||
+                "Link không có tên",
+              createdAt: link.createdAt,
+              link:
+                link.shortUrl ||
+                link.trackingUrl ||
+                link.shortLink ||
+                link.originalUrl,
+              type: link.platform?.type || "product",
+              imageUrl:
+                link.productImage ||
+                link.productInfo?.imageUrl ||
+                link.productInfo?.thumbnail ||
+                link.productInfo?.image ||
+                link.imageUrl,
+              productPrice: link.productPrice,
+              // Use platform commissionValue if available, otherwise use commissionRate from Shopee
+              commissionRate: link.platform?.commissionValue
+                ? link.platform.commissionValue / 100
+                : link.commissionRate,
+              estimatedCommission: link.commission,
+              cashbackRate: link.cashbackRate,
+              estimatedCashback: link.estimatedCashback,
+            };
+          }
+        );
 
-          setHistory(transformedHistory);
-        } catch (error) {
-          console.error("Failed to load link history:", error);
-        } finally {
-          setLoadingHistory(false);
-        }
+        setHistory(transformedHistory);
+      } catch (error) {
+        console.error("Failed to load link history:", error);
+      } finally {
+        setLoadingHistory(false);
       }
-    };
-
+    }
+  }, [isAuthenticated, user?._id]);
+  useEffect(() => {
     loadLinkHistory();
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, loadLinkHistory]);
 
   const activePlatform = useMemo(
     () => PLATFORMS.find((p) => p.id === activePlatformId) || PLATFORMS[0],
@@ -282,23 +281,6 @@ export default function Cashback() {
           img: `https://via.placeholder.com/96/F3B000/FFFFFF?text=Trade`,
           platform: platform.id,
         };
-      } else if (platform.type === "finance") {
-        // Case FINANCE/LOAN: Tự động tạo link tư vấn
-        const token = Math.random().toString(36).slice(2, 9);
-        finalLink = `https://cbhub.vn/${platform.id}/${token}`;
-
-        finalOffer = {
-          id: "finance-gen-" + Date.now(),
-          title: `Link tư vấn ${platform.name} - Yêu cầu: ${
-            input || "Không có"
-          }`,
-          shop: platform.name,
-          feeText: "Liên hệ",
-          rateText: "Lãi suất ưu đãi",
-          priceText: "Tối đa 500M",
-          img: `https://via.placeholder.com/96/8B5CF6/FFFFFF?text=Loan`,
-          platform: platform.id,
-        };
       }
 
       if (!finalOffer || !finalLink) {
@@ -321,57 +303,13 @@ export default function Cashback() {
 
         // Reload history from API after creating new link
         if (isAuthenticated && user?._id) {
-          cashbackService
-            .getUserLinks({ page: 1, limit: 50 })
-            .then((response) => {
-              const transformedHistory: HistoryItem[] = response.links.map(
-                (link: any) => {
-                  return {
-                    id: link._id,
-                    platform:
-                      link.platform?.logo?.toLowerCase() ||
-                      link.platform ||
-                      "shopee",
-                    title:
-                      link.productName ||
-                      link.productInfo?.name ||
-                      link.originalUrl ||
-                      "Link không có tên",
-                    createdAt: link.createdAt,
-                    link:
-                      link.shortUrl ||
-                      link.trackingUrl ||
-                      link.shortLink ||
-                      link.originalUrl,
-                    type: link.platform?.type || "product",
-                    imageUrl:
-                      link.productImage ||
-                      link.productInfo?.imageUrl ||
-                      link.productInfo?.thumbnail ||
-                      link.productInfo?.image ||
-                      link.imageUrl,
-                    productPrice: link.productPrice,
-                    // Use platform commissionValue if available, otherwise use commissionRate from Shopee
-                    commissionRate: link.platform?.commissionValue
-                      ? link.platform.commissionValue / 100
-                      : link.commissionRate,
-                    estimatedCommission: link.commission,
-                    cashbackRate: link.cashbackRate,
-                    estimatedCashback: link.estimatedCashback,
-                  };
-                }
-              );
-              setHistory(transformedHistory);
-            })
-            .catch((error) => {
-              console.error("Failed to reload history:", error);
-            });
+          loadLinkHistory();
         }
 
         setIsGenerating(false);
       }, delay);
     },
-    [isAuthenticated, user]
+    [isAuthenticated, user, loadLinkHistory]
   );
 
   // Hàm xử lý khi nhấn nút TẠO LINK
@@ -528,18 +466,25 @@ export default function Cashback() {
             title="Quét mã QR để mở link"
           >
             <div className="flex flex-col items-center justify-center gap-4 p-4 md:p-6">
-              <div className="bg-gradient-to-br from-white via-gray-50 to-white p-4 rounded-2xl border border-gray-200 shadow-lg flex items-center justify-center">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-                    qrModal?.link || ""
-                  )}`}
-                  alt="QR Code"
-                  className="w-64 h-64 md:w-72 md:h-72 object-contain"
-                />
+              <div className="bg-gradient-to-br from-white via-gray-50 to-white p-6 rounded-2xl border border-gray-200 shadow-lg flex items-center justify-center">
+                {qrModal?.link && (
+                  <QRCodeSVG
+                    value={qrModal.link}
+                    size={256}
+                    level="H"
+                    includeMargin={true}
+                    className="w-64 h-64 md:w-72 md:h-72"
+                  />
+                )}
               </div>
-              <p className="text-sm text-gray-500 text-center">
-                Quét mã QR để mở link
-              </p>
+              <div className="text-center space-y-2">
+                <p className="text-sm md:text-base font-semibold text-gray-800">
+                  {qrModal?.title}
+                </p>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Quét mã QR để mở link trên điện thoại
+                </p>
+              </div>
             </div>
           </CommonModal>
 
@@ -634,44 +579,56 @@ export default function Cashback() {
                   </label>
 
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
-                    {/* Input + Paste icon trên mobile */}
+                    {/* Input + Clear/Paste icon */}
                     <div className="relative flex-1 w-full">
                       <Input
                         type="text"
                         value={inputLink}
                         onChange={(e) => setInputLink(e.target.value)}
                         placeholder={inputPlaceholder}
-                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-base sm:text-lg rounded-lg md:rounded-xl bg-gray-50 transition pr-10 sm:pr-4"
+                        className="w-full p-3 sm:px-4 sm:py-3 text-base sm:text-lg rounded-lg md:rounded-xl bg-gray-50 transition pr-20 sm:pr-12"
                         disabled={isGenerating}
                       />
-                      {/* Paste icon chỉ hiển thị mobile */}
-                      <button
-                        onClick={async () => {
-                          try {
-                            const text = await navigator.clipboard.readText();
-                            setInputLink(text);
-                          } catch (err) {
-                            console.error("Failed to read clipboard:", err);
-                          }
-                        }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 sm:hidden flex items-center justify-center p-1 text-gray-600 hover:text-gray-800"
-                        title="Dán từ clipboard"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-6"
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        {/* Clear button - shows when there's text */}
+                        {inputLink && (
+                          <button
+                            onClick={() => setInputLink("")}
+                            className="flex items-center justify-center p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition"
+                            title="Xóa"
+                          >
+                            <X size={18} />
+                          </button>
+                        )}
+                        {/* Paste icon chỉ hiển thị mobile */}
+                        <button
+                          onClick={async () => {
+                            try {
+                              const text = await navigator.clipboard.readText();
+                              setInputLink(text);
+                            } catch (err) {
+                              console.error("Failed to read clipboard:", err);
+                            }
+                          }}
+                          className="sm:hidden flex items-center justify-center p-1 text-gray-600 hover:text-gray-800"
+                          title="Dán từ clipboard"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
-                          />
-                        </svg>
-                      </button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
 
                     {/* Desktop: Paste button */}
@@ -726,14 +683,26 @@ export default function Cashback() {
                       {inputLabel}
                     </label>
                     <div className="flex gap-2 md:gap-3">
-                      <input
-                        type="text"
-                        value={inputLink}
-                        onChange={(e) => setInputLink(e.target.value)}
-                        placeholder={inputPlaceholder}
-                        className="flex-1 px-3 py-2 md:px-4 md:py-2 text-base sm:text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 ring-pink-300 focus:border-[#E91E63] transition"
-                        disabled={isGenerating}
-                      />
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          value={inputLink}
+                          onChange={(e) => setInputLink(e.target.value)}
+                          placeholder={inputPlaceholder}
+                          className="w-full px-3 py-2 md:px-4 md:py-2 text-base sm:text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 ring-pink-300 focus:border-[#E91E63] transition pr-10"
+                          disabled={isGenerating}
+                        />
+                        {/* Clear button */}
+                        {inputLink && (
+                          <button
+                            onClick={() => setInputLink("")}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition"
+                            title="Xóa"
+                          >
+                            <X size={16} />
+                          </button>
+                        )}
+                      </div>
                       <button
                         onClick={handleGenerate}
                         className="px-3 py-2 md:px-4 md:py-2 text-sm sm:text-base bg-gradient-to-r from-[#E91E63] to-[#FF8C1A] text-white rounded-lg font-extrabold hover:from-[#AD1457] hover:to-[#E65100] transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
