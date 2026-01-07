@@ -191,7 +191,7 @@ const TaskManagement: React.FC = () => {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       active:
-        "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30",
+        "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30",
       paused: "bg-yellow-100 text-yellow-800",
       closed: "bg-red-100 text-red-800",
     };
@@ -212,7 +212,7 @@ const TaskManagement: React.FC = () => {
         </div>
         <button
           onClick={handleCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-[#E91E63] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white text-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-[orange-600] text-white rounded-lg hover:bg-gradient-to-r hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white text-sm"
         >
           <Plus size={18} />
           Tạo nhiệm vụ
@@ -275,7 +275,7 @@ const TaskManagement: React.FC = () => {
       {/* Tasks Table */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-[#E91E63]" />
+          <Loader2 className="w-8 h-8 animate-spin text-[orange-600]" />
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -323,7 +323,7 @@ const TaskManagement: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-sm font-semibold text-[#E91E63]">
+                      <span className="text-sm font-semibold text-[orange-600]">
                         {taskService.formatReward(task.reward)}
                       </span>
                     </td>
@@ -333,7 +333,7 @@ const TaskManagement: React.FC = () => {
                       </div>
                       <div className="w-24 bg-gray-200 rounded-full h-1.5 mt-1">
                         <div
-                          className="bg-[#E91E63] h-1.5 rounded-full"
+                          className="bg-[orange-600] h-1.5 rounded-full"
                           style={{
                             width: `${
                               (task.currentCompletion / task.maxCompletion) *
@@ -369,7 +369,7 @@ const TaskManagement: React.FC = () => {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleEdit(task)}
-                          className="p-1 text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded"
+                          className="p-1 text-[orange-600] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded"
                         >
                           <Edit size={16} />
                         </button>
@@ -510,7 +510,7 @@ const TaskManagement: React.FC = () => {
                       requirements: [...(formData.requirements || []), ""],
                     });
                   }}
-                  className="mt-2 px-4 py-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 rounded-lg hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white text-sm flex items-center gap-2"
+                  className="mt-2 px-4 py-2 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 rounded-lg hover:bg-gradient-to-r hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white text-sm flex items-center gap-2"
                 >
                   <Plus size={16} />
                   Thêm bước hướng dẫn

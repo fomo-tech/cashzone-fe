@@ -240,7 +240,7 @@ const AccordionItem: React.FC<{
         </div>
         <div className="flex-shrink-0">
           {isOpen ? (
-            <ChevronUp className="w-6 h-6 text-[#E91E63]" />
+            <ChevronUp className="w-6 h-6 text-[orange-600]" />
           ) : (
             <ChevronDown className="w-6 h-6 text-gray-400" />
           )}
@@ -257,8 +257,8 @@ const AccordionItem: React.FC<{
               return (
                 <div key={index} className="flex gap-4">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 flex items-center justify-center border-2 border-[#E91E63]/20">
-                      <StepIcon className="w-5 h-5 text-[#E91E63]" />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[orange-600]/10 to-[#FF8C1A]/10 flex items-center justify-center border-2 border-[orange-600]/20">
+                      <StepIcon className="w-5 h-5 text-[orange-600]" />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -289,7 +289,7 @@ const AccordionItem: React.FC<{
                     key={index}
                     className="flex items-start gap-2 text-sm text-gray-700"
                   >
-                    <span className="text-[#E91E63] font-bold flex-shrink-0">
+                    <span className="text-[orange-600] font-bold flex-shrink-0">
                       •
                     </span>
                     <span>{tip}</span>
@@ -340,14 +340,14 @@ const GuidePage: React.FC = () => {
                 onClick={() => toggleSection(section.id)}
                 className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                   openSections.includes(section.id)
-                    ? "bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 border-[#E91E63]/30 shadow-lg"
+                    ? "bg-gradient-to-br from-[orange-600]/10 to-[#FF8C1A]/10 border-[orange-600]/30 shadow-lg"
                     : "bg-white border-gray-200 hover:border-pink-200 hover:shadow-md"
                 }`}
               >
                 <Icon
                   className={`w-8 h-8 mx-auto mb-2 ${
                     openSections.includes(section.id)
-                      ? "text-[#E91E63]"
+                      ? "text-[orange-600]"
                       : "text-gray-400"
                   }`}
                 />
@@ -381,7 +381,7 @@ const GuidePage: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="mailto:support@example.com"
-              className="px-6 py-3 bg-white text-[#E91E63] font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+              className="px-6 py-3 bg-white text-[orange-600] font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
             >
               📧 Email Support
             </a>

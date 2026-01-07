@@ -421,7 +421,7 @@ const PaymentInfoModal: React.FC<{
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-3 bg-[#E91E63] text-white rounded-xl font-bold hover:bg-[#AD1457] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="flex-1 py-3 bg-[orange-600] text-white rounded-xl font-bold hover:bg-[#AD1457] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
@@ -658,19 +658,19 @@ const WalletManagement: React.FC = () => {
     <div className="min-h-screen py-6 sm:py-8 lg:py-10">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in">
+        <div className="fixed top-4 right-4 z-50 bg-[orange-600] text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in">
           {toastMessage}
         </div>
       )}
 
       {isLoading ? (
         <div className="flex items-center justify-center min-h-[400px]">
-          <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
+          <Loader className="w-8 h-8 text-[orange-600] animate-spin" />
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-4 sm:mb-6 lg:mb-8 flex items-center gap-2 sm:gap-3">
-            <Wallet className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#E91E63]" />
+            <Wallet className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[orange-600]" />
             Quản Lý Tài Chính
           </h2>
 
@@ -743,7 +743,7 @@ const WalletManagement: React.FC = () => {
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                  <ArrowDownRight className="w-6 h-6 mr-2 text-[#E91E63]" />
+                  <ArrowDownRight className="w-6 h-6 mr-2 text-[orange-600]" />
                   Tạo Yêu Cầu Rút Tiền
                 </h3>
 
@@ -788,7 +788,7 @@ const WalletManagement: React.FC = () => {
                           type="number"
                           name="amount"
                           required
-                          className="block w-full pl-4 pr-16 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63] font-semibold text-lg"
+                          className="block w-full pl-4 pr-16 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600] font-semibold text-lg"
                           placeholder={MIN_WITHDRAWAL_AMOUNT.toLocaleString(
                             "vi-VN"
                           )}
@@ -811,7 +811,7 @@ const WalletManagement: React.FC = () => {
                         </span>
                         <button
                           type="button"
-                          className="text-[#E91E63] font-medium hover:underline"
+                          className="text-[orange-600] font-medium hover:underline"
                           onClick={() => setWithdrawalAmount(availableBalance)}
                         >
                           Tối đa: {formatCurrency(availableBalance)}
@@ -984,7 +984,7 @@ const WalletManagement: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-[#E91E63]" />
+                  <Clock className="w-6 h-6 text-[orange-600]" />
                   Lịch Sử Giao Dịch
                 </h3>
                 <div className="overflow-x-auto">
@@ -1038,7 +1038,7 @@ const WalletManagement: React.FC = () => {
                               className={`py-4 px-4 font-bold text-right ${
                                 tx.type === "RÚT"
                                   ? "text-red-600"
-                                  : "text-[#E91E63]"
+                                  : "text-[orange-600]"
                               }`}
                             >
                               {tx.type === "RÚT" ? "-" : "+"}

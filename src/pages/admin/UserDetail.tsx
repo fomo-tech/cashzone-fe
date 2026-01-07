@@ -74,7 +74,7 @@ const RecentTransactions = ({
     <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <ListOrdered className="w-5 h-5 text-[#E91E63]" />
+          <ListOrdered className="w-5 h-5 text-[orange-600]" />
           Giao dịch gần nhất
         </h4>
         {hasTransactions && (
@@ -121,13 +121,13 @@ const RecentTransactions = ({
                     key={txn._id}
                     className="hover:bg-gray-50 transition-colors"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#E91E63]">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[orange-600]">
                       {txn._id.slice(-8)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       <span className="inline-flex items-center gap-1">
                         {txn.type === "INCOME" ? (
-                          <TrendingUp className="w-4 h-4 text-[#E91E63]" />
+                          <TrendingUp className="w-4 h-4 text-[orange-600]" />
                         ) : (
                           <TrendingDown className="w-4 h-4 text-red-600" />
                         )}
@@ -141,7 +141,7 @@ const RecentTransactions = ({
                     <td
                       className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
                         txn.type === "INCOME" || txn.type === "COMMISSION"
-                          ? "text-[#E91E63]"
+                          ? "text-[orange-600]"
                           : "text-red-600"
                       }`}
                     >
@@ -159,7 +159,7 @@ const RecentTransactions = ({
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {txn.status === "COMPLETED" ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30">
                           <CheckCircle2 className="w-3 h-3" />
                           Thành công
                         </span>
@@ -181,7 +181,7 @@ const RecentTransactions = ({
             </table>
           </div>
           <div className="mt-6 pt-4 border-t border-gray-200 text-right">
-            <button className="inline-flex items-center gap-2 text-sm font-semibold text-[#E91E63] hover:text-[#E91E63] transition-colors">
+            <button className="inline-flex items-center gap-2 text-sm font-semibold text-[orange-600] hover:text-[orange-600] transition-colors">
               Xem tất cả giao dịch
               <ArrowLeft className="w-4 h-4 rotate-180" />
             </button>
@@ -234,7 +234,7 @@ const ReferralSystemDisplay = ({
     <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <Share2 className="w-5 h-5 text-[#E91E63]" />
+          <Share2 className="w-5 h-5 text-[orange-600]" />
           Hệ Thống Giới Thiệu 3 Cấp
         </h4>
         {affiliate.code && (
@@ -246,7 +246,7 @@ const ReferralSystemDisplay = ({
 
       {/* Referral Overview Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-4 rounded-xl border border-[#E91E63]">
+        <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-4 rounded-xl border border-[orange-600]">
           <div className="flex items-center gap-2 mb-2">
             <Target className="w-4 h-4 text-white" />
             <span className="text-sm font-medium text-white">
@@ -262,22 +262,22 @@ const ReferralSystemDisplay = ({
 
         <div className="bg-gradient-to-br from-pink-50 to-orange-50 p-4 rounded-xl border border-pink-200">
           <div className="flex items-center gap-2 mb-2">
-            <Gift className="w-4 h-4 text-[#E91E63]" />
+            <Gift className="w-4 h-4 text-[orange-600]" />
             <span className="text-sm font-medium text-gray-600">
               Tổng Hoa Hồng
             </span>
           </div>
-          <p className="text-xl font-bold text-[#E91E63]">
+          <p className="text-xl font-bold text-[orange-600]">
             {formatCurrency(stats.totalEarned || 0)}
           </p>
         </div>
 
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-pink-200">
           <div className="flex items-center gap-2 mb-2">
-            <TreePine className="w-4 h-4 text-[#E91E63]" />
+            <TreePine className="w-4 h-4 text-[orange-600]" />
             <span className="text-sm font-medium text-gray-600">Cấp Độ</span>
           </div>
-          <p className="text-2xl font-bold text-[#E91E63]">
+          <p className="text-2xl font-bold text-[orange-600]">
             {affiliate.referralLevel
               ? `Cấp ${affiliate.referralLevel}`
               : "Chưa có"}
@@ -296,11 +296,11 @@ const ReferralSystemDisplay = ({
         <div className="bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-[#E91E63] rounded-full"></div>
+              <div className="w-3 h-3 bg-[orange-600] rounded-full"></div>
               <span className="font-semibold text-gray-800">
                 Cấp 1 - Trực Tiếp
               </span>
-              <span className="text-xs bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 px-2 py-1 rounded-full">
+              <span className="text-xs bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 px-2 py-1 rounded-full">
                 {commissionRates.level1}% hoa hồng
               </span>
             </div>
@@ -308,13 +308,13 @@ const ReferralSystemDisplay = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="text-sm text-gray-600">Số người:</span>
-              <p className="text-xl font-bold text-[#E91E63]">
+              <p className="text-xl font-bold text-[orange-600]">
                 {stats.directReferrals || 0}
               </p>
             </div>
             <div>
               <span className="text-sm text-gray-600">Hoa hồng:</span>
-              <p className="text-lg font-semibold text-[#E91E63]">
+              <p className="text-lg font-semibold text-[orange-600]">
                 {formatCurrency(stats.level1Total || 0)}
               </p>
             </div>
@@ -329,7 +329,7 @@ const ReferralSystemDisplay = ({
               <span className="font-semibold text-gray-800">
                 Cấp 2 - Gián Tiếp
               </span>
-              <span className="text-xs bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 px-2 py-1 rounded-full">
+              <span className="text-xs bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 px-2 py-1 rounded-full">
                 {commissionRates.level2}% hoa hồng
               </span>
             </div>
@@ -337,13 +337,13 @@ const ReferralSystemDisplay = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="text-sm text-gray-600">Số người:</span>
-              <p className="text-xl font-bold text-[#E91E63]">
+              <p className="text-xl font-bold text-[orange-600]">
                 {stats.level2Referrals || 0}
               </p>
             </div>
             <div>
               <span className="text-sm text-gray-600">Hoa hồng:</span>
-              <p className="text-lg font-semibold text-[#E91E63]">
+              <p className="text-lg font-semibold text-[orange-600]">
                 {formatCurrency(stats.level2Total || 0)}
               </p>
             </div>
@@ -354,7 +354,7 @@ const ReferralSystemDisplay = ({
         <div className="bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-[#E91E63] rounded-full"></div>
+              <div className="w-3 h-3 bg-[orange-600] rounded-full"></div>
               <span className="font-semibold text-gray-800">
                 Cấp 3 - Xa Nhất
               </span>
@@ -366,13 +366,13 @@ const ReferralSystemDisplay = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="text-sm text-gray-600">Số người:</span>
-              <p className="text-xl font-bold text-[#E91E63]">
+              <p className="text-xl font-bold text-[orange-600]">
                 {stats.level3Referrals || 0}
               </p>
             </div>
             <div>
               <span className="text-sm text-gray-600">Hoa hồng:</span>
-              <p className="text-lg font-semibold text-[#E91E63]">
+              <p className="text-lg font-semibold text-[orange-600]">
                 {formatCurrency(stats.level3Total || 0)}
               </p>
             </div>
@@ -408,11 +408,11 @@ const ReferralSystemDisplay = ({
 
       {/* Action Buttons for Admin */}
       <div className="flex gap-2 pt-4 border-t border-gray-200">
-        <button className="flex-1 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+        <button className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
           <RefreshCw className="w-4 h-4" />
           Cập nhật
         </button>
-        <button className="flex-1 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30 hover:from-[#E91E63] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+        <button className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
           <FileText className="w-4 h-4" />
           Chi tiết
         </button>
@@ -623,8 +623,8 @@ export default function UserDetailPage() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-[#E91E63] rounded-full animate-spin"></div>
-          <div className="flex items-center space-x-2 text-[#E91E63]">
+          <div className="w-16 h-16 border-4 border-[orange-600] border-t-[orange-600] rounded-full animate-spin"></div>
+          <div className="flex items-center space-x-2 text-[orange-600]">
             <span className="text-lg font-semibold">
               Đang tải thông tin người dùng...
             </span>
@@ -684,13 +684,13 @@ export default function UserDetailPage() {
       icon: <DollarSign />,
       title: "Số dư ví",
       value: formatCurrency(stats.totalRevenue),
-      color: "text-[#E91E63]",
+      color: "text-[orange-600]",
     },
     {
       icon: <TrendingUp />,
       title: "Hoa hồng",
       value: formatCurrency(stats.totalCommission),
-      color: "text-[#E91E63]",
+      color: "text-[orange-600]",
     },
     {
       icon: <Activity />,
@@ -768,7 +768,7 @@ export default function UserDetailPage() {
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                 <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <User2 className="w-5 h-5 text-[#E91E63]" /> Thông tin Cơ bản
+                  <User2 className="w-5 h-5 text-[orange-600]" /> Thông tin Cơ bản
                 </h4>
                 <StatusBadge status={user.status} />
               </div>
@@ -808,7 +808,7 @@ export default function UserDetailPage() {
                 {/* Vai trò */}
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-600 flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-[#E91E63]" /> Vai trò
+                    <Shield className="w-4 h-4 text-[orange-600]" /> Vai trò
                   </span>
                   <RoleBadge roles={user.roles} />
                 </div>
@@ -918,7 +918,7 @@ export default function UserDetailPage() {
                 <span className="text-sm font-medium text-gray-600 block mb-2">
                   Được giới thiệu bởi
                 </span>
-                <p className="text-sm font-mono text-[#E91E63]">
+                <p className="text-sm font-mono text-[orange-600]">
                   {user.affiliate.referredBy}
                 </p>
               </div>
@@ -927,7 +927,7 @@ export default function UserDetailPage() {
             {/* Actions */}
             <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
               <h4 className="text-lg font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-[#E91E63]" /> Hành động
+                <Settings className="w-5 h-5 text-[orange-600]" /> Hành động
               </h4>
 
               <div className="flex flex-col gap-3">
@@ -993,7 +993,7 @@ export default function UserDetailPage() {
               </p>
               <p className="text-sm text-gray-500">
                 Số dư hiện tại:{" "}
-                <span className="font-semibold text-[#E91E63]">
+                <span className="font-semibold text-[orange-600]">
                   {formatCurrency(user?.wallet?.available || 0)}
                 </span>
               </p>
@@ -1009,7 +1009,7 @@ export default function UserDetailPage() {
                   value={adjustAmount || ""}
                   onChange={(e) => setAdjustAmount(Number(e.target.value))}
                   placeholder="Nhập số tiền..."
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[orange-600]/20 focus:border-[orange-600] transition-all"
                   min="0"
                 />
               </div>
@@ -1024,7 +1024,7 @@ export default function UserDetailPage() {
                   placeholder={`Nhập lý do ${
                     adjustType === "add" ? "cộng" : "trừ"
                   } tiền...`}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E63]/20 focus:border-[#E91E63] transition-all resize-none"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[orange-600]/20 focus:border-[orange-600] transition-all resize-none"
                   rows={3}
                 />
               </div>

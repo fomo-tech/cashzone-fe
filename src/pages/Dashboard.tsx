@@ -76,7 +76,7 @@ function Dashboard() {
         {/* Stat Card 1 - Successful Orders */}
         <div className="bg-white p-3 md:p-4 lg:p-6 rounded-xl md:rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-2 md:mb-3 lg:mb-4">
-            <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-pink-100 rounded-lg md:rounded-xl flex items-center justify-center text-[#E91E63]">
+            <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-pink-100 rounded-lg md:rounded-xl flex items-center justify-center text-[orange-600]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={24}
@@ -386,7 +386,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       120.482&nbsp;₫
                     </div>
                   </td>
@@ -406,7 +406,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       50.459&nbsp;₫
                     </div>
                   </td>
@@ -426,7 +426,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       27.518&nbsp;₫
                     </div>
                   </td>
@@ -444,7 +444,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Canh Bach</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       25.735&nbsp;₫
                     </div>
                   </td>
@@ -464,7 +464,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       19.033&nbsp;₫
                     </div>
                   </td>
@@ -482,7 +482,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Hoa Nguyen</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       16.078&nbsp;₫
                     </div>
                   </td>
@@ -500,7 +500,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Memo</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       15.906&nbsp;₫
                     </div>
                   </td>
@@ -520,7 +520,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       15.646&nbsp;₫
                     </div>
                   </td>
@@ -540,7 +540,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       14.846&nbsp;₫
                     </div>
                   </td>
@@ -558,7 +558,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Vo Diem</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       12.571&nbsp;₫
                     </div>
                   </td>
@@ -603,7 +603,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       2.909.280&nbsp;₫
                     </div>
                   </td>
@@ -621,7 +621,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Memo</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       2.154.745&nbsp;₫
                     </div>
                   </td>
@@ -639,7 +639,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Hoa Nguyen</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       1.704.502&nbsp;₫
                     </div>
                   </td>
@@ -657,7 +657,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Canh Bach</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       1.663.102&nbsp;₫
                     </div>
                   </td>
@@ -675,7 +675,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Vo Diem</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       1.214.375&nbsp;₫
                     </div>
                   </td>
@@ -695,7 +695,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       1.011.749&nbsp;₫
                     </div>
                   </td>
@@ -715,7 +715,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       997.626&nbsp;₫
                     </div>
                   </td>
@@ -733,7 +733,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">thoai anh</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       947.193&nbsp;₫
                     </div>
                   </td>
@@ -751,7 +751,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Bảo Kha</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       901.525&nbsp;₫
                     </div>
                   </td>
@@ -769,7 +769,7 @@ function Dashboard() {
                     <div className="font-medium text-slate-800">Thắng Quốc</div>
                   </td>
                   <td className="py-3 text-right">
-                    <div className="font-bold text-[#E91E63]">
+                    <div className="font-bold text-[orange-600]">
                       878.946&nbsp;₫
                     </div>
                   </td>

@@ -46,6 +46,8 @@ interface ProductOffer {
   feeText: string; // Hoa hồng/Phí hoàn lại đã format
   rateText: string; // Tỷ lệ hoàn tiền/lãi suất
   priceText: string; // Giá đã format
+  priceMin?: number; // Giá tối thiểu từ API
+  priceMax?: number; // Giá tối đa từ API
   img: string; // URL
   platform: string; // platform id
 }
@@ -158,9 +160,6 @@ export default function Cashback() {
       }
     }
   }, [isAuthenticated, user?._id]);
-  useEffect(() => {
-    loadLinkHistory();
-  }, [isAuthenticated, user, loadLinkHistory]);
 
   const activePlatform = useMemo(
     () => PLATFORMS.find((p) => p.id === activePlatformId) || PLATFORMS[0],
@@ -228,6 +227,8 @@ export default function Cashback() {
               // Tỷ lệ hoàn tiền từ backend
               rateText: `${productInfo.commissionRate}%`,
               priceText: formatCurrency(Number(productInfo.priceMin) || 0),
+              priceMin: Number(productInfo.priceMin),
+              priceMax: Number(productInfo.priceMax),
               img:
                 productInfo.imageUrl ||
                 `https://via.placeholder.com/96/EE4D2D/FFFFFF?text=${platform.id
@@ -251,7 +252,10 @@ export default function Cashback() {
             "Không thể kết nối API. Vui lòng kiểm tra lại đường truyền.";
 
           // Check for maintenance mode
-          if (
+          if (error?.response?.data?.message === "PRODUCT_NOTFOUND") {
+            errorMessage =
+              "Sản phẩm không tồn tại hoặc không hỗ trợ hoàn tiền.";
+          } else if (
             error.response?.data?.message === "MAINTENANCE_MODE" ||
             error.response?.data?.message?.includes("MAINTENANCE")
           ) {
@@ -306,15 +310,10 @@ export default function Cashback() {
           message: "Tạo link hoàn tiền thành công!",
         });
 
-        // Reload history from API after creating new link
-        if (isAuthenticated && user?._id) {
-          loadLinkHistory();
-        }
-
         setIsGenerating(false);
       }, delay);
     },
-    [isAuthenticated, user, loadLinkHistory]
+    [isAuthenticated, user]
   );
 
   // Hàm xử lý khi nhấn nút TẠO LINK
@@ -455,7 +454,7 @@ export default function Cashback() {
   // Helper text
   const helperText = useMemo(() => {
     if (isLinkRequired) {
-      return "Mẹo: Paste link Shopee hoặc Lazada để mua sắm nhận hoàn tiền. Xem hướng dẫn chi tiết tại đây.";
+      return "Mẹo: Paste link Shopee để mua sắm nhận hoàn tiền. Xem hướng dẫn chi tiết tại đây.";
     }
     return "Link đã được tạo tự động. Bạn có thể nhập thêm yêu cầu đặc biệt và bấm 'Cập nhật' để thay đổi nội dung tư vấn.";
   }, [isLinkRequired]);
@@ -513,7 +512,7 @@ export default function Cashback() {
                         <Zap className="text-white" size={40} />
                       </div>
                       <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-3">
-                        Tạo Link Hoàn Tiền
+                        Tạo Link Hoàn Tiền Shopee
                       </h3>
                       <p className="text-base sm:text-base lg:text-lg text-gray-700 font-medium px-4">
                         Dán link sản phẩm Shopee để nhận hoàn tiền ngay
@@ -521,8 +520,8 @@ export default function Cashback() {
                     </div>
 
                     {/* Input Section */}
-                    <div className="space-y-5 max-w-4xl mx-auto">
-                      <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-6 border sm:border-2 border-orange-200">
+                    <div className="space-y-5 mx-auto">
+                      <div className=" p-3 sm:p-6 ">
                         <label className="text-lg sm:text-lg font-bold text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-4">
                           <div className="flex items-center gap-2">
                             <Link size={24} className="text-orange-500" />
@@ -543,6 +542,9 @@ export default function Cashback() {
                               placeholder={inputPlaceholder}
                               className="w-full px-5 py-4 text-base rounded-xl border-2 border-gray-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-200 pr-32 sm:pr-24 font-medium transition-all"
                               disabled={isGenerating}
+                              aria-label="Nhập link sản phẩm Shopee"
+                              aria-describedby="link-helper"
+                              aria-required="true"
                             />
                             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                               {/* Paste button - inside input on mobile */}
@@ -636,40 +638,54 @@ export default function Cashback() {
                             <Shield
                               size={20}
                               className="text-orange-500 flex-shrink-0 mt-0.5"
+                              aria-hidden="true"
                             />
-                            <p className="text-sm sm:text-sm text-orange-800 font-medium leading-relaxed">
+                            <p
+                              id="link-helper"
+                              className="text-sm text-orange-800 font-medium leading-relaxed"
+                            >
                               {helperText}
                             </p>
                           </div>
                         )}
                       </div>
                       {/* Feature Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 transition-all">
-                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 flex-shrink-0">
-                            <CheckCircle2 className="text-white" size={24} />
+
+                      {!currentOffer && !isGenerating && (
+                        <div
+                          className="grid grid-cols-1 sm:grid-cols-3 gap-3"
+                          role="list"
+                          aria-label="Các tính năng"
+                        >
+                          <div
+                            className="flex items-center gap-3 p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 transition-all"
+                            role="listitem"
+                          >
+                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 flex-shrink-0">
+                              <CheckCircle2 className="text-white" size={24} />
+                            </div>
+                            <span className="text-sm sm:text-sm font-bold text-gray-800">
+                              Tự động tính hoa hồng
+                            </span>
                           </div>
-                          <span className="text-sm sm:text-sm font-bold text-gray-800">
-                            Tự động tính hoa hồng
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
-                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
-                            <Zap className="text-white" size={24} />
+                          <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
+                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
+                              <Zap className="text-white" size={24} />
+                            </div>
+                            <span className="text-sm sm:text-sm font-bold text-gray-800">
+                              Hoàn tiền nhanh chóng
+                            </span>
                           </div>
-                          <span className="text-sm sm:text-sm font-bold text-gray-800">
-                            Hoàn tiền nhanh chóng
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
-                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
-                            <Gift className="text-white" size={24} />
+                          <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
+                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
+                              <Gift className="text-white" size={24} />
+                            </div>
+                            <span className="text-sm sm:text-sm font-bold text-gray-800">
+                              Miễn phí sử dụng
+                            </span>
                           </div>
-                          <span className="text-sm sm:text-sm font-bold text-gray-800">
-                            Miễn phí sử dụng
-                          </span>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </>
                 ) : (
@@ -738,7 +754,7 @@ export default function Cashback() {
 
                 {/* Offer preview */}
                 {currentOffer && (
-                  <div className="mt-4 sm:mt-6 bg-white rounded-lg sm:rounded-xl p-4 sm:p-6  ">
+                  <div className="mt-4 sm:mt-6  p-4 sm:p-6  ">
                     {/* Product Card - Similar to Shopee style */}
                     <div className="flex flex-col sm:flex-row gap-4">
                       {/* Product Image */}
@@ -772,6 +788,26 @@ export default function Cashback() {
                         <h2 className="text-sm sm:text-base md:text-lg font-medium text-gray-800 leading-tight">
                           {currentOffer.title}
                         </h2>
+
+                        {/* Price Range */}
+                        {(currentOffer.priceMin || currentOffer.priceMax) && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500">Giá:</span>
+                            <span className="text-orange-600 font-bold text-sm sm:text-base">
+                              {currentOffer.priceMin &&
+                              currentOffer.priceMax &&
+                              currentOffer.priceMin !== currentOffer.priceMax
+                                ? `${formatCurrency(
+                                    currentOffer.priceMin
+                                  )} - ${formatCurrency(currentOffer.priceMax)}`
+                                : formatCurrency(
+                                    currentOffer.priceMin ||
+                                      currentOffer.priceMax ||
+                                      0
+                                  )}
+                            </span>
+                          </div>
+                        )}
 
                         {/* Commission Info */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -883,102 +919,135 @@ export default function Cashback() {
           </div>
 
           {/* HOW IT WORKS - QUY TRÌNH HOÀN TIỀN */}
-          <div className="mt-6 sm:mt-8 lg:mt-10">
+          <div className="mt-4 sm:mt-6">
             {/* Header */}
-            <div className="text-center mb-6 sm:mb-8">
-              <div className="inline-flex items-center justify-center gap-2 mb-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center">
-                  <Gift className="text-white" size={20} />
+            <div className="text-center mb-4 sm:mb-6">
+              <div className="inline-flex items-center justify-center gap-2 mb-2">
+                <div
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center"
+                  role="img"
+                  aria-label="Biểu tượng quà tặng"
+                >
+                  <Gift className="text-white" size={18} aria-hidden="true" />
                 </div>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1.5">
                 Quy Trình Hoàn Tiền
               </h2>
-              <p className="text-xs sm:text-sm lg:text-base text-gray-600 max-w-xl mx-auto">
+              <p className="text-sm text-gray-600 max-w-xl mx-auto">
                 Nhận hoàn tiền chỉ với 4 bước đơn giản
               </p>
             </div>
 
             {/* Steps Container */}
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               {/* Desktop - Horizontal Layout */}
-              <div className="hidden lg:block mb-8">
+              <div className="hidden lg:block mb-6">
                 <div className="relative">
                   {/* Connector Line Background */}
-                  <div className="absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 via-blue-400 via-green-400 to-yellow-400 opacity-20"></div>
+                  <div
+                    className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 via-blue-400 via-green-400 to-yellow-400 opacity-20"
+                    aria-hidden="true"
+                  ></div>
 
                   {/* Steps Grid */}
-                  <div className="grid grid-cols-4 gap-6">
+                  <div
+                    className="grid grid-cols-4 gap-4"
+                    role="list"
+                    aria-label="Các bước hoàn tiền"
+                  >
                     {/* Step 1 */}
-                    <div className="relative">
-                      <div className="flex flex-col items-center">
+                    <div className="relative h-full" role="listitem">
+                      <div className="flex flex-col items-center h-full">
                         {/* Icon Circle */}
-                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-4 ring-6 ring-orange-100">
+                        <div
+                          className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-3 ring-4 ring-orange-100"
+                          role="img"
+                          aria-label="Bước 1"
+                        >
                           <Link
                             className="text-white"
-                            size={36}
+                            size={24}
                             strokeWidth={2.5}
+                            aria-hidden="true"
                           />
                         </div>
 
                         {/* Content Card */}
-                        <div className="bg-white rounded-xl p-4 border border-orange-100 w-full">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 text-white font-bold text-base mb-2 mx-auto">
+                        <div className="bg-white rounded-lg p-3 border border-orange-100 w-full flex-1 flex flex-col">
+                          <div
+                            className="flex items-center justify-center w-6 h-6 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm mb-2 mx-auto"
+                            aria-label="Số 1"
+                          >
                             1
                           </div>
-                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                          <h3 className="text-sm font-bold text-gray-900 mb-1 text-center">
                             Tạo Link
                           </h3>
                           <p className="text-xs text-gray-600 leading-snug text-center">
-                            Dán link sản phẩm từ Shopee vào hệ thống để tạo link
-                            hoàn tiền
+                            Dán link sản phẩm từ Shopee
                           </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Step 2 */}
-                    <div className="relative">
-                      <div className="flex flex-col items-center">
-                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-4 ring-6 ring-blue-100">
+                    <div className="relative h-full" role="listitem">
+                      <div className="flex flex-col items-center h-full">
+                        <div
+                          className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-3 ring-4 ring-orange-100"
+                          role="img"
+                          aria-label="Bước 2"
+                        >
                           <ShoppingCart
                             className="text-white"
-                            size={36}
+                            size={24}
                             strokeWidth={2.5}
+                            aria-hidden="true"
                           />
                         </div>
 
-                        <div className="bg-white rounded-xl p-4 border border-orange-100 w-full">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-base mb-2 mx-auto">
+                        <div className="bg-white rounded-lg p-3 border border-orange-100 w-full flex-1 flex flex-col">
+                          <div
+                            className="flex items-center justify-center w-6 h-6 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm mb-2 mx-auto"
+                            aria-label="Số 2"
+                          >
                             2
                           </div>
-                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                          <h3 className="text-sm font-bold text-gray-900 mb-1 text-center">
                             Mua Hàng
                           </h3>
                           <p className="text-xs text-gray-600 leading-snug text-center">
-                            Click vào link để mua sản phẩm trên Shopee như bình
-                            thường
+                            Click vào link để mua sản phẩm trên Shopee
                           </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Step 3 */}
-                    <div className="relative">
-                      <div className="flex flex-col items-center">
-                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4 ring-6 ring-green-100">
+                    <div className="relative h-full" role="listitem">
+                      <div className="flex flex-col items-center h-full">
+                        <div
+                          className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-3 ring-4 ring-orange-100"
+                          role="img"
+                          aria-label="Bước 3"
+                        >
                           <CheckCircle2
                             className="text-white"
-                            size={36}
+                            size={24}
                             strokeWidth={2.5}
+                            aria-hidden="true"
                           />
                         </div>
 
-                        <div className="bg-white rounded-xl p-4 border border-green-100 w-full">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 text-white font-bold text-base mb-2 mx-auto">
+                        <div className="bg-white rounded-lg p-3 border border-orange-100 w-full flex-1 flex flex-col">
+                          <div
+                            className="flex items-center justify-center w-6 h-6 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm mb-2 mx-auto"
+                            aria-label="Số 3"
+                          >
                             3
                           </div>
-                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                          <h3 className="text-sm font-bold text-gray-900 mb-1 text-center">
                             Xác Nhận
                           </h3>
                           <p className="text-xs text-gray-600 leading-snug text-center">
@@ -989,21 +1058,29 @@ export default function Cashback() {
                     </div>
 
                     {/* Step 4 */}
-                    <div className="relative">
-                      <div className="flex flex-col items-center">
-                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center mb-4 ring-6 ring-yellow-100">
+                    <div className="relative h-full" role="listitem">
+                      <div className="flex flex-col items-center h-full">
+                        <div
+                          className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-3 ring-4 ring-orange-100"
+                          role="img"
+                          aria-label="Bước 4"
+                        >
                           <DollarSign
                             className="text-white"
-                            size={36}
+                            size={24}
                             strokeWidth={2.5}
+                            aria-hidden="true"
                           />
                         </div>
 
-                        <div className="bg-white rounded-xl p-4 border border-yellow-100 w-full">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500 to-amber-600 text-white font-bold text-base mb-2 mx-auto">
+                        <div className="bg-white rounded-lg p-3 border border-orange-100 w-full flex-1 flex flex-col">
+                          <div
+                            className="flex items-center justify-center w-6 h-6 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm mb-2 mx-auto"
+                            aria-label="Số 4"
+                          >
                             4
                           </div>
-                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                          <h3 className="text-sm font-bold text-gray-900 mb-1 text-center">
                             Nhận Tiền
                           </h3>
                           <p className="text-xs text-gray-600 leading-snug text-center">
@@ -1018,53 +1095,87 @@ export default function Cashback() {
               </div>
 
               {/* Mobile/Tablet - Vertical Layout */}
-              <div className="lg:hidden space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+              <div className="lg:hidden space-y-2.5 mb-4 sm:mb-6">
                 {/* Step 1 */}
-                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
-                  <div className="flex gap-4 sm:gap-5 items-start">
+                <div
+                  className="bg-white rounded-xl p-4 shadow-md border border-gray-100"
+                  role="article"
+                  aria-labelledby="step1-title"
+                >
+                  <div className="flex gap-3 items-start">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-                        <Link className="text-white" size={28} />
+                      <div
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center"
+                        role="img"
+                        aria-label="Biểu tượng tạo link"
+                      >
+                        <Link
+                          className="text-white"
+                          size={20}
+                          aria-hidden="true"
+                        />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-2">
+                      <div
+                        className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-1.5"
+                        aria-label="Bước 1"
+                      >
                         1
                       </div>
-                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5">
-                        Tạo Link Hoàn Tiền
+                      <h3
+                        id="step1-title"
+                        className="text-sm sm:text-base font-bold text-gray-900 mb-1"
+                      >
+                        Tạo Link Hoàn Tiền Shopee
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-600 leading-snug">
-                        Dán link sản phẩm từ Shopee vào hệ thống để tạo link
-                        hoàn tiền của bạn
+                      <p className="text-sm text-gray-600 leading-snug">
+                        Dán link sản phẩm từ Shopee
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Arrow Connector */}
-                <div className="flex justify-center">
-                  <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full"></div>
+                <div className="flex justify-center" aria-hidden="true">
+                  <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full"></div>
                 </div>
 
                 {/* Step 2 */}
-                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
-                  <div className="flex gap-4 sm:gap-5 items-start">
+                <div
+                  className="bg-white rounded-xl p-4 shadow-md border border-gray-100"
+                  role="article"
+                  aria-labelledby="step2-title"
+                >
+                  <div className="flex gap-3 items-start">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-                        <ShoppingCart className="text-white" size={28} />
+                      <div
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center"
+                        role="img"
+                        aria-label="Biểu tượng mua hàng"
+                      >
+                        <ShoppingCart
+                          className="text-white"
+                          size={20}
+                          aria-hidden="true"
+                        />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-600 font-bold text-sm mb-3">
+                      <div
+                        className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-1.5"
+                        aria-label="Bước 2"
+                      >
                         2
                       </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                      <h3
+                        id="step2-title"
+                        className="text-sm sm:text-base font-bold text-gray-900 mb-1"
+                      >
                         Mua Hàng Qua Link
                       </h3>
-                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                        Click vào link hoàn tiền để mua sản phẩm trên Shopee như
-                        bình thường
+                      <p className="text-sm text-gray-600 leading-snug">
+                        Click vào link hoàn tiền để mua sản phẩm
                       </p>
                     </div>
                   </div>
@@ -1076,23 +1187,40 @@ export default function Cashback() {
                 </div>
 
                 {/* Step 3 */}
-                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
-                  <div className="flex gap-4 sm:gap-5 items-start">
+                <div
+                  className="bg-white rounded-xl p-4 shadow-md border border-gray-100"
+                  role="article"
+                  aria-labelledby="step3-title"
+                >
+                  <div className="flex gap-3 items-start">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                        <CheckCircle2 className="text-white" size={28} />
+                      <div
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center"
+                        role="img"
+                        aria-label="Biểu tượng xác nhận"
+                      >
+                        <CheckCircle2
+                          className="text-white"
+                          size={20}
+                          aria-hidden="true"
+                        />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 font-bold text-sm mb-3">
+                      <div
+                        className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-1.5"
+                        aria-label="Bước 3"
+                      >
                         3
                       </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                      <h3
+                        id="step3-title"
+                        className="text-sm sm:text-base font-bold text-gray-900 mb-1"
+                      >
                         Xác Nhận Đơn Hàng
                       </h3>
-                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                        Đơn hàng được xác nhận và hệ thống tự động ghi nhận hoa
-                        hồng cho bạn
+                      <p className="text-sm text-gray-600 leading-snug">
+                        Đơn hàng được xác nhận và hệ thống ghi nhận hoa hồng
                       </p>
                     </div>
                   </div>
@@ -1104,23 +1232,40 @@ export default function Cashback() {
                 </div>
 
                 {/* Step 4 */}
-                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
-                  <div className="flex gap-4 sm:gap-5 items-start">
+                <div
+                  className="bg-white rounded-xl p-4 shadow-md border border-gray-100"
+                  role="article"
+                  aria-labelledby="step4-title"
+                >
+                  <div className="flex gap-3 items-start">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center">
-                        <DollarSign className="text-white" size={28} />
+                      <div
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center"
+                        role="img"
+                        aria-label="Biểu tượng nhận tiền"
+                      >
+                        <DollarSign
+                          className="text-white"
+                          size={20}
+                          aria-hidden="true"
+                        />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 font-bold text-sm mb-3">
+                      <div
+                        className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-1.5"
+                        aria-label="Bước 4"
+                      >
                         4
                       </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                      <h3
+                        id="step4-title"
+                        className="text-sm sm:text-base font-bold text-gray-900 mb-1"
+                      >
                         Nhận Hoàn Tiền
                       </h3>
-                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                        Hoàn tiền được chuyển vào ví của bạn, sẵn sàng rút về
-                        tài khoản ngân hàng
+                      <p className="text-sm text-gray-600 leading-snug">
+                        Hoàn tiền vào ví, sẵn sàng rút về tài khoản
                       </p>
                     </div>
                   </div>
@@ -1133,7 +1278,7 @@ export default function Cashback() {
                   <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-2">
                     60-90%
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                  <div className="text-sm text-gray-700 font-semibold">
                     Tỷ lệ hoàn tiền từ hoa hồng
                   </div>
                 </div>
@@ -1141,7 +1286,7 @@ export default function Cashback() {
                   <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent mb-2">
                     24-48h
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                  <div className="text-sm text-gray-700 font-semibold">
                     Thời gian xử lý hoàn tiền
                   </div>
                 </div>
@@ -1149,7 +1294,7 @@ export default function Cashback() {
                   <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">
                     0đ
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                  <div className="text-sm text-gray-700 font-semibold">
                     Phí sử dụng dịch vụ
                   </div>
                 </div>

@@ -10,7 +10,8 @@ const config: Config = {
         secondary: "#F59E0B",
       },
       fontFamily: {
-        sans: "var(--font-base)",
+        sans: ["Space Grotesk", "sans-serif"],
+        mono: ["Space Grotesk", "monospace"],
       },
       keyframes: {
         wiggle: {

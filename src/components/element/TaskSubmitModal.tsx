@@ -119,7 +119,7 @@ export default function TaskSubmitModal({
               <span className="text-sm font-medium text-gray-700">
                 Phần thưởng:
               </span>
-              <span className="text-lg font-bold text-[#E91E63]">
+              <span className="text-lg font-bold text-[orange-600]">
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -153,7 +153,7 @@ export default function TaskSubmitModal({
             </label>
 
             {!selectedFile ? (
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:border-[#E91E63] hover:bg-[#E91E63] transition">
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:border-[orange-600] hover:bg-[orange-600] transition">
                 <Upload size={48} className="text-gray-400 mb-3" />
                 <span className="text-sm text-gray-600 mb-1">
                   Click để chọn ảnh
@@ -206,7 +206,7 @@ export default function TaskSubmitModal({
             <button
               onClick={handleSubmit}
               disabled={!selectedFile || isSubmitting}
-              className="flex-1 px-6 py-3 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-[#E91E63] hover:to-[#FF8C1A] disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
+              className="flex-1 px-6 py-3 bg-linear-to-r from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-[orange-600] hover:to-[#FF8C1A] disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>

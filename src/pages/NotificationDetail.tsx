@@ -83,7 +83,7 @@ const NotificationDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[orange-600]" />
       </div>
     );
   }

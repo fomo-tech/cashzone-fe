@@ -150,7 +150,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
           {/* Search Bar - Full Width */}
           <div className="relative group">
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-[#E91E63] transition-colors" />
+              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-[orange-600] transition-colors" />
             </div>
             <Input
               placeholder="Tìm kiếm giao dịch, đơn hàng..."
@@ -158,7 +158,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
               onChange={(e) =>
                 setFilters({ ...filters, search: e.target.value })
               }
-              className="pl-11 pr-10 h-12 text-base border-gray-200 focus:border-[#E91E63] focus:ring-[#E91E63] rounded-xl"
+              className="pl-11 pr-10 h-12 text-base border-gray-200 focus:border-[orange-600] focus:ring-[orange-600] rounded-xl"
             />
             {filters.search && (
               <button
@@ -191,7 +191,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                 <SelectTrigger
                   className={`h-10 min-w-[140px] border-gray-200 rounded-xl transition-all ${
                     filters.status
-                      ? "border-[#E91E63] bg-pink-50 text-[#E91E63] font-semibold"
+                      ? "border-[orange-600] bg-pink-50 text-[orange-600] font-semibold"
                       : "hover:border-gray-300 bg-white"
                   }`}
                 >
@@ -231,7 +231,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                 <SelectTrigger
                   className={`h-10 min-w-[140px] border-gray-200 rounded-xl transition-all ${
                     filters.type
-                      ? "border-[#E91E63] bg-pink-50 text-[#E91E63] font-semibold"
+                      ? "border-[orange-600] bg-pink-50 text-[orange-600] font-semibold"
                       : "hover:border-gray-300 bg-white"
                   }`}
                 >
@@ -266,7 +266,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                 onClick={loadHistory}
                 variant="outline"
                 disabled={loading}
-                className="h-10 px-4 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl"
+                className="h-10 px-4 border-gray-200 hover:border-[orange-600] hover:bg-pink-50 hover:text-[orange-600] transition-all rounded-xl"
               >
                 <RefreshCw
                   className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
@@ -278,7 +278,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                 <Button
                   onClick={clearFilters}
                   variant="outline"
-                  className="h-10 px-4 border-pink-200 bg-pink-50 text-[#E91E63] hover:bg-pink-100 hover:border-pink-300 transition-all rounded-xl font-semibold"
+                  className="h-10 px-4 border-pink-200 bg-pink-50 text-[orange-600] hover:bg-pink-100 hover:border-pink-300 transition-all rounded-xl font-semibold"
                 >
                   <X className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Xóa lọc</span>
@@ -295,7 +295,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
               </span>
               {filters.status && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                  <span className="text-xs font-medium text-[orange-600]">
                     Trạng thái:{" "}
                     {filters.status === "pending"
                       ? "Chờ duyệt"
@@ -309,13 +309,13 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                     onClick={() => setFilters({ ...filters, status: "" })}
                     className="p-0.5 hover:bg-pink-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-[orange-600]" />
                   </button>
                 </div>
               )}
               {filters.type && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                  <span className="text-xs font-medium text-[orange-600]">
                     Loại:{" "}
                     {filters.type === "commission"
                       ? "Hoa hồng"
@@ -327,20 +327,20 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                     onClick={() => setFilters({ ...filters, type: "" })}
                     className="p-0.5 hover:bg-pink-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-[orange-600]" />
                   </button>
                 </div>
               )}
               {filters.search && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[#E91E63]">
+                  <span className="text-xs font-medium text-[orange-600]">
                     Tìm kiếm: "{filters.search}"
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, search: "" })}
                     className="p-0.5 hover:bg-pink-100 rounded"
                   >
-                    <X className="w-3 h-3 text-[#E91E63]" />
+                    <X className="w-3 h-3 text-[orange-600]" />
                   </button>
                 </div>
               )}
@@ -352,7 +352,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
       {/* Transaction List */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E91E63]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[orange-600]"></div>
         </div>
       ) : transactions.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
@@ -365,7 +365,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
             {transactions.map((transaction) => (
               <div
                 key={transaction._id}
-                className="bg-white rounded-lg p-4 border border-gray-100 hover:border-[#E91E63] hover:shadow-md transition-all"
+                className="bg-white rounded-lg p-4 border border-gray-100 hover:border-[orange-600] hover:shadow-md transition-all"
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex-1 min-w-0">
@@ -408,7 +408,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                       </span>
                     )}
                   </div>
-                  <p className="text-base font-bold text-[#E91E63]">
+                  <p className="text-base font-bold text-[orange-600]">
                     {formatCurrency(transaction.amount)}
                   </p>
                 </div>
@@ -484,7 +484,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
 
                     <td className="px-4 py-3 text-center">
                       <div>
-                        <p className="font-semibold text-[#E91E63] text-base">
+                        <p className="font-semibold text-[orange-600] text-base">
                           {formatCurrency(transaction.amount)}
                         </p>
                         {transaction.metadata?.commissionRate && (

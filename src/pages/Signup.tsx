@@ -149,7 +149,7 @@ const SignupForm: React.FC = () => {
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="w-4 h-4 text-[#E91E63] bg-gray-100 border-gray-300 rounded focus:ring-pink-500"
+                className="w-4 h-4 text-[orange-600] bg-gray-100 border-gray-300 rounded focus:ring-pink-500"
               />
             </div>
             <label htmlFor="terms" className="ml-3 text-sm text-slate-600">
@@ -176,7 +176,7 @@ const SignupForm: React.FC = () => {
             disabled={!agreed}
             className={`w-full py-3 rounded-xl font-bold text-white transition-colors duration-200 shadow-md ${
               agreed
-                ? "bg-[#E91E63] hover:bg-[#AD1457]"
+                ? "bg-[orange-600] hover:bg-[#AD1457]"
                 : "bg-gray-400 cursor-not-allowed opacity-80"
             }`}
           >

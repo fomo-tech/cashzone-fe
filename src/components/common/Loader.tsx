@@ -18,7 +18,7 @@ const Loader: React.FC<LoaderProps> = ({ size = "md", color = "green" }) => {
       ? "border-blue-500"
       : color === "gray"
       ? "border-gray-400"
-      : "border-[#E91E63]";
+      : "border-[orange-600]";
 
   return (
     <div

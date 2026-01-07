@@ -13,6 +13,10 @@ import {
   Target,
   Award,
   DollarSign,
+  LogIn,
+  UserPlus,
+  Gift,
+  Sparkles,
 } from "lucide-react";
 import { THEME, formatCurrency, formatNumber } from "@/utils/constants";
 import referralService from "@/services/referral.service";
@@ -59,8 +63,8 @@ const ReferralProgram: React.FC = () => {
       1: {
         bg: "bg-gradient-to-r from-pink-50 to-rose-50",
         border: "border-pink-200",
-        text: "text-[#E91E63]",
-        accent: "text-[#E91E63]",
+        text: "text-orange-600",
+        accent: "text-orange-600",
       },
       2: {
         bg: "bg-gradient-to-r from-orange-50 to-amber-50",
@@ -79,8 +83,9 @@ const ReferralProgram: React.FC = () => {
 
   // Load data on component mount
   useEffect(() => {
-    loadReferralData();
-  }, []);
+    if (user) loadReferralData();
+    else setLoading(false);
+  }, [user]);
 
   const loadDynamicSettings = async () => {
     try {
@@ -109,15 +114,16 @@ const ReferralProgram: React.FC = () => {
       await loadDynamicSettings();
 
       // Load user profile first to get affiliate info
-      const profile = await profileService.getProfile();
-      setUser(profile);
+      setUser(user);
 
       // Check if user has referral code in profile, if not try API
-      if (profile.referralCode) {
+      if ((user as any).referralCode) {
         setReferralCode({
-          code: profile.referralCode,
-          shareUrl: `${window.location.origin}/register?ref=${profile.referralCode}`,
-          createdAt: profile.createdAt || new Date().toISOString(),
+          code: (user as any).referralCode,
+          shareUrl: `${window.location.origin}/register?ref=${
+            (user as any).referralCode
+          }`,
+          createdAt: user.createdAt || new Date().toISOString(),
         });
       } else {
         // Fallback: auto-generate referral code if user doesn't have one
@@ -127,7 +133,7 @@ const ReferralProgram: React.FC = () => {
           setReferralCode(newCode);
         } catch (error) {
           // If that also fails, create a temporary one from user ID
-          const tempCode = `REF${profile._id.slice(-6).toUpperCase()}`;
+          const tempCode = `REF${user._id.slice(-6).toUpperCase()}`;
           setReferralCode({
             code: tempCode,
             shareUrl: `${window.location.origin}/register?ref=${tempCode}`,
@@ -149,14 +155,14 @@ const ReferralProgram: React.FC = () => {
       // Merge stats from profile and API
       if (statsData) {
         setReferralStats(statsData);
-      } else if (profile.affiliate) {
+      } else if (user.affiliate) {
         // Fallback to profile affiliate data
         setReferralStats({
-          totalReferrals: profile.affiliate.totalReferrals || 0,
-          directReferrals: profile.affiliate.directReferrals || 0,
-          level2Referrals: profile.affiliate.level2Referrals || 0,
-          level3Referrals: profile.affiliate.level3Referrals || 0,
-          totalCommissions: profile.affiliate.commissions || {
+          totalReferrals: user.affiliate.totalReferrals || 0,
+          directReferrals: user.affiliate.directReferrals || 0,
+          level2Referrals: user.affiliate.level2Referrals || 0,
+          level3Referrals: user.affiliate.level3Referrals || 0,
+          totalCommissions: user.affiliate.commissions || {
             level1Total: 0,
             level2Total: 0,
             level3Total: 0,
@@ -252,7 +258,7 @@ const ReferralProgram: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#E91E63]"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-600"></div>
       </div>
     );
   }
@@ -262,9 +268,14 @@ const ReferralProgram: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-3 md:space-y-4 lg:space-y-6">
         {/* Header & Quick Stats */}
         <div className="text-center mb-3 md:mb-4 lg:mb-6">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-2 md:mb-3">
-            🚀 Chương Trình Giới Thiệu 3 Cấp
-          </h1>
+          <div className="flex items-center justify-center gap-3 mb-2 md:mb-3">
+            <div className="p-2 md:p-3 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-xl">
+              <Trophy className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-orange-600" />
+            </div>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+              Chương Trình Giới Thiệu 3 Cấp
+            </h1>
+          </div>
           <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
             Mời bạn bè tham gia và nhận hoa hồng từ chuỗi giới thiệu 3 cấp độ
             với tỷ lệ hoa hồng lên đến 17%
@@ -273,26 +284,28 @@ const ReferralProgram: React.FC = () => {
 
         {/* Quick Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4 lg:mb-6">
-          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border-l-4 border-[#E91E63] p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border-l-4 border-orange-500 p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
             <div className="flex items-center">
-              <Users className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#E91E63] mr-2 md:mr-3" />
+              <Users className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-orange-600 mr-2 md:mr-3" />
               <div>
                 <p className="text-xs md:text-sm text-gray-600">
                   Tổng Giới Thiệu
                 </p>
-                <p className="text-lg md:text-xl lg:text-2xl font-bold text-[#E91E63]">
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-orange-600">
                   {formatNumber(currentReferrals)}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-[#FF8C1A] p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-[#FF8C1A] p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
             <div className="flex items-center">
-              <DollarSign className="w-8 h-8 text-[#FF8C1A] mr-3" />
+              <DollarSign className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#FF8C1A] mr-2 md:mr-3" />
               <div>
-                <p className="text-sm text-gray-600">Tổng Hoa Hồng</p>
-                <p className="text-2xl font-bold text-[#FF8C1A]">
+                <p className="text-xs md:text-sm text-gray-600">
+                  Tổng Hoa Hồng
+                </p>
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-[#FF8C1A]">
                   {formatCurrency(
                     referralStats?.totalCommissions?.totalEarned || 0
                   )}
@@ -301,12 +314,12 @@ const ReferralProgram: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-l-4 border-emerald-600 p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-l-4 border-emerald-600 p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
             <div className="flex items-center">
-              <TrendingUp className="w-8 h-8 text-emerald-600 mr-3" />
+              <TrendingUp className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-emerald-600 mr-2 md:mr-3" />
               <div>
-                <p className="text-sm text-gray-600">Tháng Này</p>
-                <p className="text-2xl font-bold text-emerald-600">
+                <p className="text-xs md:text-sm text-gray-600">Tháng Này</p>
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-emerald-600">
                   {formatCurrency(
                     referralStats?.monthlyStats?.commissions || 0
                   )}
@@ -315,12 +328,12 @@ const ReferralProgram: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-3 md:p-4 lg:p-6 rounded-lg md:rounded-xl shadow-md">
             <div className="flex items-center">
-              <Award className="w-8 h-8 text-amber-600 mr-3" />
+              <Award className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-amber-600 mr-2 md:mr-3" />
               <div>
-                <p className="text-sm text-gray-600">Cấp Cao Nhất</p>
-                <p className="text-2xl font-bold text-amber-600">
+                <p className="text-xs md:text-sm text-gray-600">Cấp Cao Nhất</p>
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-amber-600">
                   Cấp{" "}
                   {referralStats?.level3Referrals
                     ? 3
@@ -336,76 +349,167 @@ const ReferralProgram: React.FC = () => {
         </div>
 
         {/* Referral Link Section */}
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 lg:p-4">
-          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 lg:mb-6">
-            <div className="p-2 md:p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg md:rounded-xl">
-              <Share2 className="w-5 h-5 md:w-6 md:h-6 text-[#E91E63]" />
-            </div>
-            <div>
-              <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800">
-                Link Giới Thiệu Của Bạn
-              </h2>
-              <p className="text-xs md:text-sm lg:text-base text-gray-600">
-                Chia sẻ link này để nhận hoa hồng từ bạn bè
-              </p>
-            </div>
-          </div>
-
-          {referralCode ? (
-            <div className="space-y-6">
-              {/* Referral Code Display */}
-              <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-6 border border-pink-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">
-                      Mã Giới Thiệu
-                    </p>
-                    <p className="text-3xl font-bold font-mono text-[#E91E63]">
-                      {referralCode.code}
-                    </p>
+        {!user ? (
+          <div className="bg-gradient-to-br from-orange-50 via-white to-amber-50 rounded-xl md:rounded-2xl shadow-xl border border-orange-200 p-6 md:p-8 lg:p-10">
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                  <div className="relative p-4 md:p-6 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full">
+                    <Gift className="w-12 h-12 md:w-16 md:h-16 text-white" />
                   </div>
-                  <QrCode className="w-12 h-12 text-[#E91E63]" />
                 </div>
               </div>
 
-              {/* Share URL */}
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  value={referralCode.shareUrl}
-                  readOnly
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-700 font-mono text-sm"
-                />
-                <button
-                  onClick={handleCopyLink}
-                  className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
+              <div className="space-y-3">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
+                  Kiếm Tiền Cùng Bạn Bè
+                </h2>
+                <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto">
+                  Đăng nhập ngay để nhận mã giới thiệu độc quyền và bắt đầu kiếm
+                  hoa hồng từ chuỗi giới thiệu 3 cấp
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+                <div className="bg-white rounded-xl p-4 shadow-md border border-orange-100">
+                  <div className="flex justify-center mb-3">
+                    <div className="p-3 bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg">
+                      <Users className="w-6 h-6 text-orange-600" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">
+                    Giới Thiệu Bạn Bè
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Chia sẻ link và nhận 10% hoa hồng từ F1
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-md border border-orange-100">
+                  <div className="flex justify-center mb-3">
+                    <div className="p-3 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg">
+                      <TrendingUp className="w-6 h-6 text-[#FF8C1A]" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">
+                    Thu Nhập Thụ Động
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Nhận thêm 5% từ F2 và 2% từ F3
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-md border border-orange-100">
+                  <div className="flex justify-center mb-3">
+                    <div className="p-3 bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg">
+                      <Sparkles className="w-6 h-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">
+                    Thưởng Đặc Biệt
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Nhận bonus khi đạt mốc giới thiệu
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
+                <a
+                  href="/login"
+                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-semibold shadow-lg transition-all hover:shadow-xl flex items-center justify-center gap-2"
                 >
-                  {isCopied ? (
-                    <Check className="w-5 h-5" />
-                  ) : (
-                    <Copy className="w-5 h-5" />
-                  )}
-                  {isCopied ? "Đã Copy!" : "Copy"}
-                </button>
+                  <LogIn className="w-5 h-5" />
+                  Đăng Nhập Ngay
+                </a>
+                <a
+                  href="/register"
+                  className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-50 text-gray-800 rounded-xl font-semibold shadow-lg transition-all hover:shadow-xl flex items-center justify-center gap-2 border-2 border-orange-200"
+                >
+                  <UserPlus className="w-5 h-5" />
+                  Đăng Ký Miễn Phí
+                </a>
+              </div>
+
+              <p className="text-xs text-gray-500 mt-4">
+                Miễn phí 100% • Không yêu cầu thẻ tín dụng • Rút tiền nhanh
+                chóng
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6 lg:p-4">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-5 lg:mb-6">
+              <div className="p-2 md:p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg md:rounded-xl">
+                <Share2 className="w-5 h-5 md:w-6 md:h-6 text-orange-600" />
+              </div>
+              <div>
+                <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800">
+                  Link Giới Thiệu Của Bạn
+                </h2>
+                <p className="text-xs md:text-sm lg:text-base text-gray-600">
+                  Chia sẻ link này để nhận hoa hồng từ bạn bè
+                </p>
               </div>
             </div>
-          ) : (
-            <div className="text-center py-8">
-              <button
-                onClick={generateReferralCode}
-                className="px-8 py-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-semibold shadow-lg transition-colors"
-              >
-                Tạo Mã Giới Thiệu
-              </button>
-            </div>
-          )}
-        </div>
+
+            {referralCode ? (
+              <div className="space-y-6">
+                {/* Referral Code Display */}
+                <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-6 border border-pink-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">
+                        Mã Giới Thiệu
+                      </p>
+                      <p className="text-3xl font-bold font-mono text-orange-600">
+                        {referralCode.code}
+                      </p>
+                    </div>
+                    <QrCode className="w-12 h-12 text-orange-600" />
+                  </div>
+                </div>
+
+                {/* Share URL */}
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    value={referralCode.shareUrl}
+                    readOnly
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-700 font-mono text-sm"
+                  />
+                  <button
+                    onClick={handleCopyLink}
+                    className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
+                  >
+                    {isCopied ? (
+                      <Check className="w-5 h-5" />
+                    ) : (
+                      <Copy className="w-5 h-5" />
+                    )}
+                    {isCopied ? "Đã Copy!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <button
+                  onClick={generateReferralCode}
+                  className="px-8 py-4 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-semibold shadow-lg transition-colors"
+                >
+                  Tạo Mã Giới Thiệu
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Commission Calculation Explanation */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl border border-blue-200 p-6 md:p-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-orange-200 p-6 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-blue-100 rounded-xl">
-              <DollarSign className="w-6 h-6 text-blue-600" />
+            <div className="p-3 bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl">
+              <DollarSign className="w-6 h-6 text-orange-600" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">
@@ -419,12 +523,15 @@ const ReferralProgram: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
-                📊 Nguồn thu hoa hồng:
-              </h3>
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-orange-600" />
+                <h3 className="text-lg font-bold text-gray-800">
+                  Nguồn thu hoa hồng
+                </h3>
+              </div>
               <div className="space-y-3">
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                  <div className="w-2 h-2 bg-[#E91E63] rounded-full mt-2 shrink-0"></div>
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 shrink-0"></div>
                   <div>
                     <p className="font-semibold text-gray-800">
                       Hoàn thành Task
@@ -460,16 +567,19 @@ const ReferralProgram: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
-                💡 Ví dụ tính hoa hồng:
-              </h3>
+              <div className="flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-orange-600" />
+                <h3 className="text-lg font-bold text-gray-800">
+                  Ví dụ tính hoa hồng
+                </h3>
+              </div>
               <div className="bg-white rounded-xl p-5 border border-gray-200">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
                     <span className="font-semibold text-gray-800">
                       Bạn B hoàn thành task
                     </span>
-                    <span className="font-bold text-[#E91E63]">+100,000đ</span>
+                    <span className="font-bold text-orange-600">+100,000đ</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
                     <span className="text-sm text-gray-700">
@@ -522,8 +632,10 @@ const ReferralProgram: React.FC = () => {
               </div>
 
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                <div className="flex items-start gap-2">
-                  <span className="text-amber-600">💡</span>
+                <div className="flex items-start gap-3">
+                  <div className="p-1.5 bg-amber-100 rounded-lg shrink-0">
+                    <Star className="w-4 h-4 text-amber-600" />
+                  </div>
                   <div>
                     <p className="text-sm font-semibold text-amber-800">
                       Lưu ý quan trọng:
@@ -692,7 +804,7 @@ const ReferralProgram: React.FC = () => {
                     <p
                       className={`text-xs px-2 py-1 rounded-full ${
                         item.status === "approved"
-                          ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30"
+                          ? "bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-orange-600 border border-orange-500/30"
                           : item.status === "pending"
                           ? "bg-yellow-100 text-yellow-700"
                           : "bg-red-100 text-red-700"

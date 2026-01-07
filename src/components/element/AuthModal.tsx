@@ -230,14 +230,14 @@ const AuthModal: React.FC = () => {
 
         {/* Header */}
         <div className="text-center">
-          <UserPlus className="w-12 h-12 mx-auto mb-4 text-[#E91E63] p-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-full" />
+          <UserPlus className="w-12 h-12 mx-auto mb-4 text-orange-600 p-2 bg-gradient-to-r from-orange-600/10 to-[#FF8C1A]/10 rounded-full" />
           <h1 className="text-3xl font-bold text-slate-800">
             {mode === "signup" ? "Tạo tài khoản mới" : "Chào mừng trở lại"}
           </h1>
           <p className="text-slate-500 mt-1 text-sm">
             {mode === "signup" ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
             <span
-              className="text-[#E91E63] font-medium ml-1 cursor-pointer hover:underline"
+              className="text-orange-600 font-medium ml-1 cursor-pointer hover:underline"
               onClick={() =>
                 handleToggleAuthModal({
                   isOpen: true,
@@ -387,7 +387,7 @@ const AuthModal: React.FC = () => {
                 <div
                   className={`w-4 h-4 rounded flex items-center justify-center border transition ${
                     signupForm.watch("agreed")
-                      ? "bg-[#E91E63] border-[#E91E63]"
+                      ? "bg-orange-600 border-orange-600"
                       : "bg-white border-gray-300"
                   }`}
                 >
@@ -397,11 +397,11 @@ const AuthModal: React.FC = () => {
                 </div>
                 <p className="ml-3 text-sm text-slate-600">
                   Tôi đồng ý với
-                  <span className="text-[#E91E63] font-medium ml-1">
+                  <span className="text-orange-600 font-medium ml-1">
                     Điều khoản dịch vụ
                   </span>{" "}
                   và{" "}
-                  <span className="text-[#E91E63] font-medium">
+                  <span className="text-orange-600 font-medium">
                     Chính sách bảo mật
                   </span>
                 </p>
@@ -414,7 +414,7 @@ const AuthModal: React.FC = () => {
               disabled={!signupForm.watch("agreed") || isLoading}
               className={`cursor-pointer w-full py-3 rounded-xl font-bold text-white transition shadow-lg mt-4 ${
                 signupForm.watch("agreed") && !isLoading
-                  ? "bg-[#E91E63] hover:bg-[#E91E63] shadow-pink-300/50"
+                  ? "bg-orange-600 hover:bg-orange-700 shadow-orange-300/50"
                   : "bg-gray-400 cursor-not-allowed opacity-80"
               }`}
             >
@@ -468,7 +468,7 @@ const AuthModal: React.FC = () => {
               disabled={isLoading}
               className={`w-full py-3 rounded-xl font-bold text-white transition shadow-lg mt-4 ${
                 !isLoading
-                  ? "bg-[#E91E63] hover:bg-[#E91E63] shadow-pink-300/50"
+                  ? "bg-orange-600 hover:bg-orange-700 shadow-orange-300/50"
                   : "bg-gray-400 cursor-not-allowed opacity-80"
               }`}
             >

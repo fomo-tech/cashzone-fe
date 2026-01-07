@@ -349,7 +349,7 @@ const StatsTab: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-              <div className="w-4 h-4 bg-[#E91E63] rounded-full"></div>
+              <div className="w-4 h-4 bg-[orange-600] rounded-full"></div>
               <div>
                 <p className="font-medium text-blue-900">Đã thanh toán</p>
                 <p className="text-blue-700">

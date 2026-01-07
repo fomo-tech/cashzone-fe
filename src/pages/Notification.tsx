@@ -162,7 +162,7 @@ const NotificationPage: React.FC = () => {
   if (isLoading && notifications.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-[#E91E63]" />
+        <Loader className="w-8 h-8 animate-spin text-[orange-600]" />
       </div>
     );
   }
@@ -265,7 +265,7 @@ const NotificationPage: React.FC = () => {
                 onClick={() => handleOpenDetail(notif)}
                 className={`bg-white rounded-xl sm:rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl cursor-pointer active:scale-[0.98] ${
                   !notif.read
-                    ? "border-[#E91E63]/30 bg-gradient-to-r from-pink-50/50 to-white"
+                    ? "border-[orange-600]/30 bg-gradient-to-r from-pink-50/50 to-white"
                     : "border-slate-100"
                 }`}
               >
@@ -280,8 +280,8 @@ const NotificationPage: React.FC = () => {
                           className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg sm:rounded-xl object-cover border-2 border-slate-100"
                         />
                       ) : (
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-lg sm:rounded-xl flex items-center justify-center">
-                          <Bell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#E91E63]" />
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[orange-600]/10 to-[#FF8C1A]/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Bell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[orange-600]" />
                         </div>
                       )}
                     </div>
@@ -294,7 +294,7 @@ const NotificationPage: React.FC = () => {
                             {notif.title}
                           </h3>
                           {!notif.read && (
-                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#E91E63] rounded-full flex-shrink-0"></span>
+                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[orange-600] rounded-full flex-shrink-0"></span>
                           )}
                         </div>
                         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
@@ -327,7 +327,7 @@ const NotificationPage: React.FC = () => {
                           </span>
                         </div>
                         {notif.link && (
-                          <span className="flex items-center gap-1 text-[#E91E63]">
+                          <span className="flex items-center gap-1 text-[orange-600]">
                             <ExternalLink className="w-3 h-3" />
                             <span className="whitespace-nowrap">
                               Xem chi tiết

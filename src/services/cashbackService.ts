@@ -139,6 +139,7 @@ export interface ShopeeProductInfo {
   shopeeCommissionRate: string | null;
   // Price info
   priceMin: string | null;
+  priceMax: string | null;
   // Cashback for user
   estimatedCashback: number | null;
   cashbackRate: number;

@@ -68,7 +68,7 @@ const StatCard = ({
 }) => {
   const isPositive = detail > 0;
   const detailColor = isPositive
-    ? "text-[#E91E63]"
+    ? "text-[orange-600]"
     : detail < 0
     ? "text-red-600"
     : "text-gray-500";
@@ -187,7 +187,7 @@ const SystemStatusCard = ({
       <span
         className={`px-3 py-1 text-xs font-bold rounded-full ${
           status === "Hoạt động"
-            ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30"
+            ? "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30"
             : status === "Tắt"
             ? "bg-gray-100 text-gray-700"
             : "bg-yellow-100 text-yellow-700"
@@ -266,7 +266,7 @@ const AdminDashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-[orange-600] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải dữ liệu...</p>
         </div>
       </div>
@@ -300,7 +300,7 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center space-x-3">
-          <Shield className="w-8 h-8 text-[#E91E63]" />
+          <Shield className="w-8 h-8 text-[orange-600]" />
           <h1 className="text-3xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
             Tổng Quan Hệ Thống (Admin)
           </h1>
@@ -316,14 +316,14 @@ const AdminDashboard = () => {
             title="Tổng Người Dùng"
             value={stats?.users?.total || 0}
             detail={stats?.users?.newToday || 0}
-            color="text-[#E91E63]"
+            color="text-[orange-600]"
           />
           <StatCard
             icon={Wallet}
             title="Tổng Số Dư Ví"
             value={stats?.wallet?.totalBalance || 0}
             detail={0}
-            color="text-[#E91E63]"
+            color="text-[orange-600]"
             isCurrency={true}
           />
           <StatCard
@@ -371,7 +371,7 @@ const AdminDashboard = () => {
             title="Giao Dịch Hoàn Thành"
             value={stats?.transactions?.completed || 0}
             detail={0}
-            color="text-[#E91E63]"
+            color="text-[orange-600]"
           />
         </div>
 
@@ -404,10 +404,10 @@ const AdminDashboard = () => {
           <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-gray-800 flex items-center">
-                <Activity className="w-5 h-5 text-[#E91E63] mr-2" />
+                <Activity className="w-5 h-5 text-[orange-600] mr-2" />
                 Tổng Quan Hệ Thống
               </h3>
-              <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30">
+              <span className="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30">
                 Hoạt động
               </span>
             </div>
@@ -482,13 +482,13 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-              <Wallet className="w-5 h-5 text-[#E91E63] mr-2" />
+              <Wallet className="w-5 h-5 text-[orange-600] mr-2" />
               Thống Kê Ví
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Tổng Số Dư:</span>
-                <span className="text-lg font-bold text-[#E91E63]">
+                <span className="text-lg font-bold text-[orange-600]">
                   {formatCurrency(stats?.wallet?.totalBalance || 0)}
                 </span>
               </div>
@@ -521,7 +521,7 @@ const AdminDashboard = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Nổi Bật:</span>
-                <span className="text-lg font-bold text-[#E91E63]">
+                <span className="text-lg font-bold text-[orange-600]">
                   {stats?.tasks?.featured || 0}
                 </span>
               </div>
@@ -565,7 +565,7 @@ const AdminDashboard = () => {
         {/* Khu vực 4: Recent Activity Summary */}
         <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100">
           <h3 className="text-lg font-bold text-gray-800 flex items-center mb-4 border-b pb-3">
-            <Activity className="w-5 h-5 text-[#E91E63] mr-2" />
+            <Activity className="w-5 h-5 text-[orange-600] mr-2" />
             Hoạt Động Gần Đây
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

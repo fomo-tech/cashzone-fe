@@ -34,7 +34,7 @@ const menuItemsClient: MenuItem[] = [
         <rect width={7} height={5} x={3} y={16} rx={1} />
       </svg>
     ),
-    bgActive: "bg-(--color-secondary) text-[#E91E63]",
+    bgActive: "bg-(--color-secondary) text-[orange-600]",
     roles: ["guest", "user"], // Hiển thị cho cả guest và user
   },
   {

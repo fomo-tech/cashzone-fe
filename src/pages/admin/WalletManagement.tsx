@@ -123,7 +123,7 @@ const WalletManagement: React.FC = () => {
     <div className="p-6">
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-[orange-600] text-white px-6 py-3 rounded-xl shadow-lg">
           {toastMessage}
         </div>
       )}
@@ -135,7 +135,7 @@ const WalletManagement: React.FC = () => {
           <input
             type="text"
             placeholder="Tìm kiếm theo email, tên, số điện thoại..."
-            className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63]"
+            className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600]"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -148,7 +148,7 @@ const WalletManagement: React.FC = () => {
       {/* User List */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
+          <Loader className="w-8 h-8 text-[orange-600] animate-spin" />
         </div>
       ) : (
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">

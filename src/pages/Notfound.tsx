@@ -30,7 +30,7 @@ const NotFoundPage = () => {
         <div className="mb-10 flex flex-col items-center">
           {/* Icon (lớn hơn và màu xanh lá cây) */}
           <div className="p-4 rounded-full bg-pink-50 inline-block mb-6 shadow-md">
-            <Frown className="w-12 h-12 text-[#E91E63] animate-bounce-slow" />
+            <Frown className="w-12 h-12 text-[orange-600] animate-bounce-slow" />
           </div>
 
           {/* Số 404 với Gradient Text (Xanh lá - Xanh ngọc) */}
@@ -76,7 +76,7 @@ const NotFoundPage = () => {
             Cần giúp đỡ?
             <a
               href="/contact"
-              className="text-[#E91E63] font-semibold hover:text-[#AD1457] hover:underline ml-1 transition-colors"
+              className="text-[orange-600] font-semibold hover:text-[#AD1457] hover:underline ml-1 transition-colors"
             >
               Liên hệ với đội ngũ hỗ trợ
             </a>

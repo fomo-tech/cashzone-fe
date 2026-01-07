@@ -23,7 +23,7 @@ export interface ReferralCode {
   code: string;
   shareUrl: string;
   qrCodeUrl?: string;
-  createdAt: string;
+  createdAt: string | Date;
 }
 
 export interface ReferralHistory {

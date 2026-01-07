@@ -16,10 +16,10 @@ const MobileNavigation = () => {
       "mobile-nav-link flex flex-col items-center justify-center p-1.5 rounded-lg transition-all duration-200";
 
     if (isActive(path)) {
-      return `${baseClasses} text-[#E91E63]`;
+      return `${baseClasses} text-[orange-600]`;
     }
 
-    return `${baseClasses} text-slate-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50`;
+    return `${baseClasses} text-slate-600 hover:text-[orange-600] hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-orange-50/50`;
   };
 
   return (

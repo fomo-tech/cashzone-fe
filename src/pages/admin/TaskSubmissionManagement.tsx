@@ -139,7 +139,7 @@ const TaskSubmissionManagement: React.FC = () => {
         );
       case "approved":
         return (
-          <span className="flex items-center gap-1 px-3 py-1 bg-pink-100 text-[#E91E63] border border-[#E91E63] rounded-full text-sm font-semibold">
+          <span className="flex items-center gap-1 px-3 py-1 bg-pink-100 text-[orange-600] border border-[orange-600] rounded-full text-sm font-semibold">
             <CheckCircle size={14} />
             Đã duyệt
           </span>
@@ -238,16 +238,16 @@ const TaskSubmissionManagement: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-5 border-2 border-[#E91E63]">
+          <div className="bg-white rounded-xl shadow-md p-5 border-2 border-[orange-600]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[#E91E63] text-sm font-semibold">Đã duyệt</p>
-                <p className="text-3xl font-black text-[#E91E63]">
+                <p className="text-[orange-600] text-sm font-semibold">Đã duyệt</p>
+                <p className="text-3xl font-black text-[orange-600]">
                   {stats.approved}
                 </p>
               </div>
               <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
-                <CheckCircle className="text-[#E91E63]" size={24} />
+                <CheckCircle className="text-[orange-600]" size={24} />
               </div>
             </div>
           </div>
@@ -268,7 +268,7 @@ const TaskSubmissionManagement: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-md p-4 border border-[#E91E63]">
+        <div className="bg-white rounded-xl shadow-md p-4 border border-[orange-600]">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -281,7 +281,7 @@ const TaskSubmissionManagement: React.FC = () => {
                   placeholder="Tìm kiếm theo tên người dùng hoặc nhiệm vụ..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63] transition-all"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600] transition-all"
                 />
               </div>
             </div>
@@ -293,7 +293,7 @@ const TaskSubmissionManagement: React.FC = () => {
                   onClick={() => setFilterStatus(status)}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all ${
                     filterStatus === status
-                      ? "bg-[#E91E63] text-white shadow-lg"
+                      ? "bg-[orange-600] text-white shadow-lg"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -310,7 +310,7 @@ const TaskSubmissionManagement: React.FC = () => {
         {/* Table */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl shadow-lg">
-            <Loader2 className="w-12 h-12 animate-spin text-[#E91E63] mb-4" />
+            <Loader2 className="w-12 h-12 animate-spin text-[orange-600] mb-4" />
             <p className="text-gray-600 font-semibold">Đang tải dữ liệu...</p>
           </div>
         ) : filteredSubmissions.length === 0 ? (
@@ -324,7 +324,7 @@ const TaskSubmissionManagement: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl border-2 border-[#E91E63] overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl border-2 border-[orange-600] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -381,7 +381,7 @@ const TaskSubmissionManagement: React.FC = () => {
                         )}
                       </td>
                       <td className="px-6 py-5">
-                        <span className="font-bold text-[#E91E63] text-lg">
+                        <span className="font-bold text-[orange-600] text-lg">
                           {formatCurrency(submission.taskId?.reward || 0)}
                         </span>
                       </td>
@@ -403,7 +403,7 @@ const TaskSubmissionManagement: React.FC = () => {
                               setSelectedSubmission(submission);
                               setShowModal(true);
                             }}
-                            className="p-3 bg-pink-50 text-[#E91E63] border border-[#E91E63] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all shadow-sm"
+                            className="p-3 bg-pink-50 text-[orange-600] border border-[orange-600] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all shadow-sm"
                             title="Xem chi tiết"
                           >
                             <Eye size={18} />
@@ -413,7 +413,7 @@ const TaskSubmissionManagement: React.FC = () => {
                               <button
                                 onClick={() => handleApprove(submission._id)}
                                 disabled={processing === submission._id}
-                                className="p-3 bg-pink-50 text-[#E91E63] border border-[#E91E63] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all disabled:opacity-50 shadow-sm"
+                                className="p-3 bg-pink-50 text-[orange-600] border border-[orange-600] rounded-xl hover:bg-pink-100 hover:text-[#AD1457] transition-all disabled:opacity-50 shadow-sm"
                                 title="Duyệt"
                               >
                                 {processing === submission._id ? (
@@ -466,7 +466,7 @@ const TaskSubmissionManagement: React.FC = () => {
                 {/* User Info */}
                 <div className="bg-gray-50 p-4 rounded-xl">
                   <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <User size={20} className="text-[#E91E63]" />
+                    <User size={20} className="text-[orange-600]" />
                     Thông tin người dùng
                   </h3>
                   <div className="space-y-2">
@@ -493,7 +493,7 @@ const TaskSubmissionManagement: React.FC = () => {
                     </p>
                     <p>
                       <span className="font-semibold">Phần thưởng:</span>{" "}
-                      <span className="text-[#E91E63] font-bold">
+                      <span className="text-[orange-600] font-bold">
                         {formatCurrency(selectedSubmission.taskId?.reward || 0)}
                       </span>
                     </p>
@@ -504,7 +504,7 @@ const TaskSubmissionManagement: React.FC = () => {
                 {selectedSubmission.proofUrl && (
                   <div>
                     <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                      <ImageIcon size={20} className="text-[#E91E63]" />
+                      <ImageIcon size={20} className="text-[orange-600]" />
                       Ảnh chứng minh
                     </h3>
                     <img
@@ -517,7 +517,7 @@ const TaskSubmissionManagement: React.FC = () => {
 
                 {/* Note */}
                 {selectedSubmission.note && (
-                  <div className="bg-pink-50 p-4 rounded-xl border border-[#E91E63]">
+                  <div className="bg-pink-50 p-4 rounded-xl border border-[orange-600]">
                     <h3 className="font-bold text-gray-900 mb-2">Ghi chú</h3>
                     <p className="text-gray-700">{selectedSubmission.note}</p>
                   </div>
@@ -539,7 +539,7 @@ const TaskSubmissionManagement: React.FC = () => {
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       rows={3}
-                      className="w-full p-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-[#E91E63]"
+                      className="w-full p-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600]"
                       placeholder="Nhập lý do từ chối..."
                     />
                   </div>
@@ -564,7 +564,7 @@ const TaskSubmissionManagement: React.FC = () => {
                       <button
                         onClick={() => handleApprove(selectedSubmission._id)}
                         disabled={processing === selectedSubmission._id}
-                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#E91E63] text-white rounded-xl hover:bg-[#AD1457] font-bold transition-all shadow-lg disabled:opacity-50"
+                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[orange-600] text-white rounded-xl hover:bg-[#AD1457] font-bold transition-all shadow-lg disabled:opacity-50"
                       >
                         {processing === selectedSubmission._id ? (
                           <>

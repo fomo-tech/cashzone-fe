@@ -127,7 +127,7 @@ const ActivityDetailModal: React.FC<{
           {/* Hướng dẫn chi tiết */}
           <div className="mb-6">
             <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
-              <CheckCircle size={20} className="mr-2 text-[#E91E63]" /> Hướng
+              <CheckCircle size={20} className="mr-2 text-[orange-600]" /> Hướng
               Dẫn Chi Tiết
             </h3>
             <ol className="space-y-4 text-gray-700">
@@ -148,7 +148,7 @@ const ActivityDetailModal: React.FC<{
                     >
                       {isHeader ? (
                         <span className="inline-flex items-center">
-                          <span className="inline-flex items-center justify-center w-5 h-5 mr-2 bg-[#E91E63] text-white rounded-full text-xs font-bold">
+                          <span className="inline-flex items-center justify-center w-5 h-5 mr-2 bg-[orange-600] text-white rounded-full text-xs font-bold">
                             {index + 1}
                           </span>
                           {req}
@@ -166,7 +166,7 @@ const ActivityDetailModal: React.FC<{
           {/* Nút Thực Hiện Hành Động */}
           <button
             // Màu xanh lá cây nổi bật
-            className="w-full inline-flex items-center justify-center px-6 py-3 bg-[#E91E63] text-white font-bold rounded-xl transition duration-200 hover:bg-[#AD1457] text-lg shadow-xl shadow-pink-500/50 transform hover:scale-[1.01]"
+            className="w-full inline-flex items-center justify-center px-6 py-3 bg-[orange-600] text-white font-bold rounded-xl transition duration-200 hover:bg-[#AD1457] text-lg shadow-xl shadow-pink-500/50 transform hover:scale-[1.01]"
             onClick={onClose} // Đóng modal và chuyển hướng/thực hiện hành động
           >
             <Zap size={20} className="inline mr-2" />
@@ -220,7 +220,7 @@ const ActivityCard: React.FC<{
       </p>
 
       <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-        <div className="text-base font-bold text-[#E91E63] flex items-center">
+        <div className="text-base font-bold text-[orange-600] flex items-center">
           <Gift size={18} className="mr-1" />
           {activity.reward}
         </div>

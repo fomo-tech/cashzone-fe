@@ -189,16 +189,16 @@ const UserManagement: React.FC = () => {
               )}
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 rounded-xl border border-[#E91E63]/30">
-                <Users className="w-5 h-5 text-[#E91E63]" />
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 rounded-xl border border-[orange-600]/30">
+                <Users className="w-5 h-5 text-[orange-600]" />
                 <span className="text-sm text-gray-600">Tổng:</span>
-                <span className="font-bold text-[#E91E63] text-lg">
+                <span className="font-bold text-[orange-600] text-lg">
                   {pagination?.totalItems || 0}
                 </span>
               </div>
               <button
                 onClick={() => window.location.reload()}
-                className="p-2.5 text-gray-600 hover:text-[#E91E63] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded-xl transition-all"
+                className="p-2.5 text-gray-600 hover:text-[orange-600] hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 rounded-xl transition-all"
                 title="Làm mới"
               >
                 <RefreshCw className="w-5 h-5" />
@@ -268,7 +268,7 @@ const UserManagement: React.FC = () => {
                           <Link to={`/admin/user/${user._id}`}>
                             <button
                               title="Chi Tiết"
-                              className="inline-flex items-center gap-1 px-3 py-2 text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all border border-[#E91E63] hover:border-[#E91E63]"
+                              className="inline-flex items-center gap-1 px-3 py-2 text-[orange-600] hover:text-white hover:bg-gradient-to-r hover:from-[orange-600] hover:to-[#FF8C1A] rounded-lg transition-all border border-[orange-600] hover:border-[orange-600]"
                             >
                               <Eye className="w-4 h-4" />
                               <span className="text-xs font-semibold">Xem</span>

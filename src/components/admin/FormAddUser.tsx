@@ -261,7 +261,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
             }
           />
           <div
-            className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[#E91E63] 
+            className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[orange-600] 
             after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
             after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all 
             peer-checked:after:translate-x-full"
@@ -273,7 +273,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
       <div className="pt-4">
         <button
           type="submit"
-          className="cursor-pointer w-full py-2 rounded-xl bg-[#E91E63] text-white font-medium hover:bg-[#E91E63] transition"
+          className="cursor-pointer w-full py-2 rounded-xl bg-[orange-600] text-white font-medium hover:bg-[orange-600] transition"
         >
           {editingUser ? "Lưu Thay Đổi" : "Thêm Người Dùng"}
         </button>

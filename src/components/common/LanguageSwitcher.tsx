@@ -65,7 +65,7 @@ const LanguageSwitcher = () => {
 
         {/* Content */}
         <div className="relative flex items-center gap-2">
-          <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-[#E91E63] transition-colors duration-300">
+          <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-[orange-600] transition-colors duration-300">
             <img
               src={currentLanguage.flag}
               alt={currentLanguage.name}
@@ -73,7 +73,7 @@ const LanguageSwitcher = () => {
             />
           </span>
           <ChevronDown
-            className={`size-3.5 text-slate-400 group-hover:text-[#E91E63] transition-all duration-300 ${
+            className={`size-3.5 text-slate-400 group-hover:text-[orange-600] transition-all duration-300 ${
               isOpen ? "rotate-180" : "rotate-0"
             }`}
           />
@@ -106,7 +106,7 @@ const LanguageSwitcher = () => {
                     w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200
                     ${
                       isActive
-                        ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63]"
+                        ? "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600]"
                         : "text-slate-700 hover:bg-gradient-to-r hover:from-orange-50/80 hover:to-amber-50/80"
                     }
                     ${index !== 0 ? "border-t border-slate-100/50" : ""}
@@ -126,7 +126,7 @@ const LanguageSwitcher = () => {
                   <div className="flex-1 min-w-0">
                     <div
                       className={`text-sm font-medium ${
-                        isActive ? "text-[#E91E63]" : "text-slate-700"
+                        isActive ? "text-[orange-600]" : "text-slate-700"
                       }`}
                     >
                       {lang.name}

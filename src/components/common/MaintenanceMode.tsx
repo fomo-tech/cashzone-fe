@@ -43,7 +43,7 @@ const MaintenanceMode: React.FC<MaintenanceModeProps> = ({
           Nếu cần hỗ trợ, vui lòng liên hệ:{" "}
           <a
             href="mailto:support@affiliate.com"
-            className="text-[#E91E63] hover:underline"
+            className="text-[orange-600] hover:underline"
           >
             support@affiliate.com
           </a>

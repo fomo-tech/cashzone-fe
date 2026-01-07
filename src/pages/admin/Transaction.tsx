@@ -112,7 +112,7 @@ const TransactionTable: React.FC<{
       case "PENDING":
         return "bg-yellow-100 text-yellow-800";
       case "COMPLETED":
-        return "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] border border-[#E91E63]/30";
+        return "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30";
       case "FAILED":
       case "REJECTED":
         return "bg-red-100 text-red-800";
@@ -197,7 +197,7 @@ const TransactionTable: React.FC<{
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
                   {txn.type === "DEPOSIT" ? (
-                    <TrendingUp className="w-4 h-4 text-[#E91E63] mr-2" />
+                    <TrendingUp className="w-4 h-4 text-[orange-600] mr-2" />
                   ) : (
                     <TrendingDown className="w-4 h-4 text-red-500 mr-2" />
                   )}
@@ -219,7 +219,7 @@ const TransactionTable: React.FC<{
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <ArrowRight className="w-4 h-4 text-[#E91E63]" />
+                  <ArrowRight className="w-4 h-4 text-[orange-600]" />
                 </td>
               </tr>
             ))
@@ -256,7 +256,7 @@ const TransactionDetails: React.FC<{
   const headerIcon = transaction.type === "DEPOSIT" ? TrendingUp : TrendingDown;
   const headerColor =
     transaction.type === "DEPOSIT"
-      ? "text-[#E91E63] bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 border border-[#E91E63]/30"
+      ? "text-[orange-600] bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 border border-[orange-600]/30"
       : "text-red-600 bg-red-50";
 
   const getTypeLabel = (type: string) => {
@@ -308,7 +308,7 @@ const TransactionDetails: React.FC<{
             transaction.status === "PENDING"
               ? "bg-yellow-500 text-white"
               : transaction.status === "COMPLETED"
-              ? "bg-[#E91E63] text-white"
+              ? "bg-[orange-600] text-white"
               : "bg-red-500 text-white"
           }`}
         >
@@ -464,7 +464,7 @@ const TransactionDetails: React.FC<{
                       <p className="text-xs text-gray-500">
                         Chủ TK: {transaction.paymentInfo.accountName}
                       </p>
-                      <p className="text-xs font-bold text-[#E91E63] mt-2">
+                      <p className="text-xs font-bold text-[orange-600] mt-2">
                         Số tiền: {formatCurrency(transaction.amount)}
                       </p>
                     </div>
@@ -543,7 +543,7 @@ const TransactionDetails: React.FC<{
         {/* Khu vực xét duyệt */}
         {isPending && (
           <div className="space-y-4 pt-6 border-t border-gray-100">
-            <h3 className="text-lg font-bold text-[#E91E63]">
+            <h3 className="text-lg font-bold text-[orange-600]">
               Quyết Định Xét Duyệt
             </h3>
 
@@ -558,7 +558,7 @@ const TransactionDetails: React.FC<{
               rows={3}
               value={adminNote}
               onChange={(e) => setAdminNote(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] text-sm"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[orange-600] focus:border-[orange-600] text-sm"
               placeholder="Nhập lý do duyệt hoặc từ chối giao dịch..."
             />
 
@@ -571,7 +571,7 @@ const TransactionDetails: React.FC<{
               </button>
               <button
                 onClick={() => onApprove(transaction._id, adminNote)}
-                className="flex items-center px-4 py-2 bg-[#E91E63] text-white font-semibold rounded-lg shadow-md hover:bg-[#E91E63] transition duration-150"
+                className="flex items-center px-4 py-2 bg-[orange-600] text-white font-semibold rounded-lg shadow-md hover:bg-[orange-600] transition duration-150"
               >
                 <CheckCircle className="w-5 h-5 mr-2" /> Duyệt
               </button>
@@ -590,7 +590,7 @@ const TransactionDetails: React.FC<{
               <span
                 className={`font-bold ml-2 ${
                   transaction.status === "COMPLETED"
-                    ? "text-[#E91E63]"
+                    ? "text-[orange-600]"
                     : "text-red-500"
                 }`}
               >
@@ -615,7 +615,7 @@ const DetailItem: React.FC<{
   value: string;
 }> = ({ icon: Icon, label, value }) => (
   <div className="flex items-start space-x-2">
-    <Icon className="w-4 h-4 text-[#E91E63] mt-1 shrink-0" />
+    <Icon className="w-4 h-4 text-[orange-600] mt-1 shrink-0" />
     <div>
       <span className="font-medium text-gray-500 block">{label}</span>
       <span className="font-semibold text-gray-800">{value}</span>
@@ -741,7 +741,7 @@ const TransactionManagementPage: React.FC = () => {
     <div className="min-h-screen p-4 sm:p-8 font-sans">
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[#E91E63] text-white px-6 py-3 rounded-xl shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-[orange-600] text-white px-6 py-3 rounded-xl shadow-lg">
           {toastMessage}
         </div>
       )}
@@ -749,7 +749,7 @@ const TransactionManagementPage: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader className="w-8 h-8 text-[#E91E63] animate-spin" />
+            <Loader className="w-8 h-8 text-[orange-600] animate-spin" />
           </div>
         ) : (
           <>

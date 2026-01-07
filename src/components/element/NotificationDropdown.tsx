@@ -239,7 +239,7 @@ const NotificationDropdown = () => {
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="group flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-semibold text-[#E91E63] hover:text-white hover:bg-gradient-to-r hover:from-[#E91E63] hover:to-[#FF8C1A] rounded-lg transition-all duration-200 hover:shadow-lg"
+                    className="group flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-xs font-semibold text-[orange-600] hover:text-white hover:bg-gradient-to-r hover:from-[orange-600] hover:to-[#FF8C1A] rounded-lg transition-all duration-200 hover:shadow-lg"
                   >
                     <CheckCheck className="w-3.5 h-3.5" strokeWidth={2.5} />
                     <span className="hidden sm:inline">Đọc hết</span>
@@ -252,7 +252,7 @@ const NotificationDropdown = () => {
             <div className="max-h-[50vh] sm:max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-12 px-6">
-                  <Loader2 className="w-8 h-8 text-[#E91E63] animate-spin mb-3" />
+                  <Loader2 className="w-8 h-8 text-[orange-600] animate-spin mb-3" />
                   <p className="text-sm text-slate-500 font-medium">
                     Đang tải thông báo...
                   </p>
@@ -338,7 +338,7 @@ const NotificationDropdown = () => {
                       {/* Hover arrow indicator */}
                       <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <svg
-                          className="w-4 h-4 text-[#E91E63]"
+                          className="w-4 h-4 text-[orange-600]"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"

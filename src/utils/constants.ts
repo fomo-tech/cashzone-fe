@@ -5,13 +5,13 @@
 // Primary theme - Deep Blue Professional
 export const COLORS = {
   // Primary Colors - Pink to Orange Gradient Theme
-  PRIMARY: "#E91E63", // pink-600
+  PRIMARY: "orange-600", // pink-600
   PRIMARY_50: "#FCE4EC", // pink-50
   PRIMARY_100: "#F8BBD9", // pink-100
   PRIMARY_200: "#F48FB1", // pink-200
   PRIMARY_300: "#F06292", // pink-300
   PRIMARY_400: "#EC407A", // pink-400
-  PRIMARY_500: "#E91E63", // pink-500 (primary)
+  PRIMARY_500: "orange-600", // pink-500 (primary)
   PRIMARY_600: "#D81B60", // pink-600
   PRIMARY_700: "#C2185B", // pink-700
   PRIMARY_800: "#AD1457", // pink-800
@@ -30,9 +30,9 @@ export const COLORS = {
   SECONDARY_900: "#E65100",
 
   // Gradient Definitions
-  GRADIENT_PRIMARY: "linear-gradient(135deg, #E91E63 0%, #FF8C1A 100%)",
-  GRADIENT_HORIZONTAL: "linear-gradient(90deg, #E91E63 0%, #FF8C1A 100%)",
-  GRADIENT_VERTICAL: "linear-gradient(180deg, #E91E63 0%, #FF8C1A 100%)",
+  GRADIENT_PRIMARY: "linear-gradient(135deg, orange-600 0%, #FF8C1A 100%)",
+  GRADIENT_HORIZONTAL: "linear-gradient(90deg, orange-600 0%, #FF8C1A 100%)",
+  GRADIENT_VERTICAL: "linear-gradient(180deg, orange-600 0%, #FF8C1A 100%)",
 
   // Accent Colors - Modern Orange/Amber
   ACCENT: "#f59e0b", // amber-500
@@ -83,12 +83,12 @@ export const THEME = {
   PRIMARY_BG_GRADIENT_HOVER: "hover:from-orange-600 hover:to-amber-700",
 
   // Primary Text Classes
-  PRIMARY_TEXT: "text-[#E91E63]",
+  PRIMARY_TEXT: "text-[orange-600]",
   PRIMARY_TEXT_LIGHT: "text-[#F48FB1]",
   PRIMARY_TEXT_DARK: "text-[#AD1457]",
 
   // Primary Border Classes
-  PRIMARY_BORDER: "border-[#E91E63]",
+  PRIMARY_BORDER: "border-[orange-600]",
   PRIMARY_BORDER_LIGHT: "border-[#F48FB1]",
 
   // Secondary Classes
@@ -106,10 +106,10 @@ export const THEME = {
   ACCENT_BORDER: "border-amber-500",
 
   // Status Classes
-  SUCCESS_BG: "bg-[#E91E63]",
+  SUCCESS_BG: "bg-[orange-600]",
   SUCCESS_BG_LIGHT: "bg-pink-50",
-  SUCCESS_TEXT: "text-[#E91E63]",
-  SUCCESS_BORDER: "border-[#E91E63]",
+  SUCCESS_TEXT: "text-[orange-600]",
+  SUCCESS_BORDER: "border-[orange-600]",
 
   WARNING_BG: "bg-amber-500",
   WARNING_BG_LIGHT: "bg-amber-50",

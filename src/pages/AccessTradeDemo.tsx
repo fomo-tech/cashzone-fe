@@ -50,8 +50,8 @@ const AccessTradeDemoPage: React.FC = () => {
       <div className="mt-4 p-4 border rounded-lg">
         <div className="flex items-center gap-2 mb-2">
           {result.success ? (
-            <div className="flex items-center gap-1 text-[#E91E63]">
-              <div className="w-2 h-2 bg-[#E91E63] rounded-full"></div>
+            <div className="flex items-center gap-1 text-[orange-600]">
+              <div className="w-2 h-2 bg-[orange-600] rounded-full"></div>
               <span className="text-sm font-medium">Success</span>
             </div>
           ) : (
@@ -86,7 +86,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Quick Connection Test",
       description: "Test API connection with campaigns endpoint",
       icon: Zap,
-      color: "bg-[#E91E63]",
+      color: "bg-[orange-600]",
       action: () => accessTradeDemo.quickTest(),
     },
     {
@@ -94,7 +94,7 @@ const AccessTradeDemoPage: React.FC = () => {
       title: "Get Campaigns",
       description: "Fetch list of available campaigns",
       icon: Play,
-      color: "bg-[#E91E63]",
+      color: "bg-[orange-600]",
       action: () => accessTradeDemo.getCampaigns({ limit: 5 }),
     },
     {

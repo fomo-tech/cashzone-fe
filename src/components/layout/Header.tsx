@@ -81,7 +81,7 @@ const Header = () => {
                   onClick={() =>
                     handleToggleAuthModal({ isOpen: true, mode: "signin" })
                   }
-                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[#E91E63] transition-all duration-300 text-xs sm:text-sm active:scale-95"
+                  className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[orange-600] transition-all duration-300 text-xs sm:text-sm active:scale-95"
                 >
                   {t("auth.login")}
                 </button>
@@ -107,7 +107,7 @@ const Header = () => {
               <>
                 {/* Wallet Balance - Chỉ hiện cho user */}
                 {checkRole(user.roles || [], "user") && (
-                  <div className="hidden sm:flex items-center px-2 sm:px-3 py-1.5 bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63] rounded-full text-xs sm:text-sm font-bold border border-[#E91E63]/30 shadow-md shadow-pink-500/10 backdrop-blur-sm">
+                  <div className="hidden sm:flex items-center px-2 sm:px-3 py-1.5 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] rounded-full text-xs sm:text-sm font-bold border border-[orange-600]/30 shadow-md shadow-pink-500/10 backdrop-blur-sm">
                     <Wallet2Icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                     <span className="ml-1.5 sm:ml-2 whitespace-nowrap">
                       <span className="hidden md:inline">

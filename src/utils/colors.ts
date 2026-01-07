@@ -1,8 +1,8 @@
-// Color System Utilities - Gradient Theme from #E91E63 to #FF8C1A
+// Color System Utilities - Gradient Theme from orange-600 to #FF8C1A
 export const colorSystem = {
   // Primary Colors (Pink)
   primary: {
-    DEFAULT: "#E91E63",
+    DEFAULT: "orange-600",
     light: "#F48FB1",
     dark: "#AD1457",
   },
@@ -16,18 +16,18 @@ export const colorSystem = {
 
   // Gradient Colors
   gradient: {
-    from: "#E91E63",
+    from: "orange-600",
     to: "#FF8C1A",
   },
 } as const;
 
 // CSS Gradient Strings
 export const gradients = {
-  primary: "linear-gradient(135deg, #E91E63 0%, #FF8C1A 100%)",
-  primaryReverse: "linear-gradient(135deg, #FF8C1A 0%, #E91E63 100%)",
-  horizontal: "linear-gradient(90deg, #E91E63 0%, #FF8C1A 100%)",
-  vertical: "linear-gradient(180deg, #E91E63 0%, #FF8C1A 100%)",
-  radial: "radial-gradient(circle, #E91E63 0%, #FF8C1A 100%)",
+  primary: "linear-gradient(135deg, orange-600 0%, #FF8C1A 100%)",
+  primaryReverse: "linear-gradient(135deg, #FF8C1A 0%, orange-600 100%)",
+  horizontal: "linear-gradient(90deg, orange-600 0%, #FF8C1A 100%)",
+  vertical: "linear-gradient(180deg, orange-600 0%, #FF8C1A 100%)",
+  radial: "radial-gradient(circle, orange-600 0%, #FF8C1A 100%)",
 } as const;
 
 // Gradient Class Names for easy use in components

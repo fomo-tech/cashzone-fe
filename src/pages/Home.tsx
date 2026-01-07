@@ -196,7 +196,7 @@ const HomePage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#E91E63] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-[orange-600] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải dữ liệu...</p>
         </div>
       </div>
@@ -529,7 +529,7 @@ const HomePage: React.FC = () => {
 
               <div className="text-center mt-10">
                 <Link to="/register">
-                  <button className="px-10 py-4 bg-white text-[#E91E63] font-bold text-lg rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+                  <button className="px-10 py-4 bg-white text-[orange-600] font-bold text-lg rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
                     Bắt Đầu Ngay - Miễn Phí
                     <svg
                       className="w-5 h-5"
@@ -555,7 +555,7 @@ const HomePage: React.FC = () => {
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center">
                 <svg
-                  className="w-6 h-6 mr-2 text-[#E91E63]"
+                  className="w-6 h-6 mr-2 text-[orange-600]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -571,7 +571,7 @@ const HomePage: React.FC = () => {
               </h3>
               <Link
                 to="/tasks"
-                className="text-sm font-semibold text-[#E91E63] hover:text-[#AD1457] transition"
+                className="text-sm font-semibold text-[orange-600] hover:text-[#AD1457] transition"
               >
                 Xem tất cả →
               </Link>
@@ -612,7 +612,7 @@ const HomePage: React.FC = () => {
                     </div>
 
                     <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-lg font-bold text-gray-800 group-hover:text-[#E91E63] transition">
+                      <h3 className="text-lg font-bold text-gray-800 group-hover:text-[orange-600] transition">
                         {task.title}
                       </h3>
                       <span className="text-xs font-bold text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full px-2 py-1 shadow-md uppercase">
@@ -673,7 +673,7 @@ const HomePage: React.FC = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 mr-2 text-[#E91E63]"
+                    className="w-6 h-6 mr-2 text-[orange-600]"
                   >
                     <path
                       strokeLinecap="round"
@@ -691,7 +691,7 @@ const HomePage: React.FC = () => {
 
                 <Link
                   to="/tasks"
-                  className="text-sm font-semibold text-[#E91E63] hover:text-[#AD1457] transition"
+                  className="text-sm font-semibold text-[orange-600] hover:text-[#AD1457] transition"
                 >
                   Xem tất cả →
                 </Link>
@@ -715,7 +715,7 @@ const HomePage: React.FC = () => {
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <svg
-                            className="w-16 h-16 text-[#E91E63] opacity-50"
+                            className="w-16 h-16 text-[orange-600] opacity-50"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -736,7 +736,7 @@ const HomePage: React.FC = () => {
                       </div>
 
                       {/* Task Type */}
-                      <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm text-[#E91E63] text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase">
+                      <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm text-[orange-600] text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase">
                         {task.type === "app_install"
                           ? "CÀI APP"
                           : task.type === "registration"
@@ -764,7 +764,7 @@ const HomePage: React.FC = () => {
                         )}
                       </div>
 
-                      <h4 className="text-lg font-bold text-gray-800 mb-2 leading-snug line-clamp-2 group-hover:text-[#E91E63] transition">
+                      <h4 className="text-lg font-bold text-gray-800 mb-2 leading-snug line-clamp-2 group-hover:text-[orange-600] transition">
                         {task.title}
                       </h4>
 
@@ -777,7 +777,7 @@ const HomePage: React.FC = () => {
                       <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                         <div>
                           <p className="text-xs text-gray-500">Phần thưởng</p>
-                          <p className="text-base font-extrabold text-[#E91E63]">
+                          <p className="text-base font-extrabold text-[orange-600]">
                             {formatCurrency(task.reward)}
                           </p>
                         </div>
@@ -798,10 +798,10 @@ const HomePage: React.FC = () => {
             {/* Summary */}
             <div className="mb-6 md:mb-0">
               <h4 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                <TrendingUp className="w-5 h-5 mr-2 text-[#E91E63]" />
+                <TrendingUp className="w-5 h-5 mr-2 text-[orange-600]" />
                 {user ? "Tổng quan của bạn" : "Tổng quan hoàn tiền"}
               </h4>
-              <p className="text-4xl font-extrabold text-[#E91E63]">
+              <p className="text-4xl font-extrabold text-[orange-600]">
                 {user && statistics
                   ? formatCurrency(statistics.totalCashback)
                   : "450.000.000₫"}
@@ -838,7 +838,7 @@ const HomePage: React.FC = () => {
 
               <Link
                 to="/wallet"
-                className="w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-2xl text-[#E91E63] bg-white border-2 border-[#E91E63] hover:bg-pink-50 transition flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-2xl text-[orange-600] bg-white border-2 border-[orange-600] hover:bg-pink-50 transition flex items-center justify-center gap-2"
               >
                 <Wallet2Icon className="w-5 h-5" />
                 Xem ví

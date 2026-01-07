@@ -72,9 +72,9 @@ const OfferCard: React.FC<{
   const navigate = useNavigate();
   const badgeColors = {
     Hot: "bg-red-500",
-    New: "bg-[#E91E63]",
+    New: "bg-[orange-600]",
     Expiring: "bg-yellow-500",
-    "High Rate": "bg-[#E91E63]",
+    "High Rate": "bg-[orange-600]",
   };
 
   const rewardText = formatReward(offer.rewardAmount, offer.rewardUnit);
@@ -84,7 +84,7 @@ const OfferCard: React.FC<{
 
   const rewardStyle = useMemo(() => {
     if (isVND) {
-      return "text-[#E91E63] font-black";
+      return "text-[orange-600] font-black";
     }
     if (isCashback) {
       return "text-[#FF8C1A] font-black";
@@ -139,7 +139,7 @@ const OfferCard: React.FC<{
           {/* Content Column */}
           <div className="flex-1 min-w-0">
             {/* Title & Description */}
-            <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1.5 leading-tight hover:text-[#E91E63] transition">
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1.5 leading-tight hover:text-[orange-600] transition">
               {offer.title}
             </h3>
             <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 mb-2">
@@ -149,7 +149,7 @@ const OfferCard: React.FC<{
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 mb-3">
               <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
-                <Clock size={12} className="mr-1 text-[#E91E63]" />
+                <Clock size={12} className="mr-1 text-[orange-600]" />
                 {offer.timeEstimate}
               </span>
               <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
@@ -409,7 +409,7 @@ export default function App() {
         {/* CONTROLS (Filters, Search, Sort) - Premium Design */}
         <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white mb-6">
           {/* Gradient Background Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#E91E63]/5 via-[#EC407A]/5 to-[#FF8C1A]/5 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[orange-600]/5 via-[#EC407A]/5 to-[#FF8C1A]/5 rounded-3xl"></div>
 
           {/* Header */}
           <div className="relative px-6 py-5 border-b border-gray-100">
@@ -499,7 +499,7 @@ export default function App() {
                 <div className="relative">
                   <div className="absolute left-3.5 top-1/2 transform -translate-y-1/2 pointer-events-none z-10">
                     {sortOrder === "reward" ? (
-                      <TrendingUp size={16} className="text-[#E91E63]" />
+                      <TrendingUp size={16} className="text-[orange-600]" />
                     ) : (
                       <Zap size={16} className="text-[#FF8C1A]" />
                     )}
@@ -577,7 +577,7 @@ export default function App() {
         <main>
           {loading ? (
             <div className="text-center py-12 sm:py-20 bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100">
-              <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#E91E63] animate-spin mx-auto mb-4" />
+              <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[orange-600] animate-spin mx-auto mb-4" />
               <p className="text-gray-600 text-base sm:text-lg font-semibold">
                 Đang tải nhiệm vụ...
               </p>
@@ -603,7 +603,7 @@ export default function App() {
               <div className="flex items-center justify-between mb-3 sm:mb-4 px-1">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
                   Kết quả
-                  <span className="ml-2 text-base sm:text-xl text-[#E91E63]">
+                  <span className="ml-2 text-base sm:text-xl text-[orange-600]">
                     ({filteredAndSortedOffers.length})
                   </span>
                 </h2>
@@ -630,9 +630,9 @@ export default function App() {
                     <button className="group inline-flex items-center gap-2 px-5 py-2 bg-white text-gray-700 text-sm font-semibold rounded-xl border border-gray-200 hover:border-pink-300 hover:shadow-md hover:scale-[1.02] transition-all duration-200">
                       <TrendingUp
                         size={16}
-                        className="text-gray-400 group-hover:text-[#E91E63] group-hover:rotate-12 transition-all"
+                        className="text-gray-400 group-hover:text-[orange-600] group-hover:rotate-12 transition-all"
                       />
-                      <span className="group-hover:bg-gradient-to-r group-hover:from-[#E91E63] group-hover:to-[#FF8C1A] group-hover:bg-clip-text group-hover:text-transparent">
+                      <span className="group-hover:bg-gradient-to-r group-hover:from-[orange-600] group-hover:to-[#FF8C1A] group-hover:bg-clip-text group-hover:text-transparent">
                         Tải thêm nhiệm vụ
                       </span>
                     </button>

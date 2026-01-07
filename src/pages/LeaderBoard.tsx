@@ -180,10 +180,10 @@ const LeaderBoard = () => {
           {/* Subtitle & Controls */}
           <div className="relative z-10 flex flex-col md:flex-row justify-center items-center mt-4 gap-4">
             <div className="flex items-center space-x-2 text-sm md:text-base lg:text-xl font-semibold text-gray-600">
-              <Trophy className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[#E91E63]" />
+              <Trophy className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-[orange-600]" />
               <span>
                 <span className="hidden sm:inline">Top Earners: </span>
-                <span className="text-[#E91E63]">#{timeFilter}</span>
+                <span className="text-[orange-600]">#{timeFilter}</span>
               </span>
             </div>
 
@@ -227,11 +227,11 @@ const LeaderBoard = () => {
           <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-200">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl">
-                <Users className="w-6 h-6 text-[#E91E63]" />
+                <Users className="w-6 h-6 text-[orange-600]" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Tổng thành viên</p>
-                <p className="text-2xl font-bold text-[#E91E63]">
+                <p className="text-2xl font-bold text-[orange-600]">
                   {loading ? (
                     <div className="w-16 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -565,7 +565,7 @@ const LeaderBoard = () => {
                           className="transition-colors border-b border-gray-100 last:border-b-0 hover:bg-pink-50"
                         >
                           {/* Ranking */}
-                          <td className="py-2 px-2 md:py-3 md:px-5 text-center font-extrabold text-base md:text-lg text-[#E91E63]">
+                          <td className="py-2 px-2 md:py-3 md:px-5 text-center font-extrabold text-base md:text-lg text-[orange-600]">
                             #{user.rank}
                           </td>
 
@@ -636,7 +636,7 @@ const LeaderBoard = () => {
             <div className="text-center p-4">
               <button
                 onClick={() => loadLeaderBoard()}
-                className="text-sm font-semibold text-gray-600 hover:text-[#E91E63] transition flex items-center gap-2 mx-auto"
+                className="text-sm font-semibold text-gray-600 hover:text-[orange-600] transition flex items-center gap-2 mx-auto"
               >
                 <RefreshCw className="w-4 h-4" />
                 Làm mới dữ liệu

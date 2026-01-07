@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               onClick={() => handleSelect(opt)}
               className={`w-full text-left px-4 py-2 text-sm transition ${
                 opt.value === selectedValue
-                  ? "bg-[#E91E63] text-white font-semibold"
+                  ? "bg-[orange-600] text-white font-semibold"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
