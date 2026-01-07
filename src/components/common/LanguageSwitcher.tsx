@@ -61,7 +61,7 @@ const LanguageSwitcher = () => {
         aria-expanded={isOpen}
       >
         {/* Gradient Background on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-50 to-orange-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-amber-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Content */}
         <div className="relative flex items-center gap-2">
@@ -87,7 +87,7 @@ const LanguageSwitcher = () => {
           role="menu"
         >
           {/* Header */}
-          <div className="px-4 py-3 border-b border-pink-100/50 bg-gradient-to-r from-pink-50/50 to-orange-50/50">
+          <div className="px-4 py-3 border-b border-orange-100/50 bg-gradient-to-r from-orange-50/50 to-amber-50/50">
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
               Select Language
             </p>
@@ -107,7 +107,7 @@ const LanguageSwitcher = () => {
                     ${
                       isActive
                         ? "bg-gradient-to-r from-[#E91E63]/10 to-[#FF8C1A]/10 text-[#E91E63]"
-                        : "text-slate-700 hover:bg-gradient-to-r hover:from-pink-50/80 hover:to-orange-50/80"
+                        : "text-slate-700 hover:bg-gradient-to-r hover:from-orange-50/80 hover:to-amber-50/80"
                     }
                     ${index !== 0 ? "border-t border-slate-100/50" : ""}
                   `}

@@ -205,35 +205,34 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen font-sans">
-      <div className="max-w-7xl mx-auto p-2 sm:p-3 lg:p-4">
-        <div className="bg-white/80 backdrop-blur-md rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] overflow-hidden border border-white">
+      <div className="max-w-7xl mx-auto p-2 sm:p-2 lg:p-3">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden border border-white">
           {/* Header Section */}
-          <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white p-3 sm:p-4 lg:p-5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-2xl" />
+          <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-3 sm:p-3 lg:p-4 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/3 rounded-full blur-2xl" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 items-center relative z-10">
               <div className="lg:col-span-2">
-                <div className="inline-block px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full mb-3">
+                <div className="inline-block px-2.5 py-1 bg-white/15 backdrop-blur-sm rounded-full mb-2">
                   <span className="text-xs font-bold text-white">
-                    ⚡ Hoàn tiền lên đến 15%
+                    ⚡ Hoàn tiền 15%
                   </span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2 sm:mb-3 leading-tight tracking-tight">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2 leading-tight tracking-tight">
                   Mua Sắm Thông Minh
                   <br />
                   <span className="text-white/90">Nhận Tiền Hoàn Ngay</span>
                 </h2>
-                <p className="text-sm sm:text-base opacity-95 mb-3 sm:mb-4 max-w-xl font-medium">
-                  Mua sắm tại hàng ngàn thương hiệu yêu thích, nhận hoàn tiền tự
-                  động vào ví.
+                <p className="text-sm opacity-90 mb-2 sm:mb-3 max-w-xl font-medium">
+                  Mua sắm tại hàng ngàn thương hiệu, nhận hoàn tiền tự động.
                   <span className="font-bold text-white">
                     {" "}
-                    Rút tiền nhanh chóng, không giới hạn!
+                    Rút tiền nhanh, không giới hạn!
                   </span>
                 </p>
 
-                <div className="flex flex-wrap gap-3 mb-4">
+                <div className="flex flex-wrap gap-2 mb-3">
                   <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
                     <svg
                       className="w-4 h-4"

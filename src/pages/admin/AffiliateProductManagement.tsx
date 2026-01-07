@@ -285,7 +285,7 @@ const AffiliateProductManagement: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-pink-600 to-orange-500 text-white">
+              <thead className="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
                 <tr>
                   <th className="px-4 py-4 text-left font-bold">Sản phẩm</th>
                   <th className="px-4 py-4 text-left font-bold">Nền tảng</th>
@@ -695,7 +695,7 @@ const AffiliateProductManagement: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-600 to-orange-500 text-white rounded-lg font-bold hover:from-pink-700 hover:to-orange-600 transition disabled:opacity-50"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-bold hover:from-orange-600 hover:to-amber-600 transition disabled:opacity-50"
               >
                 {loading
                   ? "Đang xử lý..."

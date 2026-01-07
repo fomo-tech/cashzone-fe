@@ -146,8 +146,8 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
   }) => (
     <button
       onClick={onClick}
-      className={`relative flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-pink-500 hover:text-pink-600 hover:bg-pink-50/50 transition-all duration-200 active:scale-95 disabled:opacity-50 ${
-        active ? "border-pink-500 bg-pink-50 text-pink-600" : ""
+      className={`relative flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50/50 transition-all duration-200 active:scale-95 disabled:opacity-50 ${
+        active ? "border-orange-500 bg-orange-50 text-orange-600" : ""
       } ${className}`}
       {...props}
     >
@@ -241,7 +241,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 <SelectTrigger
                   className={`h-10 min-w-[140px] border-gray-200 rounded-xl transition-all ${
                     filters.platform
-                      ? "border-[#E91E63] bg-pink-50 text-[#E91E63] font-semibold"
+                      ? "border-orange-500 bg-orange-50 text-orange-600 font-semibold"
                       : "hover:border-gray-300 bg-white"
                   }`}
                 >
@@ -279,7 +279,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 onClick={loadLinks}
                 variant="outline"
                 disabled={loading}
-                className="h-10 px-4 border-gray-200 hover:border-[#E91E63] hover:bg-pink-50 hover:text-[#E91E63] transition-all rounded-xl"
+                className="h-10 px-4 border-gray-200 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-600 transition-all rounded-xl"
               >
                 <RefreshCw
                   className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
@@ -291,7 +291,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                 <Button
                   onClick={clearFilters}
                   variant="outline"
-                  className="h-10 px-4 border-pink-200 bg-pink-50 text-[#E91E63] hover:bg-pink-100 hover:border-pink-300 transition-all rounded-xl font-semibold"
+                  className="h-10 px-4 border-orange-200 bg-orange-50 text-orange-600 hover:bg-orange-100 hover:border-orange-300 transition-all rounded-xl font-semibold"
                 >
                   <X className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Xóa lọc</span>

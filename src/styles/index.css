@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Màu chủ đạo: Linear gradient từ #E91E63 sang #FF8C1A */
-  --primary: #e91e63;
-  --primary-dark: #ad1457;
-  --primary-light: #f48fb1;
+  /* Màu chủ đạo: Linear gradient cam nhẹ từ orange-500 sang amber-500 */
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+  --primary-light: #fb923c;
 
-  --color-secondary: #ff8c1a;
-  --color-secondary-light: #ffb74d;
+  --color-secondary: #f59e0b;
+  --color-secondary-light: #fbbf24;
 
   /* Gradient chủ đạo */
-  --gradient-start: #e91e63;
-  --gradient-end: #ff8c1a;
+  --gradient-start: #f97316;
+  --gradient-end: #f59e0b;
 
   --text-muted: #6b7280;
   --text-primary: #1f2937;
@@ -186,5 +186,44 @@ textarea {
     min-height: calc(
       100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom)
     );
+  }
+
+  /* Animation utilities for hero section */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gradient {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-gradient {
+    animation: gradient 3s ease-in-out infinite;
+  }
+
+  /* 3D transform utilities */
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
   }
 }

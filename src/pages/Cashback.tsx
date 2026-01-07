@@ -13,6 +13,11 @@ import {
   QrCode,
   ExternalLink,
   X,
+  CheckCircle2,
+  ShoppingCart,
+  DollarSign,
+  Gift,
+  ArrowRight,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import cashbackService from "@/services/cashbackService";
@@ -407,7 +412,7 @@ export default function Cashback() {
       case "trade":
         return (
           <span className={commonClass}>
-            <TrendingUp size={18} className="text-pink-500" />
+            <TrendingUp size={18} className="text-orange-500" />
             Yêu cầu Rebate/Mã giới thiệu{" "}
             <span className="text-gray-400">(Tùy chọn)</span>
           </span>
@@ -415,7 +420,7 @@ export default function Cashback() {
       case "finance":
         return (
           <span className={commonClass}>
-            <Shield size={18} className="text-blue-500" />
+            <Shield size={18} className="text-orange-500" />
             Nhu cầu tư vấn/vay vốn{" "}
             <span className="text-gray-400">(Tùy chọn)</span>
           </span>
@@ -450,7 +455,7 @@ export default function Cashback() {
   // Helper text
   const helperText = useMemo(() => {
     if (isLinkRequired) {
-      return "Hệ thống sẽ tự động dò tìm thông tin sản phẩm và tỷ lệ hoàn tiền tối đa.";
+      return "Mẹo: Paste link Shopee hoặc Lazada để mua sắm nhận hoàn tiền. Xem hướng dẫn chi tiết tại đây.";
     }
     return "Link đã được tạo tự động. Bạn có thể nhập thêm yêu cầu đặc biệt và bấm 'Cập nhật' để thay đổi nội dung tư vấn.";
   }, [isLinkRequired]);
@@ -458,7 +463,7 @@ export default function Cashback() {
   return (
     <>
       <div className="min-h-screen py-2  font-sans">
-        <div className="w-full max-w-6xl mx-auto px-2 md:px-4">
+        <div className="w-full max-w-6xl mx-auto px-0 sm:px-2 md:px-4">
           {/* QR Code Modal */}
           <CommonModal
             isOpen={!!qrModal}
@@ -466,7 +471,7 @@ export default function Cashback() {
             title="Quét mã QR để mở link"
           >
             <div className="flex flex-col items-center justify-center gap-4 p-4 md:p-6">
-              <div className="bg-gradient-to-br from-white via-gray-50 to-white p-6 rounded-2xl border border-gray-200 shadow-lg flex items-center justify-center">
+              <div className="bg-gradient-to-br from-white via-gray-50 to-white p-6 rounded-2xl border border-gray-200  flex items-center justify-center">
                 {qrModal?.link && (
                   <QRCodeSVG
                     value={qrModal.link}
@@ -490,128 +495,358 @@ export default function Cashback() {
 
           <CashbackHeroSection />
 
-          {/* Platform Selection */}
-
-          {/* <div className="mt-4 md:mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
-            {PLATFORMS.map((p) => {
-              if (!p) return null;
-
-              const isActive = activePlatformId === p.id;
-
-              return (
-                <button
-                  key={p.id}
-                  onClick={() =>
-                    handleSelectPlatform && handleSelectPlatform(p.id)
-                  }
-                  className={`group flex flex-col items-center p-2 md:p-2.5 lg:p-3 rounded-lg md:rounded-xl border-2 transition-all duration-300 shadow-sm transform hover:scale-[1.02] hover:shadow-md ${
-                    isActive
-                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 border-white text-white shadow-xl"
-                      : "bg-white border-gray-100 text-gray-800 hover:bg-gray-50"
-                  }`}
-                >
-               
-                  <div
-                    className={`w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-md md:rounded-lg text-xl md:text-2xl mb-1 md:mb-1.5 transition duration-300 ${
-                      isActive
-                        ? "bg-white text-gray-800"
-                        : `${(p.color || "bg-gray-100").replace(
-                            "bg-",
-                            "text-"
-                          )} bg-white shadow-inner`
-                    }`}
-                  >
-                    {typeof p.logo === "string" && p.logo.startsWith("http") ? (
-                      <img
-                        src={p.logo}
-                        alt={p.name || "platform"}
-                        className="w-6 h-6 object-contain"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                    ) : React.isValidElement(p.logo) ? (
-                      p.logo
-                    ) : (
-                      <span className="text-xl md:text-2xl">
-                        {p.logo || "🛒"}
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    className={`font-extrabold text-xs sm:text-sm md:text-base mt-0.5 md:mt-1 truncate w-full px-1 text-center ${
-                      isActive ? "text-white" : "text-gray-800"
-                    }`}
-                  >
-                    {(p.name || "").split("(")[0].trim() || "Nền tảng"}
-                  </div>
-
-                  <div className="mt-1">
-                    {PlatformTypeBadge ? (
-                      <PlatformTypeBadge type={p.type} isActive={isActive} />
-                    ) : (
-                      <span
-                        className={`text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded uppercase font-extrabold ${
-                          isActive
-                            ? "bg-white/20 text-white"
-                            : "bg-gray-100 text-gray-400"
-                        }`}
-                      >
-                        {p.type || "Sàn"}
-                      </span>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div> */}
-
           {/* Input and Output Section */}
-          <div className="mt-4 sm:mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+          <div className="mt-4 sm:mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-0 sm:gap-4 lg:gap-6">
             {/* Input Card */}
-            <div className="lg:col-span-3 bg-white rounded-lg sm:rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-xl border border-gray-100">
-              {isLinkRequired ? (
-                // Case 1: Cashback Product/Service (Link Required)
-                <>
-                  <label className="text-sm sm:text-base md:text-lg text-gray-800 font-bold flex items-center mb-2 sm:mb-3">
-                    {inputLabel}
-                  </label>
+            <div className="lg:col-span-3 bg-gradient-to-br from-orange-50 via-white to-amber-50 rounded-none sm:rounded-2xl p-4 sm:p-8 lg:p-10 border-0 sm:border-2 sm:border-orange-200 relative overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-orange-200 to-transparent rounded-full blur-2xl opacity-20 -mr-24 -mt-24"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-amber-200 to-transparent rounded-full blur-2xl opacity-20 -ml-24 -mb-24"></div>
 
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
-                    {/* Input + Clear/Paste icon */}
-                    <div className="relative flex-1 w-full">
-                      <Input
-                        type="text"
-                        value={inputLink}
-                        onChange={(e) => setInputLink(e.target.value)}
-                        placeholder={inputPlaceholder}
-                        className="w-full p-3 sm:px-4 sm:py-3 text-base sm:text-lg rounded-lg md:rounded-xl bg-gray-50 transition pr-20 sm:pr-12"
-                        disabled={isGenerating}
-                      />
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                        {/* Clear button - shows when there's text */}
-                        {inputLink && (
-                          <button
-                            onClick={() => setInputLink("")}
-                            className="flex items-center justify-center p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition"
-                            title="Xóa"
-                          >
-                            <X size={18} />
-                          </button>
+              <div className="relative z-10">
+                {isLinkRequired ? (
+                  // Case 1: Cashback Product/Service (Link Required)
+                  <>
+                    {/* Header */}
+                    <div className="mb-6 sm:mb-8 text-center">
+                      <div className="inline-flex items-center justify-center w-20 h-20 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 mb-4">
+                        <Zap className="text-white" size={40} />
+                      </div>
+                      <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-3">
+                        Tạo Link Hoàn Tiền
+                      </h3>
+                      <p className="text-base sm:text-base lg:text-lg text-gray-700 font-medium px-4">
+                        Dán link sản phẩm Shopee để nhận hoàn tiền ngay
+                      </p>
+                    </div>
+
+                    {/* Input Section */}
+                    <div className="space-y-5 max-w-4xl mx-auto">
+                      <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-6 border sm:border-2 border-orange-200">
+                        <label className="text-lg sm:text-lg font-bold text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-4">
+                          <div className="flex items-center gap-2">
+                            <Link size={24} className="text-orange-500" />
+                            <span>Link sản phẩm Shopee</span>
+                          </div>
+                          <span className="text-red-500 text-base animate-pulse ml-0 sm:ml-0">
+                            (BẮT BUỘC)
+                          </span>
+                        </label>
+
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          {/* Input field */}
+                          <div className="relative flex-1">
+                            <Input
+                              type="text"
+                              value={inputLink}
+                              onChange={(e) => setInputLink(e.target.value)}
+                              placeholder={inputPlaceholder}
+                              className="w-full px-5 py-4 text-base rounded-xl border-2 border-gray-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-200 pr-32 sm:pr-24 font-medium transition-all"
+                              disabled={isGenerating}
+                            />
+                            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                              {/* Paste button - inside input on mobile */}
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const text =
+                                      await navigator.clipboard.readText();
+                                    setInputLink(text);
+                                    notification({
+                                      type: "success",
+                                      message: "Đã dán link!",
+                                    });
+                                  } catch (err) {
+                                    console.error(
+                                      "Failed to read clipboard:",
+                                      err
+                                    );
+                                  }
+                                }}
+                                className="sm:hidden p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all active:scale-95"
+                                title="Dán từ clipboard"
+                              >
+                                <Clipboard size={20} />
+                              </button>
+
+                              {/* Clear button */}
+                              {inputLink && (
+                                <button
+                                  onClick={() => setInputLink("")}
+                                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                  title="Xóa"
+                                >
+                                  <X size={22} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Buttons row - Desktop only */}
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            {/* Desktop: Paste button */}
+                            <button
+                              onClick={async () => {
+                                try {
+                                  const text =
+                                    await navigator.clipboard.readText();
+                                  setInputLink(text);
+                                  notification({
+                                    type: "success",
+                                    message: "Đã dán link!",
+                                  });
+                                } catch (err) {
+                                  console.error(
+                                    "Failed to read clipboard:",
+                                    err
+                                  );
+                                }
+                              }}
+                              className="hidden sm:flex items-center gap-2 px-5 py-4 text-base bg-gray-100 text-gray-700 rounded-xl font-semibold border-2 border-gray-300 hover:bg-gray-200 hover:border-gray-400 transition-all"
+                              title="Dán từ clipboard"
+                            >
+                              <Clipboard size={20} />
+                              <span>Dán</span>
+                            </button>
+
+                            {/* Generate button */}
+                            <button
+                              onClick={handleGenerate}
+                              disabled={isButtonDisabled}
+                              className="flex items-center justify-center gap-2 px-8 h-14 sm:h-auto sm:py-4 text-base sm:text-base bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-bold hover:from-orange-600 hover:to-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform active:scale-95 sm:hover:scale-105 disabled:hover:scale-100"
+                            >
+                              {isGenerating ? (
+                                <>
+                                  <Loader size={20} className="animate-spin" />
+                                  <span>Đang tạo...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Zap size={20} />
+                                  <span>Tạo Link</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Helper text */}
+                        {helperText && (
+                          <div className="mt-4 flex items-start gap-2.5 p-4 bg-orange-50 rounded-xl border border-orange-200">
+                            <Shield
+                              size={20}
+                              className="text-orange-500 flex-shrink-0 mt-0.5"
+                            />
+                            <p className="text-sm sm:text-sm text-orange-800 font-medium leading-relaxed">
+                              {helperText}
+                            </p>
+                          </div>
                         )}
-                        {/* Paste icon chỉ hiển thị mobile */}
+                      </div>
+                      {/* Feature Cards */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 transition-all">
+                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 flex-shrink-0">
+                            <CheckCircle2 className="text-white" size={24} />
+                          </div>
+                          <span className="text-sm sm:text-sm font-bold text-gray-800">
+                            Tự động tính hoa hồng
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
+                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
+                            <Zap className="text-white" size={24} />
+                          </div>
+                          <span className="text-sm sm:text-sm font-bold text-gray-800">
+                            Hoàn tiền nhanh chóng
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl border-2 border-orange-200 transition-all">
+                          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-500 flex-shrink-0">
+                            <Gift className="text-white" size={24} />
+                          </div>
+                          <span className="text-sm sm:text-sm font-bold text-gray-800">
+                            Miễn phí sử dụng
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  // Case 2: Trade/Finance (Link Auto-Generated, Input is Optional Update)
+                  <div className="space-y-4">
+                    <div className="mb-6">
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+                        Link Đăng Ký / Tư Vấn
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-600">
+                        Link đã được tạo tự động
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <label className="text-base font-semibold text-gray-700">
+                        {inputLabel}
+                      </label>
+                      <div className="flex gap-3">
+                        <div className="relative flex-1">
+                          <input
+                            type="text"
+                            value={inputLink}
+                            onChange={(e) => setInputLink(e.target.value)}
+                            placeholder={inputPlaceholder}
+                            className="w-full px-4 py-3 text-base rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 pr-10"
+                            disabled={isGenerating}
+                          />
+                          {/* Clear button */}
+                          {inputLink && (
+                            <button
+                              onClick={() => setInputLink("")}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-600 rounded"
+                              title="Xóa"
+                            >
+                              <X size={18} />
+                            </button>
+                          )}
+                        </div>
                         <button
-                          onClick={async () => {
-                            try {
-                              const text = await navigator.clipboard.readText();
-                              setInputLink(text);
-                            } catch (err) {
-                              console.error("Failed to read clipboard:", err);
-                            }
+                          onClick={handleGenerate}
+                          className="px-4 py-3 text-base bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                          disabled={isGenerating}
+                        >
+                          {isGenerating ? (
+                            <>
+                              <Loader size={18} className="animate-spin" />
+                              <span>Đang tạo...</span>
+                            </>
+                          ) : (
+                            <>
+                              <RefreshCcw size={18} />
+                              <span>Cập nhật</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      {helperText && (
+                        <p className="text-sm text-gray-600 mt-2">
+                          💡 {helperText}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Offer preview */}
+                {currentOffer && (
+                  <div className="mt-4 sm:mt-6 bg-white rounded-lg sm:rounded-xl p-4 sm:p-6  ">
+                    {/* Product Card - Similar to Shopee style */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      {/* Product Image */}
+                      <div className="shrink-0">
+                        <img
+                          src={currentOffer.img}
+                          alt={currentOffer.title}
+                          className="w-full sm:w-32 md:w-40 h-32 md:h-40 object-cover rounded-lg border border-gray-200"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.src = `https://via.placeholder.com/160x160/EE4D2D/FFFFFF?text=SP`;
                           }}
-                          className="sm:hidden flex items-center justify-center p-1 text-gray-600 hover:text-gray-800"
-                          title="Dán từ clipboard"
+                        />
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="flex-1 space-y-3">
+                        {/* Shopee Logo */}
+                        <div className="flex items-center gap-2">
+                          <div className="bg-[#EE4D2D] px-2 py-1 rounded text-white text-xs font-bold">
+                            <img
+                              src="https://img.icons8.com/?size=100&id=arKs3bvtn3Xr&format=png&color=ffffff"
+                              alt="Shopee Logo"
+                              className="w-4 h-4 inline-block mr-1"
+                            />
+                            SHOPEE
+                          </div>
+                        </div>
+
+                        {/* Product Title */}
+                        <h2 className="text-sm sm:text-base md:text-lg font-medium text-gray-800 leading-tight">
+                          {currentOffer.title}
+                        </h2>
+
+                        {/* Commission Info */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Partner Commission */}
+                          <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                            <div className="text-orange-600 text-xs font-medium mb-1">
+                              HOA HỒNG ĐỐI TÁC
+                            </div>
+                            <div className="text-orange-600 text-lg sm:text-xl font-bold">
+                              {currentOffer.feeText}
+                            </div>
+                          </div>
+
+                          {/* Your Cashback */}
+                          <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                            <div className="text-green-600 text-xs font-medium mb-1">
+                              HOÀN TIỀN CỦA BẠN
+                            </div>
+                            <div className="text-green-600 text-lg sm:text-xl font-bold">
+                              từ{" "}
+                              {Math.floor(
+                                parseFloat(
+                                  currentOffer.feeText.replace(/[^\d]/g, "")
+                                ) * 0.6
+                              ).toLocaleString("vi-VN")}{" "}
+                              đ đến{" "}
+                              {Math.floor(
+                                parseFloat(
+                                  currentOffer.feeText.replace(/[^\d]/g, "")
+                                ) * 0.9
+                              ).toLocaleString("vi-VN")}{" "}
+                              đ
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Link hoàn tiền */}
+                        <div className="space-y-2">
+                          <div className="text-gray-600 text-sm font-medium">
+                            Link hoàn tiền:
+                          </div>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={generatedLink}
+                              readOnly
+                              className="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-gray-600"
+                            />
+                            <button
+                              onClick={handleCopy}
+                              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded transition"
+                            >
+                              <Copy size={16} />
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (generatedLink && currentOffer) {
+                                  setQrModal({
+                                    show: true,
+                                    link: generatedLink,
+                                    title: currentOffer.title,
+                                  });
+                                }
+                              }}
+                              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded transition"
+                            >
+                              <QrCode size={16} />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Large Buy Button */}
+                        <button
+                          onClick={handleOpen}
+                          className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-4 px-6 rounded-lg text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] "
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -624,631 +859,303 @@ export default function Cashback() {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                              d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                             />
                           </svg>
+                          MỞ ĐỂ MUA HÀNG NGAY
                         </button>
                       </div>
                     </div>
-
-                    {/* Desktop: Paste button */}
-                    <button
-                      onClick={async () => {
-                        try {
-                          const text = await navigator.clipboard.readText();
-                          setInputLink(text);
-                        } catch (err) {
-                          console.error("Failed to read clipboard:", err);
-                        }
-                      }}
-                      className="hidden sm:flex items-center justify-center gap-2 w-auto px-3 py-2.5 text-sm sm:text-base bg-gray-100 text-gray-700 rounded-lg md:rounded-xl font-semibold border border-gray-300 hover:bg-gray-200 transition"
-                      title="Dán từ clipboard"
-                    >
-                      <Clipboard size={16} />
-                    </button>
-
-                    {/* Tạo link button */}
-                    <button
-                      onClick={handleGenerate}
-                      disabled={isButtonDisabled}
-                      className="mt-2 sm:mt-0 w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 text-base sm:text-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl md:rounded-xl font-extrabold hover:from-orange-600 hover:to-amber-700 transition shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
-                    >
-                      {isGenerating ? (
-                        <Loader size={18} className="animate-spin sm:mr-2" />
-                      ) : (
-                        <CornerDownRight size={18} className="sm:mr-2" />
-                      )}
-                      <span className="inline">
-                        {isGenerating ? "Đang tạo..." : "Tạo link"}
-                      </span>
-                    </button>
                   </div>
+                )}
 
-                  {helperText && (
-                    <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
-                      {helperText}
-                    </p>
-                  )}
-                </>
-              ) : (
-                // Case 2: Trade/Finance (Link Auto-Generated, Input is Optional Update)
-                <div className="space-y-2 md:space-y-3">
-                  <div className="text-sm sm:text-base md:text-lg text-gray-800 font-extrabold mb-3 md:mb-4 flex items-center">
-                    <Shield size={16} className="inline mr-2 text-purple-600" />
-                    Link ĐĂNG KÝ/TƯ VẤN đã được tạo tự động!
+                {/* Disclaimer for trade/finance */}
+                {(activePlatform.type === "trade" ||
+                  activePlatform.type === "finance") && (
+                  <div className="mt-3 md:mt-4 p-2.5 md:p-3 bg-yellow-50 rounded-lg text-yellow-800 text-sm sm:text-base font-semibold border border-yellow-200">
+                    <Shield size={16} className="inline mr-1.5 md:mr-2" />
+                    Link này là link đăng ký/tư vấn cá nhân hóa. Vui lòng không
+                    dán link sản phẩm.
                   </div>
-
-                  <div className="flex flex-col gap-2 p-3 md:p-4 bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                    <label className="text-sm sm:text-base text-gray-700 font-bold flex items-center">
-                      {inputLabel}
-                    </label>
-                    <div className="flex gap-2 md:gap-3">
-                      <div className="relative flex-1">
-                        <input
-                          type="text"
-                          value={inputLink}
-                          onChange={(e) => setInputLink(e.target.value)}
-                          placeholder={inputPlaceholder}
-                          className="w-full px-3 py-2 md:px-4 md:py-2 text-base sm:text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 ring-pink-300 focus:border-[#E91E63] transition pr-10"
-                          disabled={isGenerating}
-                        />
-                        {/* Clear button */}
-                        {inputLink && (
-                          <button
-                            onClick={() => setInputLink("")}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition"
-                            title="Xóa"
-                          >
-                            <X size={16} />
-                          </button>
-                        )}
-                      </div>
-                      <button
-                        onClick={handleGenerate}
-                        className="px-3 py-2 md:px-4 md:py-2 text-sm sm:text-base bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg font-extrabold hover:from-orange-600 hover:to-amber-700 transition shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
-                        disabled={isGenerating}
-                      >
-                        {isGenerating ? (
-                          <Loader size={14} className="animate-spin" />
-                        ) : (
-                          <RefreshCcw size={14} className="md:mr-1" />
-                        )}
-                        <span className="hidden md:inline">
-                          {isGenerating ? "Đang tạo..." : "Cập nhật"}
-                        </span>
-                      </button>
-                    </div>
-                    <p className="text-sm sm:text-base text-gray-600 mt-1 font-medium">
-                      {helperText}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Offer preview */}
-              {currentOffer && (
-                <div className="mt-4 sm:mt-6 bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 border-2 border-gray-200 shadow-lg">
-                  {/* Product Card - Similar to Shopee style */}
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    {/* Product Image */}
-                    <div className="shrink-0">
-                      <img
-                        src={currentOffer.img}
-                        alt={currentOffer.title}
-                        className="w-full sm:w-32 md:w-40 h-32 md:h-40 object-cover rounded-lg border border-gray-200"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          target.src = `https://via.placeholder.com/160x160/EE4D2D/FFFFFF?text=SP`;
-                        }}
-                      />
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="flex-1 space-y-3">
-                      {/* Shopee Logo */}
-                      <div className="flex items-center gap-2">
-                        <div className="bg-[#EE4D2D] px-2 py-1 rounded text-white text-xs font-bold">
-                          <img
-                            src="https://img.icons8.com/?size=100&id=arKs3bvtn3Xr&format=png&color=ffffff"
-                            alt="Shopee Logo"
-                            className="w-4 h-4 inline-block mr-1"
-                          />
-                          SHOPEE
-                        </div>
-                      </div>
-
-                      {/* Product Title */}
-                      <h2 className="text-sm sm:text-base md:text-lg font-medium text-gray-800 leading-tight">
-                        {currentOffer.title}
-                      </h2>
-
-                      {/* Commission Info */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {/* Partner Commission */}
-                        <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                          <div className="text-orange-600 text-xs font-medium mb-1">
-                            HOA HỒNG ĐỐI TÁC
-                          </div>
-                          <div className="text-orange-600 text-lg sm:text-xl font-bold">
-                            {currentOffer.feeText}
-                          </div>
-                        </div>
-
-                        {/* Your Cashback */}
-                        <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                          <div className="text-green-600 text-xs font-medium mb-1">
-                            HOÀN TIỀN CỦA BẠN
-                          </div>
-                          <div className="text-green-600 text-lg sm:text-xl font-bold">
-                            từ{" "}
-                            {Math.floor(
-                              parseFloat(
-                                currentOffer.feeText.replace(/[^\d]/g, "")
-                              ) * 0.6
-                            ).toLocaleString("vi-VN")}{" "}
-                            đ đến{" "}
-                            {Math.floor(
-                              parseFloat(
-                                currentOffer.feeText.replace(/[^\d]/g, "")
-                              ) * 0.9
-                            ).toLocaleString("vi-VN")}{" "}
-                            đ
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Link hoàn tiền */}
-                      <div className="space-y-2">
-                        <div className="text-gray-600 text-sm font-medium">
-                          Link hoàn tiền:
-                        </div>
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            value={generatedLink}
-                            readOnly
-                            className="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-gray-600"
-                          />
-                          <button
-                            onClick={handleCopy}
-                            className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded transition"
-                          >
-                            <Copy size={16} />
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (generatedLink && currentOffer) {
-                                setQrModal({
-                                  show: true,
-                                  link: generatedLink,
-                                  title: currentOffer.title,
-                                });
-                              }
-                            }}
-                            className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded transition"
-                          >
-                            <QrCode size={16} />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Large Buy Button */}
-                      <button
-                        onClick={handleOpen}
-                        className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-lg text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] shadow-lg"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                          />
-                        </svg>
-                        MỞ ĐỂ MUA HÀNG NGAY
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Disclaimer for trade/finance */}
-              {(activePlatform.type === "trade" ||
-                activePlatform.type === "finance") && (
-                <div className="mt-3 md:mt-4 p-2.5 md:p-3 bg-yellow-50 rounded-lg text-yellow-800 text-sm sm:text-base font-semibold border border-yellow-200">
-                  <Shield size={16} className="inline mr-1.5 md:mr-2" />
-                  Link này là link đăng ký/tư vấn cá nhân hóa. Vui lòng không
-                  dán link sản phẩm.
-                </div>
-              )}
+                )}
+              </div>
             </div>
-
-            {/* Output Link Card */}
-            {/* <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100 flex flex-col">
-              <div className="text-base sm:text-lg md:text-xl text-gray-800 font-extrabold mb-2 md:mb-3">
-                Link{" "}
-                {activePlatform.type === "trade"
-                  ? "Rebate"
-                  : activePlatform.type === "finance"
-                  ? "Tư Vấn"
-                  : "Hoàn Tiền"}{" "}
-                đã tạo
-              </div>
-              <Input
-                readOnly
-                value={
-                  generatedLink ||
-                  (isGenerating ? "Đang tải..." : "Chưa có link")
-                }
-                placeholder="Chưa có link"
-                className="w-full px-3 py-2 md:px-4 md:py-3 text-sm sm:text-base md:text-lg bg-gray-100 rounded-lg md:rounded-xl border border-gray-200 truncate font-medium"
-              />
-
-              <div className="mt-3 md:mt-4 flex gap-2 md:gap-3">
-                <button
-                  onClick={handleCopy}
-                  className={` px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg ${
-                    isCopying
-                      ? "bg-green-600"
-                      : "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600"
-                  } text-white rounded-lg md:rounded-xl font-semibold transition duration-300 hover:opacity-90 flex items-center justify-center disabled:opacity-50`}
-                  disabled={!generatedLink}
-                >
-                  <Copy size={16} />
-                </button>
-                <button
-                  onClick={handleOpen}
-                  className="px-3 py-2 md:px-4 md:py-3 text-base sm:text-lg bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg md:rounded-xl font-extrabold hover:opacity-90 disabled:opacity-50"
-                  disabled={!generatedLink}
-                >
-                  <ExternalLink size={16} />
-                </button>
-                <button
-                  onClick={() => {
-                    if (generatedLink && currentOffer) {
-                      setQrModal({
-                        show: true,
-                        link: generatedLink,
-                        title: currentOffer.title,
-                      });
-                    } else {
-                      notification({
-                        type: "error",
-                        message: "Chưa có link để tạo QR",
-                      });
-                    }
-                  }}
-                  className="w-10 h-10 md:w-12 md:h-auto shrink-0 bg-gray-100 rounded-lg md:rounded-xl text-sm sm:text-base text-gray-600 hover:bg-gray-200 transition disabled:opacity-50 flex items-center justify-center"
-                  disabled={!generatedLink}
-                >
-                  <QrCode size={16} />
-                </button>
-              </div>
-
-              <div className="mt-3 md:mt-4 text-sm sm:text-base text-gray-600 border-t pt-2 md:pt-3 font-medium">
-                <p>Link có thời hạn 30 ngày kể từ ngày tạo.</p>
-              </div>
-            </div> */}
           </div>
 
-          {/* Priority Products Section - Hide when offer is shown */}
-          {!currentOffer && (
-            <div className="mt-6 md:mt-8">
-              <PriorityProducts
-                limit={6}
-                platform={activePlatformId}
-                onProductClick={(product) => {
-                  setInputLink(product.productUrl);
-                  handleSelectPlatform("shopee");
-                }}
-              />
-            </div>
-          )}
-
-          {/* History and Recommended Offers - Hide when offer is shown */}
-          {!currentOffer && (
-            <div className="mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-              {/* Search history */}
-              <div className="bg-white rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-6 shadow-xl border border-gray-100">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 md:gap-2.5 mb-2.5 md:mb-3">
-                  <div className="flex items-center gap-1.5 md:gap-2">
-                    <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center shrink-0 shadow-lg">
-                      <svg
-                        className="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-extrabold text-xs md:text-sm lg:text-base text-gray-900">
-                        Lịch sử tạo link
-                      </div>
-                      <div className="text-[10px] md:text-[11px] lg:text-xs text-gray-600 font-medium">
-                        {history.length} link đã tạo
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative w-full sm:w-auto">
-                    <Search
-                      size={12}
-                      className="absolute left-2 md:left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    />
-                    <input
-                      type="text"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Tìm kiếm..."
-                      className="text-[11px] md:text-xs lg:text-sm px-7 md:px-8 lg:px-9 py-1 md:py-1.5 bg-gray-50 rounded-md md:rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent w-full sm:w-36 md:w-40 lg:w-48 transition-all"
-                    />
-                  </div>
+          {/* HOW IT WORKS - QUY TRÌNH HOÀN TIỀN */}
+          <div className="mt-6 sm:mt-8 lg:mt-10">
+            {/* Header */}
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="inline-flex items-center justify-center gap-2 mb-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center">
+                  <Gift className="text-white" size={20} />
                 </div>
+              </div>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Quy Trình Hoàn Tiền
+              </h2>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 max-w-xl mx-auto">
+                Nhận hoàn tiền chỉ với 4 bước đơn giản
+              </p>
+            </div>
 
-                <div className="space-y-2 md:space-y-2.5 max-h-[320px] md:max-h-[360px] lg:max-h-[480px] overflow-y-auto pr-1 md:pr-1.5 custom-scrollbar">
-                  {loadingHistory ? (
-                    <div className="text-center py-10 md:py-12 lg:py-14">
-                      <Loader className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 mx-auto mb-2 md:mb-3 text-pink-500 animate-spin" />
-                      <p className="text-[11px] md:text-xs lg:text-sm text-gray-500 font-medium">
-                        Đang tải lịch sử...
-                      </p>
-                    </div>
-                  ) : filteredHistory.length === 0 ? (
-                    <div className="text-center py-10 md:py-12 lg:py-14">
-                      <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 mx-auto mb-2 md:mb-3 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-                        <svg
-                          className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            {/* Steps Container */}
+            <div className="max-w-6xl mx-auto">
+              {/* Desktop - Horizontal Layout */}
+              <div className="hidden lg:block mb-8">
+                <div className="relative">
+                  {/* Connector Line Background */}
+                  <div className="absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 via-blue-400 via-green-400 to-yellow-400 opacity-20"></div>
+
+                  {/* Steps Grid */}
+                  <div className="grid grid-cols-4 gap-6">
+                    {/* Step 1 */}
+                    <div className="relative">
+                      <div className="flex flex-col items-center">
+                        {/* Icon Circle */}
+                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-4 ring-6 ring-orange-100">
+                          <Link
+                            className="text-white"
+                            size={36}
+                            strokeWidth={2.5}
                           />
-                        </svg>
-                      </div>
-                      <p className="text-[11px] md:text-xs lg:text-sm text-gray-600 font-semibold mb-0.5 md:mb-1">
-                        {query ? "Không tìm thấy kết quả" : "Chưa có lịch sử"}
-                      </p>
-                      <p className="text-[9px] md:text-[10px] lg:text-xs text-gray-400">
-                        {query
-                          ? "Thử từ khóa khác"
-                          : "Tạo link đầu tiên của bạn"}
-                      </p>
-                    </div>
-                  ) : null}
-
-                  {!loadingHistory &&
-                    filteredHistory.map((h) => {
-                      const platform = PLATFORMS.find(
-                        (p) => p.id === h.platform
-                      );
-                      return (
-                        <div
-                          key={h.id}
-                          className="group flex items-start gap-2 md:gap-2.5 lg:gap-3 p-2 md:p-2.5 lg:p-3 rounded-md md:rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-all duration-300 border border-gray-100 hover:border-pink-200 hover:shadow-lg"
-                        >
-                          {/* Product image or platform icon */}
-                          <div className="shrink-0 relative">
-                            <img
-                              src={h.imageUrl || ""}
-                              alt={h.title}
-                              className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md md:rounded-lg object-cover border-2 border-gray-200 group-hover:border-pink-300 shadow-sm transition-all duration-300"
-                              style={{ display: h.imageUrl ? "block" : "none" }}
-                              onError={(e) => {
-                                const target =
-                                  e.currentTarget as HTMLImageElement;
-                                target.style.display = "none";
-                              }}
-                            />
-                            <div
-                              className={`w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md md:rounded-lg flex items-center justify-center text-white font-bold shadow-md ${
-                                h.platform === "shopee"
-                                  ? "bg-gradient-to-br from-orange-500 to-orange-600"
-                                  : h.platform === "tiki"
-                                  ? "bg-gradient-to-br from-blue-500 to-blue-600"
-                                  : h.platform === "lazada"
-                                  ? "bg-gradient-to-br from-purple-600 to-purple-700"
-                                  : "bg-gradient-to-br from-gray-400 to-gray-500"
-                              }`}
-                              style={{ display: h.imageUrl ? "none" : "flex" }}
-                            >
-                              {platform?.logo &&
-                              typeof platform.logo === "string" ? (
-                                <img
-                                  src={platform.logo}
-                                  alt={h.platform}
-                                  className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 object-contain"
-                                />
-                              ) : (
-                                <span className="text-sm md:text-base lg:text-lg">
-                                  {h.platform.charAt(0).toUpperCase()}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-1 md:gap-1.5 mb-1 md:mb-1.5">
-                              <h3 className="font-semibold text-gray-900 text-[11px] md:text-xs lg:text-sm leading-tight line-clamp-2 group-hover:text-pink-700 transition-colors">
-                                {h.title}
-                              </h3>
-                            </div>
-
-                            <div className="flex items-center gap-1 md:gap-1.5 flex-wrap mb-1 md:mb-1.5">
-                              <PlatformTypeBadge
-                                type={h.type}
-                                isActive={false}
-                              />
-                              <span className="text-[9px] md:text-[10px] lg:text-xs text-gray-500 flex items-center gap-0.5 font-medium">
-                                <svg
-                                  className="w-2 h-2 md:w-2.5 md:h-2.5"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                                {new Date(h.createdAt).toLocaleString("vi-VN", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                })}
-                              </span>
-                            </div>
-
-                            {/* Price and Commission Info */}
-                            {h.productPrice && (
-                              <div className="flex flex-wrap items-center gap-1 md:gap-1.5 lg:gap-2 mb-1.5 md:mb-2 text-[9px] md:text-[10px] lg:text-xs">
-                                <span className="px-1 py-0.5 md:px-1.5 md:py-0.5 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800 font-bold rounded text-[9px] md:text-[10px] border border-gray-200">
-                                  {formatCurrency(h.productPrice)}
-                                </span>
-                                {h.commissionRate && h.estimatedCommission && (
-                                  <span className="px-1 py-0.5 md:px-1.5 md:py-0.5 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 font-bold rounded text-[9px] md:text-[10px] flex items-center gap-0.5 border border-green-200">
-                                    <Zap
-                                      size={9}
-                                      className="inline md:w-2.5 md:h-2.5"
-                                    />
-                                    {(h.commissionRate * 100).toFixed(1)}%
-                                    <span className="hidden sm:inline text-green-600">
-                                      (~{formatCurrency(h.estimatedCommission)})
-                                    </span>
-                                  </span>
-                                )}
-                              </div>
-                            )}
-
-                            {/* Action buttons */}
-                            <div className="flex flex-wrap gap-1 md:gap-1.5">
-                              <a
-                                href={h.link}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="flex-1 sm:flex-none px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-bold hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-0.5 md:gap-1 cursor-pointer"
-                              >
-                                <ExternalLink
-                                  size={10}
-                                  className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
-                                />
-                                <span>Mở link</span>
-                              </a>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigator.clipboard.writeText(h.link);
-                                  notification({
-                                    type: "success",
-                                    message: "Đã sao chép link vào clipboard",
-                                  });
-                                }}
-                                className="px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-white border border-gray-200 text-gray-700 rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-semibold hover:bg-gray-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 flex items-center gap-0.5 md:gap-1 cursor-pointer"
-                              >
-                                <Copy
-                                  size={10}
-                                  className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
-                                />
-                                <span className="hidden sm:inline">Copy</span>
-                              </button>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setQrModal({
-                                    show: true,
-                                    link: h.link,
-                                    title: h.title,
-                                  });
-                                }}
-                                className="px-2 py-1 md:px-2.5 md:py-1.5 lg:px-3 lg:py-2 bg-white border border-gray-200 text-gray-700 rounded md:rounded-md text-[9px] md:text-[10px] lg:text-xs font-semibold hover:bg-gray-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 flex items-center gap-0.5 md:gap-1 cursor-pointer"
-                              >
-                                <QrCode
-                                  size={10}
-                                  className="md:w-3 md:h-3 lg:w-3.5 lg:h-3.5"
-                                />
-                                <span className="hidden sm:inline">QR</span>
-                              </button>
-                            </div>
-                          </div>
                         </div>
-                      );
-                    })}
+
+                        {/* Content Card */}
+                        <div className="bg-white rounded-xl p-4 border border-orange-100 w-full">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 text-white font-bold text-base mb-2 mx-auto">
+                            1
+                          </div>
+                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                            Tạo Link
+                          </h3>
+                          <p className="text-xs text-gray-600 leading-snug text-center">
+                            Dán link sản phẩm từ Shopee vào hệ thống để tạo link
+                            hoàn tiền
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Step 2 */}
+                    <div className="relative">
+                      <div className="flex flex-col items-center">
+                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center mb-4 ring-6 ring-blue-100">
+                          <ShoppingCart
+                            className="text-white"
+                            size={36}
+                            strokeWidth={2.5}
+                          />
+                        </div>
+
+                        <div className="bg-white rounded-xl p-4 border border-orange-100 w-full">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-base mb-2 mx-auto">
+                            2
+                          </div>
+                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                            Mua Hàng
+                          </h3>
+                          <p className="text-xs text-gray-600 leading-snug text-center">
+                            Click vào link để mua sản phẩm trên Shopee như bình
+                            thường
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Step 3 */}
+                    <div className="relative">
+                      <div className="flex flex-col items-center">
+                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4 ring-6 ring-green-100">
+                          <CheckCircle2
+                            className="text-white"
+                            size={36}
+                            strokeWidth={2.5}
+                          />
+                        </div>
+
+                        <div className="bg-white rounded-xl p-4 border border-green-100 w-full">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 text-white font-bold text-base mb-2 mx-auto">
+                            3
+                          </div>
+                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                            Xác Nhận
+                          </h3>
+                          <p className="text-xs text-gray-600 leading-snug text-center">
+                            Đơn hàng được xác nhận và hệ thống ghi nhận hoa hồng
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Step 4 */}
+                    <div className="relative">
+                      <div className="flex flex-col items-center">
+                        <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center mb-4 ring-6 ring-yellow-100">
+                          <DollarSign
+                            className="text-white"
+                            size={36}
+                            strokeWidth={2.5}
+                          />
+                        </div>
+
+                        <div className="bg-white rounded-xl p-4 border border-yellow-100 w-full">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500 to-amber-600 text-white font-bold text-base mb-2 mx-auto">
+                            4
+                          </div>
+                          <h3 className="text-base font-bold text-gray-900 mb-1.5 text-center">
+                            Nhận Tiền
+                          </h3>
+                          <p className="text-xs text-gray-600 leading-snug text-center">
+                            Hoàn tiền vào ví, sẵn sàng rút về tài khoản ngân
+                            hàng
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Quick list of recommended offers */}
-              <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
-                <div className="font-bold text-lg md:text-xl lg:text-2xl text-gray-800 mb-4 md:mb-6">
-                  Ưu đãi nổi bật đang hot (Sản phẩm & Dịch vụ)
-                </div>
-                <div className="space-y-4">
-                  {SAMPLE_PRODUCTS.map((p) => (
-                    <div
-                      key={p.id}
-                      className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition cursor-pointer"
-                      onClick={() => {
-                        setInputLink(
-                          p.platform === "shopee"
-                            ? "https://shopee.vn/product/17227968/41052353272" // Dùng link mẫu có sẵn trong server.js
-                            : `https://${p.platform}.com/product/${p.id}`
-                        );
-                        handleSelectPlatform(p.platform);
-                      }}
-                    >
-                      <img
-                        src={p.img}
-                        alt={p.title}
-                        className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover shadow-sm shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-gray-800 text-sm sm:text-base truncate">
-                          {p.title}
-                        </div>
-                        <div className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
-                          {p.shop} ({p.platform})
-                        </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <div className="text-[#E91E63] font-bold text-sm sm:text-base">
-                          {p.rateText}
-                        </div>
-                        <div className="text-gray-500 text-xs mt-0.5 line-through">
-                          {p.priceText}
-                        </div>
+              {/* Mobile/Tablet - Vertical Layout */}
+              <div className="lg:hidden space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                {/* Step 1 */}
+                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+                  <div className="flex gap-4 sm:gap-5 items-start">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                        <Link className="text-white" size={28} />
                       </div>
                     </div>
-                  ))}
-                  {/* Placeholder for Loan/Trade Hot Deals */}
-                  <div className="mt-4 p-3 bg-purple-50 rounded-lg text-purple-800 text-sm border border-purple-200">
-                    <Shield size={16} className="inline mr-2" />
-                    Liên hệ hỗ trợ viên để nhận link Rebate Crypto/Forex hoặc tư
-                    vấn Vay ưu đãi tốt nhất.
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-600 font-bold text-xs mb-2">
+                        1
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5">
+                        Tạo Link Hoàn Tiền
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-snug">
+                        Dán link sản phẩm từ Shopee vào hệ thống để tạo link
+                        hoàn tiền của bạn
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Arrow Connector */}
+                <div className="flex justify-center">
+                  <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full"></div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+                  <div className="flex gap-4 sm:gap-5 items-start">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                        <ShoppingCart className="text-white" size={28} />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-600 font-bold text-sm mb-3">
+                        2
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                        Mua Hàng Qua Link
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                        Click vào link hoàn tiền để mua sản phẩm trên Shopee như
+                        bình thường
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Arrow Connector */}
+                <div className="flex justify-center">
+                  <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-green-500 rounded-full"></div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+                  <div className="flex gap-4 sm:gap-5 items-start">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                        <CheckCircle2 className="text-white" size={28} />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 font-bold text-sm mb-3">
+                        3
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                        Xác Nhận Đơn Hàng
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                        Đơn hàng được xác nhận và hệ thống tự động ghi nhận hoa
+                        hồng cho bạn
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Arrow Connector */}
+                <div className="flex justify-center">
+                  <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-yellow-500 rounded-full"></div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+                  <div className="flex gap-4 sm:gap-5 items-start">
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center">
+                        <DollarSign className="text-white" size={28} />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 font-bold text-sm mb-3">
+                        4
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                        Nhận Hoàn Tiền
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                        Hoàn tiền được chuyển vào ví của bạn, sẵn sàng rút về
+                        tài khoản ngân hàng
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 sm:p-6 border border-orange-200 text-center">
+                  <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-2">
+                    60-90%
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                    Tỷ lệ hoàn tiền từ hoa hồng
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 sm:p-6 border border-orange-200 text-center">
+                  <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent mb-2">
+                    24-48h
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                    Thời gian xử lý hoàn tiền
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border border-green-200 text-center">
+                  <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">
+                    0đ
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                    Phí sử dụng dịch vụ
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

@@ -6,8 +6,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#E91E63",
-        secondary: "#FF8C1A",
+        primary: "#F97316",
+        secondary: "#F59E0B",
       },
       fontFamily: {
         sans: "var(--font-base)",

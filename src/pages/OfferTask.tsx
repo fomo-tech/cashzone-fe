@@ -338,49 +338,45 @@ export default function App() {
     >
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6">
         {/* HERO SECTION - Responsive và compact hơn */}
-        <header className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-xl text-white relative overflow-hidden">
+        <header className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-md text-white relative overflow-hidden">
           <div className="relative z-10">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1">
-              Săn Tiền Thưởng & Hoàn Tiền Hot!
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight mb-1">
+              Săn Tiền Thưởng & Hoàn Tiền
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg opacity-95">
-              Kiếm VNĐ, tích Points, nâng Rank — Tất cả trong một ứng dụng.
+            <p className="text-sm sm:text-base opacity-95">
+              Kiếm VNĐ, tích Points, nâng Rank.
             </p>
           </div>
 
           {/* STATS SECTION - Responsive grid */}
-          <div className="mt-4 sm:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 relative z-10">
+          <div className="mt-3 sm:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 relative z-10">
             {/* Stat 1 */}
-            <div className="bg-white/15 p-2.5 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl backdrop-blur-sm border border-white/20">
-              <p className="text-xl sm:text-2xl lg:text-3xl font-black">24+</p>
-              <p className="text-[10px] sm:text-xs opacity-90">
-                Nhiệm vụ hoạt động
-              </p>
+            <div className="bg-white/10 p-2 sm:p-2.5 rounded-lg backdrop-blur-sm border border-white/15">
+              <p className="text-lg sm:text-xl lg:text-2xl font-black">24+</p>
+              <p className="text-[10px] opacity-90">Nhiệm vụ</p>
             </div>
 
             {/* Stat 2 */}
-            <div className="bg-white/15 p-2.5 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl backdrop-blur-sm border border-white/20">
-              <p className="text-xl sm:text-2xl lg:text-3xl font-black">75M+</p>
-              <p className="text-[10px] sm:text-xs opacity-90">
-                Tổng thưởng tháng
-              </p>
+            <div className="bg-white/10 p-2 sm:p-2.5 rounded-lg backdrop-blur-sm border border-white/15">
+              <p className="text-lg sm:text-xl lg:text-2xl font-black">75M+</p>
+              <p className="text-[10px] opacity-90">Thưởng tháng</p>
             </div>
 
             {/* Stat 3: Points */}
-            <div className="bg-orange-400/20 text-orange-100 p-2.5 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl backdrop-blur-sm border-2 border-orange-300/50">
+            <div className="bg-orange-500/15 text-orange-100 p-2 sm:p-2.5 rounded-lg backdrop-blur-sm border-2 border-orange-400/30">
               <div className="flex items-center justify-between gap-1">
                 <div className="min-w-0">
-                  <p className="text-[9px] sm:text-[10px] font-semibold uppercase opacity-95 text-orange-200 flex items-center gap-1">
-                    <Target size={12} className="shrink-0" />
-                    <span className="truncate">Điểm Tích Lũy</span>
+                  <p className="text-[9px] font-semibold uppercase opacity-95 text-orange-200 flex items-center gap-1">
+                    <Target size={10} className="shrink-0" />
+                    <span className="truncate">Điểm</span>
                   </p>
-                  <p className="text-base sm:text-xl lg:text-2xl font-black text-white">
+                  <p className="text-sm sm:text-base lg:text-lg font-black text-white">
                     12,500
                   </p>
                 </div>
                 <a
                   href="#"
-                  className="hidden sm:block bg-white text-gray-800 text-[10px] font-bold px-2 py-1 rounded-lg shadow-md hover:bg-gray-100 transition whitespace-nowrap"
+                  className="hidden sm:block bg-white text-gray-800 text-[9px] font-bold px-1.5 py-0.5 rounded-lg shadow-md hover:bg-gray-100 transition whitespace-nowrap"
                 >
                   Nâng Rank
                 </a>
@@ -388,20 +384,20 @@ export default function App() {
             </div>
 
             {/* Stat 4: Cashback */}
-            <div className="bg-orange-400/20 text-orange-100 p-2.5 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl backdrop-blur-sm border-2 border-orange-300/50">
+            <div className="bg-orange-500/15 text-orange-100 p-2 sm:p-2.5 rounded-lg backdrop-blur-sm border-2 border-orange-400/30">
               <div className="flex items-center justify-between gap-1">
                 <div className="min-w-0">
-                  <p className="text-[9px] sm:text-[10px] font-semibold uppercase opacity-95 text-orange-200 flex items-center gap-1">
-                    <Package size={12} className="shrink-0" />
+                  <p className="text-[9px] font-semibold uppercase opacity-95 text-orange-200 flex items-center gap-1">
+                    \n <Package size={10} className="shrink-0" />
                     <span className="truncate">Cashback</span>
                   </p>
-                  <p className="text-base sm:text-xl lg:text-2xl font-black text-white">
+                  <p className="text-sm sm:text-base lg:text-lg font-black text-white">
                     1.25M
                   </p>
                 </div>
                 <a
                   href="#"
-                  className="hidden sm:block bg-white text-gray-800 text-[10px] font-bold px-2 py-1 rounded-lg shadow-md hover:bg-gray-100 transition whitespace-nowrap"
+                  className="hidden sm:block bg-white text-gray-800 text-[9px] font-bold px-1.5 py-0.5 rounded-lg shadow-md hover:bg-gray-100 transition whitespace-nowrap"
                 >
                   Rút tiền
                 </a>
