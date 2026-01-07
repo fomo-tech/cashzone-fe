@@ -232,6 +232,48 @@ class ReferralService {
   }
 
   /**
+   * Lấy danh sách người được giới thiệu với phân trang
+   */
+  async getReferralList(
+    params: {
+      page?: number;
+      limit?: number;
+      level?: 1 | 2 | 3;
+    } = {}
+  ): Promise<any> {
+    const response = await http.get("/profile/referral/list", {
+      params: {
+        page: params.page || 1,
+        limit: params.limit || 20,
+        ...(params.level && { level: params.level }),
+      },
+    });
+    return response.data.data;
+  }
+
+  /**
+   * Lấy lịch sử hoa hồng với phân trang
+   */
+  async getCommissionHistory(
+    params: {
+      page?: number;
+      limit?: number;
+      status?: string;
+      level?: 1 | 2 | 3;
+    } = {}
+  ): Promise<any> {
+    const response = await http.get("/profile/referral/commissions", {
+      params: {
+        page: params.page || 1,
+        limit: params.limit || 20,
+        ...(params.status && { status: params.status }),
+        ...(params.level && { level: params.level }),
+      },
+    });
+    return response.data.data;
+  }
+
+  /**
    * Calculate potential earnings
    */
   calculatePotentialEarnings(orderValue: number): {

@@ -29,6 +29,12 @@ interface BankInfo {
   qrCode?: string;
 }
 
+interface ReferralMilestone {
+  referrals: number;
+  reward: number;
+  title: string;
+}
+
 interface SystemSettings {
   minDepositAmount: number;
   minWithdrawAmount: number;
@@ -52,6 +58,7 @@ interface SystemSettings {
     level3Rate: number; // Tỷ lệ hoa hồng cấp 3 (%)
     enabled: boolean; // Bật/tắt hệ thống hoa hồng
   };
+  referralMilestones?: ReferralMilestone[];
   systemName: string;
   systemLogo?: string;
   contactEmail?: string;
@@ -68,6 +75,10 @@ const SystemSettingsPage: React.FC = () => {
   const [showBankModal, setShowBankModal] = useState(false);
   const [showBep20Modal, setShowBep20Modal] = useState(false);
   const [editingBank, setEditingBank] = useState<BankInfo | null>(null);
+  const [showMilestoneModal, setShowMilestoneModal] = useState(false);
+  const [editingMilestones, setEditingMilestones] = useState<
+    ReferralMilestone[]
+  >([]);
 
   // Form states
   const [newBep20Address, setNewBep20Address] = useState("");
@@ -215,6 +226,51 @@ const SystemSettingsPage: React.FC = () => {
     } catch (error) {
       showToast("Cập nhật chế độ bảo trì thất bại");
     }
+  };
+
+  const openEditMilestones = () => {
+    const defaultMilestones = [
+      { referrals: 5, reward: 50000, title: "Người giới thiệu mới" },
+      { referrals: 20, reward: 200000, title: "Cộng tác viên tích cực" },
+      { referrals: 50, reward: 500000, title: "Đại lý chuyên nghiệp" },
+      { referrals: 100, reward: 1000000, title: "Chuyên gia giới thiệu" },
+    ];
+    setEditingMilestones(settings?.referralMilestones || defaultMilestones);
+    setShowMilestoneModal(true);
+  };
+
+  const saveMilestones = async () => {
+    try {
+      const response = await http.put("/app-settings/referral-milestones", {
+        milestones: editingMilestones,
+      });
+      setSettings(response.data.data);
+      setShowMilestoneModal(false);
+      showToast("Cập nhật mốc thưởng thành công!");
+    } catch (error) {
+      showToast("Cập nhật mốc thưởng thất bại");
+    }
+  };
+
+  const addMilestone = () => {
+    setEditingMilestones([
+      ...editingMilestones,
+      { referrals: 0, reward: 0, title: "" },
+    ]);
+  };
+
+  const updateMilestone = (
+    index: number,
+    field: keyof ReferralMilestone,
+    value: any
+  ) => {
+    const updated = [...editingMilestones];
+    updated[index] = { ...updated[index], [field]: value };
+    setEditingMilestones(updated);
+  };
+
+  const removeMilestone = (index: number) => {
+    setEditingMilestones(editingMilestones.filter((_, i) => i !== index));
   };
 
   const openEditBank = (bank: BankInfo, index?: number) => {
@@ -894,6 +950,80 @@ const SystemSettingsPage: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Referral Milestones Settings */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+            <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <Settings className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">
+                      Mốc Thưởng Giới Thiệu
+                    </h2>
+                    <p className="text-orange-100 text-sm">
+                      Cài đặt các mốc thưởng cho người giới thiệu
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={openEditMilestones}
+                  className="px-4 py-2 bg-white text-orange-600 rounded-lg hover:bg-orange-50 transition-colors font-semibold flex items-center gap-2"
+                >
+                  <Settings className="w-4 h-4" />
+                  Chỉnh Sửa
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <div className="space-y-3">
+                {(settings?.referralMilestones || []).map(
+                  (milestone, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-800">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            {milestone.referrals} người đã mua hàng
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-orange-600">
+                          {milestone.reward.toLocaleString("vi-VN")}đ
+                        </p>
+                        <p className="text-xs text-gray-500">Thưởng</p>
+                      </div>
+                    </div>
+                  )
+                )}
+
+                {(!settings?.referralMilestones ||
+                  settings.referralMilestones.length === 0) && (
+                  <div className="text-center py-8 text-gray-500">
+                    <p>Chưa có mốc thưởng nào</p>
+                    <button
+                      onClick={openEditMilestones}
+                      className="mt-3 text-orange-600 hover:text-orange-700 font-semibold"
+                    >
+                      Thêm mốc thưởng
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1033,6 +1163,114 @@ const SystemSettingsPage: React.FC = () => {
             >
               <Save className="w-4 h-4" />
               {editingBank ? "Cập nhật" : "Thêm"}
+            </button>
+          </div>
+        </div>
+      </CommonModal>
+
+      {/* Milestones Modal */}
+      <CommonModal
+        isOpen={showMilestoneModal}
+        onClose={() => setShowMilestoneModal(false)}
+        title="Chỉnh Sửa Mốc Thưởng"
+        width="max-w-3xl"
+      >
+        <div className="space-y-4">
+          <div className="max-h-96 overflow-y-auto space-y-3">
+            {editingMilestones.map((milestone, index) => (
+              <div
+                key={index}
+                className="p-4 border border-gray-200 rounded-lg bg-gray-50"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex-1 grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1">
+                        Số người
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={milestone.referrals}
+                        onChange={(e) =>
+                          updateMilestone(
+                            index,
+                            "referrals",
+                            parseInt(e.target.value) || 0
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="5"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1">
+                        Thưởng (VNĐ)
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="1000"
+                        value={milestone.reward}
+                        onChange={(e) =>
+                          updateMilestone(
+                            index,
+                            "reward",
+                            parseInt(e.target.value) || 0
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="50000"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1">
+                        Tiêu đề
+                      </label>
+                      <input
+                        type="text"
+                        value={milestone.title}
+                        onChange={(e) =>
+                          updateMilestone(index, "title", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        placeholder="Người mới"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => removeMilestone(index)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Xóa"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={addMilestone}
+            className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center justify-center gap-2 font-semibold"
+          >
+            <Plus className="w-5 h-5" />
+            Thêm Mốc Thưởng
+          </button>
+
+          <div className="flex gap-3 pt-4 border-t">
+            <button
+              onClick={() => setShowMilestoneModal(false)}
+              className="flex-1 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
+              Hủy
+            </button>
+            <button
+              onClick={saveMilestones}
+              className="flex-1 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <Save className="w-4 h-4" />
+              Lưu Mốc Thưởng
             </button>
           </div>
         </div>
