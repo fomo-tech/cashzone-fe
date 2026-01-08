@@ -58,16 +58,16 @@ const CashbackHeroSection: React.FC = () => {
                 </span>
               </div>
 
-              {/* Main Heading with gradient text */}
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black mb-2 leading-tight tracking-tight">
+              {/* Main Heading with gradient text - Gọn cho mobile */}
+              <h2 className="text-lg sm:text-2xl lg:text-3xl font-black mb-1 sm:mb-2 leading-tight tracking-tight">
                 <span className="block">Mua sắm thông minh</span>
                 <span className="block text-yellow-100">
                   Nhận hoàn tiền ngay
                 </span>
               </h2>
 
-              {/* Description with icons */}
-              <p className="text-sm sm:text-base opacity-95 mb-2 sm:mb-3 max-w-xl font-medium">
+              {/* Description with icons - Ẩn trên mobile */}
+              <p className="hidden sm:block text-sm sm:text-base opacity-95 mb-2 sm:mb-3 max-w-xl font-medium">
                 Chuyển link mua sắm thành tiền.
                 <span className="font-bold text-yellow-100 inline-flex items-center gap-1 ml-1">
                   <Zap className="w-4 h-4" />
@@ -79,8 +79,8 @@ const CashbackHeroSection: React.FC = () => {
                 <span className="font-bold text-yellow-100">Miễn phí!</span>
               </p>
 
-              {/* Stats/Features */}
-              <div className="flex flex-wrap gap-4 pt-2">
+              {/* Stats/Features - Ẩn trên mobile */}
+              <div className="hidden sm:flex flex-wrap gap-4 pt-2">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-xl border border-white/20">
                   <TrendingUp className="w-5 h-5 text-yellow-200" />
                   <div>
@@ -102,10 +102,10 @@ const CashbackHeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Enhanced Wallet Card - Desktop & Mobile */}
-            <div className="lg:col-span-1 flex justify-center relative mt-4 lg:mt-0">
+            {/* Enhanced Wallet Card - Ẩn hoàn toàn trên mobile */}
+            <div className="hidden lg:flex lg:col-span-1 justify-center relative mt-4 lg:mt-0">
               {/* Desktop 3D Phone Mockup */}
-              <div className="hidden lg:flex w-44 h-80 bg-gray-900 rounded-[3rem] shadow-xl p-2.5 items-center justify-center border-6 border-gray-800 transform hover:scale-105 transition-all duration-300 hover:rotate-0 rotate-2 relative group">
+              <div className="flex w-44 h-80 bg-gray-900 rounded-[3rem] shadow-xl p-2.5 items-center justify-center border-6 border-gray-800 transform hover:scale-105 transition-all duration-300 hover:rotate-0 rotate-2 relative group">
                 {/* Phone notch */}
                 <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-full z-20" />
 
@@ -162,66 +162,6 @@ const CashbackHeroSection: React.FC = () => {
                       <span className="text-[9px] font-black text-green-600">
                         0đ
                       </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mobile Wallet Card */}
-              <div className="lg:hidden w-full max-w-md">
-                <div className="bg-gradient-to-br from-white via-orange-50/30 to-amber-50/30 rounded-2xl shadow-lg p-4 border border-orange-100/50 relative overflow-hidden">
-                  {/* Animated background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-100/20 via-transparent to-amber-100/20 animate-gradient" />
-
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
-                          <Wallet2Icon className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wide">
-                            Ví Của Bạn
-                          </p>
-                          <p className="text-sm text-gray-800 font-black">
-                            Hoàn Tiền
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-[10px] text-green-600 font-semibold">
-                          Online
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl p-3 mb-3 text-white shadow-lg relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-xl" />
-                      <div className="relative z-10">
-                        <p className="text-xs opacity-90 mb-1 font-semibold">
-                          Số dư khả dụng
-                        </p>
-                        <p className="text-2xl font-black mb-0.5">0đ</p>
-                        <p className="text-[10px] opacity-75">
-                          Rút tiền bất kỳ lúc nào
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-orange-100/50 shadow-sm">
-                        <p className="text-[10px] text-gray-500 font-semibold mb-0.5">
-                          Tổng kiếm
-                        </p>
-                        <p className="text-sm font-black text-orange-600">0đ</p>
-                      </div>
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-green-100/50 shadow-sm">
-                        <p className="text-[10px] text-gray-500 font-semibold mb-0.5">
-                          Đã rút
-                        </p>
-                        <p className="text-sm font-black text-green-600">0đ</p>
-                      </div>
                     </div>
                   </div>
                 </div>

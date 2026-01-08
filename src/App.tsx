@@ -10,22 +10,55 @@ import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/common/ScrollToTop";
 import ReferralCodeTracker from "./components/common/ReferralCodeTracker";
 import { WalletProvider } from "./context/WalletContext";
+import { useSocketNotifications } from "./hooks/useSocketNotifications";
+import toast from "react-hot-toast";
 // import InstallPrompt from "./components/common/InstallPrompt";
 // import OfflineIndicator from "./components/common/OfflineIndicator";
 
 function App() {
   useAuthInit();
-  const { toast } = useAppStore();
+  const { toast: customToast } = useAppStore();
+
+  // Setup socket notifications
+  useSocketNotifications({
+    onNewNotification: (notification) => {
+      // Show toast notification
+      const message = notification.message
+        ? `${notification.title}\n${notification.message}`
+        : notification.title || "Thông báo mới";
+
+      toast.success(message, {
+        duration: 5000,
+        style: {
+          maxWidth: "500px",
+        },
+      });
+    },
+    onBroadcastNotification: (notification) => {
+      // Show broadcast notification
+      const message = notification.message
+        ? `${notification.title}\n${notification.message}`
+        : notification.title || "Thông báo";
+
+      toast(message, {
+        duration: 5000,
+        icon: "📢",
+        style: {
+          maxWidth: "500px",
+        },
+      });
+    },
+  });
 
   return (
     <WalletProvider>
       <ReferralCodeTracker />
       <AppRouter />;
       <CustomToast
-        title={toast?.title || ""}
-        type={toast?.type || "success"}
-        isVisible={toast?.isVisible || false}
-        timer={toast?.timer || 3000}
+        title={customToast?.title || ""}
+        type={customToast?.type || "success"}
+        isVisible={customToast?.isVisible || false}
+        timer={customToast?.timer || 3000}
       />
       <AuthModal />
       <Toaster

@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   TrendingUp,
   DollarSign,
   Clock,
   CheckCircle,
   History,
-  BarChart3,
-  Link as LinkIcon,
   ArrowUpRight,
   ArrowDownRight,
   Percent,
   Sparkles,
   Target,
   Award,
+  Package,
+  Calendar,
+  LinkIcon,
 } from "lucide-react";
 import cashbackService from "@/services/cashbackService";
+import { SkeletonTable } from "@/components/ui/Skeleton";
 
-// Components for each tab
-import LinkHistoryTab from "@/components/cashback/LinkHistoryTab";
-import CashbackHistoryTab from "@/components/cashback/CashbackHistoryTab";
-import StatsTab from "@/components/cashback/StatsTab";
+interface OrderTracking {
+  _id: string;
+  orderId: string;
+  userId: string;
+  affiliateLinkId: string;
+  orderAmount: number;
+  cashbackRate: number;
+  cashbackAmount: number;
+  cashbackStatus: "pending" | "processing" | "approved" | "rejected" | "paid";
+  createdAt: string;
+  updatedAt: string;
+}
 
 const CashbackHistory: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("link-history");
-
   // Quick stats state
   const [quickStats, setQuickStats] = useState({
     totalLinks: 0,
@@ -33,6 +40,12 @@ const CashbackHistory: React.FC = () => {
     approvedAmount: 0,
     paidAmount: 0,
   });
+
+  // Order tracking state
+  const [orders, setOrders] = useState<OrderTracking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Load quick stats function
   const loadQuickStats = async () => {
@@ -45,16 +58,10 @@ const CashbackHistory: React.FC = () => {
 
       setQuickStats({
         totalLinks: linkStats?.totalLinks || 0,
-        totalEarned:
-          cashbackStats?.totalEarned || cashbackStats?.totalCommission || 0,
-        pendingAmount:
-          cashbackStats?.pendingAmount || cashbackStats?.pendingCashback || 0,
-        approvedAmount:
-          cashbackStats?.approvedAmount ||
-          cashbackStats?.completedCashback ||
-          0,
-        paidAmount:
-          cashbackStats?.paidAmount || cashbackStats?.paidCashback || 0,
+        totalEarned: cashbackStats?.totalCashback || 0,
+        pendingAmount: cashbackStats?.pendingCashback || 0,
+        approvedAmount: cashbackStats?.approvedCashback || 0,
+        paidAmount: cashbackStats?.paidCashback || 0,
       });
     } catch (error) {
       console.error("Error loading quick stats:", error);
@@ -69,17 +76,100 @@ const CashbackHistory: React.FC = () => {
     }
   };
 
-  // Load quick stats
+  // Load orders function
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      const response = await cashbackService.getUserOrders({
+        page,
+        limit: 10,
+      });
+      setOrders(response.orders || []);
+      setTotalPages(response.totalPages || 1);
+    } catch (error) {
+      console.error("Error loading orders:", error);
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load quick stats and orders
   useEffect(() => {
     loadQuickStats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    loadOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(amount);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig: Record<
+      string,
+      { color: string; bg: string; text: string; icon: any }
+    > = {
+      pending: {
+        color: "text-amber-700",
+        bg: "bg-amber-50 border-amber-200",
+        text: "Chờ duyệt",
+        icon: Clock,
+      },
+      processing: {
+        color: "text-purple-700",
+        bg: "bg-purple-50 border-purple-200",
+        text: "Đang xử lý",
+        icon: Clock,
+      },
+      approved: {
+        color: "text-blue-700",
+        bg: "bg-blue-50 border-blue-200",
+        text: "Đã duyệt",
+        icon: CheckCircle,
+      },
+      rejected: {
+        color: "text-red-700",
+        bg: "bg-red-50 border-red-200",
+        text: "Từ chối",
+        icon: Clock,
+      },
+      paid: {
+        color: "text-green-700",
+        bg: "bg-green-50 border-green-200",
+        text: "Đã thanh toán",
+        icon: Award,
+      },
+    };
+
+    const config = statusConfig[status] || statusConfig.pending;
+    const Icon = config.icon;
+
+    return (
+      <span
+        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold ${config.bg} ${config.color}`}
+      >
+        <Icon className="w-3.5 h-3.5" />
+        {config.text}
+      </span>
+    );
   };
 
   return (
@@ -289,7 +379,7 @@ const CashbackHistory: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content Tabs - Enhanced */}
+        {/* Main Content - Order Tracking List */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white">
           <div className="p-6 md:p-8 border-b border-gray-100">
             <div className="flex items-center gap-3 mb-2">
@@ -297,61 +387,179 @@ const CashbackHistory: React.FC = () => {
                 <History className="w-5 h-5 text-white" />
               </div>
               <h2 className="text-xl md:text-2xl font-black text-gray-900">
-                Chi tiết lịch sử giao dịch
+                Danh sách đơn hoàn tiền
               </h2>
             </div>
             <p className="text-sm text-gray-500 ml-13">
-              Theo dõi tất cả các link và giao dịch hoàn tiền của bạn
+              Theo dõi tất cả các đơn hàng hoàn tiền của bạn
             </p>
           </div>
 
-          <div className="px-4 md:px-8 pb-8">
-            <Tabs
-              value={activeTab}
-              onValueChange={setActiveTab}
-              className="w-full"
-            >
-              <TabsList className="grid w-full grid-cols-3 h-auto bg-gray-50 rounded-xl p-1 border border-gray-200">
-                <TabsTrigger
-                  value="link-history"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[orange-600] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
-                >
-                  <LinkIcon className="w-4 h-4" />
-                  <span>Link</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="cashback-history"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[orange-600] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
-                >
-                  <DollarSign className="w-4 h-4" />
-                  <span>Hoàn tiền</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="stats"
-                  className="flex items-center justify-center gap-1.5 text-sm font-semibold px-3 py-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[orange-600] data-[state=active]:to-[#FF8C1A] data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
-                >
-                  <BarChart3 className="w-4 h-4" />
-                  <span>Thống kê</span>
-                </TabsTrigger>
-              </TabsList>
-
-              <div className="mt-8">
-                <TabsContent value="link-history" className="space-y-4 mt-0">
-                  <LinkHistoryTab onStatsUpdate={loadQuickStats} />
-                </TabsContent>
-
-                <TabsContent
-                  value="cashback-history"
-                  className="space-y-4 mt-0"
-                >
-                  <CashbackHistoryTab onStatsUpdate={loadQuickStats} />
-                </TabsContent>
-
-                <TabsContent value="stats" className="space-y-4 mt-0">
-                  <StatsTab />
-                </TabsContent>
+          <div className="p-4 md:p-8">
+            {loading ? (
+              <SkeletonTable rows={5} columns={6} />
+            ) : orders.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center mx-auto mb-4">
+                  <Package className="w-10 h-10 text-gray-400" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  Chưa có đơn hàng nào
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Các đơn hàng hoàn tiền sẽ hiển thị ở đây
+                </p>
               </div>
-            </Tabs>
+            ) : (
+              <>
+                {/* Mobile View */}
+                <div className="block md:hidden space-y-4">
+                  {orders.map((order) => (
+                    <div
+                      key={order._id}
+                      className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-all"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">
+                            Mã đơn hàng
+                          </p>
+                          <p className="text-sm font-bold text-gray-900">
+                            {order.orderId}
+                          </p>
+                        </div>
+                        {getStatusBadge(order.cashbackStatus)}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">
+                            Giá trị đơn hàng
+                          </p>
+                          <p className="text-sm font-bold text-gray-900">
+                            {formatCurrency(order.orderAmount)}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">
+                            Hoàn tiền
+                          </p>
+                          <p className="text-sm font-bold text-green-600">
+                            {formatCurrency(order.cashbackAmount)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">Tỷ lệ</p>
+                          <p className="text-sm font-semibold text-orange-600">
+                            {order.cashbackRate}%
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">Ngày tạo</p>
+                          <p className="text-xs text-gray-700">
+                            {formatDate(order.createdAt)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Mã đơn hàng
+                        </th>
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Giá trị
+                        </th>
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Tỷ lệ
+                        </th>
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Hoàn tiền
+                        </th>
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Trạng thái
+                        </th>
+                        <th className="text-left py-4 px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">
+                          Ngày tạo
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((order) => (
+                        <tr
+                          key={order._id}
+                          className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                        >
+                          <td className="py-4 px-4">
+                            <span className="text-sm font-semibold text-gray-900">
+                              {order.orderId}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className="text-sm font-semibold text-gray-900">
+                              {formatCurrency(order.orderAmount)}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className="text-sm font-semibold text-orange-600">
+                              {order.cashbackRate}%
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className="text-sm font-bold text-green-600">
+                              {formatCurrency(order.cashbackAmount)}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            {getStatusBadge(order.cashbackStatus)}
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <Calendar className="w-4 h-4" />
+                              {formatDate(order.createdAt)}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-6 pt-6 border-t border-gray-200">
+                    <button
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                      className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Trước
+                    </button>
+                    <span className="text-sm text-gray-600 px-4">
+                      Trang {page} / {totalPages}
+                    </span>
+                    <button
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      disabled={page === totalPages}
+                      className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Sau
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
 

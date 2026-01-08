@@ -193,6 +193,58 @@ const cashbackService = {
     return response.data.data.cashback;
   },
 
+  /**
+   * Admin lấy các orders của link
+   */
+  adminGetLinkOrders: async (linkId: string) => {
+    const response = await http.get(`/admin/affiliate-link/${linkId}/orders`);
+    return response.data;
+  },
+
+  /**
+   * Admin duyệt order
+   */
+  adminApproveOrder: async (
+    orderId: string,
+    data?: { orderAmount?: number; cashbackRate?: number }
+  ) => {
+    const response = await http.post(
+      `/admin/order/${orderId}/approve`,
+      data || {}
+    );
+    return response.data;
+  },
+
+  /**
+   * Admin tạo đơn hoàn tiền cho user từ affiliate link
+   */
+  adminCreateOrderForLink: async (
+    linkId: string,
+    data: {
+      orderId: string;
+      orderAmount: number;
+      orderDate?: string;
+      productName?: string;
+      productImage?: string;
+      cashbackRate?: number;
+      notes?: string;
+    }
+  ) => {
+    const response = await http.post(
+      `/admin/affiliate-link/${linkId}/create-order`,
+      data
+    );
+    return response.data;
+  },
+
+  /**
+   * Admin đánh dấu đơn hàng đã hoàn tiền
+   */
+  adminMarkOrderAsPaid: async (orderId: string) => {
+    const response = await http.post(`/admin/order/${orderId}/mark-paid`);
+    return response.data;
+  },
+
   // ============================================
   // Platform APIs
   // ============================================
@@ -458,7 +510,7 @@ const cashbackService = {
     type?: string;
     search?: string;
   }): Promise<{ orders: any[]; total: number; totalPages: number }> => {
-    const response = await http.get("/cashback/history", { params });
+    const response = await http.get("/management/orders/my-orders", { params });
     return response.data.data;
   },
 
@@ -466,7 +518,7 @@ const cashbackService = {
    * Lấy thống kê cashback của user
    */
   getUserCashbackStatsNew: async (): Promise<any> => {
-    const response = await http.get("/cashback/stats");
+    const response = await http.get("/management/orders/my-stats");
     return response.data.data.stats;
   },
 

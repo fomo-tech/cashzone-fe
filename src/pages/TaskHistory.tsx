@@ -16,6 +16,7 @@ import taskService, {
 } from "../services/taskService";
 import { useAppStore } from "@/store/appStore";
 import Pagination from "@/components/common/Pagination";
+import { SkeletonCard } from "@/components/ui/Skeleton";
 
 const TaskHistory: React.FC = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -239,10 +240,10 @@ const TaskHistory: React.FC = () => {
         {/* Submissions List */}
         <div className="space-y-4">
           {loading ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-8">
-              <div className="flex justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-              </div>
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <SkeletonCard key={i} />
+              ))}
             </div>
           ) : submissions.length === 0 ? (
             <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
