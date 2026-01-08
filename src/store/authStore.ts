@@ -12,7 +12,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     mode: "signin",
   },
   loading: true,
-  isAuthenticated: true,
+  isAuthenticated: false,
   handleToggleAuthModal: (payload) =>
     set((state) => ({
       isAuthModalOpen: {

@@ -36,6 +36,7 @@ import Activities from "@/pages/Activities";
 import HomePage from "@/pages/Home";
 import CashbackHistory from "@/pages/CashbackHistory";
 import GuidePage from "@/pages/Guide";
+import LuckyWheelPage from "@/pages/LuckyWheel";
 
 import { PrivateRoute } from "./PrivateRoute";
 import { RoleRoute } from "./RoleRoute";
@@ -44,6 +45,9 @@ import { ClientRoute } from "./ClientRoute";
 import UserDetailPage from "@/pages/admin/UserDetail";
 import SystemSettingsPage from "@/pages/admin/SystemSettings";
 import TestIntegrationPage from "@/pages/TestIntegrationPage";
+import LuckyWheelAdmin from "@/pages/admin/LuckyWheelAdmin";
+import ActivityEarningManagement from "@/pages/admin/ActivityEarningManagement";
+import TaskHistory from "@/pages/TaskHistory";
 
 export const AppRouter = () => (
   <BrowserRouter>
@@ -95,9 +99,11 @@ export const AppRouter = () => (
         <Route path="/cashback" element={<Cashback />} />
         <Route path="/tasks" element={<OfferTaskPage />} />
         <Route path="/tasks/:id" element={<OfferDetail />} />
+        <Route path="/task-history" element={<TaskHistory />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wallet" element={<WalletManagement />} />
         <Route path="/activities" element={<Activities />} />
+        <Route path="/luckywheel" element={<LuckyWheelPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/cashback-history" element={<CashbackHistory />} />
@@ -139,6 +145,11 @@ export const AppRouter = () => (
             element={<AffiliateProductManagement />}
           />
           <Route path="system-settings" element={<SystemSettingsPage />} />
+          <Route path="luckywheel" element={<LuckyWheelAdmin />} />
+          <Route
+            path="activity-earnings"
+            element={<ActivityEarningManagement />}
+          />
         </Route>
       </Route>
 

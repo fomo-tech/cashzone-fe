@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Loader2,
   AlertTriangle,
+  History,
 } from "lucide-react";
 import taskService, { type Task } from "@/services/taskService";
 
@@ -340,12 +341,23 @@ export default function App() {
         {/* HERO SECTION - Responsive và compact hơn */}
         <header className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-md text-white relative overflow-hidden">
           <div className="relative z-10">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight mb-1">
-              Săn Tiền Thưởng & Hoàn Tiền
-            </h1>
-            <p className="text-sm sm:text-base opacity-95">
-              Kiếm VNĐ, tích Points, nâng Rank.
-            </p>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight mb-1">
+                  Săn Tiền Thưởng & Hoàn Tiền
+                </h1>
+                <p className="text-sm sm:text-base opacity-95">
+                  Kiếm VNĐ, tích Points, nâng Rank.
+                </p>
+              </div>
+              <button
+                onClick={() => (window.location.href = "/task-history")}
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 rounded-lg transition-all text-xs sm:text-sm font-semibold whitespace-nowrap"
+              >
+                <History className="h-4 w-4" />
+                <span className="hidden sm:inline">Lịch sử</span>
+              </button>
+            </div>
           </div>
 
           {/* STATS SECTION - Responsive grid */}

@@ -16,6 +16,7 @@ import {
   Gift,
   ShoppingBag,
   AlertCircle,
+  CalendarCheck,
 } from "lucide-react";
 import http from "@/services/api";
 
@@ -474,6 +475,13 @@ const AdminDashboard = () => {
             >
               <ShoppingBag className="w-6 h-6" />
               <span className="text-sm">Platforms</span>
+            </button>
+            <button
+              onClick={() => (window.location.href = "/admin/checkin-settings")}
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 flex flex-col items-center gap-2"
+            >
+              <CalendarCheck className="w-6 h-6" />
+              <span className="text-sm">Cài đặt Điểm danh</span>
             </button>
           </div>
         </div>

@@ -20,8 +20,9 @@ export const useAuthInit = () => {
           console.log("Lỗi khi lấy profile:", err);
         }
       );
-      if (res && res.data) {
-        setUser(res.data);
+
+      if (res) {
+        setUser(res);
       }
     };
     if (isAuthenticated && accessToken && refreshToken) {

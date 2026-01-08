@@ -9,6 +9,7 @@ import AuthModal from "./components/element/AuthModal";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/common/ScrollToTop";
 import ReferralCodeTracker from "./components/common/ReferralCodeTracker";
+import { WalletProvider } from "./context/WalletContext";
 // import InstallPrompt from "./components/common/InstallPrompt";
 // import OfflineIndicator from "./components/common/OfflineIndicator";
 
@@ -17,7 +18,7 @@ function App() {
   const { toast } = useAppStore();
 
   return (
-    <>
+    <WalletProvider>
       <ReferralCodeTracker />
       <AppRouter />;
       <CustomToast
@@ -55,7 +56,7 @@ function App() {
       <ScrollToTop />
       {/* <InstallPrompt />
       <OfflineIndicator /> */}
-    </>
+    </WalletProvider>
   );
 }
 

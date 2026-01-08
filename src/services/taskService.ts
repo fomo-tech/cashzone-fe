@@ -42,6 +42,7 @@ export interface Submission {
   proof: string;
   status: "pending" | "approved" | "rejected";
   reviewNote?: string;
+  reasonReject?: string;
   reviewedBy?: string;
   reviewedAt?: string;
   aiResult?: any;

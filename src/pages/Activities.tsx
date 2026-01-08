@@ -10,8 +10,11 @@ import {
   RotateCw,
   MessageSquare,
   Users,
-  Leaf, // Icon mới cho theme Green
+  ArrowLeft,
+  Sparkles,
 } from "lucide-react";
+import CheckInCard from "../components/CheckInCard";
+import LuckyWheelCard from "../components/LuckyWheelCard";
 
 // =========================================================================
 // 1. DATA VÀ INTERFACE (Không đổi)
@@ -30,7 +33,7 @@ interface ActivityDetail {
 const DAILY_ACTIVITIES: { [key: string]: ActivityDetail } = {
   checkin: {
     title: "Điểm Danh Hàng Ngày",
-    icon: <CalendarCheck size={24} className="text-pink-500" />, // Màu Emerald
+    icon: <CalendarCheck size={24} className="text-orange-500" />,
     reward: "+100 Points",
     cost: "Miễn phí (1 lần/ngày)",
     description:
@@ -44,7 +47,7 @@ const DAILY_ACTIVITIES: { [key: string]: ActivityDetail } = {
   },
   luckywheel: {
     title: "Vòng Quay May Mắn",
-    icon: <Zap size={24} className="text-yellow-500" />, // Vẫn giữ màu vàng cho Zap
+    icon: <Sparkles size={24} className="text-orange-500" />,
     reward: "Ngẫu nhiên (Tối đa 500 Points)",
     cost: "50 Points/lượt",
     description:
@@ -89,7 +92,7 @@ const ActivityDetailModal: React.FC<{
           {/* Header Modal */}
           <div className="flex justify-between items-start border-b border-gray-100 pb-4 mb-4">
             <div className="flex items-center space-x-3">
-              <span className="p-3 bg-pink-50 rounded-full">
+              <span className="p-3 bg-orange-50 rounded-full">
                 {activity.icon}
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
@@ -107,11 +110,11 @@ const ActivityDetailModal: React.FC<{
 
           {/* Thông tin chính */}
           <div className="mb-6 space-y-3">
-            <p className="text-sm text-gray-600 border-l-4 border-pink-500 pl-3 italic py-1">
+            <p className="text-sm text-gray-600 border-l-4 border-orange-500 pl-3 italic py-1">
               {activity.description}
             </p>
             <div className="flex space-x-4 flex-wrap gap-y-2">
-              <div className="flex items-center text-sm font-semibold text-[#AD1457] bg-pink-50 px-3 py-1.5 rounded-xl">
+              <div className="flex items-center text-sm font-semibold text-orange-700 bg-orange-50 px-3 py-1.5 rounded-xl">
                 <Gift size={16} className="mr-2" />
                 Phần Thưởng:{" "}
                 <span className="ml-1 font-extrabold">{activity.reward}</span>
@@ -165,11 +168,10 @@ const ActivityDetailModal: React.FC<{
 
           {/* Nút Thực Hiện Hành Động */}
           <button
-            // Màu xanh lá cây nổi bật
-            className="w-full inline-flex items-center justify-center px-6 py-3 bg-[orange-600] text-white font-bold rounded-xl transition duration-200 hover:bg-[#AD1457] text-lg shadow-xl shadow-pink-500/50 transform hover:scale-[1.01]"
-            onClick={onClose} // Đóng modal và chuyển hướng/thực hiện hành động
+            className="w-full inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white font-bold rounded-xl transition duration-200 hover:bg-orange-700 text-lg shadow-xl shadow-orange-500/50 transform hover:scale-[1.01]"
+            onClick={onClose}
           >
-            <Zap size={20} className="inline mr-2" />
+            <Sparkles size={20} className="inline mr-2" />
             Bắt Đầu Thực Hiện Ngay!
           </button>
         </div>
@@ -195,16 +197,15 @@ const ActivityCard: React.FC<{
   return (
     <div
       onClick={handleCardClick}
-      // Thẻ sang trọng hơn với bo góc lớn hơn, border tinh tế và shadow
-      className="bg-white p-5 rounded-3xl shadow-xl border border-gray-100 flex flex-col transition duration-300 hover:shadow-2xl hover:border-pink-400 hover:ring-2 hover:ring-pink-400/30 cursor-pointer h-full"
+      className="bg-white p-5 rounded-3xl shadow-xl border border-gray-100 flex flex-col transition duration-300 hover:shadow-2xl hover:border-orange-400 hover:ring-2 hover:ring-orange-400/30 cursor-pointer h-full"
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="p-3 bg-pink-50 rounded-xl">{activity.icon}</span>
+        <span className="p-3 bg-orange-50 rounded-xl">{activity.icon}</span>
         <span
           className={`text-xs font-semibold px-3 py-1 rounded-full ${
             isCostFree
-              ? "bg-pink-100 text-[#AD1457]"
-              : "bg-yellow-100 text-yellow-700"
+              ? "bg-green-100 text-green-700"
+              : "bg-orange-100 text-orange-700"
           }`}
         >
           {activity.cost}
@@ -239,10 +240,13 @@ const ActivityCard: React.FC<{
 // 3. MAIN APP
 // =========================================================================
 
+type ActivityTab = "overview" | "checkin" | "luckywheel";
+
 export default function Activities() {
   const [selectedActivity, setSelectedActivity] = useState<
     keyof typeof DAILY_ACTIVITIES | null
   >(null);
+  const [activeTab, setActiveTab] = useState<ActivityTab>("overview");
 
   const handleActivityClick = useCallback(
     (key: keyof typeof DAILY_ACTIVITIES) => {
@@ -261,41 +265,111 @@ export default function Activities() {
   );
 
   return (
-    <div className="min-h-screen py-8 sm:py-12 font-sans">
-      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
-        {/* Header Section - Sang trọng hơn */}
-        <header className="text-center bg-white p-6 rounded-3xl shadow-2xl border border-pink-100">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 flex items-center justify-center">
-            <Leaf size={36} className="text-pink-500 mr-3" />
-            Trung Tâm Hoạt Động (VIP)
+    <div className="min-h-screen py-6 sm:py-8 font-sans bg-gray-50">
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+        {/* Header Section */}
+        <header className="text-center bg-white p-6 rounded-2xl shadow-lg">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 flex items-center justify-center">
+            <Target size={32} className="text-orange-500 mr-3" />
+            Hoạt Động Hàng Ngày
           </h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Kiếm Points và phần thưởng giá trị mỗi ngày. Thiết kế sang trọng,
-            trải nghiệm hoàn hảo.
+          <p className="mt-2 text-base text-gray-600">
+            Tham gia các hoạt động để kiếm Points và nhận thưởng
           </p>
-          {/* Màu indigo/tím làm màu nhấn tương phản với xanh lá */}
-          <div className="mt-4 inline-flex items-center text-base font-semibold text-indigo-700 bg-indigo-100 px-4 py-2 rounded-full shadow-inner">
-            <DollarSign size={18} className="mr-2" />
-            Points hiện tại: <span className="font-extrabold ml-1">8,500</span>
-          </div>
         </header>
 
-        {/* Danh sách Hoạt Động */}
-        <main>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 px-1 flex items-center">
-            <RotateCw size={24} className="text-pink-500 mr-2" />
-            Hoạt Động Hàng Ngày & Định Kỳ
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-            {activityKeys.map((key) => (
-              <ActivityCard
-                key={key}
-                activityKey={key}
-                onClick={handleActivityClick}
-              />
-            ))}
+        {/* Activity Cards Grid - Overview */}
+        {activeTab === "overview" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Check-in Card */}
+            <div
+              onClick={() => setActiveTab("checkin")}
+              className="bg-white p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-orange-400 transition-all cursor-pointer group"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="p-3 bg-orange-50 rounded-xl group-hover:bg-orange-100 transition">
+                  <CalendarCheck size={32} className="text-orange-500" />
+                </div>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+                  Miễn phí
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Điểm Danh Hàng Ngày
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Điểm danh mỗi ngày để nhận Points miễn phí
+              </p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center text-orange-600 font-semibold">
+                  <Gift size={18} className="mr-1" />
+                  +100 Points
+                </div>
+                <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold rounded-lg hover:shadow-lg transition">
+                  Tham gia →
+                </button>
+              </div>
+            </div>
+
+            {/* Lucky Wheel Card */}
+            <div
+              onClick={() => setActiveTab("luckywheel")}
+              className="bg-white p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-orange-400 transition-all cursor-pointer group"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="p-3 bg-orange-50 rounded-xl group-hover:bg-orange-100 transition">
+                  <Zap size={32} className="text-orange-500" />
+                </div>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-700">
+                  1 lần/ngày
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Vòng Quay May Mắn
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Quay vòng may mắn để có cơ hội nhận thưởng lớn
+              </p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center text-orange-600 font-semibold">
+                  <Gift size={18} className="mr-1" />
+                  Ngẫu nhiên
+                </div>
+                <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold rounded-lg hover:shadow-lg transition">
+                  Tham gia →
+                </button>
+              </div>
+            </div>
           </div>
-        </main>
+        )}
+
+        {/* Check-in Activity */}
+        {activeTab === "checkin" && (
+          <div>
+            <button
+              onClick={() => setActiveTab("overview")}
+              className="mb-4 flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold transition"
+            >
+              <ArrowLeft size={20} />
+              Quay lại
+            </button>
+            <CheckInCard />
+          </div>
+        )}
+
+        {/* Lucky Wheel Activity */}
+        {activeTab === "luckywheel" && (
+          <div>
+            <button
+              onClick={() => setActiveTab("overview")}
+              className="mb-4 flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold transition"
+            >
+              <ArrowLeft size={20} />
+              Quay lại
+            </button>
+            <LuckyWheelCard />
+          </div>
+        )}
       </div>
 
       {/* Modal Chi Tiết */}

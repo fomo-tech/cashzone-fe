@@ -98,7 +98,7 @@ const Header = () => {
                 </button>
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1" />
+                <div className="hidden sm:block h-6 w-px bg-gradient-to-b from-transparent bg-orange-200 to-transparent mx-1" />
               </>
             )}
 
@@ -123,14 +123,14 @@ const Header = () => {
 
                 {/* Divider */}
                 {checkRole(user.roles || [], "user") && (
-                  <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1 sm:mx-2" />
+                  <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent bg-orange-200 to-transparent mx-1 sm:mx-2" />
                 )}
 
                 {/* Notification Dropdown */}
                 <NotificationDropdown />
 
                 {/* Divider */}
-                <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-pink-200 to-transparent mx-1 sm:mx-2" />
+                <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent bg-orange-200 to-transparent mx-1 sm:mx-2" />
 
                 {/* User Info & Menu */}
                 <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">

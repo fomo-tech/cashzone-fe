@@ -16,9 +16,22 @@ import {
   Mail,
   Link,
   Loader,
+  CalendarDays,
+  Coins,
+  RotateCcw,
+  Zap,
+  Palette,
+  Gift,
 } from "lucide-react";
 import http from "@/services/api";
 import CommonModal from "@/components/common/Modal";
+import checkinService, {
+  type CheckInRewards,
+} from "../../services/checkinService";
+import luckywheelService, {
+  type LuckyWheelSettings,
+  type LuckyWheelPrize,
+} from "../../services/luckywheelService";
 
 interface BankInfo {
   _id?: string;
@@ -59,6 +72,7 @@ interface SystemSettings {
     enabled: boolean; // Bật/tắt hệ thống hoa hồng
   };
   referralMilestones?: ReferralMilestone[];
+  checkInRewards?: CheckInRewards;
   systemName: string;
   systemLogo?: string;
   contactEmail?: string;
@@ -74,11 +88,33 @@ const SystemSettingsPage: React.FC = () => {
   // Modal states
   const [showBankModal, setShowBankModal] = useState(false);
   const [showBep20Modal, setShowBep20Modal] = useState(false);
+
+  // CheckIn Settings states
+  const [checkInRewards, setCheckInRewards] = useState<CheckInRewards>({
+    day1: 100,
+    day2: 150,
+    day3: 200,
+    day4: 250,
+    day5: 300,
+    day6: 350,
+    day7: 500,
+    bonusWeekComplete: 100,
+  });
+  const [originalCheckInRewards, setOriginalCheckInRewards] =
+    useState<CheckInRewards | null>(null);
+  const [savingCheckIn, setSavingCheckIn] = useState(false);
   const [editingBank, setEditingBank] = useState<BankInfo | null>(null);
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [editingMilestones, setEditingMilestones] = useState<
     ReferralMilestone[]
   >([]);
+
+  // Lucky Wheel Settings states
+  const [luckyWheelSettings, setLuckyWheelSettings] =
+    useState<LuckyWheelSettings | null>(null);
+  const [originalLuckyWheelSettings, setOriginalLuckyWheelSettings] =
+    useState<LuckyWheelSettings | null>(null);
+  const [savingLuckyWheel, setSavingLuckyWheel] = useState(false);
 
   // Form states
   const [newBep20Address, setNewBep20Address] = useState("");
@@ -97,8 +133,25 @@ const SystemSettingsPage: React.FC = () => {
   const loadSettings = async () => {
     try {
       setLoading(true);
-      const response = await http.get("/app-settings");
-      const data = response.data.data;
+
+      // Load system settings and checkin rewards in parallel
+      const [settingsResponse, checkInResponse, luckyWheelResponse] =
+        await Promise.all([
+          http.get("/app-settings"),
+          checkinService.getAdminRewardsConfig().catch(() => ({
+            day1: 100,
+            day2: 150,
+            day3: 200,
+            day4: 250,
+            day5: 300,
+            day6: 350,
+            day7: 500,
+            bonusWeekComplete: 100,
+          })),
+          luckywheelService.getSettings().catch(() => null),
+        ]);
+
+      const data = settingsResponse.data.data;
 
       // Set default commission values if not exist
       if (!data.commission) {
@@ -111,6 +164,16 @@ const SystemSettingsPage: React.FC = () => {
       }
 
       setSettings(data);
+
+      // Set checkin rewards
+      setCheckInRewards(checkInResponse);
+      setOriginalCheckInRewards({ ...checkInResponse });
+
+      // Set lucky wheel settings
+      if (luckyWheelResponse) {
+        setLuckyWheelSettings(luckyWheelResponse);
+        setOriginalLuckyWheelSettings({ ...luckyWheelResponse });
+      }
     } catch (error) {
       console.error("Failed to load settings:", error);
       showToast("Không thể tải cài đặt");
@@ -134,6 +197,115 @@ const SystemSettingsPage: React.FC = () => {
     setToastMessage(message);
     setTimeout(() => setToastMessage(null), 3000);
   };
+
+  // CheckIn Rewards handlers
+  const handleCheckInRewardChange = (
+    key: keyof CheckInRewards,
+    value: number
+  ) => {
+    if (value < 0) return;
+    setCheckInRewards((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const saveCheckInRewards = async () => {
+    setSavingCheckIn(true);
+    try {
+      await checkinService.updateRewardsConfig(checkInRewards);
+      setOriginalCheckInRewards({ ...checkInRewards });
+      showToast("Cập nhật thưởng điểm danh thành công!");
+    } catch (error: any) {
+      console.error("Failed to save checkin rewards:", error);
+      showToast(
+        error.response?.data?.message || "Cập nhật thưởng điểm danh thất bại"
+      );
+    } finally {
+      setSavingCheckIn(false);
+    }
+  };
+
+  const resetCheckInRewards = () => {
+    if (originalCheckInRewards) {
+      setCheckInRewards({ ...originalCheckInRewards });
+    }
+  };
+
+  // Lucky Wheel management functions
+  const hasLuckyWheelChanges =
+    luckyWheelSettings && originalLuckyWheelSettings
+      ? JSON.stringify(luckyWheelSettings) !==
+        JSON.stringify(originalLuckyWheelSettings)
+      : false;
+
+  const handleLuckyWheelSettingChange = (
+    key: keyof LuckyWheelSettings,
+    value: any
+  ) => {
+    if (!luckyWheelSettings) return;
+    setLuckyWheelSettings((prev) =>
+      prev
+        ? {
+            ...prev,
+            [key]: value,
+          }
+        : null
+    );
+  };
+
+  const handlePrizeChange = (
+    index: number,
+    key: keyof LuckyWheelPrize,
+    value: any
+  ) => {
+    if (!luckyWheelSettings) return;
+    const newPrizes = [...luckyWheelSettings.prizes];
+    newPrizes[index] = { ...newPrizes[index], [key]: value };
+    setLuckyWheelSettings((prev) =>
+      prev ? { ...prev, prizes: newPrizes } : null
+    );
+  };
+
+  const saveLuckyWheelSettings = async () => {
+    if (!luckyWheelSettings) return;
+
+    setSavingLuckyWheel(true);
+    try {
+      const updated = await luckywheelService.updateSettings(
+        luckyWheelSettings
+      );
+      setOriginalLuckyWheelSettings({ ...updated });
+      showToast("Cập nhật cài đặt vòng quay thành công!");
+    } catch (error: any) {
+      console.error("Failed to save lucky wheel settings:", error);
+      showToast(
+        error.response?.data?.message || "Cập nhật cài đặt vòng quay thất bại"
+      );
+    } finally {
+      setSavingLuckyWheel(false);
+    }
+  };
+
+  const resetLuckyWheelSettings = () => {
+    if (originalLuckyWheelSettings) {
+      setLuckyWheelSettings({ ...originalLuckyWheelSettings });
+    }
+  };
+
+  const hasCheckInChanges =
+    originalCheckInRewards &&
+    JSON.stringify(checkInRewards) !== JSON.stringify(originalCheckInRewards);
+
+  const dayNames = [
+    "Ngày 1 liên tiếp",
+    "Ngày 2 liên tiếp",
+    "Ngày 3 liên tiếp",
+    "Ngày 4 liên tiếp",
+    "Ngày 5 liên tiếp",
+    "Ngày 6 liên tiếp",
+    "Ngày 7 liên tiếp",
+  ];
 
   const updateField = async (field: keyof SystemSettings, value: any) => {
     if (!settings) return;
@@ -1025,6 +1197,513 @@ const SystemSettingsPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Daily CheckIn Settings */}
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 xl:col-span-2">
+          <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <CalendarDays className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white">
+                    Cài đặt điểm danh hàng ngày
+                  </h2>
+                  <p className="text-orange-100 text-sm">
+                    Quản lý thưởng điểm danh theo số ngày liên tiếp và thưởng
+                    hoàn thành tuần
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                {hasCheckInChanges && (
+                  <button
+                    onClick={resetCheckInRewards}
+                    className="px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2 backdrop-blur-sm"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Hủy thay đổi
+                  </button>
+                )}
+
+                <button
+                  onClick={saveCheckInRewards}
+                  disabled={savingCheckIn || !hasCheckInChanges}
+                  className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                    hasCheckInChanges && !savingCheckIn
+                      ? "bg-white text-orange-600 hover:bg-orange-50 shadow-lg"
+                      : "bg-white/20 text-white/60 cursor-not-allowed"
+                  }`}
+                >
+                  {savingCheckIn ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                      Đang lưu...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4" />
+                      Lưu cài đặt
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            {/* Daily Rewards */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Coins className="h-5 w-5 text-green-600" />
+                Thưởng theo số ngày liên tiếp
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {dayNames.map((dayName, index) => (
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition-colors"
+                  >
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {dayName}
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        min="0"
+                        step="1000"
+                        value={
+                          checkInRewards[
+                            `day${index + 1}` as keyof CheckInRewards
+                          ]
+                        }
+                        onChange={(e) =>
+                          handleCheckInRewardChange(
+                            `day${index + 1}` as keyof CheckInRewards,
+                            parseInt(e.target.value) || 0
+                          )
+                        }
+                        className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                        placeholder="0"
+                      />
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span className="text-gray-500 text-sm">VNĐ</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Week Complete Bonus */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Settings className="h-5 w-5 text-orange-600" />
+                Thưởng hoàn thành 1 tuần
+              </h3>
+
+              <div className="border border-gray-200 rounded-lg p-6 bg-gradient-to-r from-orange-50 to-yellow-50">
+                <div className="max-w-md">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Thưởng thêm khi hoàn thành điểm danh 7 ngày liên tiếp
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      min="0"
+                      step="1000"
+                      value={checkInRewards.bonusWeekComplete}
+                      onChange={(e) =>
+                        handleCheckInRewardChange(
+                          "bonusWeekComplete",
+                          parseInt(e.target.value) || 0
+                        )
+                      }
+                      className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                      placeholder="0"
+                    />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                      <span className="text-gray-500 text-sm">VNĐ</span>
+                    </div>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-600">
+                    Thưởng này sẽ được cộng thêm khi người dùng hoàn thành điểm
+                    danh 7 ngày liên tiếp.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Preview */}
+            <div className="p-6 bg-blue-50 rounded-lg border border-blue-200">
+              <h3 className="text-lg font-semibold text-blue-900 mb-4">
+                Xem trước thưởng theo ngày liên tiếp
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {dayNames.map((dayName, index) => (
+                  <div
+                    key={index}
+                    className="bg-white p-3 rounded-lg border shadow-sm"
+                  >
+                    <div className="text-sm text-gray-600 text-center">
+                      {dayName}
+                    </div>
+                    <div className="text-lg font-bold text-center text-blue-600 mt-1">
+                      {(
+                        checkInRewards[
+                          `day${index + 1}` as keyof CheckInRewards
+                        ] as number
+                      ).toLocaleString()}{" "}
+                      VNĐ
+                    </div>
+                    {index === 6 && checkInRewards.bonusWeekComplete > 0 && (
+                      <div className="text-xs text-center text-orange-600 mt-1">
+                        +{checkInRewards.bonusWeekComplete.toLocaleString()}{" "}
+                        (hoàn thành tuần)
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 text-sm text-gray-600">
+                <strong>Lưu ý:</strong> Hệ thống điểm danh theo ngày liên tiếp.
+                Thưởng tăng dần từ ngày 1 đến ngày 7. Khi hoàn thành 7 ngày liên
+                tiếp sẽ nhận thêm thưởng hoàn thành tuần.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Lucky Wheel Settings */}
+        {luckyWheelSettings && (
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 xl:col-span-2">
+            <div className="bg-gradient-to-r from-amber-500 to-yellow-500 px-6 py-4 rounded-t-xl">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">
+                      Cài đặt vòng quay may mắn
+                    </h2>
+                    <p className="text-amber-100 text-sm">
+                      Quản lý phần thưởng và tỷ lệ trúng trong vòng quay
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  {hasLuckyWheelChanges && (
+                    <button
+                      onClick={resetLuckyWheelSettings}
+                      className="px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2 backdrop-blur-sm"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                      Hủy thay đổi
+                    </button>
+                  )}
+
+                  <button
+                    onClick={saveLuckyWheelSettings}
+                    disabled={savingLuckyWheel || !hasLuckyWheelChanges}
+                    className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                      hasLuckyWheelChanges && !savingLuckyWheel
+                        ? "bg-white text-amber-600 hover:bg-amber-50 shadow-lg"
+                        : "bg-white/20 text-white/60 cursor-not-allowed"
+                    }`}
+                  >
+                    {savingLuckyWheel ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                        Đang lưu...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4" />
+                        Lưu cài đặt
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6">
+              {/* General Settings */}
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-amber-600" />
+                  Cài đặt chung
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Chi phí mỗi lượt quay
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        min="1"
+                        value={luckyWheelSettings.costPerSpin}
+                        onChange={(e) =>
+                          handleLuckyWheelSettingChange(
+                            "costPerSpin",
+                            parseInt(e.target.value) || 50
+                          )
+                        }
+                        className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      />
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span className="text-gray-500 text-sm">Points</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Giới hạn quay/ngày
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={luckyWheelSettings.maxSpinsPerDay || 10}
+                      onChange={(e) =>
+                        handleLuckyWheelSettingChange(
+                          "maxSpinsPerDay",
+                          parseInt(e.target.value) || 10
+                        )
+                      }
+                      className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <div className="flex h-5 items-center">
+                      <input
+                        type="checkbox"
+                        checked={luckyWheelSettings.enabled}
+                        onChange={(e) =>
+                          handleLuckyWheelSettingChange(
+                            "enabled",
+                            e.target.checked
+                          )
+                        }
+                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label className="font-medium text-gray-700">
+                        Kích hoạt vòng quay
+                      </label>
+                      <p className="text-gray-500">
+                        Cho phép người dùng sử dụng
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Prizes Configuration */}
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <Gift className="h-5 w-5 text-amber-600" />
+                  Cấu hình phần thưởng
+                </h3>
+
+                <div className="space-y-4">
+                  {luckyWheelSettings.prizes.map((prize, index) => (
+                    <div
+                      key={prize.id}
+                      className="p-4 border border-gray-200 rounded-lg"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Tên phần thưởng
+                          </label>
+                          <input
+                            type="text"
+                            value={prize.name}
+                            onChange={(e) =>
+                              handlePrizeChange(index, "name", e.target.value)
+                            }
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Giá trị Points
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={prize.value}
+                            onChange={(e) =>
+                              handlePrizeChange(
+                                index,
+                                "value",
+                                parseInt(e.target.value) || 0
+                              )
+                            }
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Tỷ lệ (%)
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value={prize.probability}
+                            onChange={(e) =>
+                              handlePrizeChange(
+                                index,
+                                "probability",
+                                parseFloat(e.target.value) || 0
+                              )
+                            }
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Màu sắc
+                          </label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="color"
+                              value={prize.color}
+                              onChange={(e) =>
+                                handlePrizeChange(
+                                  index,
+                                  "color",
+                                  e.target.value
+                                )
+                              }
+                              className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <input
+                              type="text"
+                              value={prize.color}
+                              onChange={(e) =>
+                                handlePrizeChange(
+                                  index,
+                                  "color",
+                                  e.target.value
+                                )
+                              }
+                              className="block flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex items-end">
+                          <div
+                            className="w-12 h-8 rounded border"
+                            style={{ backgroundColor: prize.color }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Lưu ý:</strong> Tổng tỷ lệ của tất cả phần thưởng
+                    phải bằng 100%. Hiện tại:{" "}
+                    {luckyWheelSettings.prizes
+                      .reduce((sum, p) => sum + p.probability, 0)
+                      .toFixed(1)}
+                    %
+                  </p>
+                </div>
+              </div>
+
+              {/* Preview */}
+              <div className="p-6 bg-amber-50 rounded-lg border border-amber-200">
+                <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                  Xem trước vòng quay
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">
+                      Danh sách phần thưởng:
+                    </h4>
+                    <div className="space-y-2">
+                      {luckyWheelSettings.prizes.map((prize, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between py-2 px-3 bg-white rounded border"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div
+                              className="w-4 h-4 rounded"
+                              style={{ backgroundColor: prize.color }}
+                            ></div>
+                            <span className="font-medium">{prize.name}</span>
+                            <span className="text-sm text-gray-600">
+                              ({prize.value} Points)
+                            </span>
+                          </div>
+                          <span className="text-sm font-medium text-amber-600">
+                            {prize.probability}%
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">
+                      Thông tin chung:
+                    </h4>
+                    <div className="bg-white p-4 rounded border space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Chi phí/lượt:</span>
+                        <span className="font-medium">
+                          {luckyWheelSettings.costPerSpin} Points
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Giới hạn/ngày:</span>
+                        <span className="font-medium">
+                          {luckyWheelSettings.maxSpinsPerDay} lượt
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Trạng thái:</span>
+                        <span
+                          className={`font-medium ${
+                            luckyWheelSettings.enabled
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {luckyWheelSettings.enabled
+                            ? "Đang hoạt động"
+                            : "Tạm dừng"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* BEP20 Modal */}
