@@ -61,7 +61,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
         email: editingUser.email || "",
         referralCode: editingUser.affiliate?.code || "",
         referredCode: "",
-        roles: editingUser.roles || ["User"],
+        roles: editingUser.roles || ["user"],
         status: editingUser.status ? "Active" : "Inactive",
         password: "",
       });

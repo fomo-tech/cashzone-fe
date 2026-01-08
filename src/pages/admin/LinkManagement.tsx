@@ -53,7 +53,10 @@ export default function LinkManagement() {
 
   const handleUpdateStatus = async (linkId: string, status: string) => {
     try {
-      await cashbackService.updateLinkStatus(linkId, status);
+      await cashbackService.updateLinkStatus(
+        linkId,
+        status as "active" | "expired" | "suspended"
+      );
       loadLinks();
       alert("Cập nhật trạng thái thành công!");
     } catch (error) {

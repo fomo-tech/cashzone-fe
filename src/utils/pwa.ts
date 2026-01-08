@@ -85,8 +85,7 @@ export const showNotification = async (
       await registration.showNotification(title, {
         icon: "/icons/icon-192x192.png",
         badge: "/icons/icon-72x72.png",
-        vibrate: [200, 100, 200],
-        ...options,
+        ...(options as any),
       });
     } else {
       // Fallback to regular notification

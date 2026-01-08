@@ -104,7 +104,7 @@ const TaskManagement: React.FC = () => {
     setFormData({
       offerId:
         task.offerId && typeof task.offerId === "object"
-          ? task.offerId._id
+          ? (task.offerId as any)._id
           : undefined,
       title: task.title,
       requirements: task.requirements || [],
@@ -468,7 +468,11 @@ const TaskManagement: React.FC = () => {
                     <div key={index} className="flex gap-2">
                       <input
                         type="text"
-                        value={requirement}
+                        value={
+                          typeof requirement === "string"
+                            ? requirement
+                            : requirement.title || ""
+                        }
                         onChange={(e) => {
                           const newRequirements = [
                             ...(formData.requirements || []),

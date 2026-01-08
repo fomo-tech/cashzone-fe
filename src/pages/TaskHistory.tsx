@@ -21,7 +21,7 @@ const TaskHistory: React.FC = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [statusFilter, setStatusFilter] = useState<string>("");
   const { setToast } = useAppStore();
 
@@ -36,7 +36,7 @@ const TaskHistory: React.FC = () => {
 
       setSubmissions(response.data || []);
       if (response.pagination) {
-        setTotalPages(response.pagination.totalPages || 1);
+        setTotalItems(response.pagination.total || 0);
       }
     } catch (error: any) {
       setToast({
@@ -328,11 +328,12 @@ const TaskHistory: React.FC = () => {
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {totalItems > 10 && (
           <div className="mt-6">
             <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
+              page={currentPage}
+              limit={10}
+              totalItems={totalItems}
               onPageChange={setCurrentPage}
             />
           </div>

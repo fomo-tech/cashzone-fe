@@ -22,6 +22,7 @@ import {
   Key,
   CheckSquare,
   Target,
+  FileText,
 } from "lucide-react";
 import { notification } from "../../utils/notification";
 import settingsService from "../../services/settingsService";

@@ -111,7 +111,7 @@ const NotificationManagement: React.FC = () => {
       // Upload image if exists
       if (imageFile) {
         const uploadResult = await uploadService.uploadImage(imageFile);
-        imageUrl = uploadResult.data.url;
+        imageUrl = uploadResult.data.imageUrl;
       }
 
       // Send notification based on target type
@@ -199,9 +199,10 @@ const NotificationManagement: React.FC = () => {
       <div
         className={`flex items-center justify-center w-12 h-12 rounded-full ${color}/10`}
       >
-        {React.cloneElement(icon as React.ReactElement, {
-          className: `w-6 h-6 ${color}`,
-        })}
+        {React.isValidElement(icon) &&
+          React.cloneElement(icon, {
+            className: `w-6 h-6 ${color}`,
+          } as any)}
       </div>
     </div>
   );

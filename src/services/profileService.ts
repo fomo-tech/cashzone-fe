@@ -29,7 +29,7 @@ export interface UserProfile {
   name?: string;
   email: string;
   avatar?: string;
-  roles: [RoleEnum];
+  roles: RoleEnum[];
   wallet: {
     available: number;
     pending: number;

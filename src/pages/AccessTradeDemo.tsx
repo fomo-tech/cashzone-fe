@@ -205,7 +205,10 @@ const AccessTradeDemoPage: React.FC = () => {
 
             <button
               onClick={() =>
-                handleApiCall("fullDemo", accessTradeDemo.runFullDemo)
+                handleApiCall("fullDemo", async () => ({
+                  success: true,
+                  ...(await accessTradeDemo.runFullDemo()),
+                }))
               }
               disabled={loading === "fullDemo"}
               className={`py-3 px-6 rounded-lg font-medium transition-colors ${

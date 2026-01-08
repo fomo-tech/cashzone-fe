@@ -16,7 +16,7 @@ interface Platform {
   id: string;
   name: string;
   color: string;
-  logo: string | JSX.Element;
+  logo: string | React.ReactElement;
   type: "product" | "trade" | "service" | "finance";
 }
 

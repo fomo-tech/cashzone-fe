@@ -46,7 +46,7 @@ import http from "@/services/api";
 import { useAppStore } from "@/store/appStore";
 import type { User } from "@/utils/types";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
-import { ConfirmModal } from "@/components/common/ConfirmModal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 
 /**
  * Transaction interface
@@ -217,10 +217,10 @@ const ReferralSystemDisplay = ({
     directReferrals: affiliate.directReferrals || 0,
     level2Referrals: affiliate.level2Referrals || 0,
     level3Referrals: affiliate.level3Referrals || 0,
-    totalEarned: commissions.totalEarned || 0,
-    level1Total: commissions.level1Total || 0,
-    level2Total: commissions.level2Total || 0,
-    level3Total: commissions.level3Total || 0,
+    totalEarned: (commissions as any)?.totalEarned || 0,
+    level1Total: (commissions as any)?.level1Total || 0,
+    level2Total: (commissions as any)?.level2Total || 0,
+    level3Total: (commissions as any)?.level3Total || 0,
   };
 
   // Commission rates for display
@@ -425,9 +425,11 @@ const ReferralSystemDisplay = ({
             <Award className="w-4 h-4 text-yellow-600" />
             <span className="text-sm font-medium text-yellow-800">
               Hoạt động giới thiệu tốt!
-              {commissions.totalEarned &&
-                commissions.totalEarned > 0 &&
-                ` Đã kiếm được ${formatCurrency(commissions.totalEarned)}`}
+              {(commissions as any)?.totalEarned &&
+                (commissions as any).totalEarned > 0 &&
+                ` Đã kiếm được ${formatCurrency(
+                  (commissions as any).totalEarned
+                )}`}
             </span>
           </div>
         </div>
@@ -768,7 +770,8 @@ export default function UserDetailPage() {
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                 <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                  <User2 className="w-5 h-5 text-[orange-600]" /> Thông tin Cơ bản
+                  <User2 className="w-5 h-5 text-[orange-600]" /> Thông tin Cơ
+                  bản
                 </h4>
                 <StatusBadge status={user.status} />
               </div>

@@ -62,7 +62,12 @@ const ActivityEarningManagement: React.FC = () => {
         params
       );
       setEarnings(response.history);
-      setPagination(response.pagination);
+      setPagination({
+        limit: response.pagination.limit,
+        page: response.pagination.page,
+        totalItems: response.pagination.total,
+        totalPages: response.pagination.totalPages,
+      });
     } catch (error: any) {
       setToast({
         title:
@@ -388,8 +393,9 @@ const ActivityEarningManagement: React.FC = () => {
         {pagination && pagination.totalPages > 1 && (
           <div className="px-4 py-3 border-t border-gray-200">
             <Pagination
-              currentPage={currentPage}
-              totalPages={pagination.totalPages}
+              page={currentPage}
+              limit={pagination.limit}
+              totalItems={pagination.totalItems}
               onPageChange={setCurrentPage}
             />
           </div>

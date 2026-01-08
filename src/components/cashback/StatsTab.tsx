@@ -293,7 +293,7 @@ const StatsTab: React.FC = () => {
                         className="h-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full"
                         style={{
                           width: `${
-                            Math.max(stats.monthlyStats)
+                            Math.max(...stats.monthlyStats.map((m) => m.amount))
                               ? (month.amount /
                                   Math.max(
                                     ...stats.monthlyStats.map((m) => m.amount)

@@ -25,7 +25,7 @@ import RoleBadge from "@/components/admin/RoleBadge";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { Link } from "react-router-dom";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
-import { ConfirmModal } from "@/components/common/ConfirmModal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);

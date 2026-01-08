@@ -139,7 +139,9 @@ export default function TaskSubmitModal({
                 {task.requirements.map((req, index) => (
                   <li key={index} className="flex items-start">
                     <span className="mr-2">•</span>
-                    <span>{req}</span>
+                    <span>
+                      {typeof req === "string" ? req : req.title || ""}
+                    </span>
                   </li>
                 ))}
               </ul>

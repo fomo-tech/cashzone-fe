@@ -64,12 +64,12 @@ const Header = () => {
       >
         <div className="flex items-center justify-between h-14 sm:h-16 pl-14 sm:pl-16 pr-3 sm:pr-4 md:px-8">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="relative md:hidden flex items-center justify-center w-[90%] h-10">
-              <img
-                src={logo_m}
-                alt="Cashzone"
-                className="relative z-10 w-full h-full object-contain"
-              />
+            <div className="relative md:hidden flex items-center justify-center h-10">
+              <div className="text-3xl font-extrabold tracking-tight">
+                <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm">
+                  Bagback
+                </span>
+              </div>
             </div>
           </div>
 
