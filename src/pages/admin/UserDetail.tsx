@@ -181,7 +181,17 @@ const RecentTransactions = ({
             </table>
           </div>
           <div className="mt-6 pt-4 border-t border-gray-200 text-right">
-            <button className="inline-flex items-center gap-2 text-sm font-semibold text-[orange-600] hover:text-[orange-600] transition-colors">
+            <button
+              onClick={() =>
+                window.open(
+                  `/admin/transactions?userId=${
+                    (transactions[0] as any)?.userId
+                  }`,
+                  "_blank"
+                )
+              }
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[orange-600] hover:text-[#FF8C1A] transition-colors"
+            >
               Xem tất cả giao dịch
               <ArrowLeft className="w-4 h-4 rotate-180" />
             </button>
@@ -198,11 +208,13 @@ const RecentTransactions = ({
 interface ReferralSystemProps {
   user: User;
   referralStats?: any;
+  onRefresh?: () => void;
 }
 
 const ReferralSystemDisplay = ({
   user,
   referralStats,
+  onRefresh,
 }: ReferralSystemProps) => {
   const affiliate = user.affiliate || {};
   const commissions = affiliate.commissions || {};
@@ -408,11 +420,19 @@ const ReferralSystemDisplay = ({
 
       {/* Action Buttons for Admin */}
       <div className="flex gap-2 pt-4 border-t border-gray-200">
-        <button className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+        <button
+          onClick={onRefresh}
+          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
+        >
           <RefreshCw className="w-4 h-4" />
           Cập nhật
         </button>
-        <button className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+        <button
+          onClick={() =>
+            window.open(`/admin/referrals?userId=${user._id}`, "_blank")
+          }
+          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
+        >
           <FileText className="w-4 h-4" />
           Chi tiết
         </button>
@@ -463,6 +483,16 @@ export default function UserDetailPage() {
   const [adjustAmount, setAdjustAmount] = useState(0);
   const [adjustReason, setAdjustReason] = useState("");
   const [isAdjusting, setIsAdjusting] = useState(false);
+
+  // Edit user states
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editData, setEditData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    status: true,
+  });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -533,6 +563,64 @@ export default function UserDetailPage() {
     setAdjustAmount(0);
     setAdjustReason("");
     setIsAdjustModalOpen(true);
+  };
+
+  const openEditModal = () => {
+    if (user) {
+      setEditData({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        status: user.status,
+      });
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleEditUser = async () => {
+    if (
+      !user ||
+      !editData.name.trim() ||
+      !editData.email.trim() ||
+      !editData.phone.trim()
+    ) {
+      setToast({
+        type: "error",
+        title: "Vui lòng nhập đầy đủ thông tin",
+        isVisible: true,
+        timer: 2000,
+      });
+      return;
+    }
+
+    try {
+      setIsEditing(true);
+      await http.put(`/admin/user/${user._id}`, editData);
+
+      setToast({
+        type: "success",
+        title: "Cập nhật thông tin người dùng thành công",
+        isVisible: true,
+        timer: 2000,
+      });
+      setIsEditModalOpen(false);
+
+      // Reload user data
+      const response = await http.get(`/admin/user/${id}`);
+      if (response.data && response.data.data && response.data.data.user) {
+        setUser(response.data.data.user);
+      }
+    } catch (err: any) {
+      console.error("Error editing user:", err);
+      setToast({
+        type: "error",
+        title: err.response?.data?.message || "Không thể cập nhật thông tin",
+        isVisible: true,
+        timer: 2000,
+      });
+    } finally {
+      setIsEditing(false);
+    }
   };
 
   const handleAdjustBalance = async () => {
@@ -909,6 +997,7 @@ export default function UserDetailPage() {
               <ReferralSystemDisplay
                 user={user}
                 referralStats={referralStats}
+                onRefresh={handleRefresh}
               />
             )}
           </div>
@@ -935,7 +1024,7 @@ export default function UserDetailPage() {
 
               <div className="flex flex-col gap-3">
                 <button
-                  onClick={() => navigate(`/admin/users/edit/${user._id}`)}
+                  onClick={openEditModal}
                   className="flex items-center justify-center gap-2 w-full py-3 px-4 text-base font-semibold rounded-xl text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 shadow-lg shadow-pink-500/30 transition duration-200 transform hover:scale-[1.02]"
                 >
                   <Edit2 className="w-5 h-5" />
@@ -1093,6 +1182,132 @@ export default function UserDetailPage() {
                         Trừ tiền
                       </>
                     )}
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <Edit2 className="w-6 h-6 text-[orange-600]" />
+                Chỉnh sửa thông tin người dùng
+              </h3>
+              <p className="text-sm text-gray-500 mt-2">
+                ID:{" "}
+                <span className="font-mono text-[orange-600]">{user?._id}</span>
+              </p>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Tên người dùng *
+                </label>
+                <input
+                  type="text"
+                  value={editData.name}
+                  onChange={(e) =>
+                    setEditData({ ...editData, name: e.target.value })
+                  }
+                  placeholder="Nhập tên..."
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[orange-600]/20 focus:border-[orange-600] transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  value={editData.email}
+                  onChange={(e) =>
+                    setEditData({ ...editData, email: e.target.value })
+                  }
+                  placeholder="Nhập email..."
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[orange-600]/20 focus:border-[orange-600] transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Số điện thoại *
+                </label>
+                <input
+                  type="tel"
+                  value={editData.phone}
+                  onChange={(e) =>
+                    setEditData({ ...editData, phone: e.target.value })
+                  }
+                  placeholder="Nhập số điện thoại..."
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[orange-600]/20 focus:border-[orange-600] transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Trạng thái
+                </label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={editData.status === true}
+                      onChange={() =>
+                        setEditData({ ...editData, status: true })
+                      }
+                      className="w-4 h-4 text-[orange-600] focus:ring-[orange-600]"
+                    />
+                    <span className="text-sm text-gray-700">Hoạt động</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      checked={editData.status === false}
+                      onChange={() =>
+                        setEditData({ ...editData, status: false })
+                      }
+                      className="w-4 h-4 text-red-600 focus:ring-red-600"
+                    />
+                    <span className="text-sm text-gray-700">Vô hiệu hóa</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex gap-3">
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleEditUser}
+                disabled={
+                  isEditing ||
+                  !editData.name.trim() ||
+                  !editData.email.trim() ||
+                  !editData.phone.trim()
+                }
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isEditing ? (
+                  <>
+                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    Đang cập nhật...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="w-5 h-5" />
+                    Lưu thay đổi
                   </>
                 )}
               </button>

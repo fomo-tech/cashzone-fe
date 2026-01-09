@@ -1,4 +1,4 @@
-import http from "./api";
+import { defaultHttp } from "./api";
 
 export interface LeaderBoardUser {
   id: string;
@@ -24,20 +24,20 @@ export interface LeaderBoardResponse {
 }
 
 export const leaderboardService = {
-  // Get leaderboard data
+  // Get leaderboard data - Public API, no auth required
   getLeaderBoard: async (
     period: "all" | "week" | "month" | "year" = "all",
     limit: number = 10
   ): Promise<LeaderBoardResponse> => {
-    const response = await http.get("/leaderboard", {
+    const response = await defaultHttp.get("/leaderboard", {
       params: { period, limit },
     });
     return response.data.data;
   },
 
-  // Get user ranking
+  // Get user ranking - Public API, no auth required
   getUserRanking: async (userId?: string): Promise<LeaderBoardUser | null> => {
-    const response = await http.get("/leaderboard", {
+    const response = await defaultHttp.get("/leaderboard", {
       params: { period: "all", limit: 1 },
     });
     return response.data.data.currentUser;

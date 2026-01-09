@@ -94,7 +94,11 @@ const CommonModal: React.FC<CommonModalProps> = ({
         )}
 
         {/* Body */}
-        <div className={`p-6 ${bodyClassName}`}>{children}</div>
+        <div
+          className={`p-6 max-h-[calc(100vh-200px)] overflow-y-auto ${bodyClassName}`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

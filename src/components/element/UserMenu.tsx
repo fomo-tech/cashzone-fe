@@ -83,13 +83,13 @@ const UserMenu = () => {
             Lịch sử hoàn tiền
           </Link>
 
-          <Link
+          {/* <Link
             to="/settings"
             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[orange-600] transition"
           >
             <Settings className="w-4 h-4 mr-2" />
             Cài đặt
-          </Link>
+          </Link> */}
 
           <button
             onClick={handleLogout}

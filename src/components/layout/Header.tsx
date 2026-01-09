@@ -83,7 +83,7 @@ const Header = () => {
                   }
                   className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 hover:text-[orange-600] transition-all duration-300 text-xs sm:text-sm active:scale-95"
                 >
-                  {t("auth.login")}
+                  Đăng nhập
                 </button>
                 <button
                   onClick={() =>
@@ -94,7 +94,7 @@ const Header = () => {
                   }
                   className="cursor-pointer px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-semibold hover:from-orange-600 hover:to-amber-700 transition-all duration-300 shadow-lg shadow-pink-500/30 text-xs sm:text-sm active:scale-95"
                 >
-                  {t("auth.signup")}
+                  Đăng ký
                 </button>
 
                 {/* Divider */}

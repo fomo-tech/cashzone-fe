@@ -10,14 +10,20 @@ import {
   Copy,
   Check,
   ShoppingBag,
-  X,
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
 import PlatformSelect from "@/components/common/PlatformSelect";
+import CommonModal from "@/components/common/Modal";
+import { useAppStore } from "@/store/appStore";
+import { set } from "date-fns";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 
 export default function LinkManagement() {
   const [links, setLinks] = useState<any[]>([]);
+  const { setToast } = useAppStore();
+  const { showConfirm, confirmModal, hideConfirm } = useConfirmModal();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -91,24 +97,45 @@ export default function LinkManagement() {
         status as "active" | "expired" | "suspended"
       );
       loadLinks();
-      alert("Cập nhật trạng thái thành công!");
     } catch (error: any) {
       console.error("Error updating status:", error);
-      alert("Lỗi khi cập nhật trạng thái");
+      setToast({
+        type: "error",
+        title: error?.response?.data?.message || "Lỗi khi cập nhật status",
+        isVisible: true,
+        timer: 5000,
+      });
     }
   };
 
   const handleDelete = async (linkId: string) => {
-    if (!confirm("Bạn có chắc muốn xóa link này?")) return;
-
-    try {
-      await cashbackService.deleteLink(linkId);
-      loadLinks();
-      alert("Xóa link thành công!");
-    } catch (error: any) {
-      console.error("Error deleting link:", error);
-      alert("Lỗi khi xóa link");
-    }
+    showConfirm({
+      title: "Xác nhận xóa link",
+      message:
+        "Bạn có chắc chắn muốn xóa link này không? Hành động này không thể hoàn tác.",
+      confirmText: "Xóa",
+      cancelText: "Hủy",
+      onConfirm: async () => {
+        try {
+          await cashbackService.deleteLink(linkId);
+          loadLinks();
+          setToast({
+            type: "success",
+            title: "Xóa link thành công!",
+            isVisible: true,
+            timer: 1500,
+          });
+        } catch (error: any) {
+          console.error("Error deleting link:", error);
+          setToast({
+            type: "error",
+            title: "Lỗi khi xóa link",
+            isVisible: true,
+            timer: 5000,
+          });
+        }
+      },
+    });
   };
 
   const handleCopyId = async (id: string, type: "userId" | "linkId") => {
@@ -176,12 +203,22 @@ export default function LinkManagement() {
     console.log("Selected link:", selectedLink);
 
     if (!selectedLink) {
-      alert("Không tìm thấy thông tin link");
+      setToast({
+        type: "error",
+        title: "Không tìm thấy link đã chọn",
+        isVisible: true,
+        timer: 1500,
+      });
       return;
     }
 
     if (!orderData.orderId || orderData.orderAmount <= 0) {
-      alert("Vui lòng nhập đầy đủ thông tin đơn hàng");
+      setToast({
+        type: "error",
+        title: "Vui lòng nhập đầy đủ thông tin đơn hàng",
+        isVisible: true,
+        timer: 1500,
+      });
       return;
     }
 
@@ -212,18 +249,24 @@ export default function LinkManagement() {
       );
 
       console.log("API response:", response);
-      alert("Tạo đơn hoàn tiền thành công!");
+      setToast({
+        type: "success",
+        title: "Tạo đơn hoàn tiền thành công!",
+        isVisible: true,
+        timer: 1500,
+      });
       setShowOrderModal(false);
       loadLinks();
       loadStats();
     } catch (error: any) {
       console.error("Error creating order:", error);
       console.error("Error response:", error?.response);
-      alert(
-        error?.response?.data?.message ||
-          error?.message ||
-          "Lỗi khi tạo đơn hoàn tiền. Vui lòng thử lại."
-      );
+      setToast({
+        type: "error",
+        title: "Lỗi khi tạo đơn hoàn tiền. Vui lòng thử lại.",
+        isVisible: true,
+        timer: 5000,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -262,11 +305,21 @@ export default function LinkManagement() {
 
     try {
       await cashbackService.adminApproveOrder(orderId);
-      alert("Đã duyệt đơn hàng thành công!");
+      setToast({
+        type: "success",
+        title: "Đã duyệt đơn hàng thành công!",
+        isVisible: true,
+        timer: 1500,
+      });
       await loadLinkOrders(linkId);
       loadStats();
     } catch (error: any) {
-      alert(error?.response?.data?.message || "Lỗi khi duyệt đơn hàng");
+      setToast({
+        type: "error",
+        title: error?.response?.data?.message || "Lỗi khi duyệt đơn hàng",
+        isVisible: true,
+        timer: 5000,
+      });
     }
   };
 
@@ -275,16 +328,37 @@ export default function LinkManagement() {
 
     try {
       await cashbackService.adminMarkOrderAsPaid(orderId);
-      alert("Đã hoàn tiền thành công!");
+      setToast({
+        type: "success",
+        title: "Đã hoàn tiền thành công!",
+        isVisible: true,
+        timer: 1500,
+      });
       await loadLinkOrders(linkId);
       loadStats();
     } catch (error: any) {
-      alert(error?.response?.data?.message || "Lỗi khi đánh dấu đã hoàn tiền");
+      setToast({
+        type: "error",
+        title:
+          error?.response?.data?.message || "Lỗi khi đánh dấu đã hoàn tiền",
+        isVisible: true,
+        timer: 3000,
+      });
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={hideConfirm}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmText={confirmModal.confirmText}
+        cancelText={confirmModal.cancelText}
+        type={confirmModal.type}
+      />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -734,26 +808,26 @@ export default function LinkManagement() {
         </div>
 
         {/* Modal Tạo Đơn Hoàn Tiền */}
-        {showOrderModal && selectedLink && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              {/* Header */}
-              <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <ShoppingBag className="text-orange-600" size={28} />
-                    Duyệt Đơn Hoàn Tiền
-                  </h2>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Tạo đơn hoàn tiền từ link - Có thể thay đổi số tiền nếu cần
-                  </p>
-                </div>
-                <button
-                  onClick={() => setShowOrderModal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <X size={24} className="text-gray-600" />
-                </button>
+        <CommonModal
+          isOpen={showOrderModal && !!selectedLink}
+          onClose={() => setShowOrderModal(false)}
+          width="max-w-2xl"
+          showCloseButton={false}
+          className=""
+          headerClassName=""
+          bodyClassName="p-0"
+        >
+          {selectedLink && (
+            <>
+              {/* Custom Header */}
+              <div className="px-6 py-4 border-b">
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <ShoppingBag className="text-orange-600" size={28} />
+                  Duyệt Đơn Hoàn Tiền
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  Tạo đơn hoàn tiền từ link - Có thể thay đổi số tiền nếu cần
+                </p>
               </div>
 
               {/* Content */}
@@ -919,7 +993,7 @@ export default function LinkManagement() {
               </div>
 
               {/* Footer */}
-              <div className="sticky bottom-0 bg-gray-50 px-6 py-4 flex items-center justify-end gap-3 border-t">
+              <div className="bg-gray-50 px-6 py-4 flex items-center justify-end gap-3 border-t">
                 <button
                   onClick={() => setShowOrderModal(false)}
                   disabled={submitting}
@@ -949,9 +1023,9 @@ export default function LinkManagement() {
                   )}
                 </button>
               </div>
-            </div>
-          </div>
-        )}
+            </>
+          )}
+        </CommonModal>
 
         {/* Note: Sau khi duyệt, admin cần vào trang quản lý đơn hàng để đánh dấu đã hoàn tiền */}
       </div>

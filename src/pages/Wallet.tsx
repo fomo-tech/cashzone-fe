@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import {
   Banknote,
   Wallet,
@@ -10,14 +10,13 @@ import {
   CheckCircle,
   Clock,
   ArrowDownCircle,
-  ArrowUpCircle,
   PlusCircle,
-  ArrowRight,
-  X,
   User,
   ArrowDownRight,
   Loader,
+  X,
 } from "lucide-react";
+import CommonModal from "@/components/common/Modal";
 import walletService from "@/services/walletService";
 import type {
   WalletInfo,
@@ -85,61 +84,50 @@ const StatusBadge: React.FC<{ status: Transaction["status"] }> = ({
 // MODAL COMPONENT (Mô phỏng nạp tiền)
 // =========================================================================
 
-const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const DepositModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-3 md:p-4">
-      <div className="bg-white rounded-xl md:rounded-2xl shadow-2xl w-full max-w-md p-4 md:p-5 lg:p-6">
-        <div className="flex justify-between items-center mb-3 md:mb-4">
-          <h3 className="text-lg md:text-xl font-bold text-slate-800 flex items-center">
-            <PlusCircle className="w-5 h-5 md:w-6 md:h-6 mr-2 text-blue-600" />{" "}
-            Nạp Tiền
-          </h3>
-          <button
-            onClick={onClose}
-            className="text-slate-500 hover:text-slate-800"
-          >
-            <X className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
-        </div>
-        <p className="text-xs md:text-sm text-slate-600 mb-4 md:mb-5 lg:mb-6">
+    <CommonModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Nạp Tiền"
+      width="max-w-md"
+      headerClassName="flex items-center gap-2"
+    >
+      <div className="space-y-4">
+        <p className="text-sm text-slate-600">
           Vui lòng chuyển khoản đến tài khoản ngân hàng hoặc ví điện tử sau để
           nạp tiền vào tài khoản của bạn.
         </p>
 
-        <div className="space-y-3 md:space-y-4">
-          <div className="p-3 md:p-4 bg-blue-50 border border-blue-200 rounded-lg md:rounded-xl">
-            <p className="text-[10px] md:text-xs text-blue-600 font-medium mb-1">
+        <div className="space-y-3">
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+            <p className="text-xs text-blue-600 font-medium mb-1">
               NGÂN HÀNG VIETCOMBANK
             </p>
-            <p className="text-base md:text-lg font-bold text-slate-800">
-              00110022334455
-            </p>
-            <p className="text-xs md:text-sm text-slate-600">
-              Chủ TK: CÔNG TY TNHH ABC
-            </p>
+            <p className="text-lg font-bold text-slate-800">00110022334455</p>
+            <p className="text-sm text-slate-600">Chủ TK: CÔNG TY TNHH ABC</p>
           </div>
-          <div className="p-3 md:p-4 bg-pink-50 border border-pink-200 rounded-lg md:rounded-xl">
-            <p className="text-[10px] md:text-xs text-pink-600 font-medium mb-1">
+          <div className="p-4 bg-pink-50 border border-pink-200 rounded-xl">
+            <p className="text-xs text-pink-600 font-medium mb-1">
               VÍ ĐIỆN TỬ MOMO
             </p>
-            <p className="text-base md:text-lg font-bold text-slate-800">
-              0987654321
-            </p>
-            <p className="text-xs md:text-sm text-slate-600">
-              Nội dung: [Tên đăng nhập]
-            </p>
+            <p className="text-lg font-bold text-slate-800">0987654321</p>
+            <p className="text-sm text-slate-600">Nội dung: [Tên đăng nhập]</p>
           </div>
         </div>
 
         <button
           onClick={onClose}
-          className="mt-4 md:mt-5 lg:mt-6 w-full py-2.5 md:py-3 bg-blue-600 text-white rounded-lg md:rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center text-sm md:text-base"
+          className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center"
         >
-          Đã Hiểu và Thực Hiện{" "}
-          <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4 ml-2" />
+          Đã Hiểu và Thực Hiện
+          <CheckCircle className="w-4 h-4 ml-2" />
         </button>
       </div>
-    </div>
+    </CommonModal>
   );
 };
 
@@ -148,10 +136,11 @@ const DepositModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 // =========================================================================
 
 const PaymentInfoModal: React.FC<{
+  isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
   currentInfo: PaymentInfo | null;
-}> = ({ onClose, onSuccess, currentInfo }) => {
+}> = ({ isOpen, onClose, onSuccess, currentInfo }) => {
   const [activeTab, setActiveTab] = useState<"bank" | "momo" | "bep20">("bank");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -207,20 +196,13 @@ const PaymentInfoModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-bold text-slate-800">
-            Cập Nhật Thông Tin Thanh Toán
-          </h3>
-          <button
-            onClick={onClose}
-            className="text-slate-500 hover:text-slate-800"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
+    <CommonModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Cập Nhật Thông Tin Thanh Toán"
+      width="max-w-2xl"
+    >
+      <div className="space-y-6">
         {/* Tab Selection */}
         <div className="flex gap-2 mb-6 border-b">
           <button
@@ -421,7 +403,7 @@ const PaymentInfoModal: React.FC<{
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-3 bg-[orange-600] text-white rounded-xl font-bold hover:bg-[#AD1457] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="flex-1 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
@@ -438,7 +420,7 @@ const PaymentInfoModal: React.FC<{
           </div>
         </form>
       </div>
-    </div>
+    </CommonModal>
   );
 };
 
@@ -470,11 +452,7 @@ const WalletManagement: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Load wallet data on mount
-  useEffect(() => {
-    loadWalletData();
-  }, []);
-
-  const loadWalletData = async () => {
+  const loadWalletData = useCallback(async () => {
     try {
       setIsLoading(true);
       const [walletData, transactionsData, profileData, paymentData] =
@@ -482,7 +460,7 @@ const WalletManagement: React.FC = () => {
           walletService.getWalletInfo(),
           walletService.getTransactions({ page: 1, limit: 20 }),
           walletService.getProfileCompletion(),
-          walletService.getPaymentInfo(),
+          walletService.getPaymentInfo().catch(() => null),
         ]);
 
       setWalletInfo(walletData);
@@ -497,7 +475,7 @@ const WalletManagement: React.FC = () => {
           amount: tx.amount,
           time: new Date(tx.createdAt).toLocaleString("vi-VN"),
           status: mapTransactionStatus(tx.status),
-          method: tx.paymentInfo?.method || "BANK",
+          method: tx.paymentInfo?.method?.toUpperCase() || "BANK",
         }));
 
       setTransactions(formattedTransactions);
@@ -507,7 +485,11 @@ const WalletManagement: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadWalletData();
+  }, [loadWalletData]);
 
   // Helper functions to map API values to UI values
   const mapTransactionType = (type: string): "RÚT" | "NẠP" | "HOA HỒNG" => {
@@ -658,7 +640,8 @@ const WalletManagement: React.FC = () => {
     <div className="min-h-screen py-6 sm:py-8 lg:py-10">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-[orange-600] text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in">
+        <div className="fixed top-4 right-4 z-50 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg animate-fade-in flex items-center gap-2">
+          <CheckCircle className="w-5 h-5" />
           {toastMessage}
         </div>
       )}
@@ -692,26 +675,26 @@ const WalletManagement: React.FC = () => {
                   <CheckCircle className="w-4 h-4 mr-1.5" />
                   Có thể rút ngay
                 </div>
-                <button
+                {/* <button
                   onClick={handleDeposit}
                   className="flex items-center text-sm font-semibold text-white hover:text-white/80 transition-colors"
                   title="Nạp tiền vào tài khoản"
                 >
                   <PlusCircle className="w-5 h-5 mr-1" />
                   Nạp Tiền
-                </button>
+                </button> */}
               </div>
             </div>
 
             {/* Đang Chờ Xử Lý */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-slate-200 shadow-sm">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-slate-600 text-sm font-medium">
                   Đang Chờ Xử Lý
                 </span>
-                <Clock className="w-6 h-6 text-yellow-500" />
+                <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
                 {formatCurrency(pendingBalance)}
               </div>
               <div className="text-xs text-slate-400 pt-2 border-t border-slate-100">
@@ -720,14 +703,14 @@ const WalletManagement: React.FC = () => {
             </div>
 
             {/* Tổng Đã Rút */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-slate-200 shadow-sm">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-slate-600 text-sm font-medium">
                   Tổng Đã Rút
                 </span>
-                <ArrowDownCircle className="w-6 h-6 text-emerald-500" />
+                <ArrowDownCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
                 {formatCurrency(totalWithdrawn)}
               </div>
               <div className="text-xs text-slate-400 pt-2 border-t border-slate-100">
@@ -738,12 +721,12 @@ const WalletManagement: React.FC = () => {
 
           <hr className="my-8 border-slate-100" />
 
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
             {/* Withdrawal Form */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
-                <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                  <ArrowDownRight className="w-6 h-6 mr-2 text-[orange-600]" />
+            <div className="xl:col-span-1">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-5 lg:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center">
+                  <ArrowDownRight className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-orange-600" />
                   Tạo Yêu Cầu Rút Tiền
                 </h3>
 
@@ -841,6 +824,11 @@ const WalletManagement: React.FC = () => {
                                 ? "border-blue-500 bg-blue-50"
                                 : "border-slate-200 hover:border-slate-300 bg-white"
                             }`}
+                            title={
+                              userProfile.hasBankingInfo
+                                ? "Thông tin ngân hàng đã cập nhật"
+                                : "Chưa cập nhật thông tin ngân hàng"
+                            }
                           >
                             <Landmark
                               className={`w-8 h-8 mb-2 ${
@@ -981,13 +969,13 @@ const WalletManagement: React.FC = () => {
             </div>
 
             {/* History */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
-                <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-[orange-600]" />
+            <div className="xl:col-span-2">
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-5 lg:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2">
+                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
                   Lịch Sử Giao Dịch
                 </h3>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto -mx-4 sm:mx-0">
                   <table className="w-full min-w-[600px]">
                     <thead>
                       <tr className="border-b-2 border-slate-200">
@@ -1015,8 +1003,10 @@ const WalletManagement: React.FC = () => {
                             key={tx.id}
                             className="hover:bg-slate-50 transition-colors"
                           >
-                            <td className="py-4 px-4 font-medium text-slate-700">
-                              #{tx.id}
+                            <td className="py-4 px-4 font-medium text-slate-700 text-xs sm:text-sm">
+                              <span className="truncate block max-w-[100px] sm:max-w-none">
+                                #{tx.id.slice(0, 8)}...
+                              </span>
                             </td>
                             <td className="py-4 px-4 text-slate-500">
                               {tx.time}
@@ -1024,14 +1014,14 @@ const WalletManagement: React.FC = () => {
                             <td className="py-4 px-4 text-slate-600">
                               <span
                                 className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                                  tx.method === "BANK"
+                                  tx.method.toUpperCase() === "BANK"
                                     ? "bg-blue-100 text-blue-800"
-                                    : tx.method === "MOMO"
+                                    : tx.method.toUpperCase() === "MOMO"
                                     ? "bg-pink-100 text-pink-800"
                                     : "bg-indigo-100 text-indigo-800"
                                 }`}
                               >
-                                {tx.method}
+                                {tx.method.toUpperCase()}
                               </span>
                             </td>
                             <td
@@ -1053,10 +1043,19 @@ const WalletManagement: React.FC = () => {
                         <tr>
                           <td
                             colSpan={5}
-                            className="py-12 text-center text-slate-500 italic"
+                            className="py-16 text-center text-slate-500"
                           >
-                            <Banknote className="w-8 h-8 mx-auto text-slate-300 mb-2" />
-                            Chưa có giao dịch nào được ghi nhận.
+                            <div className="flex flex-col items-center justify-center gap-3">
+                              <Banknote className="w-12 h-12 text-slate-300" />
+                              <div>
+                                <p className="font-semibold text-slate-700 mb-1">
+                                  Chưa có giao dịch nào
+                                </p>
+                                <p className="text-sm text-slate-500">
+                                  Giao dịch của bạn sẽ hiển thị ở đây
+                                </p>
+                              </div>
+                            </div>
                           </td>
                         </tr>
                       )}
@@ -1069,21 +1068,21 @@ const WalletManagement: React.FC = () => {
         </div>
       )}
       {/* Deposit Modal */}
-      {isDepositModalOpen && (
-        <DepositModal onClose={() => setIsDepositModalOpen(false)} />
-      )}
+      <DepositModal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+      />
 
       {/* Payment Info Modal */}
-      {isPaymentInfoModalOpen && (
-        <PaymentInfoModal
-          onClose={() => setIsPaymentInfoModalOpen(false)}
-          onSuccess={() => {
-            showToast("Cập nhật thông tin thanh toán thành công!");
-            loadWalletData();
-          }}
-          currentInfo={paymentInfo}
-        />
-      )}
+      <PaymentInfoModal
+        isOpen={isPaymentInfoModalOpen}
+        onClose={() => setIsPaymentInfoModalOpen(false)}
+        onSuccess={() => {
+          showToast("Cập nhật thông tin thanh toán thành công!");
+          loadWalletData();
+        }}
+        currentInfo={paymentInfo}
+      />
     </div>
   );
 };

@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Star, ExternalLink, TrendingUp, Sparkles } from "lucide-react";
+import {
+  Star,
+  ExternalLink,
+  TrendingUp,
+  Sparkles,
+  Loader2,
+} from "lucide-react";
 import affiliateProductService from "@/services/affiliateProductService";
 import type { AffiliateProduct } from "@/services/affiliateProductService";
+import { useAuthStore } from "@/store/authStore";
+import { useAppStore } from "@/store/appStore";
+import http from "@/services/api";
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("vi-VN", {
@@ -24,6 +33,9 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
 }) => {
   const [products, setProducts] = useState<AffiliateProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [creatingLink, setCreatingLink] = useState<string | null>(null);
+  const { user, isAuthenticated } = useAuthStore();
+  const { setToast } = useAppStore();
 
   const loadPriorityProducts = useCallback(async () => {
     setLoading(true);
@@ -46,6 +58,62 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
   useEffect(() => {
     loadPriorityProducts();
   }, [loadPriorityProducts]);
+
+  const handleCreateLink = async (
+    product: AffiliateProduct,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+
+    if (!isAuthenticated || !user) {
+      setToast({
+        type: "error",
+        title: "Vui lòng đăng nhập để tạo link hoàn tiền",
+        isVisible: true,
+        timer: 3000,
+      });
+      return;
+    }
+
+    setCreatingLink(product._id);
+
+    try {
+      // Gọi API tạo link từ affiliate product
+      const response = await http.post("/affiliate/generate", {
+        originalUrl: product.affiliateUrl || product.productUrl,
+        merchant: {
+          id: product.platform.slug, // shopee, lazada, tiki, etc.
+          name: product.platform.name,
+        },
+      });
+
+      const data = response.data.data;
+
+      setToast({
+        type: "success",
+        title: "Tạo link hoàn tiền thành công!",
+        isVisible: true,
+        timer: 2000,
+      });
+
+      // Mở link ở tab mới
+      if (data?.affiliateUrl) {
+        window.open(data.affiliateUrl, "_blank");
+      }
+    } catch (error: any) {
+      console.error("Error creating link:", error);
+      setToast({
+        type: "error",
+        title:
+          error.response?.data?.message ||
+          "Không thể tạo link. Vui lòng thử lại!",
+        isVisible: true,
+        timer: 3000,
+      });
+    } finally {
+      setCreatingLink(null);
+    }
+  };
 
   const handleProductClick = (product: AffiliateProduct) => {
     if (onProductClick) {
@@ -175,14 +243,21 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
 
               {/* Action Button */}
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleProductClick(product);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-extrabold text-sm hover:from-orange-600 hover:to-amber-600 transition shadow-lg group-hover:shadow-xl"
+                onClick={(e) => handleCreateLink(product, e)}
+                disabled={creatingLink === product._id}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-extrabold text-sm hover:from-orange-600 hover:to-amber-600 transition shadow-lg group-hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Tạo link ngay
-                <ExternalLink size={16} />
+                {creatingLink === product._id ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Đang tạo...
+                  </>
+                ) : (
+                  <>
+                    Tạo link ngay
+                    <ExternalLink size={16} />
+                  </>
+                )}
               </button>
             </div>
           </div>

@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import PlatformSelect from "@/components/common/PlatformSelect";
 import { notification } from "@/utils/notification";
+import CommonModal from "@/components/common/Modal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 
 interface OrderForm {
   userId: string;
@@ -639,283 +641,273 @@ export default function OrderTracking() {
 
         {/* Modal for Create/Edit Order */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-800">
-                  {modalMode === "create"
-                    ? "Thêm đơn hàng mới"
-                    : "Chỉnh sửa đơn hàng"}
-                </h2>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  <X size={24} />
-                </button>
+          <CommonModal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            title={
+              modalMode === "create" ? "Thêm Đơn hàng" : "Chỉnh sửa Đơn hàng"
+            }
+            width="max-w-2xl"
+          >
+            <form onSubmit={handleSubmitForm} className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    User ID <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.userId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, userId: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="ID của user"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Affiliate Link ID
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.affiliateLinkId}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        affiliateLinkId: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="ID của link đã tạo (nếu có)"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Mã đơn hàng <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.orderId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, orderId: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="ORD123456"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Platform <span className="text-red-500">*</span>
+                  </label>
+                  <PlatformSelect
+                    required
+                    value={formData.platform}
+                    onChange={(value) =>
+                      setFormData({ ...formData, platform: value })
+                    }
+                    placeholder="Chọn platform"
+                    className="rounded-lg"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Ngày đặt hàng <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={formData.orderDate}
+                    onChange={(e) =>
+                      setFormData({ ...formData, orderDate: e.target.value })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Số tiền đơn hàng (VND){" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={formData.orderAmount}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        orderAmount: Number(e.target.value),
+                      })
+                    }
+                    onBlur={calculateCashback}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="500000"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tỷ lệ hoa hồng (%) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    value={formData.commissionRate}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        commissionRate: Number(e.target.value),
+                      })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="10"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Số tiền hoa hồng (VND){" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={formData.commissionAmount}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        commissionAmount: Number(e.target.value),
+                      })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
+                    placeholder="50000"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tỷ lệ hoàn tiền (%) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    max="100"
+                    value={formData.cashbackRate}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cashbackRate: Number(e.target.value),
+                      })
+                    }
+                    onBlur={calculateCashback}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="80"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Số tiền hoàn (VND) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={formData.cashbackAmount}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cashbackAmount: Number(e.target.value),
+                      })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
+                    placeholder="400000"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Trạng thái <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    required
+                    value={formData.cashbackStatus}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cashbackStatus: e.target.value as any,
+                      })
+                    }
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  >
+                    <option value="pending">Chờ duyệt</option>
+                    <option value="approved">Đã duyệt</option>
+                    <option value="paid">Đã trả</option>
+                    <option value="rejected">Từ chối</option>
+                  </select>
+                </div>
               </div>
 
-              <form onSubmit={handleSubmitForm} className="p-6 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      User ID <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.userId}
-                      onChange={(e) =>
-                        setFormData({ ...formData, userId: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="ID của user"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tên sản phẩm
+                </label>
+                <input
+                  type="text"
+                  value={formData.productName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, productName: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  placeholder="Tên sản phẩm..."
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Affiliate Link ID
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.affiliateLinkId}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          affiliateLinkId: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="ID của link đã tạo (nếu có)"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  URL hình ảnh sản phẩm
+                </label>
+                <input
+                  type="text"
+                  value={formData.productImage}
+                  onChange={(e) =>
+                    setFormData({ ...formData, productImage: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  placeholder="https://..."
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Mã đơn hàng <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.orderId}
-                      onChange={(e) =>
-                        setFormData({ ...formData, orderId: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="ORD123456"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Platform <span className="text-red-500">*</span>
-                    </label>
-                    <PlatformSelect
-                      required
-                      value={formData.platform}
-                      onChange={(value) =>
-                        setFormData({ ...formData, platform: value })
-                      }
-                      placeholder="Chọn platform"
-                      className="rounded-lg"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Ngày đặt hàng <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.orderDate}
-                      onChange={(e) =>
-                        setFormData({ ...formData, orderDate: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Số tiền đơn hàng (VND){" "}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      value={formData.orderAmount}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          orderAmount: Number(e.target.value),
-                        })
-                      }
-                      onBlur={calculateCashback}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="500000"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tỷ lệ hoa hồng (%) <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      max="100"
-                      step="0.01"
-                      value={formData.commissionRate}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          commissionRate: Number(e.target.value),
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="10"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Số tiền hoa hồng (VND){" "}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      value={formData.commissionAmount}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          commissionAmount: Number(e.target.value),
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
-                      placeholder="50000"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tỷ lệ hoàn tiền (%){" "}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      max="100"
-                      value={formData.cashbackRate}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          cashbackRate: Number(e.target.value),
-                        })
-                      }
-                      onBlur={calculateCashback}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                      placeholder="80"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Số tiền hoàn (VND) <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      value={formData.cashbackAmount}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          cashbackAmount: Number(e.target.value),
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-50"
-                      placeholder="400000"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Trạng thái <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      required
-                      value={formData.cashbackStatus}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          cashbackStatus: e.target.value as any,
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    >
-                      <option value="pending">Chờ duyệt</option>
-                      <option value="approved">Đã duyệt</option>
-                      <option value="paid">Đã trả</option>
-                      <option value="rejected">Từ chối</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tên sản phẩm
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.productName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, productName: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    placeholder="Tên sản phẩm..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    URL hình ảnh sản phẩm
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.productImage}
-                    onChange={(e) =>
-                      setFormData({ ...formData, productImage: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    placeholder="https://..."
-                  />
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-                  >
-                    Hủy
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600"
-                  >
-                    {modalMode === "create" ? "Thêm đơn hàng" : "Cập nhật"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600"
+                >
+                  {modalMode === "create" ? "Thêm đơn hàng" : "Cập nhật"}
+                </button>
+              </div>
+            </form>
+          </CommonModal>
         )}
       </div>
     </div>

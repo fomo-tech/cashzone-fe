@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import CheckInCard from "../components/CheckInCard";
 import LuckyWheelCard from "../components/LuckyWheelCard";
+import { useAuthStore } from "@/store/authStore";
 
 // =========================================================================
 // 1. DATA VÀ INTERFACE (Không đổi)
@@ -246,6 +247,7 @@ export default function Activities() {
   const [selectedActivity, setSelectedActivity] = useState<
     keyof typeof DAILY_ACTIVITIES | null
   >(null);
+  const { isAuthenticated, handleToggleAuthModal } = useAuthStore();
   const [activeTab, setActiveTab] = useState<ActivityTab>("overview");
 
   const handleActivityClick = useCallback(
@@ -283,7 +285,15 @@ export default function Activities() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Check-in Card */}
             <div
-              onClick={() => setActiveTab("checkin")}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  return handleToggleAuthModal({
+                    isOpen: true,
+                    mode: "signin",
+                  });
+                }
+                return setActiveTab("checkin");
+              }}
               className="bg-white p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-orange-400 transition-all cursor-pointer group"
             >
               <div className="flex items-start justify-between mb-4">
@@ -313,7 +323,15 @@ export default function Activities() {
 
             {/* Lucky Wheel Card */}
             <div
-              onClick={() => setActiveTab("luckywheel")}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  return handleToggleAuthModal({
+                    isOpen: true,
+                    mode: "signin",
+                  });
+                }
+                return setActiveTab("luckywheel");
+              }}
               className="bg-white p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-orange-400 transition-all cursor-pointer group"
             >
               <div className="flex items-start justify-between mb-4">

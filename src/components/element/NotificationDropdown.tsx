@@ -186,7 +186,7 @@ const NotificationDropdown = () => {
       <button
         onClick={() => setOpen((v) => !v)}
         className={`relative group text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 p-2 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-300/50 transform hover:scale-110 ${
-          open ? "scale-110 ring-4 ring-pink-300/50" : ""
+          open ? "scale-110 ring-4 ring-orange-300/50" : ""
         }`}
         aria-label="Thông báo"
       >
@@ -198,14 +198,14 @@ const NotificationDropdown = () => {
         />
 
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 h-6 w-6 rounded-full ring-2 ring-white bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center text-xs font-bold text-white shadow-lg animate-pulse">
+          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full ring-2 ring-white bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center text-xs font-bold text-white shadow-lg animate-pulse">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
 
         {/* Ripple effect */}
         {unreadCount > 0 && (
-          <span className="absolute inset-0 rounded-full bg-pink-400 opacity-75 animate-ping"></span>
+          <span className="absolute inset-0 rounded-full bg-red-400 opacity-75 animate-ping"></span>
         )}
       </button>
 

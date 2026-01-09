@@ -564,8 +564,8 @@ const Sidebar: React.FC = () => {
                   </svg>
                   <span className="font-medium text-sm">Hướng Dẫn</span>
                 </Link>
-                <a
-                  href="/support"
+                <Link
+                  to="/support"
                   className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <svg
@@ -579,7 +579,7 @@ const Sidebar: React.FC = () => {
                     <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                   </svg>
                   <span className="font-medium text-sm">Hỗ Trợ</span>
-                </a>
+                </Link>
               </div>
             </>
           )}
@@ -590,8 +590,8 @@ const Sidebar: React.FC = () => {
                   <div className="px-4 py-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
                     Hỗ Trợ
                   </div>
-                  <a
-                    href="/guide"
+                  <Link
+                    to="/guide"
                     className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <svg
@@ -607,7 +607,7 @@ const Sidebar: React.FC = () => {
                       <path d="M12 17h.01" />
                     </svg>
                     <span className="font-medium text-sm">Hướng Dẫn</span>
-                  </a>
+                  </Link>
                   <a
                     href="/support"
                     className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
