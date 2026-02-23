@@ -89,7 +89,7 @@ export default function Cashback() {
   const { isAuthenticated, handleToggleAuthModal, user } = useAuthStore();
 
   const [activePlatformId, setActivePlatformId] = useState<string>(
-    PLATFORMS[0].id
+    PLATFORMS[0].id,
   );
   const [inputLink, setInputLink] = useState<string>("");
   const [currentOffer, setCurrentOffer] = useState<ProductOffer | null>(null);
@@ -149,7 +149,7 @@ export default function Cashback() {
               cashbackRate: link.cashbackRate,
               estimatedCashback: link.estimatedCashback,
             };
-          }
+          },
         );
 
         setHistory(transformedHistory);
@@ -163,14 +163,14 @@ export default function Cashback() {
 
   const activePlatform = useMemo(
     () => PLATFORMS.find((p) => p.id === activePlatformId) || PLATFORMS[0],
-    [activePlatformId]
+    [activePlatformId],
   );
 
   // Define if a link is strictly required for this platform
   const isLinkRequired = useMemo(
     () =>
       activePlatform.type === "product" || activePlatform.type === "service",
-    [activePlatform.type]
+    [activePlatform.type],
   );
 
   // Hàm chứa logic tạo link cốt lõi (ASYNC để gọi API)
@@ -201,7 +201,7 @@ export default function Cashback() {
           const userId = user?._id; // Get userId from auth store
           const response = await cashbackService.convertShopeeLink(
             input.trim(),
-            userId
+            userId,
           );
           const productInfo: ShopeeProductInfo = response;
 
@@ -313,7 +313,7 @@ export default function Cashback() {
         setIsGenerating(false);
       }, delay);
     },
-    [isAuthenticated, user]
+    [isAuthenticated, user],
   );
 
   // Hàm xử lý khi nhấn nút TẠO LINK
@@ -356,7 +356,7 @@ export default function Cashback() {
         generateLogic(selectedPlatform, "");
       }
     },
-    [generateLogic]
+    [generateLogic],
   );
 
   const handleCopy = useCallback(async () => {
@@ -398,7 +398,7 @@ export default function Cashback() {
   const filteredHistory = useMemo(() => {
     if (!query) return history;
     return history.filter((h) =>
-      h.title.toLowerCase().includes(query.toLowerCase())
+      h.title.toLowerCase().includes(query.toLowerCase()),
     );
   }, [history, query]);
 
@@ -561,7 +561,7 @@ export default function Cashback() {
                                   } catch (err) {
                                     console.error(
                                       "Failed to read clipboard:",
-                                      err
+                                      err,
                                     );
                                   }
                                 }}
@@ -600,7 +600,7 @@ export default function Cashback() {
                                 } catch (err) {
                                   console.error(
                                     "Failed to read clipboard:",
-                                    err
+                                    err,
                                   );
                                 }
                               }}
@@ -758,11 +758,11 @@ export default function Cashback() {
                     {/* Product Card - Similar to Shopee style */}
                     <div className="flex flex-col sm:flex-row gap-4">
                       {/* Product Image */}
-                      <div className="shrink-0">
+                      <div className="shrink-0 flex justify-center sm:justify-start">
                         <img
                           src={currentOffer.img}
                           alt={currentOffer.title}
-                          className="w-full sm:w-32 md:w-40 h-32 md:h-40 object-cover rounded-lg border border-gray-200"
+                          className="w-40 h-40 sm:w-32 sm:h-32 md:w-40 md:h-40 object-cover rounded-lg border border-gray-200"
                           onError={(e) => {
                             const target = e.currentTarget as HTMLImageElement;
                             target.src = `https://via.placeholder.com/160x160/EE4D2D/FFFFFF?text=SP`;
@@ -798,12 +798,12 @@ export default function Cashback() {
                               currentOffer.priceMax &&
                               currentOffer.priceMin !== currentOffer.priceMax
                                 ? `${formatCurrency(
-                                    currentOffer.priceMin
+                                    currentOffer.priceMin,
                                   )} - ${formatCurrency(currentOffer.priceMax)}`
                                 : formatCurrency(
                                     currentOffer.priceMin ||
                                       currentOffer.priceMax ||
-                                      0
+                                      0,
                                   )}
                             </span>
                           </div>
@@ -830,14 +830,14 @@ export default function Cashback() {
                               từ{" "}
                               {Math.floor(
                                 parseFloat(
-                                  currentOffer.feeText.replace(/[^\d]/g, "")
-                                ) * 0.6
+                                  currentOffer.feeText.replace(/[^\d]/g, ""),
+                                ) * 0.6,
                               ).toLocaleString("vi-VN")}{" "}
                               đ đến{" "}
                               {Math.floor(
                                 parseFloat(
-                                  currentOffer.feeText.replace(/[^\d]/g, "")
-                                ) * 0.9
+                                  currentOffer.feeText.replace(/[^\d]/g, ""),
+                                ) * 0.9,
                               ).toLocaleString("vi-VN")}{" "}
                               đ
                             </div>
@@ -1276,7 +1276,7 @@ export default function Cashback() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 sm:p-6 border border-orange-200 text-center">
                   <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-2">
-                    60-90%
+                    Lên đến 30%
                   </div>
                   <div className="text-sm text-gray-700 font-semibold">
                     Tỷ lệ hoàn tiền từ hoa hồng
@@ -1284,7 +1284,7 @@ export default function Cashback() {
                 </div>
                 <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 sm:p-6 border border-orange-200 text-center">
                   <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent mb-2">
-                    24-48h
+                    7-14 Ngày
                   </div>
                   <div className="text-sm text-gray-700 font-semibold">
                     Thời gian xử lý hoàn tiền

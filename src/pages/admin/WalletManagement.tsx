@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import http from "@/services/api";
 import CommonModal from "@/components/common/Modal";
+import UserAvatar from "@/components/element/UserAvatar";
 
 interface UserWallet {
   _id: string;
@@ -105,8 +106,8 @@ const WalletManagement: React.FC = () => {
 
       showToast(
         `Đã ${adjustForm.type === "add" ? "cộng" : "trừ"} ${formatCurrency(
-          adjustForm.amount
-        )} thành công`
+          adjustForm.amount,
+        )} thành công`,
       );
       setIsModalOpen(false);
       setAdjustForm(null);
@@ -184,9 +185,7 @@ const WalletManagement: React.FC = () => {
                   >
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold">
-                          {(user.name || user.email).charAt(0).toUpperCase()}
-                        </div>
+                        <UserAvatar name={user.name || user.email} size="40" />
                         <div>
                           <p className="font-semibold text-slate-800">
                             {user.name || "N/A"}
@@ -277,9 +276,7 @@ const WalletManagement: React.FC = () => {
             {/* User Info */}
             <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {adjustForm.userName.charAt(0).toUpperCase()}
-                </div>
+                <UserAvatar name={adjustForm.userName} size="48" />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <User className="w-4 h-4 text-slate-600" />

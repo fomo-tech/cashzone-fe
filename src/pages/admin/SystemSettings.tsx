@@ -71,6 +71,7 @@ interface SystemSettings {
     level3Rate: number; // Tỷ lệ hoa hồng cấp 3 (%)
     enabled: boolean; // Bật/tắt hệ thống hoa hồng
   };
+  defaultCashbackRate?: number; // Tỷ lệ hoàn tiền mặc định cho user (%)
   referralMilestones?: ReferralMilestone[];
   checkInRewards?: CheckInRewards;
   systemName: string;
@@ -201,7 +202,7 @@ const SystemSettingsPage: React.FC = () => {
   // CheckIn Rewards handlers
   const handleCheckInRewardChange = (
     key: keyof CheckInRewards,
-    value: number
+    value: number,
   ) => {
     if (value < 0) return;
     setCheckInRewards((prev) => ({
@@ -219,7 +220,7 @@ const SystemSettingsPage: React.FC = () => {
     } catch (error: any) {
       console.error("Failed to save checkin rewards:", error);
       showToast(
-        error.response?.data?.message || "Cập nhật thưởng điểm danh thất bại"
+        error.response?.data?.message || "Cập nhật thưởng điểm danh thất bại",
       );
     } finally {
       setSavingCheckIn(false);
@@ -241,7 +242,7 @@ const SystemSettingsPage: React.FC = () => {
 
   const handleLuckyWheelSettingChange = (
     key: keyof LuckyWheelSettings,
-    value: any
+    value: any,
   ) => {
     if (!luckyWheelSettings) return;
     setLuckyWheelSettings((prev) =>
@@ -250,20 +251,20 @@ const SystemSettingsPage: React.FC = () => {
             ...prev,
             [key]: value,
           }
-        : null
+        : null,
     );
   };
 
   const handlePrizeChange = (
     index: number,
     key: keyof LuckyWheelPrize,
-    value: any
+    value: any,
   ) => {
     if (!luckyWheelSettings) return;
     const newPrizes = [...luckyWheelSettings.prizes];
     newPrizes[index] = { ...newPrizes[index], [key]: value };
     setLuckyWheelSettings((prev) =>
-      prev ? { ...prev, prizes: newPrizes } : null
+      prev ? { ...prev, prizes: newPrizes } : null,
     );
   };
 
@@ -272,15 +273,14 @@ const SystemSettingsPage: React.FC = () => {
 
     setSavingLuckyWheel(true);
     try {
-      const updated = await luckywheelService.updateSettings(
-        luckyWheelSettings
-      );
+      const updated =
+        await luckywheelService.updateSettings(luckyWheelSettings);
       setOriginalLuckyWheelSettings({ ...updated });
       showToast("Cập nhật cài đặt vòng quay thành công!");
     } catch (error: any) {
       console.error("Failed to save lucky wheel settings:", error);
       showToast(
-        error.response?.data?.message || "Cập nhật cài đặt vòng quay thất bại"
+        error.response?.data?.message || "Cập nhật cài đặt vòng quay thất bại",
       );
     } finally {
       setSavingLuckyWheel(false);
@@ -393,7 +393,7 @@ const SystemSettingsPage: React.FC = () => {
       showToast(
         `${
           !settings.maintenance.enabled ? "Bật" : "Tắt"
-        } chế độ bảo trì thành công!`
+        } chế độ bảo trì thành công!`,
       );
     } catch (error) {
       showToast("Cập nhật chế độ bảo trì thất bại");
@@ -434,7 +434,7 @@ const SystemSettingsPage: React.FC = () => {
   const updateMilestone = (
     index: number,
     field: keyof ReferralMilestone,
-    value: any
+    value: any,
   ) => {
     const updated = [...editingMilestones];
     updated[index] = { ...updated[index], [field]: value };
@@ -523,7 +523,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         updateField(
                           "minDepositAmount",
-                          parseInt(e.target.value) || 0
+                          parseInt(e.target.value) || 0,
                         )
                       }
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
@@ -546,7 +546,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         updateField(
                           "minWithdrawAmount",
-                          parseInt(e.target.value) || 0
+                          parseInt(e.target.value) || 0,
                         )
                       }
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
@@ -1095,6 +1095,52 @@ const SystemSettingsPage: React.FC = () => {
                   </div>
                 )}
 
+                {/* Default Cashback Rate */}
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 p-5 rounded-xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                      <DollarSign className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800">
+                        Tỷ Lệ Hoàn Tiền Mặc Định
+                      </h4>
+                      <p className="text-xs text-gray-600">
+                        % user nhận khi tạo đơn hàng
+                      </p>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      min="50"
+                      max="100"
+                      step="1"
+                      value={settings.defaultCashbackRate || 80}
+                      onChange={(e) =>
+                        updateField(
+                          "defaultCashbackRate",
+                          parseFloat(e.target.value) || 80,
+                        )
+                      }
+                      className="w-full px-4 py-3 pr-12 border-2 border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 font-semibold text-lg"
+                      placeholder="80"
+                    />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600 text-lg font-bold">
+                      %
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-3">
+                    💡 User sẽ nhận {settings.defaultCashbackRate || 80}% từ
+                    commission, Admin giữ{" "}
+                    {100 - (settings.defaultCashbackRate || 80)}%
+                  </p>
+                  <p className="text-xs text-green-700 mt-2 bg-green-100 p-2 rounded">
+                    ⚙️ Áp dụng cho modal "Tạo Đơn Nhanh" tại trang Duyệt Hoàn
+                    Tiền
+                  </p>
+                </div>
+
                 {/* Commission Info */}
                 <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4 rounded-lg">
                   <div className="flex items-start gap-3">
@@ -1178,7 +1224,7 @@ const SystemSettingsPage: React.FC = () => {
                         <p className="text-xs text-gray-500">Thưởng</p>
                       </div>
                     </div>
-                  )
+                  ),
                 )}
 
                 {(!settings?.referralMilestones ||
@@ -1283,7 +1329,7 @@ const SystemSettingsPage: React.FC = () => {
                         onChange={(e) =>
                           handleCheckInRewardChange(
                             `day${index + 1}` as keyof CheckInRewards,
-                            parseInt(e.target.value) || 0
+                            parseInt(e.target.value) || 0,
                           )
                         }
                         className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
@@ -1319,7 +1365,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         handleCheckInRewardChange(
                           "bonusWeekComplete",
-                          parseInt(e.target.value) || 0
+                          parseInt(e.target.value) || 0,
                         )
                       }
                       className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
@@ -1454,7 +1500,7 @@ const SystemSettingsPage: React.FC = () => {
                         onChange={(e) =>
                           handleLuckyWheelSettingChange(
                             "costPerSpin",
-                            parseInt(e.target.value) || 50
+                            parseInt(e.target.value) || 50,
                           )
                         }
                         className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -1476,7 +1522,7 @@ const SystemSettingsPage: React.FC = () => {
                       onChange={(e) =>
                         handleLuckyWheelSettingChange(
                           "maxSpinsPerDay",
-                          parseInt(e.target.value) || 10
+                          parseInt(e.target.value) || 10,
                         )
                       }
                       className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
@@ -1491,7 +1537,7 @@ const SystemSettingsPage: React.FC = () => {
                         onChange={(e) =>
                           handleLuckyWheelSettingChange(
                             "enabled",
-                            e.target.checked
+                            e.target.checked,
                           )
                         }
                         className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
@@ -1549,7 +1595,7 @@ const SystemSettingsPage: React.FC = () => {
                               handlePrizeChange(
                                 index,
                                 "value",
-                                parseInt(e.target.value) || 0
+                                parseInt(e.target.value) || 0,
                               )
                             }
                             className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
@@ -1570,7 +1616,7 @@ const SystemSettingsPage: React.FC = () => {
                               handlePrizeChange(
                                 index,
                                 "probability",
-                                parseFloat(e.target.value) || 0
+                                parseFloat(e.target.value) || 0,
                               )
                             }
                             className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
@@ -1589,7 +1635,7 @@ const SystemSettingsPage: React.FC = () => {
                                 handlePrizeChange(
                                   index,
                                   "color",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
@@ -1601,7 +1647,7 @@ const SystemSettingsPage: React.FC = () => {
                                 handlePrizeChange(
                                   index,
                                   "color",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className="block flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm"
@@ -1875,7 +1921,7 @@ const SystemSettingsPage: React.FC = () => {
                           updateMilestone(
                             index,
                             "referrals",
-                            parseInt(e.target.value) || 0
+                            parseInt(e.target.value) || 0,
                           )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
@@ -1895,7 +1941,7 @@ const SystemSettingsPage: React.FC = () => {
                           updateMilestone(
                             index,
                             "reward",
-                            parseInt(e.target.value) || 0
+                            parseInt(e.target.value) || 0,
                           )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"

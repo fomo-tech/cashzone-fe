@@ -10,12 +10,12 @@ import {
   Plus,
   Edit,
   Trash2,
-  X,
+  Zap,
 } from "lucide-react";
 import PlatformSelect from "@/components/common/PlatformSelect";
 import { notification } from "@/utils/notification";
 import CommonModal from "@/components/common/Modal";
-import ConfirmModal from "@/components/modals/ConfirmModal";
+import QuickCreateOrderModal from "@/components/admin/QuickCreateOrderModal";
 
 interface OrderForm {
   userId: string;
@@ -39,6 +39,7 @@ export default function OrderTracking() {
   const [loading, setLoading] = useState(false);
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [showQuickCreateModal, setShowQuickCreateModal] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit">("create");
   const [editingOrder, setEditingOrder] = useState<any>(null);
   const [formData, setFormData] = useState<OrderForm>({
@@ -67,6 +68,7 @@ export default function OrderTracking() {
   useEffect(() => {
     loadOrders();
     loadStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
   const loadOrders = async () => {
@@ -280,7 +282,7 @@ export default function OrderTracking() {
     setSelectedOrders((prev) =>
       prev.includes(orderId)
         ? prev.filter((id) => id !== orderId)
-        : [...prev, orderId]
+        : [...prev, orderId],
     );
   };
 
@@ -408,13 +410,21 @@ export default function OrderTracking() {
                 <option value="rejected">Từ chối</option>
               </select>
             </div>
-            <button
-              onClick={handleCreateOrder}
-              className="ml-4 px-4 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
-            >
-              <Plus size={20} />
-              Thêm đơn hàng
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowQuickCreateModal(true)}
+                className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 flex items-center gap-2 whitespace-nowrap shadow-lg"
+              >
+                <Zap size={20} className="animate-pulse" />⚡ Tạo Đơn Nhanh
+              </button>
+              <button
+                onClick={handleCreateOrder}
+                className="px-4 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
+              >
+                <Plus size={20} />
+                Thêm đơn hàng
+              </button>
+            </div>
           </div>
 
           {/* Bulk Actions */}
@@ -560,7 +570,7 @@ export default function OrderTracking() {
                         </p>
                         <p className="text-xs text-gray-500">
                           {new Date(order.orderDate).toLocaleDateString(
-                            "vi-VN"
+                            "vi-VN",
                           )}
                         </p>
                       </td>
@@ -578,10 +588,10 @@ export default function OrderTracking() {
                             order.cashbackStatus === "paid"
                               ? "bg-purple-100 text-purple-700"
                               : order.cashbackStatus === "approved"
-                              ? "bg-green-100 text-green-700"
-                              : order.cashbackStatus === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
+                                ? "bg-green-100 text-green-700"
+                                : order.cashbackStatus === "pending"
+                                  ? "bg-yellow-100 text-yellow-700"
+                                  : "bg-red-100 text-red-700"
                           }`}
                         >
                           {order.cashbackStatus}
@@ -909,6 +919,16 @@ export default function OrderTracking() {
             </form>
           </CommonModal>
         )}
+
+        {/* Quick Create Order Modal */}
+        <QuickCreateOrderModal
+          open={showQuickCreateModal}
+          onClose={() => setShowQuickCreateModal(false)}
+          onSuccess={() => {
+            loadOrders();
+            loadStats();
+          }}
+        />
       </div>
     </div>
   );

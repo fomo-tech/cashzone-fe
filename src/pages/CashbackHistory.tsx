@@ -178,7 +178,7 @@ const CashbackHistory: React.FC = () => {
         {/* Premium Header with Gradient */}
         <div className="relative mb-8 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 opacity-5 rounded-3xl"></div>
-          <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white p-6 md:p-8">
+          <div className="relative rounded-2xl backdrop-blur-sm  p-6 md:p-8">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -187,10 +187,10 @@ const CashbackHistory: React.FC = () => {
                   </div>
                   <div>
                     <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
-                      Thu Nhập & Hoàn Tiền
+                      Hoàn Tiền Mua Sắm
                     </h1>
                     <p className="text-gray-600 text-sm mt-1">
-                      Quản lý và theo dõi doanh thu của bạn
+                      Quản lý số tiền hoàn và lịch sử nhận thưởng
                     </p>
                   </div>
                 </div>
@@ -345,7 +345,7 @@ const CashbackHistory: React.FC = () => {
                 <p className="text-2xl font-black text-orange-600">
                   {quickStats.totalLinks > 0
                     ? formatCurrency(
-                        quickStats.totalEarned / quickStats.totalLinks
+                        quickStats.totalEarned / quickStats.totalLinks,
                       )
                     : formatCurrency(0)}
                 </p>

@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import socketService from "@/services/socketService";
 import { useAuthStore } from "@/store/authStore";
 
@@ -17,17 +17,20 @@ export const useSocketNotifications = ({
   onUnreadCountUpdate,
 }: UseSocketNotificationsProps = {}) => {
   const { isAuthenticated, accessToken } = useAuthStore();
+  const hasConnected = useRef(false);
 
-  // Connect to socket when authenticated
+  // Connect to socket when authenticated (tránh reconnect không cần thiết)
   useEffect(() => {
-    if (isAuthenticated && accessToken) {
+    if (isAuthenticated && accessToken && !hasConnected.current) {
       socketService.connect(accessToken);
+      hasConnected.current = true;
 
       return () => {
         socketService.offNotificationListeners();
       };
-    } else {
+    } else if (!isAuthenticated && hasConnected.current) {
       socketService.disconnect();
+      hasConnected.current = false;
     }
   }, [isAuthenticated, accessToken]);
 

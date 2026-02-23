@@ -15,8 +15,9 @@ import {
   type LeaderBoardUser,
   type LeaderBoardStats,
 } from "@/services/leaderboardService";
+import UserAvatar from "@/components/element/UserAvatar";
 
-// Định nghĩa style cố định cho Top 3 (Vàng, Bạc, Đồng) - Đã điều chỉnh cho nền sáng
+// Định nghĩa style cố định cho Top 3 (Vàng, Bạc, Đồng) - UI cải tiến
 const TOP_RANK_STYLES: Record<
   number,
   {
@@ -32,46 +33,49 @@ const TOP_RANK_STYLES: Record<
     textColor: string;
   }
 > = {
-  // Rank 1: GOLD - Vàng trên nền sáng
+  // Rank 1: GOLD - Vàng với gradient
   1: {
     title: "Vàng",
-    crown: "text-[#FFD700]",
-    bgColor: "bg-white border-4 border-[#FFD700]/70",
+    crown: "text-yellow-400",
+    bgColor:
+      "bg-gradient-to-br from-yellow-50 via-amber-50 to-yellow-100 border-2 border-yellow-300/60",
     shadow:
-      "shadow-[0_20px_40px_rgba(255,215,0,0.3),_0_0_10px_rgba(255,215,0,0.2)]",
+      "shadow-xl shadow-yellow-200/50 hover:shadow-2xl hover:shadow-yellow-300/60",
     heightClass: "min-h-80",
     order: "order-1", // Giữa
     avatarBg: "bg-yellow-500/90 text-white",
-    avatarRing: "ring-4 ring-yellow-400",
-    scoreColor: "text-yellow-600",
+    avatarRing: "ring-4 ring-yellow-300 ring-offset-2",
+    scoreColor: "text-yellow-700",
     textColor: "text-gray-900",
   },
-  // Rank 2: SILVER - Bạc trên nền sáng
+  // Rank 2: SILVER - Bạc với gradient
   2: {
     title: "Bạc",
-    crown: "text-[#C0C0C0]",
-    bgColor: "bg-gray-100 border-4 border-[#C0C0C0]/70",
+    crown: "text-gray-400",
+    bgColor:
+      "bg-gradient-to-br from-gray-50 via-slate-100 to-gray-100 border-2 border-gray-300/60",
     shadow:
-      "shadow-[0_15px_30px_rgba(192,192,192,0.25),_0_0_8px_rgba(192,192,192,0.1)]",
+      "shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-gray-300/60",
     heightClass: "min-h-72",
     order: "order-0", // Bên trái
     avatarBg: "bg-gray-500/90 text-white",
-    avatarRing: "ring-4 ring-gray-400",
-    scoreColor: "text-gray-600",
+    avatarRing: "ring-4 ring-gray-300 ring-offset-2",
+    scoreColor: "text-gray-700",
     textColor: "text-gray-800",
   },
-  // Rank 3: BRONZE - Đồng trên nền sáng
+  // Rank 3: BRONZE - Đồng với gradient
   3: {
     title: "Đồng",
-    crown: "text-[#CD7F32]",
-    bgColor: "bg-orange-50 border-4 border-[#CD7F32]/70",
+    crown: "text-orange-400",
+    bgColor:
+      "bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 border-2 border-orange-300/60",
     shadow:
-      "shadow-[0_15px_30px_rgba(205,127,50,0.25),_0_0_8px_rgba(205,127,50,0.1)]",
+      "shadow-xl shadow-orange-200/50 hover:shadow-2xl hover:shadow-orange-300/60",
     heightClass: "min-h-72",
     order: "order-2", // Bên phải
     avatarBg: "bg-orange-500/90 text-white",
-    avatarRing: "ring-4 ring-orange-400",
-    scoreColor: "text-orange-600",
+    avatarRing: "ring-4 ring-orange-300 ring-offset-2",
+    scoreColor: "text-orange-700",
     textColor: "text-gray-800",
   },
 };
@@ -96,7 +100,7 @@ const LeaderBoard = () => {
 
       // Split into top 3 and others - with safety checks
       const validTopUsers = (data.topUsers || []).filter(
-        (user) => user && typeof user.rank !== "undefined"
+        (user) => user && typeof user.rank !== "undefined",
       );
       const top3 = validTopUsers.slice(0, 3);
       const others = validTopUsers.slice(3);
@@ -144,20 +148,15 @@ const LeaderBoard = () => {
     isMobile?: boolean;
   }) => {
     const style = TOP_RANK_STYLES[rank] || TOP_RANK_STYLES[1];
-    const size = isMobile ? "w-12 h-12" : "w-16 h-16 md:w-[70px] md:h-[70px]";
-    const textSize = isMobile ? "text-lg" : "text-2xl md:text-3xl";
-    const border = isMobile ? "border-2" : "border-3 md:border-4";
-    const initial = name ? name.charAt(0).toUpperCase() : "?";
+    const size = isMobile ? "48" : "70";
 
     return (
-      <div
-        className={`${size} rounded-full ${border} ${style.avatarRing || ""} ${
-          style.avatarBg || "bg-gray-500"
-        } 
-                flex items-center justify-center mb-2 md:mb-3 overflow-hidden shadow-lg
-                ${textSize} font-extrabold text-white`}
-      >
-        {initial}
+      <div className="mb-2 md:mb-3">
+        <div
+          className={`${style.avatarRing || ""} rounded-full inline-block p-1`}
+        >
+          <UserAvatar name={name} size={size} round={true} />
+        </div>
       </div>
     );
   };
@@ -202,8 +201,8 @@ const LeaderBoard = () => {
                   {period === "week"
                     ? "Tuần"
                     : period === "month"
-                    ? "Tháng"
-                    : "Tất cả"}
+                      ? "Tháng"
+                      : "Tất cả"}
                 </button>
               ))}
             </div>
@@ -223,15 +222,17 @@ const LeaderBoard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="w-full max-w-4xl mb-6 md:mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-200">
+        <div className="w-full max-w-4xl mb-6 md:mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-orange-100 hover:border-orange-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl">
-                <Users className="w-6 h-6 text-[orange-600]" />
+              <div className="p-3 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl shadow-md">
+                <Users className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Tổng thành viên</p>
-                <p className="text-2xl font-bold text-[orange-600]">
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                  Thành viên
+                </p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
                   {loading ? (
                     <div className="w-16 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -242,14 +243,16 @@ const LeaderBoard = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-orange-200">
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-emerald-100 hover:border-emerald-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl">
-                <DollarSign className="w-6 h-6 text-[#FF8C1A]" />
+              <div className="p-3 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-xl shadow-md">
+                <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Tổng thu nhập</p>
-                <p className="text-2xl font-bold text-[#FF8C1A]">
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                  Thu nhập
+                </p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent">
                   {loading ? (
                     <div className="w-20 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -260,14 +263,16 @@ const LeaderBoard = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-emerald-200">
+          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-blue-100 hover:border-blue-200">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl">
-                <TrendingUp className="w-6 h-6 text-emerald-600" />
+              <div className="p-3 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl shadow-md">
+                <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Xếp hạng của bạn</p>
-                <p className="text-2xl font-bold text-emerald-600">
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                  Hạng của bạn
+                </p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
                   {loading ? (
                     <div className="w-12 h-8 bg-gray-200 rounded animate-pulse"></div>
                   ) : (
@@ -511,7 +516,7 @@ const LeaderBoard = () => {
           </div>
 
           {/* Bảng xếp hạng chi tiết */}
-          <div className="w-full p-2 md:p-3 lg:p-4 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-x-auto">
+          <div className="w-full p-4 md:p-6 lg:p-8 bg-white rounded-2xl shadow-xl border-2 border-gray-100 overflow-hidden">
             {loading ? (
               <div className="space-y-3">
                 {/* Header skeleton */}
@@ -538,89 +543,91 @@ const LeaderBoard = () => {
                 ))}
               </div>
             ) : (
-              <table className="min-w-full text-left text-sm table-auto">
-                {/* Header */}
-                <thead>
-                  <tr className="border-b border-gray-200 text-gray-500 font-semibold tracking-wider uppercase text-xs">
-                    <th className="py-2 px-2 md:py-3 md:px-5 text-center w-12 md:w-16">
-                      #
-                    </th>
-                    <th className="py-2 px-2 md:py-3 md:px-5">Người Dùng</th>
-                    <th className="py-2 px-2 md:py-3 md:px-5 text-right w-24 md:w-32">
-                      Thu Nhập
-                    </th>
-                    <th className="py-2 px-2 md:py-3 md:px-5 text-center w-20 md:w-24">
-                      Refs
-                    </th>
-                  </tr>
-                </thead>
-                {/* Rows */}
-                <tbody>
-                  {otherUsers && otherUsers.length > 0 ? (
-                    otherUsers.map((user, idx) => {
-                      if (!user || !user.rank) return null;
-                      return (
-                        <tr
-                          key={user.id || idx}
-                          className="transition-colors border-b border-gray-100 last:border-b-0 hover:bg-pink-50"
-                        >
-                          {/* Ranking */}
-                          <td className="py-2 px-2 md:py-3 md:px-5 text-center font-extrabold text-base md:text-lg text-[orange-600]">
-                            #{user.rank}
-                          </td>
-
-                          {/* Username */}
-                          <td className="py-2 px-2 md:py-3 md:px-5">
-                            <div className="flex items-center space-x-2 md:space-x-3">
-                              {/* Avatar */}
-                              <div
-                                className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 ring-2 ring-pink-200 shadow-md shrink-0`}
-                              >
-                                {(user.name || "?").charAt(0).toUpperCase()}
-                              </div>
-                              <span className="text-gray-800 font-medium text-sm md:text-base truncate">
-                                {user.name || "Unknown User"}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Earnings */}
-                          <td className="py-2 px-2 md:py-3 md:px-5 text-right font-semibold text-sm md:text-base text-gray-700">
-                            <span className="text-yellow-500">
-                              <Gem
-                                className="w-3 h-3 md:w-4 md:h-4 inline-block mr-0.5 md:mr-1 mb-0.5 fill-yellow-500"
-                                strokeWidth={1.5}
-                              />
-                            </span>
-                            <span className="hidden sm:inline">
-                              ${(user.totalEarnings || 0).toLocaleString()}
-                            </span>
-                            <span className="sm:hidden">
-                              ${((user.totalEarnings || 0) / 1000).toFixed(1)}k
-                            </span>
-                          </td>
-
-                          {/* Referrals */}
-                          <td className="py-2 px-2 md:py-3 md:px-5 text-center">
-                            <span className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white font-extrabold text-xs md:text-sm p-1 px-2 md:p-1.5 md:px-3 rounded-full shadow-md">
-                              {user.totalReferrals || 0}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="text-center py-8 text-gray-500"
-                      >
-                        Chưa có dữ liệu bảng xếp hạng
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-left text-sm">
+                  {/* Header */}
+                  <thead>
+                    <tr className="border-b-2 border-gray-200 bg-gradient-to-r from-gray-50 to-slate-50">
+                      <th className="py-4 px-3 md:px-6 text-center w-16 md:w-20 font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        #
+                      </th>
+                      <th className="py-4 px-3 md:px-6 font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        Người Dùng
+                      </th>
+                      <th className="py-4 px-3 md:px-6 text-right font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        Thu Nhập
+                      </th>
+                      <th className="py-4 px-3 md:px-6 text-center font-bold text-gray-600 uppercase tracking-wider text-xs">
+                        Giới Thiệu
+                      </th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  {/* Rows */}
+                  <tbody>
+                    {otherUsers && otherUsers.length > 0 ? (
+                      otherUsers.map((user, idx) => {
+                        if (!user || !user.rank) return null;
+                        return (
+                          <tr
+                            key={user.id || idx}
+                            className="transition-all duration-200 border-b border-gray-100 last:border-b-0 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 hover:shadow-sm group"
+                          >
+                            {/* Ranking */}
+                            <td className="py-4 px-3 md:px-6 text-center">
+                              <span className="inline-flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 text-white font-bold text-sm md:text-base shadow-md group-hover:shadow-lg transition-shadow">
+                                {user.rank}
+                              </span>
+                            </td>
+
+                            {/* Username */}
+                            <td className="py-4 px-3 md:px-6">
+                              <div className="flex items-center space-x-2 md:space-x-3">
+                                {/* Avatar */}
+                                <UserAvatar
+                                  name={user.name || "Unknown User"}
+                                  size="32"
+                                />
+                                <span className="text-gray-800 font-medium text-sm md:text-base truncate">
+                                  {user.name || "Unknown User"}
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Earnings */}
+                            <td className="py-4 px-3 md:px-6 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                <Gem className="w-4 h-4 text-emerald-500 fill-emerald-400" />
+                                <span className="font-bold text-sm md:text-base bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
+                                  ${(user.totalEarnings || 0).toLocaleString()}
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Referrals */}
+                            <td className="py-4 px-3 md:px-6 text-center">
+                              <span className="inline-flex items-center justify-center px-3 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-xs md:text-sm rounded-full shadow-md group-hover:shadow-lg transition-shadow">
+                                {user.totalReferrals || 0}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={4}
+                          className="text-center py-12 text-gray-400 font-medium"
+                        >
+                          <div className="flex flex-col items-center justify-center gap-2">
+                            <Trophy className="w-12 h-12 text-gray-300" />
+                            <span>Chưa có dữ liệu bảng xếp hạng</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 

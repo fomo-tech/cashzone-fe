@@ -26,6 +26,7 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import { Link } from "react-router-dom";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
 import ConfirmModal from "@/components/modals/ConfirmModal";
+import UserAvatar from "@/components/element/UserAvatar";
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -242,9 +243,11 @@ const UserManagement: React.FC = () => {
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center text-white font-bold">
-                            {user.name?.charAt(0).toUpperCase() || "U"}
-                          </div>
+                          <UserAvatar
+                            name={user.name || user.email}
+                            src={user.avatar}
+                            size="40"
+                          />
                           <span className="text-sm font-medium text-gray-900">
                             {user.name}
                           </span>

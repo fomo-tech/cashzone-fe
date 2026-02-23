@@ -33,7 +33,7 @@ const AdminLogin = () => {
       () => http.post("/auth/signin", data),
       (err: any) => {
         setError(err.response?.data?.message || "Đăng nhập thất bại");
-      }
+      },
     );
     if (res) {
       notification({
@@ -116,7 +116,7 @@ const AdminLogin = () => {
             type="submit"
             // disabled={getValues("email") === "" || getValues("password") === ""}
             className={clsx(
-              "w-full py-3 bg-[orange-600] text-white font-semibold rounded-lg hover:bg-[orange-600] transition shadow-lg flex items-center justify-center"
+              "w-full py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-500 transition shadow-lg flex items-center justify-center",
               // {
               //   "opacity-50 cursor-not-allowed":
               //     getValues("email") === "" || getValues("password") === "",

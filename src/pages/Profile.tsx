@@ -18,6 +18,7 @@ import profileService from "@/services/profileService";
 import type { UserProfile } from "@/services/profileService";
 import { notification } from "@/utils/notification";
 import { useAuthStore } from "@/store/authStore";
+import UserAvatar from "@/components/element/UserAvatar";
 
 // =========================================================================
 // CÁC COMPONENT PHỤ
@@ -45,7 +46,7 @@ const InfoField: React.FC<{
           {value || "Chưa cập nhật"}
         </p>
         {badge && (
-          <span className="px-2 py-0.5 bg-pink-100 text-pink-700 text-xs font-medium rounded-full shrink-0">
+          <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-full shrink-0">
             {badge}
           </span>
         )}
@@ -89,7 +90,7 @@ const ProfilePage: React.FC = () => {
 
   // NEW STATE: Quản lý tab thanh toán đang hoạt động
   const [activePaymentTab, setActivePaymentTab] = useState<"banking" | "bep20">(
-    "banking"
+    "banking",
   );
 
   // Load profile from authStore (already fetched by useAuthInit)
@@ -242,7 +243,7 @@ const ProfilePage: React.FC = () => {
     try {
       setSaving(true);
       const updatedProfile = await profileService.updateBEP20Address(
-        bep20Data.address
+        bep20Data.address,
       );
 
       setUserProfile(updatedProfile);
@@ -337,7 +338,7 @@ const ProfilePage: React.FC = () => {
                 userProfile?.paymentInfo?.bankInfo?.accountName ||
                 "Chưa cập nhật"
               }
-              iconBgClass="bg-pink-100"
+              iconBgClass="bg-orange-100"
               iconColorClass="text-[orange-600]"
             />
           </div>
@@ -492,7 +493,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-orange-500/30 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -564,7 +565,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 cursor-pointer disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-orange-500/30 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -597,11 +598,11 @@ const ProfilePage: React.FC = () => {
           <div className="md:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-center sticky md:top-8">
               <div className="relative inline-block mb-4">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
-                  {userProfile.name
-                    ? userProfile.name.charAt(0).toUpperCase()
-                    : userProfile.email.charAt(0).toUpperCase()}
-                </div>
+                <UserAvatar
+                  name={userProfile.name || userProfile.email}
+                  src={userProfile.avatar}
+                  size="128"
+                />
                 <div className="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center">
                   {/* Trạng thái online */}
                 </div>
@@ -631,7 +632,7 @@ const ProfilePage: React.FC = () => {
                     <p className="text-slate-700 font-medium text-sm">
                       {userProfile.createdAt
                         ? new Date(userProfile.createdAt).toLocaleDateString(
-                            "vi-VN"
+                            "vi-VN",
                           )
                         : "N/A"}
                     </p>
@@ -641,7 +642,7 @@ const ProfilePage: React.FC = () => {
 
               {/* Balance Section */}
               <div className="mt-6 pt-6 border-t border-slate-100">
-                <div className="bg-pink-50 rounded-xl p-4 border border-pink-100">
+                <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-slate-600 font-medium">
                       Số dư
@@ -673,7 +674,7 @@ const ProfilePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleEditProfile}
-                  className={`px-4 py-2 text-[orange-600] hover:bg-pink-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
                     isEditingProfile ? "hidden" : ""
                   }`}
                 >
@@ -689,7 +690,7 @@ const ProfilePage: React.FC = () => {
                     icon={<User className="w-5 h-5" />}
                     label="Họ và Tên"
                     value={userProfile.name || "Chưa cập nhật"}
-                    iconBgClass="bg-pink-100"
+                    iconBgClass="bg-orange-100"
                     iconColorClass="text-[orange-600]"
                   />
                   <InfoField
@@ -704,7 +705,7 @@ const ProfilePage: React.FC = () => {
                     label="Số Điện Thoại"
                     value={userProfile.phone || "Chưa cập nhật"}
                     badge={userProfile.phone ? "Momo" : undefined}
-                    iconBgClass="bg-pink-100"
+                    iconBgClass="bg-orange-100"
                     iconColorClass="text-[orange-600]"
                   />
                 </div>
@@ -791,7 +792,7 @@ const ProfilePage: React.FC = () => {
                           placeholder="Nhập số điện thoại"
                         />
                       </div>
-                      <p className="text-xs text-pink-600 mt-1">
+                      <p className="text-xs text-orange-600 mt-1">
                         * Số điện thoại này cũng được dùng làm số Momo
                       </p>
                     </div>
@@ -810,7 +811,7 @@ const ProfilePage: React.FC = () => {
                       <button
                         type="submit"
                         disabled={saving}
-                        className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-pink-500/30 disabled:opacity-50 cursor-pointer"
+                        className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-orange-500/30 disabled:opacity-50 cursor-pointer"
                       >
                         {saving ? (
                           <>
@@ -832,7 +833,7 @@ const ProfilePage: React.FC = () => {
 
             {/* 2. Thông Tin Thanh Toán (Banking & BEP20) */}
             <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6">
-              <div className="flex justify-between items-center mb-6">
+              <div className="sm:flex justify-between items-center mb-6">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">
                     Thông Tin Thanh Toán
@@ -845,7 +846,7 @@ const ProfilePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleEditBank}
-                  className={`px-4 py-2 text-[orange-600] hover:bg-pink-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
                     isEditingBank ? "hidden" : ""
                   }`}
                 >
@@ -864,28 +865,28 @@ const ProfilePage: React.FC = () => {
                   onClick={() => setActivePaymentTab("banking")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
                     activePaymentTab === "banking"
-                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-pink-500/30"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-orange-500/30"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
                   <Banknote className="w-4 h-4 mr-2" />
                   Banking
                   {hasBankingInfo && activePaymentTab !== "banking" && (
-                    <span className="ml-2 w-2 h-2 bg-pink-500 rounded-full"></span>
+                    <span className="ml-2 w-2 h-2 bg-orange-500 rounded-full"></span>
                   )}
                 </button>
                 <button
                   onClick={() => setActivePaymentTab("bep20")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
                     activePaymentTab === "bep20"
-                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-pink-500/30"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-orange-500/30"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
                   <Wallet className="w-4 h-4 mr-2" />
                   BEP20
                   {hasBEP20Info && activePaymentTab !== "bep20" && (
-                    <span className="ml-2 w-2 h-2 bg-pink-500 rounded-full"></span>
+                    <span className="ml-2 w-2 h-2 bg-orange-500 rounded-full"></span>
                   )}
                 </button>
               </div>

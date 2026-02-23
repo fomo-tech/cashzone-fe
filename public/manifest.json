@@ -1,11 +1,11 @@
 {
-  "name": "Aff App Network - Cashback & Rebate",
-  "short_name": "Cashzone",
-  "description": "Nhận rebate và cashback lên đến 30% khi mua sắm online và giao dịch",
+  "name": "BagBack - Hoàn Tiền Shopee Tự Động",
+  "short_name": "BagBack",
+  "description": "Mua sắm Shopee nhận hoàn tiền lên đến 30% tự động. Hệ thống cashback Shopee uy tín, rút tiền nhanh 24/7",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#E91E63",
+  "theme_color": "#f97316",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [

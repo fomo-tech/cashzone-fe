@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { User, Settings, LogOut, Wallet, History } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
+import UserAvatar from "./UserAvatar";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -35,12 +36,16 @@ const UserMenu = () => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <img
-        src="https://lh3.googleusercontent.com/a/ACg8ocLpo_ve57Hl-vfASdpt4MPAiXo-UnUPigBT7S9vam1j_FiPQg=s96-c"
-        alt="Avatar"
-        className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover bg-slate-200 cursor-pointer hover:opacity-80 transition"
+      <div
+        className="cursor-pointer hover:opacity-80 transition border-2 border-white shadow-sm rounded-full"
         onClick={() => setOpen((prev) => !prev)}
-      />
+      >
+        <UserAvatar
+          name={user?.name || user?.email}
+          src={user?.avatar}
+          size="35"
+        />
+      </div>
 
       <div
         className={`absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50 transform transition-all duration-150 origin-top ${

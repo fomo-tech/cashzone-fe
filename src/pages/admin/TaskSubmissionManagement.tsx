@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { notification } from "../../utils/notification";
 import taskService from "../../services/taskService";
+import UserAvatar from "@/components/element/UserAvatar";
 
 interface Submission {
   _id: string;
@@ -170,7 +171,7 @@ const TaskSubmissionManagement: React.FC = () => {
   const filteredSubmissions = submissions.filter(
     (s) =>
       s.userId?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.taskId?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+      s.taskId?.title?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const stats = {
@@ -241,7 +242,9 @@ const TaskSubmissionManagement: React.FC = () => {
           <div className="bg-white rounded-xl shadow-md p-5 border-2 border-[orange-600]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[orange-600] text-sm font-semibold">Đã duyệt</p>
+                <p className="text-[orange-600] text-sm font-semibold">
+                  Đã duyệt
+                </p>
                 <p className="text-3xl font-black text-[orange-600]">
                   {stats.approved}
                 </p>
@@ -357,9 +360,13 @@ const TaskSubmissionManagement: React.FC = () => {
                     >
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full flex items-center justify-center shadow-md">
-                            <User className="text-white" size={20} />
-                          </div>
+                          <UserAvatar
+                            name={
+                              submission.userId?.name ||
+                              submission.userId?.email
+                            }
+                            size="48"
+                          />
                           <div>
                             <p className="font-semibold text-gray-900">
                               {submission.userId?.name || "N/A"}

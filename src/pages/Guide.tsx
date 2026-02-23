@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   BookOpen,
   ShoppingBag,
@@ -309,7 +310,7 @@ const GuidePage: React.FC = () => {
 
   const toggleSection = (id: string) => {
     setOpenSections((prev) =>
-      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
     );
   };
 
@@ -328,6 +329,115 @@ const GuidePage: React.FC = () => {
             Tìm hiểu cách kiếm tiền, hoàn tiền và quản lý tài khoản của bạn một
             cách dễ dàng
           </p>
+        </div>
+
+        {/* Stats Section - Số liệu ấn tượng */}
+        <div className="p-6 sm:p-8 lg:p-10 bg-white rounded-2xl shadow-lg mb-10">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-800 mb-2">
+              Những Con Số Ấn Tượng
+            </h2>
+            <p className="text-gray-600">
+              Hàng ngàn người dùng đã tin tưởng và sử dụng dịch vụ của chúng tôi
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
+            <div className="text-center p-4 md:p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-3 md:mb-4 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 md:w-8 md:h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </div>
+              <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
+                50K+
+              </p>
+              <p className="text-xs md:text-sm text-gray-500 font-medium">
+                Người dùng
+              </p>
+            </div>
+
+            <div className="text-center p-4 md:p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-3 md:mb-4 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 md:w-8 md:h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
+                450M+
+              </p>
+              <p className="text-xs md:text-sm text-gray-500 font-medium">
+                Đã hoàn tiền
+              </p>
+            </div>
+
+            <div className="text-center p-4 md:p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-3 md:mb-4 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 md:w-8 md:h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
+              </div>
+              <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
+                1000+
+              </p>
+              <p className="text-xs md:text-sm text-gray-500 font-medium">
+                Thương hiệu
+              </p>
+            </div>
+
+            <div className="text-center p-4 md:p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-3 md:mb-4 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 md:w-8 md:h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  />
+                </svg>
+              </div>
+              <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
+                200+
+              </p>
+              <p className="text-xs md:text-sm text-gray-500 font-medium">
+                Chiến dịch
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Quick Stats */}
@@ -369,6 +479,186 @@ const GuidePage: React.FC = () => {
               onToggle={() => toggleSection(section.id)}
             />
           ))}
+        </div>
+
+        {/* Why Choose Us Section */}
+        <div className="mt-10 p-6 sm:p-8 lg:p-12 bg-white rounded-2xl shadow-lg">
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-800 mb-3">
+              Tại Sao Chọn Chúng Tôi?
+            </h2>
+            <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
+              Những lý do khiến hàng ngàn người dùng tin tưởng và lựa chọn
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-orange-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <svg
+                  className="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                Hoàn Tiền Tức Thì
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Tiền hoàn được cộng tự động vào ví ngay sau khi đơn hàng được
+                xác nhận
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-blue-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <svg
+                  className="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                An Toàn & Bảo Mật
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Thông tin cá nhân và giao dịch được mã hóa và bảo vệ tuyệt đối
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-purple-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <svg
+                  className="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                Quà Tặng Hấp Dẫn
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Nhận thưởng và phần quà giá trị khi tham gia các sự kiện đặc
+                biệt
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-green-100">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                <svg
+                  className="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                Hỗ Trợ 24/7
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ mọi lúc, mọi
+                nơi
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* How It Works Section */}
+        <div className="mt-10 p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl relative overflow-hidden shadow-xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+
+          <div className="relative z-10">
+            <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-3">
+                Cách Thức Hoạt Động
+              </h2>
+              <p className="text-white/90 text-base sm:text-lg max-w-2xl mx-auto">
+                Chỉ 3 bước đơn giản để bắt đầu kiếm tiền hoàn ngay hôm nay
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* Step 1 */}
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
+                  <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+                    1
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 text-center">
+                  Đăng Ký Tài Khoản
+                </h3>
+                <p className="text-white/80 text-center leading-relaxed">
+                  Tạo tài khoản miễn phí chỉ trong 30 giây. Không cần thẻ tín
+                  dụng hay ràng buộc.
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
+                  <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+                    2
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 text-center">
+                  Mua Sắm hoặc Làm Nhiệm Vụ
+                </h3>
+                <p className="text-white/80 text-center leading-relaxed">
+                  Mua sắm tại 1000+ thương hiệu hoặc hoàn thành các nhiệm vụ đơn
+                  giản để tích điểm.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
+                  <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+                    3
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 text-center">
+                  Nhận Tiền Hoàn
+                </h3>
+                <p className="text-white/80 text-center leading-relaxed">
+                  Tiền hoàn được tự động cộng vào ví. Rút về tài khoản ngân hàng
+                  bất cứ lúc nào, 24/7.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Contact Support */}

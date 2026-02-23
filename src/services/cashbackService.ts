@@ -206,11 +206,11 @@ const cashbackService = {
    */
   adminApproveOrder: async (
     orderId: string,
-    data?: { orderAmount?: number; cashbackRate?: number }
+    data?: { orderAmount?: number; cashbackRate?: number },
   ) => {
     const response = await http.post(
       `/admin/order/${orderId}/approve`,
-      data || {}
+      data || {},
     );
     return response.data;
   },
@@ -228,11 +228,11 @@ const cashbackService = {
       productImage?: string;
       cashbackRate?: number;
       notes?: string;
-    }
+    },
   ) => {
     const response = await http.post(
       `/admin/affiliate-link/${linkId}/create-order`,
-      data
+      data,
     );
     return response.data;
   },
@@ -308,7 +308,7 @@ const cashbackService = {
    */
   getOffersByPlatform: async (
     platformId: string,
-    params?: { page?: number; limit?: number }
+    params?: { page?: number; limit?: number },
   ): Promise<{
     data: Offer[];
     pagination: {
@@ -329,7 +329,7 @@ const cashbackService = {
    */
   findOfferByLink: async (
     link: string,
-    platformId?: string
+    platformId?: string,
   ): Promise<Offer | null> => {
     const response = await http.post("/offers/find-by-link", {
       link,
@@ -415,7 +415,7 @@ const cashbackService = {
    */
   convertShopeeLink: async (
     url: string,
-    userId?: string
+    userId?: string,
   ): Promise<ShopeeProductInfo> => {
     const params: any = { url };
     if (userId) params.userId = userId;
@@ -472,11 +472,11 @@ const cashbackService = {
    */
   updateLinkStatus: async (
     linkId: string,
-    status: "active" | "expired" | "suspended"
+    status: "active" | "expired" | "suspended",
   ): Promise<any> => {
     const response = await http.patch(
       `/management/admin/links/${linkId}/status`,
-      { status }
+      { status },
     );
     return response.data.data.link;
   },
@@ -541,6 +541,22 @@ const cashbackService = {
   },
 
   /**
+   * Search affiliate links (admin)
+   */
+  searchAffiliateLinks: async (params: {
+    search?: string;
+    limit?: number;
+  }): Promise<any> => {
+    const response = await http.get(
+      "/management/admin/affiliate-links/search",
+      {
+        params,
+      },
+    );
+    return response.data.data;
+  },
+
+  /**
    * Tạo order tracking (admin)
    */
   createOrder: async (orderData: any): Promise<any> => {
@@ -554,7 +570,7 @@ const cashbackService = {
   updateOrder: async (orderId: string, orderData: any): Promise<any> => {
     const response = await http.put(
       `/management/admin/orders/${orderId}`,
-      orderData
+      orderData,
     );
     return response.data.data.order;
   },
@@ -572,7 +588,7 @@ const cashbackService = {
    */
   approveOrder: async (orderId: string): Promise<any> => {
     const response = await http.patch(
-      `/management/admin/orders/${orderId}/approve`
+      `/management/admin/orders/${orderId}/approve`,
     );
     return response.data.data.order;
   },
@@ -583,7 +599,7 @@ const cashbackService = {
   rejectOrder: async (orderId: string, reason: string): Promise<any> => {
     const response = await http.patch(
       `/management/admin/orders/${orderId}/reject`,
-      { reason }
+      { reason },
     );
     return response.data.data.order;
   },
@@ -593,7 +609,7 @@ const cashbackService = {
    */
   markOrderAsPaid: async (orderId: string): Promise<any> => {
     const response = await http.patch(
-      `/management/admin/orders/${orderId}/mark-paid`
+      `/management/admin/orders/${orderId}/mark-paid`,
     );
     return response.data.data.order;
   },
@@ -634,7 +650,7 @@ const cashbackService = {
    * Lấy tất cả cashback (admin)
    */
   getAllCashbacks: async (
-    filters?: CashbackFilters
+    filters?: CashbackFilters,
   ): Promise<CashbackListResponse> => {
     const response = await http.get("/cashback/admin/all", { params: filters });
     return response.data.data;
@@ -649,7 +665,7 @@ const cashbackService = {
       page?: number;
       limit?: number;
       status?: "pending" | "completed" | "rejected";
-    }
+    },
   ): Promise<CashbackListResponse> => {
     const response = await http.get(`/cashback/admin/user/${userId}`, {
       params,
@@ -665,7 +681,7 @@ const cashbackService = {
     data: {
       status: "pending" | "completed" | "rejected";
       networkStatus?: string;
-    }
+    },
   ): Promise<CashbackTransaction> => {
     const response = await http.patch(`/cashback/admin/${id}/status`, data);
     return response.data.data.cashback;

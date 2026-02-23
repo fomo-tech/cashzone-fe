@@ -12,11 +12,11 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "robots.txt", "icons/*.png"],
       manifest: {
-        name: "Aff App Network - Cashback & Rebate",
-        short_name: "Cashzone",
+        name: "BagBack - Hoàn Tiền Shopee Tự Động",
+        short_name: "BagBack",
         description:
-          "Nhận rebate và cashback lên đến 30% khi mua sắm online và giao dịch",
-        theme_color: "#E91E63",
+          "Mua sắm Shopee nhận hoàn tiền lên đến 30% tự động. Hệ thống cashback Shopee uy tín, rút tiền nhanh 24/7",
+        theme_color: "#f97316",
         background_color: "#ffffff",
         display: "standalone",
         scope: "/",

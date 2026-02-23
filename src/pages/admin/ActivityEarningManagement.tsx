@@ -16,6 +16,7 @@ import activityEarningService, {
 import { useAppStore } from "@/store/appStore";
 import Pagination from "@/components/common/Pagination";
 import type { IPagination } from "@/utils/types/pagination";
+import UserAvatar from "@/components/element/UserAvatar";
 
 const ActivityEarningManagement: React.FC = () => {
   const [earnings, setEarnings] = useState<ActivityEarning[]>([]);
@@ -58,9 +59,8 @@ const ActivityEarningManagement: React.FC = () => {
       if (startDate) params.startDate = startDate;
       if (endDate) params.endDate = endDate;
 
-      const response = await activityEarningService.getAllActivityEarnings(
-        params
-      );
+      const response =
+        await activityEarningService.getAllActivityEarnings(params);
       setEarnings(response.history);
       setPagination({
         limit: response.pagination.limit,
@@ -88,9 +88,8 @@ const ActivityEarningManagement: React.FC = () => {
       if (startDate) params.startDate = startDate;
       if (endDate) params.endDate = endDate;
 
-      const response = await activityEarningService.getActivityEarningStats(
-        params
-      );
+      const response =
+        await activityEarningService.getActivityEarningStats(params);
       setStats(response);
     } catch (error: any) {
       console.error("Failed to fetch stats:", error);
@@ -324,17 +323,11 @@ const ActivityEarningManagement: React.FC = () => {
                   <tr key={earning._id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        {earning.userId.avatar ? (
-                          <img
-                            src={earning.userId.avatar}
-                            alt={earning.userId.name}
-                            className="h-8 w-8 rounded-full"
-                          />
-                        ) : (
-                          <div className="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center">
-                            <Users className="h-4 w-4 text-orange-600" />
-                          </div>
-                        )}
+                        <UserAvatar
+                          name={earning.userId.name || earning.userId.email}
+                          src={earning.userId.avatar}
+                          size="32"
+                        />
                         <div>
                           <p className="text-sm font-medium text-gray-800">
                             {earning.userId.name}

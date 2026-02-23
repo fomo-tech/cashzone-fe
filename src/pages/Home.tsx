@@ -1,105 +1,39 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import cashbackService, {
   type CashbackStatistics,
+  type CashbackTransaction,
 } from "@/services/cashbackService";
 import taskService, { type Task } from "@/services/taskService";
+import referralService, {
+  type ReferralStats,
+} from "@/services/referral.service";
+import walletService, { type WalletInfo } from "@/services/walletService";
 import { notification } from "@/utils/notification";
 import { Link } from "react-router-dom";
-import { TrendingUp, UserIcon, Wallet2Icon } from "lucide-react";
-import PriorityProducts from "@/components/cashback/PriorityProducts";
-
-// Custom hook for counting animation
-const useCountUp = (
-  end: number,
-  duration: number = 2000,
-  shouldStart: boolean = false
-) => {
-  const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    if (!shouldStart || hasAnimated) return;
-
-    setHasAnimated(true);
-    let startTime: number | null = null;
-    const startValue = 0;
-
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-
-      // Easing function for smooth animation
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentCount = Math.floor(
-        easeOutQuart * (end - startValue) + startValue
-      );
-
-      setCount(currentCount);
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setCount(end);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [end, duration, shouldStart, hasAnimated]);
-
-  return count;
-};
+import {
+  TrendingUp,
+  UserIcon,
+  Wallet2Icon,
+  ShoppingBag,
+  CheckCircle2,
+  Users,
+  Banknote,
+  Package,
+} from "lucide-react";
 
 const HomePage: React.FC = () => {
   const { user } = useAuthStore();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [latestTasks, setLatestTasks] = useState<Task[]>([]);
   const [statistics, setStatistics] = useState<CashbackStatistics | null>(null);
+  const [referralStats, setReferralStats] = useState<ReferralStats | null>(
+    null,
+  );
+  const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null);
+  const [recentOrders, setRecentOrders] = useState<CashbackTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [dataFetched, setDataFetched] = useState(false);
-  const [statsVisible, setStatsVisible] = useState(false);
-  const statsRef = useRef<HTMLDivElement>(null);
-
-  // Counting animations
-  const userCount = useCountUp(50, 2000, statsVisible);
-  const cashbackCount = useCountUp(450, 2000, statsVisible);
-  const brandCount = useCountUp(1000, 2000, statsVisible);
-  const campaignCount = useCountUp(200, 2000, statsVisible);
-
-  // Intersection Observer for stats section
-  useEffect(() => {
-    const currentRef = statsRef.current;
-
-    // Fallback: nếu section đã visible ngay từ đầu, trigger animation sau 500ms
-    const fallbackTimer = setTimeout(() => {
-      if (!statsVisible) {
-        setStatsVisible(true);
-      }
-    }, 500);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !statsVisible) {
-            clearTimeout(fallbackTimer);
-            setStatsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      clearTimeout(fallbackTimer);
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [statsVisible]);
 
   // Fetch data from APIs - Only once on mount
   useEffect(() => {
@@ -147,9 +81,22 @@ const HomePage: React.FC = () => {
         if (user) {
           await new Promise((resolve) => setTimeout(resolve, 100));
           try {
-            const stats = await cashbackService.getMyCashbackStatistics();
+            const [stats, refStats, wallet, orders] = await Promise.all([
+              cashbackService.getMyCashbackStatistics(),
+              referralService.getReferralStats().catch(() => null),
+              walletService.getWalletInfo().catch(() => null),
+              cashbackService
+                .getMyCashbacks({ limit: 5, status: "completed" })
+                .catch(() => ({
+                  data: [],
+                  pagination: { page: 1, limit: 5, total: 0, totalPages: 0 },
+                })),
+            ]);
             if (!isCancelled) {
               setStatistics(stats);
+              setReferralStats(refStats);
+              setWalletInfo(wallet);
+              setRecentOrders(orders.data || []);
             }
           } catch (err) {
             console.error("Error fetching statistics:", err);
@@ -353,186 +300,21 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Stats Section - Số liệu ấn tượng */}
-          <div
-            ref={statsRef}
-            className="p-2 sm:p-3 md:p-4 lg:p-6 bg-gradient-to-br from-gray-50 to-white"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 max-w-5xl mx-auto">
-              <div className="text-center p-3 md:p-4 lg:p-6 bg-white rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl md:rounded-2xl mx-auto mb-2 md:mb-3 lg:mb-4 flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+          {/* User Dashboard Statistics - Only show for logged in users */}
+          {user && (
+            <div className="p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-gray-50 to-white">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl sm:text-3xl font-black text-gray-800">
+                    Thống Kê Của Bạn
+                  </h2>
+                  <Link
+                    to="/wallet"
+                    className="text-orange-600 hover:text-orange-700 font-semibold text-sm flex items-center gap-1"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  {userCount}K+
-                </p>
-                <p className="text-xs md:text-sm text-gray-500 font-medium">
-                  Người dùng
-                </p>
-              </div>
-
-              <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  {cashbackCount}M+
-                </p>
-                <p className="text-xs md:text-sm text-gray-500 font-medium">
-                  Đã hoàn tiền
-                </p>
-              </div>
-
-              <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    />
-                  </svg>
-                </div>
-                <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  {brandCount}+
-                </p>
-                <p className="text-xs md:text-sm text-gray-500 font-medium">
-                  Thương hiệu
-                </p>
-              </div>
-
-              <div className="text-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-800 mb-1">
-                  {campaignCount}+
-                </p>
-                <p className="text-xs md:text-sm text-gray-500 font-medium">
-                  Chiến dịch
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Priority Products Section */}
-          <div className="p-4 sm:p-6 lg:p-4 bg-white">
-            <PriorityProducts limit={6} />
-          </div>
-
-          {/* How It Works Section */}
-          <div className="p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-
-            <div className="relative z-10">
-              <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-3">
-                  Cách Thức Hoạt Động
-                </h2>
-                <p className="text-white/90 text-base sm:text-lg max-w-2xl mx-auto">
-                  Chỉ 3 bước đơn giản để bắt đầu kiếm tiền hoàn ngay hôm nay
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                {/* Step 1 */}
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
-                      1
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 text-center">
-                    Đăng Ký Tài Khoản
-                  </h3>
-                  <p className="text-white/80 text-center leading-relaxed">
-                    Tạo tài khoản miễn phí chỉ trong 30 giây. Không cần thẻ tín
-                    dụng hay ràng buộc.
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
-                      2
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 text-center">
-                    Mua Sắm hoặc Làm Nhiệm Vụ
-                  </h3>
-                  <p className="text-white/80 text-center leading-relaxed">
-                    Mua sắm tại 1000+ thương hiệu hoặc hoàn thành các nhiệm vụ
-                    đơn giản để tích điểm.
-                  </p>
-                </div>
-
-                {/* Step 3 */}
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-xl">
-                    <span className="text-3xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
-                      3
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 text-center">
-                    Nhận Tiền Hoàn
-                  </h3>
-                  <p className="text-white/80 text-center leading-relaxed">
-                    Tiền hoàn được tự động cộng vào ví. Rút về tài khoản ngân
-                    hàng bất cứ lúc nào, 24/7.
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-center mt-10">
-                <Link to="/register">
-                  <button className="px-10 py-4 bg-white text-[orange-600] font-bold text-lg rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
-                    Bắt Đầu Ngay - Miễn Phí
+                    Xem chi tiết
                     <svg
-                      className="w-5 h-5"
+                      className="w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -541,257 +323,354 @@ const HomePage: React.FC = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Latest Tasks - Chiến dịch mới nhất */}
-          <div className="p-4 sm:p-6 lg:p-4">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2 text-[orange-600]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Chiến dịch mới nhất
-              </h3>
-              <Link
-                to="/tasks"
-                className="text-sm font-semibold text-[orange-600] hover:text-[#AD1457] transition"
-              >
-                Xem tất cả →
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
-              {latestTasks.length > 0 ? (
-                latestTasks.map((task) => (
-                  <Link
-                    key={task._id}
-                    to={`/tasks/${task._id}`}
-                    className="bg-white/90 backdrop-blur-md rounded-2xl border border-gray-100 shadow-lg p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] group"
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      {task.logoUrl ? (
-                        <img
-                          src={task.logoUrl}
-                          alt={task.title}
-                          className="w-11 h-11 rounded-xl object-cover shadow-md"
-                        />
-                      ) : (
-                        <div className="text-white text-xl font-bold rounded-xl w-11 h-11 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-md">
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                            />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-lg font-bold text-gray-800 group-hover:text-[orange-600] transition">
-                        {task.title}
-                      </h3>
-                      <span className="text-xs font-bold text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-full px-2 py-1 shadow-md uppercase">
-                        {task.type === "app_install"
-                          ? "App"
-                          : task.type === "registration"
-                          ? "Đăng ký"
-                          : task.type === "purchase"
-                          ? "Mua hàng"
-                          : task.type === "social_media"
-                          ? "Social"
-                          : "Task"}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-gray-500 mb-4 leading-relaxed line-clamp-2">
-                      {task.description || "Hoàn thành nhiệm vụ để nhận thưởng"}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-gray-400">Phần thưởng</p>
-                        <p className="text-lg font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
-                          {formatCurrency(task.reward)}
-                        </p>
-                      </div>
-                      {task.maxCompletions && (
-                        <span className="text-xs text-gray-500">
-                          Còn{" "}
-                          {Math.max(
-                            0,
-                            task.maxCompletions - task.completedCount
-                          )}{" "}
-                          chỗ
-                        </span>
-                      )}
-                    </div>
                   </Link>
-                ))
-              ) : (
-                <div className="col-span-3 text-center py-12">
-                  <p className="text-gray-500">
-                    Chưa có chiến dịch nào. Vui lòng quay lại sau.
-                  </p>
                 </div>
-              )}
-            </div>
-          </div>
 
-          {/* Featured Tasks/Campaigns - Chiến dịch nổi bật */}
-          {tasks.length > 0 && (
-            <div className="p-4 sm:p-6 lg:p-4 bg-gradient-to-br from-pink-50 to-orange-50">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl md:text-2xl font-black text-gray-800 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 mr-2 text-[orange-600]"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
-                    />
-                  </svg>
-                  Chiến dịch nổi bật
-                </h3>
-
-                <Link
-                  to="/tasks"
-                  className="text-sm font-semibold text-[orange-600] hover:text-[#AD1457] transition"
-                >
-                  Xem tất cả →
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
-                {tasks.map((task) => (
-                  <Link
-                    key={task._id}
-                    to={`/tasks/${task._id}`}
-                    className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-white group"
-                  >
-                    {/* Image/Logo */}
-                    <div className="relative h-40 bg-gradient-to-br from-pink-100 to-orange-100 overflow-hidden flex items-center justify-center">
-                      {task.logoUrl ? (
-                        <img
-                          src={task.logoUrl}
-                          alt={task.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <svg
-                            className="w-16 h-16 text-[orange-600] opacity-50"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                            />
-                          </svg>
-                        </div>
-                      )}
-
-                      {/* Badge */}
-                      <div className="absolute top-3 right-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                        Nổi bật
-                      </div>
-
-                      {/* Task Type */}
-                      <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm text-[orange-600] text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase">
-                        {task.type === "app_install"
-                          ? "CÀI APP"
-                          : task.type === "registration"
-                          ? "ĐĂNG KÝ"
-                          : task.type === "purchase"
-                          ? "MUA HÀNG"
-                          : task.type === "social_media"
-                          ? "MẠNG XÃ HỘI"
-                          : "NHIỆM VỤ"}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Đơn Đã Hoàn */}
+                  <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-blue-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <CheckCircle2 className="w-6 h-6 text-white" />
                       </div>
                     </div>
+                    <p className="text-2xl font-black text-gray-800 mb-1">
+                      {statistics?.completedAmount || 0}
+                    </p>
+                    <p className="text-sm text-gray-500 font-medium">
+                      Đơn Đã Hoàn
+                    </p>
+                  </div>
 
-                    {/* Content */}
-                    <div className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        {task.platform && (
-                          <span className="text-xs text-gray-500 font-semibold">
-                            {task.platform}
-                          </span>
-                        )}
-                        {task.maxCompletions && (
-                          <span className="text-xs text-gray-400">
-                            Còn {task.maxCompletions - task.completedCount} chỗ
-                          </span>
-                        )}
-                      </div>
-
-                      <h4 className="text-lg font-bold text-gray-800 mb-2 leading-snug line-clamp-2 group-hover:text-[orange-600] transition">
-                        {task.title}
-                      </h4>
-
-                      {task.description && (
-                        <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-                          {task.description}
-                        </p>
-                      )}
-
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                        <div>
-                          <p className="text-xs text-gray-500">Phần thưởng</p>
-                          <p className="text-base font-extrabold text-[orange-600]">
-                            {formatCurrency(task.reward)}
-                          </p>
-                        </div>
-
-                        <button className="px-4 py-2 text-sm font-bold text-white rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-md group-hover:scale-105 transition">
-                          Làm ngay
-                        </button>
+                  {/* Tổng Hoàn Tiền */}
+                  <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-orange-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <Wallet2Icon className="w-6 h-6 text-white" />
                       </div>
                     </div>
-                  </Link>
-                ))}
+                    <p className="text-2xl font-black text-gray-800 mb-1">
+                      {formatCurrency(statistics?.completedCashback || 0)}
+                    </p>
+                    <p className="text-sm text-gray-500 font-medium">
+                      Tổng Hoàn Tiền
+                    </p>
+                  </div>
+
+                  {/* Mời Thành Công */}
+                  <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-purple-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <Users className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+                    <p className="text-2xl font-black text-gray-800 mb-1">
+                      {referralStats?.directReferrals || 0}
+                    </p>
+                    <p className="text-sm text-gray-500 font-medium">
+                      Mời Thành Công
+                    </p>
+                  </div>
+
+                  {/* Tổng Đã Rút */}
+                  <div className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-green-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <Banknote className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+                    <p className="text-2xl font-black text-gray-800 mb-1">
+                      {formatCurrency(walletInfo?.totalWithdrawn || 0)}
+                    </p>
+                    <p className="text-sm text-gray-500 font-medium">
+                      Tổng Đã Rút
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
+
+          {/* Recent Orders Section - Only show for logged in users */}
+          {user && (
+            <div className="p-6 sm:p-8 lg:p-12 bg-white">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl sm:text-3xl font-black text-gray-800 flex items-center gap-2">
+                    <Package className="w-8 h-8 text-orange-600" />
+                    Đơn Hàng Gần Đây
+                  </h2>
+                  <Link
+                    to="/cashback-history"
+                    className="text-orange-600 hover:text-orange-700 font-semibold text-sm flex items-center gap-1"
+                  >
+                    Xem tất cả
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+                </div>
+
+                {recentOrders.length > 0 ? (
+                  <div className="space-y-4">
+                    {recentOrders.map((order) => (
+                      <div
+                        key={order._id}
+                        className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className="w-14 h-14 bg-gradient-to-br from-orange-100 to-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                              {order.flatformId?.logo ? (
+                                <img
+                                  src={order.flatformId.logo}
+                                  alt={order.flatformId.name}
+                                  className="w-10 h-10 object-contain"
+                                />
+                              ) : (
+                                <ShoppingBag className="w-7 h-7 text-orange-600" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-base font-bold text-gray-800 mb-1 truncate">
+                                {order.offerId?.title || "Đơn hàng"}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {order.flatformId?.name || "Platform"} •{" "}
+                                {new Date(order.createdAt).toLocaleDateString(
+                                  "vi-VN",
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <p className="text-lg font-black text-orange-600">
+                              +{formatCurrency(order.cashbackAmount)}
+                            </p>
+                            <span className="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full mt-1">
+                              Đã hoàn
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-12 border-2 border-dashed border-gray-200 text-center">
+                    <div className="max-w-sm mx-auto">
+                      <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl mx-auto mb-6 flex items-center justify-center relative">
+                        <ShoppingBag className="w-10 h-10 text-orange-500" />
+                        <div className="absolute -top-1 -right-1 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                          <svg
+                            className="w-5 h-5 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-black text-gray-800 mb-3">
+                        Đừng để tiền rơi! 💸
+                      </h3>
+                      <p className="text-gray-600 mb-6 leading-relaxed">
+                        Hãy bắt đầu mua sắm qua link để nhận hoàn tiền ngay vào
+                        túi nhé.
+                      </p>
+                      <Link to="/cashback">
+                        <button className="px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+                          </svg>
+                          LẤY LINK HOÀN TIỀN NGAY
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Community Section - Cộng Đồng */}
+          <div className="p-6 sm:p-8 lg:p-12 bg-white">
+            <div className="max-w-5xl mx-auto">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg
+                    className="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-gray-800">
+                    Cộng Đồng Hữu Duyên Hoàn Tiền
+                  </h2>
+                </div>
+                <span className="px-3 py-1 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-xs font-bold rounded-full shadow-lg ml-auto">
+                  MỚI
+                </span>
+              </div>
+
+              {/* Community Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {/* Group Facebook Card */}
+                <a
+                  href="https://www.facebook.com/groups/your-group"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/20 rounded-full blur-2xl" />
+
+                    <div className="flex items-start gap-4 relative z-10">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <svg
+                          className="w-8 h-8 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+                          Group Facebook
+                        </h3>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                          Tham gia cộng đồng Hữu Duyên Hoàn Tiền để nhận hỗ trợ
+                          & kinh nghiệm
+                        </p>
+
+                        <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+                          <span>Tham gia ngay</span>
+                          <svg
+                            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+
+                {/* Fanpage Facebook Card */}
+                <a
+                  href="https://www.facebook.com/your-fanpage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-6 border border-indigo-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-200/20 rounded-full blur-2xl" />
+
+                    <div className="flex items-start gap-4 relative z-10">
+                      <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <svg
+                          className="w-8 h-8 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                      </div>
+
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">
+                          Fanpage Facebook
+                        </h3>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                          Cập nhật tin tức, sự kiện và ưu đãi mới nhất từ Caffi
+                        </p>
+
+                        <div className="flex items-center gap-2 text-indigo-600 font-semibold text-sm">
+                          <span>Theo dõi ngay</span>
+                          <svg
+                            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              {/* Additional Info */}
+              <div className="mt-6 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-50 to-amber-50 rounded-full border border-orange-100">
+                  <svg
+                    className="w-5 h-5 text-orange-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-sm text-gray-700">
+                    <span className="font-bold text-orange-600">5,000+</span>{" "}
+                    thành viên đang tích cực chia sẻ kinh nghiệm kiếm tiền
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Footer Summary */}
           <div className="bg-gradient-to-r from-pink-50 to-orange-50 p-10 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center rounded-b-[32px] gap-8">
@@ -816,7 +695,7 @@ const HomePage: React.FC = () => {
             {/* Dashboard Actions */}
             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
               <Link
-                to={user ? "/wallet" : "/"}
+                to={user ? "/cashback-history" : "/"}
                 className="group w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-2xl text-white bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <UserIcon />

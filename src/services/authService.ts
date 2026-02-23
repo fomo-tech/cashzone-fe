@@ -41,6 +41,14 @@ const authService = {
   },
 
   /**
+   * Login with Google
+   */
+  googleLogin: async (idToken: string): Promise<AuthResponse> => {
+    const response = await http.post("/auth/google-login", { idToken });
+    return response.data.data;
+  },
+
+  /**
    * Get current user profile
    */
   fetchUserProfile: async () => {

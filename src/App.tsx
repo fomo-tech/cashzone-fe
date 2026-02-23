@@ -12,6 +12,7 @@ import ReferralCodeTracker from "./components/common/ReferralCodeTracker";
 import { WalletProvider } from "./context/WalletContext";
 import { useSocketNotifications } from "./hooks/useSocketNotifications";
 import toast from "react-hot-toast";
+import { useCallback } from "react";
 // import InstallPrompt from "./components/common/InstallPrompt";
 // import OfflineIndicator from "./components/common/OfflineIndicator";
 
@@ -19,35 +20,38 @@ function App() {
   useAuthInit();
   const { toast: customToast } = useAppStore();
 
+  // Memoize callbacks để tránh re-subscribe socket
+  const handleNewNotification = useCallback((notification: any) => {
+    const message = notification.message
+      ? `${notification.title}\n${notification.message}`
+      : notification.title || "Thông báo mới";
+
+    toast.success(message, {
+      duration: 5000,
+      style: {
+        maxWidth: "500px",
+      },
+    });
+  }, []);
+
+  const handleBroadcastNotification = useCallback((notification: any) => {
+    const message = notification.message
+      ? `${notification.title}\n${notification.message}`
+      : notification.title || "Thông báo";
+
+    toast(message, {
+      duration: 5000,
+      icon: "📢",
+      style: {
+        maxWidth: "500px",
+      },
+    });
+  }, []);
+
   // Setup socket notifications
   useSocketNotifications({
-    onNewNotification: (notification) => {
-      // Show toast notification
-      const message = notification.message
-        ? `${notification.title}\n${notification.message}`
-        : notification.title || "Thông báo mới";
-
-      toast.success(message, {
-        duration: 5000,
-        style: {
-          maxWidth: "500px",
-        },
-      });
-    },
-    onBroadcastNotification: (notification) => {
-      // Show broadcast notification
-      const message = notification.message
-        ? `${notification.title}\n${notification.message}`
-        : notification.title || "Thông báo";
-
-      toast(message, {
-        duration: 5000,
-        icon: "📢",
-        style: {
-          maxWidth: "500px",
-        },
-      });
-    },
+    onNewNotification: handleNewNotification,
+    onBroadcastNotification: handleBroadcastNotification,
   });
 
   return (

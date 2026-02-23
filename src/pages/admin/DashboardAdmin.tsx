@@ -71,8 +71,8 @@ const StatCard = ({
   const detailColor = isPositive
     ? "text-[orange-600]"
     : detail < 0
-    ? "text-red-600"
-    : "text-gray-500";
+      ? "text-red-600"
+      : "text-gray-500";
 
   return (
     <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
@@ -190,8 +190,8 @@ const SystemStatusCard = ({
           status === "Hoạt động"
             ? "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30"
             : status === "Tắt"
-            ? "bg-gray-100 text-gray-700"
-            : "bg-yellow-100 text-yellow-700"
+              ? "bg-gray-100 text-gray-700"
+              : "bg-yellow-100 text-yellow-700"
         }`}
       >
         {status}

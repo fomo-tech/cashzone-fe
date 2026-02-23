@@ -1,42 +1,24 @@
 import React, { useState } from "react";
 import { Mail, UserPlus, Lock, Check } from "lucide-react";
 import { notification } from "@/utils/notification";
-
-// Component Icon Google (Sử dụng SVG phổ biến)
-const GoogleIcon: React.FC = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 48"
-    width="24px"
-    height="24px"
-    className="mr-3 shrink-0"
-  >
-    <path
-      fill="#FFC107"
-      d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 7.957-11.303 7.957-6.514 0-11.882-5.228-11.882-11.758 0-6.53 5.368-11.758 11.882-11.758a12.871 12.871 0 0 1 8.895 3.541l6.982-6.982A22.08 22.08 0 0 0 24 10C12.954 10 3.823 19.045 3.823 30c0 10.954 9.131 20 20.177 20 17.518 0 22.213-16.71 18.257-27.917z"
-    />
-    <path
-      fill="#FF3D00"
-      d="M6.355 20.655l8.747 6.749A11.082 11.082 0 0 1 24 16c2.56 0 4.96.88 6.94 2.47l8.28-6.39A20.007 20.007 0 0 0 24 10c-10.954 0-20.081 9.045-20.081 20 0 1.348.163 2.665.485 3.94l8.36-6.438A12.036 12.036 0 0 1 6.355 20.655z"
-    />
-    <path
-      fill="#4CAF50"
-      d="M24 50c5.385 0 10.607-2.022 14.582-5.996l-8.28-6.39A14.07 14.07 0 0 1 24 38c-3.15 0-6.082-.9-8.483-2.434l-8.4 6.47A22.083 22.083 0 0 0 24 50z"
-    />
-    <path
-      fill="#1976D2"
-      d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 7.957-11.303 7.957-6.514 0-11.882-5.228-11.882-11.758 0-6.53 5.368-11.758 11.882-11.758a12.871 12.871 0 0 1 8.895 3.541l6.982-6.982A22.08 22.08 0 0 0 24 10c-10.954 0-20.081 9.045-20.081 20s9.127 20 20.081 20c13.09 0 23.362-12.008 19.53-29.917z"
-    />
-  </svg>
-);
+import { useNavigate } from "react-router-dom";
+import authService from "@/services/authService";
+import { useAuthStore } from "@/store/authStore";
+import toast from "react-hot-toast";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 const SignupForm: React.FC = () => {
-  const [email, setEmail] = useState("nguyenloc12021999vn@gmail.com");
-  const [password, setPassword] = useState("**********");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [referralCode, setReferralCode] = useState(""); // State mới cho Mã Giới Thiệu
-  const [agreed, setAgreed] = useState(true);
+  const [agreed, setAgreed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login: authLogin } = useAuthStore();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed) {
       notification({
@@ -45,20 +27,30 @@ const SignupForm: React.FC = () => {
       });
       return;
     }
-    notification({
-      message: "Đang tiến hành Đăng ký",
-      description: `Email: ${email}, Mã GT: ${referralCode || "Không có"}`,
-      type: "info",
-    });
-    // Logic API Đăng ký: Gửi email, password và referralCode lên server
+
+    setIsLoading(true);
+    try {
+      const data = await authService.signup({
+        email,
+        password,
+        name,
+        phone,
+        referralCode: referralCode || undefined,
+      });
+      
+      authLogin(data);
+      toast.success("Đăng ký thành công!");
+      navigate("/");
+    } catch (error: any) {
+      console.error("Signup error:", error);
+      toast.error(error?.response?.data?.message || "Đăng ký thất bại");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignup = () => {
-    notification({
-      message: "Đang chuyển hướng đến Google để Đăng Ký...",
-      type: "info",
-    });
-    // Logic OAuth Google ở đây
+  const handleGoogleSuccess = () => {
+    navigate("/");
   };
 
   return (
@@ -86,13 +78,12 @@ const SignupForm: React.FC = () => {
         </div>
 
         {/* Sign up with Google Button */}
-        <button
-          onClick={handleGoogleSignup}
-          className="w-full flex items-center justify-center px-4 py-3 border border-slate-200 rounded-xl text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-colors duration-200 shadow-sm"
-        >
-          <GoogleIcon />
-          <span>Sign up with Google</span>
-        </button>
+        <div className="w-full">
+          <GoogleLoginButton 
+            onSuccess={handleGoogleSuccess}
+            mode="signup"
+          />
+        </div>
 
         {/* 'or' Separator */}
         <div className="relative">

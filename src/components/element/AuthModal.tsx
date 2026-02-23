@@ -5,6 +5,7 @@ import authService from "../../services/authService";
 import { useAuthStore } from "../../store/authStore";
 import { notification } from "../../utils/notification";
 import { referralCodeUtils } from "../../utils/referralCode";
+import GoogleLoginButton from "../GoogleLoginButton";
 
 interface SignupFormData {
   name: string;
@@ -197,11 +198,17 @@ const AuthModal: React.FC = () => {
     }
   };
 
-  const handleGoogleSignup = () => {
+  const handleGoogleSuccess = () => {
     notification({
-      message: "Tính năng đăng nhập Google đang phát triển",
-      type: "info",
+      message: "Đăng nhập thành công!",
+      type: "success",
     });
+    // Đóng modal sau khi đăng nhập thành công
+    handleToggleAuthModal();
+  };
+
+  const handleGoogleError = () => {
+    // Error đã được xử lý trong GoogleLoginButton
   };
 
   return (
@@ -230,7 +237,7 @@ const AuthModal: React.FC = () => {
 
         {/* Header */}
         <div className="text-center">
-          <UserPlus className="w-12 h-12 mx-auto mb-4 text-orange-600 p-2 bg-gradient-to-r from-orange-600/10 to-[#FF8C1A]/10 rounded-full" />
+          <UserPlus className="w-12 h-12 mx-auto mb-4 text-orange-600 p-2 bg-linear-to-r from-orange-600/10 to-[#FF8C1A]/10 rounded-full" />
           <h1 className="text-3xl font-bold text-slate-800">
             {mode === "signup" ? "Tạo tài khoản mới" : "Chào mừng trở lại"}
           </h1>
@@ -250,18 +257,14 @@ const AuthModal: React.FC = () => {
           </p>
         </div>
 
-        {/* Google signup */}
-        <button
-          onClick={handleGoogleSignup}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl font-semibold text-slate-700 bg-white hover:bg-slate-50 shadow-sm hover:shadow-md"
-        >
-          <img
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            alt="Google"
-            className="w-5 h-5"
+        {/* Google Login */}
+        <div className="w-full">
+          <GoogleLoginButton
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            mode={mode === "signup" ? "signup" : "signin"}
           />
-          <span>{mode === "signup" ? "Đăng ký" : "Đăng nhập"} với Google</span>
-        </button>
+        </div>
 
         {/* Separator */}
         <div className="relative">
