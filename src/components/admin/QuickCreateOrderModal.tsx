@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search, Zap, X, ChevronRight, Package } from "lucide-react";
 import cashbackService from "@/services/cashbackService";
-import appSettingsService from "@/services/appSettingsService";
 import { notification } from "@/utils/notification";
+import CommonModal from "../common/Modal";
 
 interface QuickCreateOrderModalProps {
   open: boolean;
@@ -32,39 +32,26 @@ export default function QuickCreateOrderModal({
 }: QuickCreateOrderModalProps) {
   const [step, setStep] = useState(1);
   const [selectedLink, setSelectedLink] = useState<AffiliateLink | null>(null);
+  const [searchMode, setSearchMode] = useState<"search" | "direct">("direct"); // Mặc định là nhập trực tiếp
+  const [directInput, setDirectInput] = useState(""); // ID hoặc link
   const [searchTerm, setSearchTerm] = useState("");
   const [links, setLinks] = useState<AffiliateLink[]>([]);
   const [searching, setSearching] = useState(false);
+  const [loadingDirect, setLoadingDirect] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [defaultCashbackRate, setDefaultCashbackRate] = useState(80);
 
   const [formData, setFormData] = useState({
     orderId: "",
-    orderAmount: "",
-    commissionFromShopee: "",
-    shareRate: 80, // % trả lại cho user - sẽ được cập nhật từ config
-    orderDate: new Date().toISOString().split("T")[0],
+    orderAmount: 0,
+    cashbackRate: 0,
+    notes: "",
   });
 
-  // Fetch default cashback rate from app settings
+  // Auto-focus cleanup
   useEffect(() => {
-    const fetchDefaultRate = async () => {
-      try {
-        const settings = await appSettingsService.getPublicSettings();
-        const rate = settings.defaultCashbackRate || 80;
-        setDefaultCashbackRate(rate);
-        // Update formData with default rate when modal opens
-        if (open) {
-          setFormData((prev) => ({ ...prev, shareRate: rate }));
-        }
-      } catch (error) {
-        console.error("Failed to fetch default cashback rate:", error);
-        // Keep default 80% if fetch fails
-      }
-    };
-
     if (open) {
-      fetchDefaultRate();
+      // Reset to step 1 when modal opens
+      setStep(1);
     }
   }, [open]);
 
@@ -92,8 +79,71 @@ export default function QuickCreateOrderModal({
     }
   }, [searchTerm]);
 
+  // Fetch link từ ID hoặc link trực tiếp
+  const handleFetchDirect = async () => {
+    if (!directInput.trim()) {
+      notification({
+        message: "Vui lòng nhập ID hoặc link",
+        type: "error",
+      });
+      return;
+    }
+
+    try {
+      setLoadingDirect(true);
+
+      // Trích xuất ID từ input (có thể là ID thuần hoặc URL)
+      let linkId = directInput.trim();
+
+      // Nếu là URL, extract ID từ shortCode hoặc path
+      if (linkId.includes("http") || linkId.includes("/")) {
+        // Ví dụ: https://domain.com/ABC123 -> ABC123
+        const parts = linkId.split("/");
+        linkId = parts[parts.length - 1];
+      }
+
+      // Tìm link bằng ID hoặc shortCode
+      const response = await cashbackService.searchAffiliateLinks({
+        search: linkId,
+        limit: 1,
+      });
+
+      if (response.links && response.links.length > 0) {
+        const link = response.links[0];
+        setSelectedLink(link);
+        // Set default cashback rate from link
+        setFormData((prev) => ({
+          ...prev,
+          cashbackRate: link.cashbackRate || 5,
+        }));
+        setStep(2);
+        notification({
+          message: "Tìm thấy link!",
+          type: "success",
+        });
+      } else {
+        notification({
+          message: "Không tìm thấy link với ID/link này",
+          type: "error",
+        });
+      }
+    } catch (error: any) {
+      notification({
+        message: error.response?.data?.message || "Lỗi khi tìm link",
+        type: "error",
+      });
+    } finally {
+      setLoadingDirect(false);
+    }
+  };
+
   const handleSelectLink = (link: AffiliateLink) => {
     setSelectedLink(link);
+    // Set default cashback rate from link
+    setFormData((prev) => ({
+      ...prev,
+      cashbackRate: link.cashbackRate || 5,
+    }));
     setStep(2);
   };
 
@@ -102,30 +152,28 @@ export default function QuickCreateOrderModal({
 
     if (!selectedLink) return;
 
+    if (!formData.orderId || formData.orderAmount <= 0) {
+      notification({
+        message: "Vui lòng nhập đầy đủ thông tin đơn hàng",
+        type: "error",
+      });
+      return;
+    }
+
     try {
       setSubmitting(true);
 
-      const commissionAmount = parseFloat(formData.commissionFromShopee);
-      const cashbackAmount = (commissionAmount * formData.shareRate) / 100;
-
-      await cashbackService.createOrder({
-        userId: selectedLink.userId._id,
-        affiliateLinkId: selectedLink._id,
+      await cashbackService.adminCreateOrderForLink(selectedLink._id, {
         orderId: formData.orderId,
-        platform: selectedLink.platform,
-        orderAmount: parseFloat(formData.orderAmount),
-        orderDate: formData.orderDate,
+        orderAmount: formData.orderAmount,
+        cashbackRate: formData.cashbackRate,
         productName: selectedLink.productName,
         productImage: selectedLink.productImage,
-        commissionAmount: commissionAmount,
-        commissionRate: 10, // Default
-        cashbackAmount: cashbackAmount,
-        cashbackRate: formData.shareRate,
-        cashbackStatus: "pending",
+        notes: formData.notes || "Đơn hàng được tạo bởi admin (Tạo nhanh)",
       });
 
       notification({
-        message: "✅ Tạo đơn hàng thành công!",
+        message: "Tạo đơn hoàn tiền thành công!",
         type: "success",
       });
 
@@ -145,56 +193,34 @@ export default function QuickCreateOrderModal({
     if (submitting) return; // Prevent close while submitting
     setStep(1);
     setSelectedLink(null);
+    setSearchMode("direct");
+    setDirectInput("");
     setSearchTerm("");
     setLinks([]);
     setFormData({
       orderId: "",
-      orderAmount: "",
-      commissionFromShopee: "",
-      shareRate: defaultCashbackRate, // Reset to default from config
-      orderDate: new Date().toISOString().split("T")[0],
+      orderAmount: 0,
+      cashbackRate: 0,
+      notes: "",
     });
     onClose();
-  }, [submitting, defaultCashbackRate, onClose]);
-
-  // Keyboard support - ESC to close
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open && !submitting) {
-        handleClose();
-      }
-    };
-
-    if (open) {
-      document.addEventListener("keydown", handleKeyDown);
-      // Prevent body scroll when modal is open
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
-    };
-  }, [open, submitting, handleClose]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN").format(amount);
-  };
+  }, [submitting, onClose]);
 
   if (!open) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fadeIn"
-      onClick={(e) => {
-        if (e.target === e.currentTarget && !submitting) {
-          handleClose();
-        }
-      }}
+    <CommonModal
+      isOpen={open}
+      onClose={handleClose}
+      width="max-w-3xl"
+      showCloseButton={false}
+      className=""
+      headerClassName=""
+      bodyClassName="p-0"
     >
-      <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideIn">
-        {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-orange-600 to-orange-500 text-white p-6 rounded-t-2xl flex justify-between items-center">
+      {/* Custom Header */}
+      <div className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-6 py-5 rounded-t-2xl">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Zap size={28} className="animate-pulse" />
             <div>
@@ -213,140 +239,228 @@ export default function QuickCreateOrderModal({
             <X size={24} />
           </button>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="p-6">
-          {step === 1 && (
-            <div>
-              {/* Search */}
-              <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  🔍 Tìm Affiliate Link
-                </label>
-                <div className="relative">
-                  <Search
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={20}
-                  />
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Tìm theo tên user, product, link code..."
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 text-lg transition-all"
-                    autoFocus
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  Nhập ít nhất 2 ký tự để tìm kiếm
-                </p>
-              </div>
-
-              {/* Results */}
-              {searching && (
-                <div className="text-center py-8">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-orange-500 border-t-transparent"></div>
-                  <p className="text-gray-500 mt-2">Đang tìm kiếm...</p>
-                </div>
-              )}
-
-              {!searching && links.length === 0 && searchTerm.length >= 2 && (
-                <div className="text-center py-8">
-                  <Package className="mx-auto text-gray-300 mb-3" size={48} />
-                  <p className="text-gray-500">Không tìm thấy link nào</p>
-                </div>
-              )}
-
-              {!searching && links.length > 0 && (
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold text-gray-600 mb-3">
-                    Tìm thấy {links.length} link:
-                  </p>
-                  {links.map((link) => (
-                    <div
-                      key={link._id}
-                      onClick={() => handleSelectLink(link)}
-                      className="border-2 border-gray-200 rounded-xl p-4 hover:border-orange-500 hover:bg-orange-50 cursor-pointer transition group"
-                    >
-                      <div className="flex items-center gap-4">
-                        {link.productImage && (
-                          <img
-                            src={link.productImage}
-                            alt={link.productName}
-                            className="w-16 h-16 rounded-lg object-cover border-2 border-gray-100"
-                          />
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">
-                            {link.productName || "Sản phẩm"}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            👤 {link.userId.name} • 📧 {link.userId.email}
-                          </p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                              {link.platform}
-                            </span>
-                            {link.shortCode && (
-                              <span className="text-xs text-gray-500">
-                                Code: {link.shortCode}
-                              </span>
-                            )}
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">
-                              {link.cashbackRate || 5}% cashback
-                            </span>
-                          </div>
-                        </div>
-                        <ChevronRight
-                          className="text-gray-400 group-hover:text-orange-500"
-                          size={24}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+      {/* Content */}
+      <div className="p-6">
+        {step === 1 && (
+          <div>
+            {/* Mode Toggle */}
+            <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setSearchMode("direct")}
+                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
+                  searchMode === "direct"
+                    ? "bg-white text-orange-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                Nhập ID/Link
+              </button>
+              <button
+                type="button"
+                onClick={() => setSearchMode("search")}
+                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
+                  searchMode === "search"
+                    ? "bg-white text-orange-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                Tìm kiếm
+              </button>
             </div>
-          )}
 
-          {step === 2 && selectedLink && (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Selected Link Info */}
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-                <p className="text-xs font-semibold text-blue-800 mb-2">
-                  ✅ Link đã chọn:
-                </p>
-                <div className="flex items-center gap-3">
-                  {selectedLink.productImage && (
-                    <img
-                      src={selectedLink.productImage}
-                      alt={selectedLink.productName}
-                      className="w-12 h-12 rounded-lg object-cover"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm">
-                      {selectedLink.productName || "Sản phẩm"}
-                    </p>
-                    <p className="text-xs text-gray-600">
-                      User: {selectedLink.userId.name} • Code:{" "}
-                      {selectedLink.shortCode}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                  >
-                    Đổi link
-                  </button>
-                </div>
-              </div>
-
-              {/* Order ID */}
+            {/* Direct Input Mode */}
+            {searchMode === "direct" && (
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  📦 Mã Đơn Hàng Shopee *
+                  Nhập ID hoặc Link Affiliate
+                </label>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={directInput}
+                    onChange={(e) => setDirectInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !loadingDirect) {
+                        handleFetchDirect();
+                      }
+                    }}
+                    placeholder="Ví dụ: ABC123 hoặc https://domain.com/ABC123"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl hover:border-gray-400 focus:border-gray-500 focus:outline-none text-lg transition-all"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleFetchDirect}
+                    disabled={loadingDirect || !directInput.trim()}
+                    className="w-full py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm flex items-center justify-center gap-2"
+                  >
+                    {loadingDirect ? (
+                      <>
+                        <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Đang tìm...
+                      </>
+                    ) : (
+                      <>
+                        <Search size={18} />
+                        Tìm Link
+                      </>
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-3 bg-blue-50 border border-blue-100 rounded-lg p-3">
+                  <strong>Hướng dẫn:</strong> Nhập ID shortCode (vd: ABC123)
+                  hoặc paste toàn bộ URL affiliate link, sau đó nhấn Enter hoặc
+                  nút "Tìm Link"
+                </p>
+              </div>
+            )}
+
+            {/* Search Mode */}
+            {searchMode === "search" && (
+              <div>
+                {/* Search */}
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Tìm Affiliate Link
+                  </label>
+                  <div className="relative">
+                    <Search
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                      size={20}
+                    />
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      placeholder="Tìm theo tên user, product, link code..."
+                      className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl hover:border-gray-400 focus:border-gray-500 focus:outline-none text-lg transition-all"
+                      autoFocus
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Nhập ít nhất 2 ký tự để tìm kiếm
+                  </p>
+                </div>
+
+                {/* Results */}
+                {searching && (
+                  <div className="text-center py-8">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-orange-500 border-t-transparent"></div>
+                    <p className="text-gray-500 mt-2">Đang tìm kiếm...</p>
+                  </div>
+                )}
+
+                {!searching && links.length === 0 && searchTerm.length >= 2 && (
+                  <div className="text-center py-8">
+                    <Package className="mx-auto text-gray-300 mb-3" size={48} />
+                    <p className="text-gray-500">Không tìm thấy link nào</p>
+                  </div>
+                )}
+
+                {!searching && links.length > 0 && (
+                  <div className="space-y-3">
+                    <p className="text-sm font-semibold text-gray-600 mb-3">
+                      Tìm thấy {links.length} link:
+                    </p>
+                    {links.map((link) => (
+                      <div
+                        key={link._id}
+                        onClick={() => handleSelectLink(link)}
+                        className="border-2 border-gray-200 rounded-xl p-4 hover:border-orange-500 hover:bg-orange-50 cursor-pointer transition group"
+                      >
+                        <div className="flex items-center gap-4">
+                          {link.productImage && (
+                            <img
+                              src={link.productImage}
+                              alt={link.productName}
+                              className="w-16 h-16 rounded-lg object-cover border-2 border-gray-100"
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 truncate">
+                              {link.productName || "Sản phẩm"}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {link.userId.name} • {link.userId.email}
+                            </p>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                {link.platform}
+                              </span>
+                              {link.shortCode && (
+                                <span className="text-xs text-gray-500">
+                                  Code: {link.shortCode}
+                                </span>
+                              )}
+                              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">
+                                {link.cashbackRate || 5}% cashback
+                              </span>
+                            </div>
+                          </div>
+                          <ChevronRight
+                            className="text-gray-400 group-hover:text-orange-500"
+                            size={24}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {step === 2 && selectedLink && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Thông tin Link */}
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-4">
+              <h3 className="font-semibold text-gray-800 mb-3">
+                Thông tin Link
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs text-gray-600">Sản phẩm</p>
+                  <p className="font-medium text-gray-800">
+                    {selectedLink.productName || "N/A"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Platform</p>
+                  <p className="font-medium text-gray-800">
+                    {selectedLink.platform}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Tỷ lệ hoàn tiền</p>
+                  <p className="font-medium text-green-600">
+                    {selectedLink.cashbackRate || 5}%
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">User</p>
+                  <p className="font-medium text-gray-800">
+                    {selectedLink.userId.name || "N/A"}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="mt-3 text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                ← Đổi link khác
+              </button>
+            </div>
+
+            {/* Form nhập thông tin đơn hàng */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Mã đơn hàng <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -354,195 +468,131 @@ export default function QuickCreateOrderModal({
                   onChange={(e) =>
                     setFormData({ ...formData, orderId: e.target.value })
                   }
-                  placeholder="230223ABC123XYZ"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all"
+                  placeholder="VD: 2401SHOP12345 (từ Shopee/Lazada...)"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:outline-none"
                   required
-                  minLength={5}
                 />
               </div>
 
-              {/* Order Amount */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  💵 Giá Trị Đơn Hàng (VNĐ) *
-                </label>
-                <input
-                  type="number"
-                  value={formData.orderAmount}
-                  onChange={(e) =>
-                    setFormData({ ...formData, orderAmount: e.target.value })
-                  }
-                  placeholder="500000"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all"
-                  required
-                  min="0"
-                  step="1000"
-                />
-              </div>
-
-              {/* Commission from Shopee */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  💰 Commission Admin Nhận Từ Shopee (VNĐ) *
-                </label>
-                <input
-                  type="number"
-                  value={formData.commissionFromShopee}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      commissionFromShopee: e.target.value,
-                    })
-                  }
-                  placeholder="25000"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all"
-                  required
-                  min="0"
-                  step="1000"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Số tiền thực tế Shopee đã trả cho bạn (admin)
-                </p>
-              </div>
-
-              {/* Share Rate Slider */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  📊 % Trả Lại Cho User
-                  <span className="ml-2 text-xs font-normal text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
-                    Mặc định: {defaultCashbackRate}%
-                  </span>
-                </label>
-                <div className="flex items-center gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Số tiền đơn hàng <span className="text-red-500">*</span>
+                  </label>
                   <input
-                    type="range"
-                    min="50"
-                    max="100"
-                    value={formData.shareRate}
-                    onChange={(e) =>
+                    type="number"
+                    value={formData.orderAmount || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
                       setFormData({
                         ...formData,
-                        shareRate: parseInt(e.target.value),
-                      })
-                    }
-                    className="flex-1 h-3 bg-orange-200 rounded-full appearance-none cursor-pointer
-                      [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 
-                      [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-orange-600 
-                      [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer
-                      [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:rounded-full 
-                      [&::-moz-range-thumb]:bg-orange-600 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-lg"
+                        orderAmount: value === "" ? 0 : parseFloat(value),
+                      });
+                    }}
+                    placeholder="Nhập số tiền"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:outline-none"
+                    required
+                    min="0"
                   />
-                  <span className="text-2xl font-bold text-orange-600 min-w-[60px]">
-                    {formData.shareRate}%
-                  </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  User sẽ nhận:{" "}
-                  <strong className="text-green-600">
-                    {formatCurrency(
-                      (parseFloat(formData.commissionFromShopee || "0") *
-                        formData.shareRate) /
-                        100,
-                    )}{" "}
-                    VNĐ
-                  </strong>
-                </p>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tỷ lệ hoàn tiền (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    value={formData.cashbackRate}
+                    onChange={(e) => {
+                      const val = e.target.valueAsNumber;
+                      if (!isNaN(val)) {
+                        setFormData({
+                          ...formData,
+                          cashbackRate: val,
+                        });
+                      } else if (e.target.value === "") {
+                        setFormData({
+                          ...formData,
+                          cashbackRate: 0,
+                        });
+                      }
+                    }}
+                    placeholder={(selectedLink.cashbackRate || 5).toString()}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:outline-none"
+                  />
+                </div>
               </div>
 
-              {/* Order Date */}
+              {/* Tính toán hoàn tiền */}
+              {formData.orderAmount > 0 && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-700">
+                      Số tiền hoàn lại:
+                    </span>
+                    <span className="text-xl font-bold text-green-600">
+                      {(
+                        (formData.orderAmount * formData.cashbackRate) /
+                        100
+                      ).toLocaleString()}
+                      đ
+                    </span>
+                  </div>
+                </div>
+              )}
+
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  📅 Ngày Mua Hàng
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Ghi chú
                 </label>
-                <input
-                  type="date"
-                  value={formData.orderDate}
+                <textarea
+                  value={formData.notes}
                   onChange={(e) =>
-                    setFormData({ ...formData, orderDate: e.target.value })
+                    setFormData({ ...formData, notes: e.target.value })
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200 transition-all"
+                  placeholder="Ghi chú thêm về đơn hàng (không bắt buộc)"
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:outline-none"
                 />
               </div>
+            </div>
 
-              {/* Summary */}
-              <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-900 mb-3 flex items-center gap-2">
-                  <span className="text-lg">📊</span> Tóm Tắt:
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Giá trị đơn:</span>
-                    <strong className="text-gray-900">
-                      {formatCurrency(parseFloat(formData.orderAmount || "0"))}{" "}
-                      VNĐ
-                    </strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Commission từ Shopee:</span>
-                    <strong className="text-blue-700">
-                      {formatCurrency(
-                        parseFloat(formData.commissionFromShopee || "0"),
-                      )}{" "}
-                      VNĐ
-                    </strong>
-                  </div>
-                  <div className="h-px bg-green-200 my-2"></div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">
-                      User nhận ({formData.shareRate}%):
-                    </span>
-                    <strong className="text-green-700 text-lg">
-                      {formatCurrency(
-                        (parseFloat(formData.commissionFromShopee || "0") *
-                          formData.shareRate) /
-                          100,
-                      )}{" "}
-                      VNĐ
-                    </strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Admin giữ lại:</span>
-                    <strong className="text-purple-700">
-                      {formatCurrency(
-                        parseFloat(formData.commissionFromShopee || "0") -
-                          (parseFloat(formData.commissionFromShopee || "0") *
-                            formData.shareRate) /
-                            100,
-                      )}{" "}
-                      VNĐ
-                    </strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition"
-                >
-                  ← Quay lại
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="flex-1 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                >
-                  {submitting ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <div className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Đang tạo...
-                    </span>
-                  ) : (
-                    "✓ Tạo Đơn Hàng"
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
+            {/* Actions */}
+            <div className="bg-gray-50 px-6 py-4 flex items-center justify-end gap-3 border-t -mx-6 -mb-6">
+              <button
+                type="button"
+                onClick={handleClose}
+                disabled={submitting}
+                className="px-6 py-3 text-gray-700 hover:bg-gray-200 rounded-lg font-medium transition-colors disabled:opacity-50"
+              >
+                Hủy
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  submitting || !formData.orderId || formData.orderAmount <= 0
+                }
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-medium hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {submitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Đang tạo...
+                  </>
+                ) : (
+                  <>
+                    <Zap size={18} />
+                    Duyệt Đơn (Trạng thái: Đang xử lý)
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
-    </div>
+    </CommonModal>
   );
 }

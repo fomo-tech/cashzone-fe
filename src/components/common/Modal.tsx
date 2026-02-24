@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 interface CommonModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  title?: string | React.ReactNode;
   width?: string;
   children: React.ReactNode;
   showCloseButton?: boolean;

@@ -134,8 +134,8 @@ const RecentTransactions = ({
                         {txn.type === "INCOME"
                           ? "Thu nhập"
                           : txn.type === "COMMISSION"
-                          ? "Hoa hồng"
-                          : "Chi tiêu"}
+                            ? "Hoa hồng"
+                            : "Chi tiêu"}
                       </span>
                     </td>
                     <td
@@ -187,7 +187,7 @@ const RecentTransactions = ({
                   `/admin/transactions?userId=${
                     (transactions[0] as any)?.userId
                   }`,
-                  "_blank"
+                  "_blank",
                 )
               }
               className="inline-flex items-center gap-2 text-sm font-semibold text-[orange-600] hover:text-[#FF8C1A] transition-colors"
@@ -448,7 +448,7 @@ const ReferralSystemDisplay = ({
               {(commissions as any)?.totalEarned &&
                 (commissions as any).totalEarned > 0 &&
                 ` Đã kiếm được ${formatCurrency(
-                  (commissions as any).totalEarned
+                  (commissions as any).totalEarned,
                 )}`}
             </span>
           </div>
@@ -646,7 +646,7 @@ export default function UserDetailPage() {
       setToast({
         type: "success",
         title: `Đã ${adjustType === "add" ? "cộng" : "trừ"} ${formatCurrency(
-          adjustAmount
+          adjustAmount,
         )} thành công`,
         isVisible: true,
         timer: 2000,
@@ -791,7 +791,7 @@ export default function UserDetailPage() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30 font-sans">
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30 ">
       {/* HEADER - Green theme */}
       <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-lg">
         <div className="max-w-7xl mx-auto py-6 px-6 lg:px-8">
@@ -967,7 +967,7 @@ export default function UserDetailPage() {
                   <span className="text-2xl font-bold">
                     {formatCurrency(
                       (user.wallet?.available || 0) +
-                        (user.wallet?.pending || 0)
+                        (user.wallet?.pending || 0),
                     )}
                   </span>
                 </div>
@@ -1139,7 +1139,7 @@ export default function UserDetailPage() {
                   >
                     {formatCurrency(
                       (user?.wallet?.available || 0) +
-                        (adjustType === "add" ? adjustAmount : -adjustAmount)
+                        (adjustType === "add" ? adjustAmount : -adjustAmount),
                     )}
                   </p>
                 </div>

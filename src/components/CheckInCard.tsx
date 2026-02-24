@@ -3,10 +3,8 @@ import {
   CalendarDays,
   Gift,
   Flame,
-  Coins,
   Check,
   Clock,
-  TrendingUp,
   Award,
   Target,
   CheckCircle,
@@ -89,8 +87,12 @@ const CheckInCard: React.FC = () => {
 
   if (!stats || !rewards) return null;
 
-  const nextConsecutiveDay = (stats.consecutiveCount % 7) + 1;
-  const nextReward = getCurrentDayReward(nextConsecutiveDay);
+  // Tính ngày hiện tại trong tuần (1-7)
+  const currentDayInWeek =
+    stats.consecutiveCount === 0 ? 0 : ((stats.consecutiveCount - 1) % 7) + 1;
+  // Ngày tiếp theo sẽ điểm danh trong tuần (1-7)
+  const nextDayInWeek = (stats.consecutiveCount % 7) + 1;
+  const nextReward = getCurrentDayReward(nextDayInWeek);
 
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
@@ -125,14 +127,14 @@ const CheckInCard: React.FC = () => {
             Tiến độ tuần này
           </span>
           <span className="text-sm font-semibold text-orange-600">
-            {Math.min(stats.consecutiveCount, 7)}/7
+            {currentDayInWeek}/7
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full transition-all duration-500"
             style={{
-              width: `${(Math.min(stats.consecutiveCount, 7) / 7) * 100}%`,
+              width: `${(currentDayInWeek / 7) * 100}%`,
             }}
           ></div>
         </div>
@@ -152,10 +154,9 @@ const CheckInCard: React.FC = () => {
             {Array.from({ length: 5 }).map((_, index) => {
               const dayNumber = index + 1;
               const dayReward = getCurrentDayReward(dayNumber);
-              const isCompleted = stats.consecutiveCount >= dayNumber;
+              const isCompleted = currentDayInWeek >= dayNumber;
               const isCurrent =
-                stats.consecutiveCount + 1 === dayNumber &&
-                stats.canCheckInToday;
+                nextDayInWeek === dayNumber && stats.canCheckInToday;
 
               return (
                 <div
@@ -166,8 +167,8 @@ const CheckInCard: React.FC = () => {
                       isCompleted
                         ? "border-green-400 bg-gradient-to-br from-green-50 to-emerald-100 shadow-md"
                         : isCurrent
-                        ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
-                        : "border-gray-200 bg-gray-50 hover:border-gray-300"
+                          ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
+                          : "border-gray-200 bg-gray-50 hover:border-gray-300"
                     }
                   `}
                 >
@@ -178,8 +179,8 @@ const CheckInCard: React.FC = () => {
                         isCompleted
                           ? "bg-green-500 text-white"
                           : isCurrent
-                          ? "bg-orange-500 text-white"
-                          : "bg-gray-300 text-gray-600"
+                            ? "bg-orange-500 text-white"
+                            : "bg-gray-300 text-gray-600"
                       }
                     `}
                   >
@@ -192,8 +193,8 @@ const CheckInCard: React.FC = () => {
                         isCompleted
                           ? "text-green-700"
                           : isCurrent
-                          ? "text-orange-700"
-                          : "text-gray-500"
+                            ? "text-orange-700"
+                            : "text-gray-500"
                       }
                     `}
                   >
@@ -209,10 +210,9 @@ const CheckInCard: React.FC = () => {
             {Array.from({ length: 2 }).map((_, index) => {
               const dayNumber = index + 6;
               const dayReward = getCurrentDayReward(dayNumber);
-              const isCompleted = stats.consecutiveCount >= dayNumber;
+              const isCompleted = currentDayInWeek >= dayNumber;
               const isCurrent =
-                stats.consecutiveCount + 1 === dayNumber &&
-                stats.canCheckInToday;
+                nextDayInWeek === dayNumber && stats.canCheckInToday;
 
               return (
                 <div
@@ -223,8 +223,8 @@ const CheckInCard: React.FC = () => {
                       isCompleted
                         ? "border-green-400 bg-gradient-to-br from-green-50 to-emerald-100 shadow-md"
                         : isCurrent
-                        ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
-                        : "border-gray-200 bg-gray-50 hover:border-gray-300"
+                          ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
+                          : "border-gray-200 bg-gray-50 hover:border-gray-300"
                     }
                   `}
                 >
@@ -235,8 +235,8 @@ const CheckInCard: React.FC = () => {
                         isCompleted
                           ? "bg-green-500 text-white"
                           : isCurrent
-                          ? "bg-orange-500 text-white"
-                          : "bg-gray-300 text-gray-600"
+                            ? "bg-orange-500 text-white"
+                            : "bg-gray-300 text-gray-600"
                       }
                     `}
                   >
@@ -249,8 +249,8 @@ const CheckInCard: React.FC = () => {
                         isCompleted
                           ? "text-green-700"
                           : isCurrent
-                          ? "text-orange-700"
-                          : "text-gray-500"
+                            ? "text-orange-700"
+                            : "text-gray-500"
                       }
                     `}
                   >
@@ -273,9 +273,9 @@ const CheckInCard: React.FC = () => {
           {Array.from({ length: 7 }).map((_, index) => {
             const dayNumber = index + 1;
             const dayReward = getCurrentDayReward(dayNumber);
-            const isCompleted = stats.consecutiveCount >= dayNumber;
+            const isCompleted = currentDayInWeek >= dayNumber;
             const isCurrent =
-              stats.consecutiveCount + 1 === dayNumber && stats.canCheckInToday;
+              nextDayInWeek === dayNumber && stats.canCheckInToday;
 
             return (
               <div
@@ -286,8 +286,8 @@ const CheckInCard: React.FC = () => {
                     isCompleted
                       ? "border-green-400 bg-gradient-to-br from-green-50 to-emerald-100 shadow-md"
                       : isCurrent
-                      ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
-                      : "border-gray-200 bg-gray-50 hover:border-gray-300"
+                        ? "border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 shadow-md ring-2 ring-orange-300/50"
+                        : "border-gray-200 bg-gray-50 hover:border-gray-300"
                   }
                 `}
               >
@@ -298,8 +298,8 @@ const CheckInCard: React.FC = () => {
                       isCompleted
                         ? "bg-green-500 text-white"
                         : isCurrent
-                        ? "bg-orange-500 text-white"
-                        : "bg-gray-300 text-gray-600"
+                          ? "bg-orange-500 text-white"
+                          : "bg-gray-300 text-gray-600"
                     }
                   `}
                 >
@@ -312,8 +312,8 @@ const CheckInCard: React.FC = () => {
                       isCompleted
                         ? "text-green-700"
                         : isCurrent
-                        ? "text-orange-700"
-                        : "text-gray-500"
+                          ? "text-orange-700"
+                          : "text-gray-500"
                     }
                   `}
                 >
@@ -350,7 +350,7 @@ const CheckInCard: React.FC = () => {
         </div>
         <div className="bg-gradient-to-br from-orange-50 to-amber-100 p-3 sm:p-4 rounded-xl text-center">
           <div className="text-lg sm:text-xl font-bold text-orange-600">
-            {Math.min(stats.consecutiveCount, 7)}
+            {stats.consecutiveCount}
           </div>
           <div className="text-xs sm:text-sm text-orange-700/80 font-medium">
             Ngày liên tiếp
@@ -393,14 +393,13 @@ const CheckInCard: React.FC = () => {
       </button>
 
       {/* Next Day Info */}
-      {!stats.canCheckInToday && stats.consecutiveCount < 7 && (
+      {!stats.canCheckInToday && (
         <div className="mt-4 p-3 sm:p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-200">
           <div className="flex items-center justify-center gap-2 text-sm text-gray-700">
             <Clock className="h-4 w-4 text-orange-500" />
             <span>Ngày mai:</span>
             <span className="font-bold text-orange-700">
-              +{(getCurrentDayReward(nextConsecutiveDay) || 0).toLocaleString()}{" "}
-              VNĐ
+              +{(getCurrentDayReward(nextDayInWeek) || 0).toLocaleString()} VNĐ
             </span>
           </div>
         </div>

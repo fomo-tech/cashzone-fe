@@ -162,7 +162,7 @@ const LeaderBoard = () => {
   };
 
   return (
-    <div className="min-h-screen  text-gray-900 font-sans p-2 md:p-3 lg:p-4">
+    <div className="min-h-screen  text-gray-900  p-2 md:p-3 lg:p-4">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         {/* Header Section */}
         <div className="relative w-full text-center mb-6 md:mb-8 lg:mb-12 mt-3 md:mt-4 lg:mt-6">
@@ -172,7 +172,7 @@ const LeaderBoard = () => {
           </div>
 
           {/* Title */}
-          <h1 className="relative z-10 font-extrabold tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600">
+          <h1 className="relative z-10  tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600">
             BẢNG XẾP HẠNG
           </h1>
 
@@ -356,7 +356,7 @@ const LeaderBoard = () => {
                     </div>
 
                     {/* Prize */}
-                    <div className="p-1.5 px-3 rounded-full text-xs font-extrabold bg-linear-to-r from-pink-500 to-[#FF8C1A] text-white shadow-lg">
+                    <div className="p-1.5 px-3 rounded-full text-xs  bg-linear-to-r from-pink-500 to-[#FF8C1A] text-white shadow-lg">
                       {user.totalReferrals || 0} refs
                     </div>
                   </div>
@@ -442,7 +442,7 @@ const LeaderBoard = () => {
                     </p>
 
                     {/* Referrals */}
-                    <div className="p-1.5 md:p-2 px-3 md:px-4 lg:px-5 rounded-full text-xs md:text-sm lg:text-base font-extrabold bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-xl mt-auto">
+                    <div className="p-1.5 md:p-2 px-3 md:px-4 lg:px-5 rounded-full text-xs md:text-sm lg:text-base  bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-xl mt-auto">
                       {user.totalReferrals || 0} refs
                     </div>
                   </div>
@@ -483,7 +483,7 @@ const LeaderBoard = () => {
                     {currentUserStats.name?.charAt(0) || "U"}
                   </div>
                   <div>
-                    <p className="text-sm md:text-base lg:text-lg font-extrabold text-white truncate max-w-[120px] md:max-w-none">
+                    <p className="text-sm md:text-base lg:text-lg  text-white truncate max-w-[120px] md:max-w-none">
                       {currentUserStats.name || "User"} (Bạn)
                     </p>
                     <p className="text-sm font-semibold text-pink-100">
@@ -494,7 +494,7 @@ const LeaderBoard = () => {
                 </div>
 
                 <div className="text-right">
-                  <p className="text-base md:text-lg lg:text-xl font-extrabold text-yellow-300 flex items-center justify-end">
+                  <p className="text-base md:text-lg lg:text-xl  text-yellow-300 flex items-center justify-end">
                     <Gem
                       className="w-4 h-4 md:w-5 md:h-5 mr-1 fill-yellow-300"
                       strokeWidth={1.5}

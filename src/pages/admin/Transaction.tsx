@@ -212,7 +212,7 @@ const TransactionTable: React.FC<{
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
-                      txn.status
+                      txn.status,
                     )}`}
                   >
                     {getStatusLabel(txn.status)}
@@ -308,8 +308,8 @@ const TransactionDetails: React.FC<{
             transaction.status === "PENDING"
               ? "bg-yellow-500 text-white"
               : transaction.status === "COMPLETED"
-              ? "bg-[orange-600] text-white"
-              : "bg-red-500 text-white"
+                ? "bg-[orange-600] text-white"
+                : "bg-red-500 text-white"
           }`}
         >
           {getStatusLabel(transaction.status)}
@@ -355,12 +355,12 @@ const TransactionDetails: React.FC<{
                 transaction.paymentInfo.method === "BANK"
                   ? "Ngân Hàng"
                   : transaction.paymentInfo.method === "momo" ||
-                    transaction.paymentInfo.method === "MOMO"
-                  ? "MoMo"
-                  : transaction.paymentInfo.method === "bep20" ||
-                    transaction.paymentInfo.method === "BEP20"
-                  ? "BEP20"
-                  : transaction.paymentInfo.method
+                      transaction.paymentInfo.method === "MOMO"
+                    ? "MoMo"
+                    : transaction.paymentInfo.method === "bep20" ||
+                        transaction.paymentInfo.method === "BEP20"
+                      ? "BEP20"
+                      : transaction.paymentInfo.method
               }
             />
           )}
@@ -417,7 +417,7 @@ const TransactionDetails: React.FC<{
                     <div className="bg-white p-4 rounded-lg shadow-md">
                       <img
                         src={`https://img.vietqr.io/image/${getBankCode(
-                          transaction.paymentInfo.bankName
+                          transaction.paymentInfo.bankName,
                         )}-${
                           transaction.paymentInfo.accountNumber
                         }-compact.jpg?amount=${
@@ -732,13 +732,13 @@ const TransactionManagementPage: React.FC = () => {
       label: "Đã hủy",
       icon: XCircle,
       count: transactions.filter(
-        (t) => t.status === "FAILED" || t.status === "REJECTED"
+        (t) => t.status === "FAILED" || t.status === "REJECTED",
       ).length,
     },
   ];
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 font-sans">
+    <div className="min-h-screen p-4 sm:p-8 ">
       {/* Toast */}
       {toastMessage && (
         <div className="fixed top-4 right-4 z-50 bg-[orange-600] text-white px-6 py-3 rounded-xl shadow-lg">

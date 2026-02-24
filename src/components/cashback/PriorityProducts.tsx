@@ -61,7 +61,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
 
   const handleCreateLink = async (
     product: AffiliateProduct,
-    e: React.MouseEvent
+    e: React.MouseEvent,
   ) => {
     e.stopPropagation();
 
@@ -171,9 +171,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
               <div className="absolute top-3 left-3 z-10">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-full shadow-lg">
                   <Star size={14} className="fill-current" />
-                  <span className="text-xs font-extrabold">
-                    HOT #{index + 1}
-                  </span>
+                  <span className="text-xs ">HOT #{index + 1}</span>
                 </div>
               </div>
             )}
@@ -245,7 +243,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
               <button
                 onClick={(e) => handleCreateLink(product, e)}
                 disabled={creatingLink === product._id}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-extrabold text-sm hover:from-orange-600 hover:to-amber-600 transition shadow-lg group-hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl  text-sm hover:from-orange-600 hover:to-amber-600 transition shadow-lg group-hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {creatingLink === product._id ? (
                   <>

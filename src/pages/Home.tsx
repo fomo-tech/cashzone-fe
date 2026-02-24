@@ -151,7 +151,7 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen font-sans">
+    <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto p-2 sm:p-2 lg:p-3">
         <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden border border-white">
           {/* Header Section */}
@@ -680,7 +680,7 @@ const HomePage: React.FC = () => {
                 <TrendingUp className="w-5 h-5 mr-2 text-[orange-600]" />
                 {user ? "Tổng quan của bạn" : "Tổng quan hoàn tiền"}
               </h4>
-              <p className="text-4xl font-extrabold text-[orange-600]">
+              <p className="text-4xl  text-[orange-600]">
                 {user && statistics
                   ? formatCurrency(statistics.totalCashback)
                   : "450.000.000₫"}

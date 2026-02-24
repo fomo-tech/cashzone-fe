@@ -279,8 +279,8 @@ const ConfigManagement = () => {
     // Cập nhật giá trị tạm thời (local state) trong configs
     setConfigs((prevConfigs) =>
       prevConfigs.map((config) =>
-        config.id === id ? { ...config, value: newValue } : config
-      )
+        config.id === id ? { ...config, value: newValue } : config,
+      ),
     );
   };
 
@@ -296,13 +296,13 @@ const ConfigManagement = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 font-sans">
+    <div className="min-h-screen p-4 sm:p-8 ">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between border-b pb-4">
           <div className="flex items-center space-x-3">
             <Settings className="w-8 h-8 text-[orange-600]" />
-            <h1 className="text-3xl font-extrabold text-gray-900">
+            <h1 className="text-3xl  text-gray-900">
               Quản Lý Cấu Hình Ứng Dụng
             </h1>
           </div>

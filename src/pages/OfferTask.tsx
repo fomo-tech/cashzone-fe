@@ -106,7 +106,7 @@ const OfferCard: React.FC<{
       e.preventDefault();
       navigate(`/tasks/${offer.id}`);
     },
-    [offer.id, navigate]
+    [offer.id, navigate],
   );
 
   return (
@@ -124,7 +124,7 @@ const OfferCard: React.FC<{
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = `https://placehold.co/100x100/CCCCCC/666666?text=${offer.platformName.substring(
                   0,
-                  4
+                  4,
                 )}`;
               }}
             />
@@ -288,7 +288,7 @@ export default function App() {
       list = list.filter(
         (offer) =>
           offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          offer.platformName.toLowerCase().includes(searchTerm.toLowerCase())
+          offer.platformName.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -334,7 +334,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen py-4 sm:py-8 font-sans"
+      className="min-h-screen py-4 sm:py-8 "
       style={{ "--primary-color": "var(--primary)" } as React.CSSProperties}
     >
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6">
@@ -343,7 +343,7 @@ export default function App() {
           <div className="relative z-10">
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight mb-1">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl  tracking-tight mb-1">
                   Săn Tiền Thưởng & Hoàn Tiền
                 </h1>
                 <p className="text-sm sm:text-base opacity-95">
@@ -457,7 +457,7 @@ export default function App() {
                                     activeCategory === cat.id
                                       ? `bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-lg shadow-pink-500/30 scale-105`
                                       : `bg-white ${getCategoryColor(
-                                          cat.id
+                                          cat.id,
                                         )} border border-gray-200 hover:border-pink-300 hover:shadow-md hover:scale-105`
                                   }`}
                   >

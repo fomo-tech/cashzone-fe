@@ -94,7 +94,7 @@ export default function LinkManagement() {
     try {
       await cashbackService.updateLinkStatus(
         linkId,
-        status as "active" | "expired" | "suspended"
+        status as "active" | "expired" | "suspended",
       );
       loadLinks();
     } catch (error: any) {
@@ -158,7 +158,7 @@ export default function LinkManagement() {
     const platform = platforms.find(
       (p) =>
         p.name.toLowerCase() === platformName.toLowerCase() ||
-        p.slug === platformName.toLowerCase()
+        p.slug === platformName.toLowerCase(),
     );
 
     if (
@@ -167,13 +167,13 @@ export default function LinkManagement() {
       platform.commissionValue > 0
     ) {
       console.log(
-        `Found platform ${platformName} with rate: ${platform.commissionValue}%`
+        `Found platform ${platformName} with rate: ${platform.commissionValue}%`,
       );
       return platform.commissionValue;
     }
 
     console.log(
-      `Platform ${platformName} not found or no rate, using default 5%`
+      `Platform ${platformName} not found or no rate, using default 5%`,
     );
     return 5; // Default 5%
   };
@@ -245,7 +245,7 @@ export default function LinkManagement() {
           productName: selectedLink.productName,
           productImage: selectedLink.productImage,
           notes: orderData.notes || "Đơn hàng được tạo bởi admin",
-        }
+        },
       );
 
       console.log("API response:", response);
@@ -422,45 +422,136 @@ export default function LinkManagement() {
         )}
 
         {/* Filters */}
-        <div className="bg-white rounded-xl p-6 shadow-md mb-6">
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex-1 min-w-[200px]">
-              <div className="relative">
-                <Search
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm link, product..."
-                  value={filters.search}
-                  onChange={(e) =>
-                    setFilters({ ...filters, search: e.target.value, page: 1 })
+        <div className="bg-white rounded-xl shadow-lg mb-6 border border-gray-200">
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-pink-100 rounded-lg">
+                  <Search className="text-pink-600" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Bộ lọc tìm kiếm
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Lọc và tìm kiếm link affiliate
+                  </p>
+                </div>
+              </div>
+              {(filters.search || filters.platform || filters.status) && (
+                <button
+                  onClick={() =>
+                    setFilters({
+                      platform: "",
+                      status: "",
+                      search: "",
+                      page: 1,
+                      limit: 20,
+                    })
                   }
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-200"
+                >
+                  Xóa bộ lọc
+                </button>
+              )}
+            </div>
+
+            {/* Filters Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Search */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tìm kiếm
+                </label>
+                <div className="relative">
+                  <Search
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    size={18}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Tên sản phẩm, link..."
+                    value={filters.search}
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        search: e.target.value,
+                        page: 1,
+                      })
+                    }
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Platform */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Platform
+                </label>
+                <PlatformSelect
+                  value={filters.platform}
+                  onChange={(value) =>
+                    setFilters({ ...filters, platform: value, page: 1 })
+                  }
+                  placeholder="Tất cả Platform"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none"
                 />
               </div>
+
+              {/* Status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Trạng thái
+                </label>
+                <select
+                  value={filters.status}
+                  onChange={(e) =>
+                    setFilters({ ...filters, status: e.target.value, page: 1 })
+                  }
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundPosition: "right 0.5rem center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "1.5em 1.5em",
+                    paddingRight: "2.5rem",
+                  }}
+                >
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="active">Active</option>
+                  <option value="expired">Expired</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
             </div>
-            <PlatformSelect
-              value={filters.platform}
-              onChange={(value) =>
-                setFilters({ ...filters, platform: value, page: 1 })
-              }
-              placeholder="Tất cả Platform"
-              className="px-4 py-2 rounded-lg"
-            />
-            <select
-              value={filters.status}
-              onChange={(e) =>
-                setFilters({ ...filters, status: e.target.value, page: 1 })
-              }
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-            >
-              <option value="">Tất cả Status</option>
-              <option value="active">Active</option>
-              <option value="expired">Expired</option>
-              <option value="suspended">Suspended</option>
-            </select>
+
+            {/* Active Filters Display */}
+            {(filters.search || filters.platform || filters.status) && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-gray-500 font-medium">
+                    Đang lọc:
+                  </span>
+                  {filters.search && (
+                    <span className="px-3 py-1 bg-pink-50 text-pink-700 rounded-full text-xs font-medium border border-pink-200">
+                      Tìm kiếm: "{filters.search}"
+                    </span>
+                  )}
+                  {filters.platform && (
+                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">
+                      Platform: {filters.platform}
+                    </span>
+                  )}
+                  {filters.status && (
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                      Trạng thái: {filters.status}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -576,7 +667,7 @@ export default function LinkManagement() {
                             >
                               {((link.userId as any)?._id || "").substring(
                                 0,
-                                8
+                                8,
                               )}
                               ...
                             </code>
@@ -585,7 +676,7 @@ export default function LinkManagement() {
                                 onClick={() =>
                                   handleCopyId(
                                     (link.userId as any)._id,
-                                    "userId"
+                                    "userId",
                                   )
                                 }
                                 className="p-1 text-gray-600 hover:bg-gray-100 rounded"
@@ -620,8 +711,8 @@ export default function LinkManagement() {
                               link.status === "active"
                                 ? "bg-green-100 text-green-700"
                                 : link.status === "expired"
-                                ? "bg-gray-100 text-gray-700"
-                                : "bg-red-100 text-red-700"
+                                  ? "bg-gray-100 text-gray-700"
+                                  : "bg-red-100 text-red-700"
                             }`}
                           >
                             {link.status}
@@ -718,7 +809,7 @@ export default function LinkManagement() {
                                           </p>
                                           <p className="text-sm">
                                             {new Date(
-                                              order.createdAt
+                                              order.createdAt,
                                             ).toLocaleDateString("vi-VN")}
                                           </p>
                                         </div>
@@ -731,23 +822,23 @@ export default function LinkManagement() {
                                               order.cashbackStatus === "paid"
                                                 ? "bg-green-100 text-green-700"
                                                 : order.cashbackStatus ===
-                                                  "approved"
-                                                ? "bg-blue-100 text-blue-700"
-                                                : order.cashbackStatus ===
-                                                  "pending"
-                                                ? "bg-yellow-100 text-yellow-700"
-                                                : "bg-gray-100 text-gray-700"
+                                                    "approved"
+                                                  ? "bg-blue-100 text-blue-700"
+                                                  : order.cashbackStatus ===
+                                                      "pending"
+                                                    ? "bg-yellow-100 text-yellow-700"
+                                                    : "bg-gray-100 text-gray-700"
                                             }`}
                                           >
                                             {order.cashbackStatus === "paid"
                                               ? "Đã hoàn tiền"
                                               : order.cashbackStatus ===
-                                                "approved"
-                                              ? "Đã duyệt"
-                                              : order.cashbackStatus ===
-                                                "pending"
-                                              ? "Đang xử lý"
-                                              : order.cashbackStatus}
+                                                  "approved"
+                                                ? "Đã duyệt"
+                                                : order.cashbackStatus ===
+                                                    "pending"
+                                                  ? "Đang xử lý"
+                                                  : order.cashbackStatus}
                                           </span>
                                         </div>
                                         <div className="flex gap-2">
@@ -757,7 +848,7 @@ export default function LinkManagement() {
                                               onClick={() =>
                                                 handleApproveOrder(
                                                   order._id,
-                                                  link._id
+                                                  link._id,
                                                 )
                                               }
                                               className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
@@ -771,7 +862,7 @@ export default function LinkManagement() {
                                               onClick={() =>
                                                 handleMarkAsPaid(
                                                   order._id,
-                                                  link._id
+                                                  link._id,
                                                 )
                                               }
                                               className="px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700"
@@ -915,12 +1006,13 @@ export default function LinkManagement() {
                       <input
                         type="number"
                         value={orderData.orderAmount || ""}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          const value = e.target.value;
                           setOrderData({
                             ...orderData,
-                            orderAmount: parseFloat(e.target.value) || 0,
-                          })
-                        }
+                            orderAmount: value === "" ? 0 : parseFloat(value),
+                          });
+                        }}
                         placeholder={
                           selectedLink.productPrice?.toString() ||
                           "Nhập số tiền"
@@ -942,15 +1034,26 @@ export default function LinkManagement() {
                       </label>
                       <input
                         type="number"
+                        step="0.01"
+                        min="0"
+                        max="100"
                         value={orderData.cashbackRate}
-                        onChange={(e) =>
-                          setOrderData({
-                            ...orderData,
-                            cashbackRate: parseFloat(e.target.value) || 5,
-                          })
-                        }
+                        onChange={(e) => {
+                          const val = e.target.valueAsNumber;
+                          if (!isNaN(val)) {
+                            setOrderData({
+                              ...orderData,
+                              cashbackRate: val,
+                            });
+                          } else if (e.target.value === "") {
+                            setOrderData({
+                              ...orderData,
+                              cashbackRate: 0,
+                            });
+                          }
+                        }}
                         placeholder={getPlatformRate(
-                          selectedLink.platform
+                          selectedLink.platform,
                         ).toString()}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />

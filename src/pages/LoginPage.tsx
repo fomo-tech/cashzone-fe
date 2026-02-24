@@ -41,9 +41,7 @@ const LoginForm: React.FC = () => {
         {/* Header and Icon */}
         <div className="text-center">
           <Key className="w-12 h-12 text-[orange-600] mx-auto mb-4" />
-          <h1 className="text-3xl font-extrabold text-slate-800">
-            Sign in to your account
-          </h1>
+          <h1 className="text-3xl  text-slate-800">Sign in to your account</h1>
           <p className="text-slate-500 mt-1 text-sm">
             Welcome back! Please enter your details.
           </p>
@@ -51,10 +49,7 @@ const LoginForm: React.FC = () => {
 
         {/* Google Login Button */}
         <div className="w-full">
-          <GoogleLoginButton 
-            onSuccess={handleGoogleSuccess}
-            mode="signin"
-          />
+          <GoogleLoginButton onSuccess={handleGoogleSuccess} mode="signin" />
         </div>
 
         {/* 'or' Separator */}

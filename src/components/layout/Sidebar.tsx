@@ -492,7 +492,7 @@ const Sidebar: React.FC = () => {
       >
         <div className="p-4 sm:p-6">
           <div className="flex items-center justify-center mb-6 pb-4 border-b border-gray-200">
-            <div className="text-4xl font-extrabold tracking-tight">
+            <div className="text-4xl  tracking-tight">
               <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm">
                 Bagback
               </span>

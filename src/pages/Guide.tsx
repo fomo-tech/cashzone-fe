@@ -322,7 +322,7 @@ const GuidePage: React.FC = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 shadow-xl mb-4">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-3">
+          <h1 className="text-4xl  bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent mb-3">
             Hướng dẫn Sử dụng
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">

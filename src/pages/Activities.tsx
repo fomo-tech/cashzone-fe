@@ -96,7 +96,7 @@ const ActivityDetailModal: React.FC<{
               <span className="p-3 bg-orange-50 rounded-full">
                 {activity.icon}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug">
+              <h2 className="text-2xl sm:text-3xl  text-gray-900 leading-snug">
                 {activity.title}
               </h2>
             </div>
@@ -117,13 +117,11 @@ const ActivityDetailModal: React.FC<{
             <div className="flex space-x-4 flex-wrap gap-y-2">
               <div className="flex items-center text-sm font-semibold text-orange-700 bg-orange-50 px-3 py-1.5 rounded-xl">
                 <Gift size={16} className="mr-2" />
-                Phần Thưởng:{" "}
-                <span className="ml-1 font-extrabold">{activity.reward}</span>
+                Phần Thưởng: <span className="ml-1 ">{activity.reward}</span>
               </div>
               <div className="flex items-center text-sm font-semibold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-xl">
                 <DollarSign size={16} className="mr-2" />
-                Chi Phí:{" "}
-                <span className="ml-1 font-extrabold">{activity.cost}</span>
+                Chi Phí: <span className="ml-1 ">{activity.cost}</span>
               </div>
             </div>
           </div>
@@ -145,9 +143,7 @@ const ActivityDetailModal: React.FC<{
                   <li key={index}>
                     <div
                       className={`text-sm ${
-                        isHeader
-                          ? "font-extrabold text-gray-900"
-                          : "text-gray-700"
+                        isHeader ? " text-gray-900" : "text-gray-700"
                       }`}
                     >
                       {isHeader ? (
@@ -254,7 +250,7 @@ export default function Activities() {
     (key: keyof typeof DAILY_ACTIVITIES) => {
       setSelectedActivity(key);
     },
-    []
+    [],
   );
 
   const handleCloseModal = useCallback(() => {
@@ -263,11 +259,11 @@ export default function Activities() {
 
   const activityKeys = useMemo(
     () => Object.keys(DAILY_ACTIVITIES) as (keyof typeof DAILY_ACTIVITIES)[],
-    []
+    [],
   );
 
   return (
-    <div className="min-h-screen py-6 sm:py-8 font-sans bg-gray-50">
+    <div className="min-h-screen py-6 sm:py-8  bg-gray-50">
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
         {/* Header Section */}
         <header className="text-center bg-white p-6 rounded-2xl shadow-lg">

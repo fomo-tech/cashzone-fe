@@ -297,12 +297,12 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 font-sans">
+    <div className="min-h-screen p-4 sm:p-8 ">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center space-x-3">
           <Shield className="w-8 h-8 text-[orange-600]" />
-          <h1 className="text-3xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl  bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
             Tổng Quan Hệ Thống (Admin)
           </h1>
         </div>

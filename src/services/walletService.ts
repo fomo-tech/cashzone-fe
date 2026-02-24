@@ -36,6 +36,7 @@ export interface TransactionListResponse {
 export interface ProfileCompletion {
   hasPhone: boolean;
   hasBankingInfo: boolean;
+  hasMomoInfo: boolean;
   hasBEP20Info: boolean;
 }
 
@@ -109,7 +110,7 @@ const walletService = {
    * Update payment information
    */
   updatePaymentInfo: async (
-    data: Partial<PaymentInfo>
+    data: Partial<PaymentInfo>,
   ): Promise<PaymentInfo> => {
     const response = await http.put("/wallet/payment-info", data);
     return response.data.data;

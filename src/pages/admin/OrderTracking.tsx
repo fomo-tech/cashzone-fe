@@ -7,7 +7,6 @@ import {
   Search,
   Clock,
   Package,
-  Plus,
   Edit,
   Trash2,
   Zap,
@@ -172,26 +171,6 @@ export default function OrderTracking() {
     } catch (error) {
       alert("Lỗi khi cập nhật hàng loạt");
     }
-  };
-
-  const handleCreateOrder = () => {
-    setModalMode("create");
-    setFormData({
-      userId: "",
-      affiliateLinkId: "",
-      orderId: "",
-      platform: "shopee",
-      orderAmount: 0,
-      commissionAmount: 0,
-      commissionRate: 10,
-      cashbackAmount: 0,
-      cashbackRate: 80,
-      orderDate: new Date().toISOString().split("T")[0],
-      productName: "",
-      productImage: "",
-      cashbackStatus: "pending",
-    });
-    setShowModal(true);
   };
 
   const handleEditOrder = (order: any) => {
@@ -360,18 +339,67 @@ export default function OrderTracking() {
         )}
 
         {/* Filters & Bulk Actions */}
-        <div className="bg-white rounded-xl p-6 shadow-md mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4 flex-wrap flex-1">
-              <div className="flex-1 min-w-[200px]">
+        <div className="bg-white rounded-xl shadow-lg mb-6 border border-gray-200">
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Search className="text-blue-600" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Bộ lọc đơn hàng
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Lọc và tìm kiếm đơn hàng
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {(filters.search ||
+                  filters.platform ||
+                  filters.cashbackStatus) && (
+                  <button
+                    onClick={() =>
+                      setFilters({
+                        platform: "",
+                        cashbackStatus: "",
+                        search: "",
+                        page: 1,
+                        limit: 20,
+                      })
+                    }
+                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-200"
+                  >
+                    Xóa bộ lọc
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowQuickCreateModal(true)}
+                  className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 flex items-center gap-2 whitespace-nowrap shadow-lg"
+                >
+                  <Zap size={20} />
+                  Tạo Đơn Nhanh
+                </button>
+              </div>
+            </div>
+
+            {/* Filters Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Search */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tìm kiếm
+                </label>
                 <div className="relative">
                   <Search
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={20}
+                    size={18}
                   />
                   <input
                     type="text"
-                    placeholder="Tìm kiếm đơn hàng, sản phẩm..."
+                    placeholder="Tên sản phẩm, mã đơn..."
                     value={filters.search}
                     onChange={(e) =>
                       setFilters({
@@ -380,73 +408,113 @@ export default function OrderTracking() {
                         page: 1,
                       })
                     }
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none"
                   />
                 </div>
               </div>
-              <PlatformSelect
-                value={filters.platform}
-                onChange={(value) =>
-                  setFilters({ ...filters, platform: value, page: 1 })
-                }
-                placeholder="Tất cả Platform"
-                className="px-4 py-2 rounded-lg"
-              />
-              <select
-                value={filters.cashbackStatus}
-                onChange={(e) =>
-                  setFilters({
-                    ...filters,
-                    cashbackStatus: e.target.value,
-                    page: 1,
-                  })
-                }
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-              >
-                <option value="">Tất cả Status</option>
-                <option value="pending">Chờ duyệt</option>
-                <option value="approved">Đã duyệt</option>
-                <option value="paid">Đã trả</option>
-                <option value="rejected">Từ chối</option>
-              </select>
+
+              {/* Platform */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Platform
+                </label>
+                <PlatformSelect
+                  value={filters.platform}
+                  onChange={(value) =>
+                    setFilters({ ...filters, platform: value, page: 1 })
+                  }
+                  placeholder="Tất cả Platform"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none"
+                />
+              </div>
+
+              {/* Status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Trạng thái
+                </label>
+                <select
+                  value={filters.cashbackStatus}
+                  onChange={(e) =>
+                    setFilters({
+                      ...filters,
+                      cashbackStatus: e.target.value,
+                      page: 1,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg hover:border-gray-400 focus:border-gray-500 focus:bg-white transition-all outline-none appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundPosition: "right 0.5rem center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "1.5em 1.5em",
+                    paddingRight: "2.5rem",
+                  }}
+                >
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="pending">Chờ duyệt</option>
+                  <option value="approved">Đã duyệt</option>
+                  <option value="paid">Đã trả</option>
+                  <option value="rejected">Từ chối</option>
+                </select>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowQuickCreateModal(true)}
-                className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 flex items-center gap-2 whitespace-nowrap shadow-lg"
-              >
-                <Zap size={20} className="animate-pulse" />⚡ Tạo Đơn Nhanh
-              </button>
-              <button
-                onClick={handleCreateOrder}
-                className="px-4 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg hover:from-pink-600 hover:to-orange-600 flex items-center gap-2 whitespace-nowrap"
-              >
-                <Plus size={20} />
-                Thêm đơn hàng
-              </button>
-            </div>
+
+            {/* Active Filters Display */}
+            {(filters.search || filters.platform || filters.cashbackStatus) && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-gray-500 font-medium">
+                    Đang lọc:
+                  </span>
+                  {filters.search && (
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                      Tìm kiếm: "{filters.search}"
+                    </span>
+                  )}
+                  {filters.platform && (
+                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">
+                      Platform: {filters.platform}
+                    </span>
+                  )}
+                  {filters.cashbackStatus && (
+                    <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
+                      Trạng thái: {filters.cashbackStatus}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bulk Actions */}
           {selectedOrders.length > 0 && (
-            <div className="flex items-center gap-3 pt-4 border-t">
-              <span className="text-sm text-gray-600">
-                Đã chọn {selectedOrders.length} đơn
-              </span>
-              <button
-                onClick={handleBulkApprove}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
-              >
-                <CheckCircle size={18} />
-                Duyệt hàng loạt
-              </button>
-              <button
-                onClick={handleBulkMarkPaid}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2"
-              >
-                <DollarSign size={18} />
-                Đánh dấu đã trả
-              </button>
+            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-blue-100">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-700">
+                  Đã chọn{" "}
+                  <span className="text-blue-600 font-bold">
+                    {selectedOrders.length}
+                  </span>{" "}
+                  đơn hàng
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleBulkApprove}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 text-sm font-medium shadow-sm"
+                  >
+                    <CheckCircle size={18} />
+                    Duyệt hàng loạt
+                  </button>
+                  <button
+                    onClick={handleBulkMarkPaid}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2 text-sm font-medium shadow-sm"
+                  >
+                    <DollarSign size={18} />
+                    Đánh dấu đã trả
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -574,7 +642,7 @@ export default function OrderTracking() {
                           )}
                         </p>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 ">
                         <p className="text-sm font-bold text-green-600">
                           {formatCurrency(order.cashbackAmount)}
                         </p>
@@ -582,62 +650,103 @@ export default function OrderTracking() {
                           {order.cashbackRate}%
                         </p>
                       </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`px-2 py-1 text-xs rounded-full font-medium ${
-                            order.cashbackStatus === "paid"
-                              ? "bg-purple-100 text-purple-700"
-                              : order.cashbackStatus === "approved"
-                                ? "bg-green-100 text-green-700"
-                                : order.cashbackStatus === "pending"
-                                  ? "bg-yellow-100 text-yellow-700"
-                                  : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {order.cashbackStatus}
-                        </span>
+                      <td className="px-6 py-4 min-w-[200px]">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium ${
+                              order.cashbackStatus === "paid"
+                                ? "bg-purple-100 text-purple-700"
+                                : order.cashbackStatus === "approved"
+                                  ? "bg-green-100 text-green-700"
+                                  : order.cashbackStatus === "pending"
+                                    ? "bg-yellow-100 text-yellow-700"
+                                    : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {order.cashbackStatus === "paid" ? (
+                              <>
+                                <CheckCircle size={14} />
+                                Đã hoàn tiền
+                              </>
+                            ) : order.cashbackStatus === "approved" ? (
+                              <>
+                                <CheckCircle size={14} />
+                                Đã duyệt
+                              </>
+                            ) : order.cashbackStatus === "pending" ? (
+                              <>
+                                <Clock size={14} />
+                                Chờ duyệt
+                              </>
+                            ) : order.cashbackStatus === "rejected" ? (
+                              <>
+                                <XCircle size={14} />
+                                Đã từ chối
+                              </>
+                            ) : (
+                              order.cashbackStatus
+                            )}
+                          </span>
+                        </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
+                          {/* Primary Actions based on status */}
                           {order.cashbackStatus === "pending" && (
                             <>
                               <button
                                 onClick={() => handleApprove(order._id)}
-                                className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
-                                title="Duyệt"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 font-medium shadow-sm transition-all"
+                                title="Duyệt đơn hàng"
                               >
-                                <CheckCircle size={18} />
+                                <CheckCircle size={14} />
+                                Duyệt
                               </button>
                               <button
                                 onClick={() => handleReject(order._id)}
-                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                                title="Từ chối"
+                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Từ chối đơn hàng"
                               >
-                                <XCircle size={18} />
+                                <XCircle size={16} />
                               </button>
                             </>
                           )}
                           {order.cashbackStatus === "approved" && (
                             <button
                               onClick={() => handleMarkAsPaid(order._id)}
-                              className="px-3 py-1 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700 font-medium shadow-sm transition-all"
+                              title="Đánh dấu đã hoàn tiền cho user"
                             >
-                              Đánh dấu đã trả
+                              <DollarSign size={14} />
+                              Đã trả
                             </button>
                           )}
+                          {order.cashbackStatus === "paid" && (
+                            <span className="text-xs text-green-600 font-medium flex items-center gap-1">
+                              <CheckCircle size={14} />
+                              Hoàn thành
+                            </span>
+                          )}
+
+                          {/* Divider */}
+                          {order.cashbackStatus !== "paid" && (
+                            <div className="w-px h-6 bg-gray-200"></div>
+                          )}
+
+                          {/* Secondary Actions */}
                           <button
                             onClick={() => handleEditOrder(order)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
-                            title="Chỉnh sửa"
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Chỉnh sửa đơn hàng"
                           >
-                            <Edit size={18} />
+                            <Edit size={16} />
                           </button>
                           <button
                             onClick={() => handleDeleteOrder(order._id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                            title="Xóa"
+                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Xóa đơn hàng"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </td>

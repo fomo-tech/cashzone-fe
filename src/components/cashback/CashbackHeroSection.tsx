@@ -96,7 +96,7 @@ const CashbackHeroSection: React.FC = () => {
                     <p className="text-xs text-yellow-100 font-semibold">
                       Rút tiền tối thiểu
                     </p>
-                    <p className="text-lg font-black">50.000đ</p>
+                    <p className="text-lg font-black">1.000đ</p>
                   </div>
                 </div>
               </div>

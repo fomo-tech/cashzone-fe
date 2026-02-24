@@ -310,7 +310,7 @@ const OfferDetail: React.FC = () => {
       const newPreviews = files.map((file) => URL.createObjectURL(file));
       setPreviewUrls((prev) => [...prev, ...newPreviews]);
     },
-    [uploadedImages.length]
+    [uploadedImages.length],
   );
 
   // Remove Image and clean up URL
@@ -320,7 +320,7 @@ const OfferDetail: React.FC = () => {
       setUploadedImages((prev) => prev.filter((_, i) => i !== index));
       setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
     },
-    [previewUrls]
+    [previewUrls],
   );
 
   // Handle Task Submission
@@ -341,7 +341,7 @@ const OfferDetail: React.FC = () => {
     try {
       // Upload all images
       const uploadPromises = uploadedImages.map((image) =>
-        uploadService.uploadImage(image)
+        uploadService.uploadImage(image),
       );
       const uploadResults = await Promise.all(uploadPromises);
       const imageUrls = uploadResults.map((result) => result.data.imageUrl);
@@ -352,7 +352,7 @@ const OfferDetail: React.FC = () => {
       notification({
         message: `Đã gửi nhiệm vụ thành công! Chờ xét duyệt để nhận ${formatReward(
           offer.rewardAmount,
-          offer.rewardUnit
+          offer.rewardUnit,
         )}. Xin cảm ơn!`,
         type: "success",
       });
@@ -438,7 +438,7 @@ const OfferDetail: React.FC = () => {
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-orange-100">
           {/* Section 1: Title and Reward */}
           <div className="relative p-6 sm:p-10 bg-gradient-to-br from-orange-50 to-amber-50/70 border-b border-orange-200">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug mb-4">
+            <h1 className="text-2xl sm:text-3xl  text-gray-900 leading-snug mb-4">
               {offer.title}
             </h1>
 

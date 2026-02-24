@@ -40,7 +40,7 @@ const NotFoundPage = () => {
         </div>
 
         {/* Thông báo Lỗi */}
-        <h2 className="text-4xl font-extrabold text-slate-800 mb-4 sm:text-5xl">
+        <h2 className="text-4xl  text-slate-800 mb-4 sm:text-5xl">
           Trang Không Tìm Thấy
         </h2>
 

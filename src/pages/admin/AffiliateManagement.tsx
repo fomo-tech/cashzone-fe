@@ -152,12 +152,14 @@ const AffiliateManagement = () => {
 
   const handleUpdateStatus = async (
     id: string,
-    newStatus: "pending" | "paid" | "rejected"
+    newStatus: "pending" | "paid" | "rejected",
   ) => {
     try {
       await http.patch(`/affiliate-commissions/${id}`, { status: newStatus });
       setCommissions(
-        commissions.map((c) => (c._id === id ? { ...c, status: newStatus } : c))
+        commissions.map((c) =>
+          c._id === id ? { ...c, status: newStatus } : c,
+        ),
       );
       fetchData(); // Refresh stats
     } catch (error) {
@@ -207,7 +209,7 @@ const AffiliateManagement = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl  bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
               Quản Lý Hoa Hồng Affiliate
             </h1>
             <p className="text-gray-500 mt-1">
@@ -421,11 +423,11 @@ const AffiliateManagement = () => {
                         onChange={(e) =>
                           handleUpdateStatus(
                             commission._id,
-                            e.target.value as any
+                            e.target.value as any,
                           )
                         }
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                          commission.status
+                          commission.status,
                         )}`}
                       >
                         <option value="pending">Chờ xử lý</option>
@@ -582,7 +584,7 @@ const CommissionModal = ({
         console.log("Updating commission:", commission._id);
         response = await http.patch(
           `/affiliate-commissions/${commission._id}`,
-          formData
+          formData,
         );
       } else {
         // Create

@@ -10,7 +10,6 @@ import {
   CheckCircle,
   Clock,
   ArrowDownCircle,
-  PlusCircle,
   User,
   ArrowDownRight,
   Loader,
@@ -18,6 +17,8 @@ import {
 } from "lucide-react";
 import CommonModal from "@/components/common/Modal";
 import walletService from "@/services/walletService";
+import profileService from "@/services/profileService";
+import { useAuthStore } from "@/store/authStore";
 import type {
   WalletInfo,
   ProfileCompletion,
@@ -141,7 +142,8 @@ const PaymentInfoModal: React.FC<{
   onSuccess: () => void;
   currentInfo: PaymentInfo | null;
 }> = ({ isOpen, onClose, onSuccess, currentInfo }) => {
-  const [activeTab, setActiveTab] = useState<"bank" | "momo" | "bep20">("bank");
+  const { setUser } = useAuthStore();
+  const [activeTab, setActiveTab] = useState<"bank" | "momo">("bank");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -159,36 +161,39 @@ const PaymentInfoModal: React.FC<{
     accountName: currentInfo?.momoInfo?.accountName || "",
   });
 
-  // BEP20 form
-  const [bep20Form, setBep20Form] = useState({
-    walletAddress: currentInfo?.bep20Info?.walletAddress || "",
-    network: currentInfo?.bep20Info?.network || "BSC",
-  });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMessage(null);
 
     try {
-      const updateData: Partial<PaymentInfo> = {};
+      let updatedProfile;
 
       if (activeTab === "bank") {
-        updateData.bankInfo = bankForm;
+        updatedProfile = await profileService.updateBankingInfo({
+          bankName: bankForm.bankName,
+          accountNumber: bankForm.accountNumber,
+          accountName: bankForm.accountName,
+        });
       } else if (activeTab === "momo") {
-        updateData.momoInfo = momoForm;
-      } else if (activeTab === "bep20") {
-        updateData.bep20Info = bep20Form;
+        updatedProfile = await profileService.updateMomoInfo({
+          phoneNumber: momoForm.phoneNumber,
+          accountName: momoForm.accountName,
+        });
       }
 
-      await walletService.updatePaymentInfo(updateData);
+      // Update authStore to keep data in sync across app
+      if (updatedProfile) {
+        setUser(updatedProfile);
+      }
+
       onSuccess();
       onClose();
     } catch (error: any) {
       console.error("Failed to update payment info:", error);
       setErrorMessage(
         error.response?.data?.message ||
-          "Không thể cập nhật thông tin thanh toán"
+          "Không thể cập nhật thông tin thanh toán",
       );
     } finally {
       setIsSubmitting(false);
@@ -226,17 +231,6 @@ const PaymentInfoModal: React.FC<{
           >
             <Smartphone className="w-4 h-4 inline mr-2" />
             MoMo
-          </button>
-          <button
-            onClick={() => setActiveTab("bep20")}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === "bep20"
-                ? "border-b-2 border-indigo-500 text-indigo-600"
-                : "text-slate-600 hover:text-slate-800"
-            }`}
-          >
-            <Wallet className="w-4 h-4 inline mr-2" />
-            BEP20
           </button>
         </div>
 
@@ -348,50 +342,6 @@ const PaymentInfoModal: React.FC<{
             </div>
           )}
 
-          {/* BEP20 Form */}
-          {activeTab === "bep20" && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Địa Chỉ Ví BEP20
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"
-                  placeholder="0x..."
-                  value={bep20Form.walletAddress}
-                  onChange={(e) =>
-                    setBep20Form({
-                      ...bep20Form,
-                      walletAddress: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Network
-                </label>
-                <select
-                  className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  value={bep20Form.network}
-                  onChange={(e) =>
-                    setBep20Form({ ...bep20Form, network: e.target.value })
-                  }
-                >
-                  <option value="BSC">Binance Smart Chain (BSC)</option>
-                  <option value="ETH">Ethereum (ERC20)</option>
-                </select>
-              </div>
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-700">
-                <AlertTriangle className="w-4 h-4 inline mr-2" />
-                Vui lòng kiểm tra kỹ địa chỉ ví. Chúng tôi không chịu trách
-                nhiệm với các giao dịch sai địa chỉ.
-              </div>
-            </div>
-          )}
-
           <div className="flex gap-3 mt-6">
             <button
               type="button"
@@ -439,6 +389,7 @@ const WalletManagement: React.FC = () => {
   const [userProfile, setUserProfile] = useState<ProfileCompletion>({
     hasPhone: false,
     hasBankingInfo: false,
+    hasMomoInfo: false,
     hasBEP20Info: false,
   });
 
@@ -507,7 +458,7 @@ const WalletManagement: React.FC = () => {
   };
 
   const mapTransactionStatus = (
-    status: string
+    status: string,
   ): "Thành Công" | "Đang Xử Lý" | "Thất Bại" => {
     switch (status) {
       case "COMPLETED":
@@ -528,6 +479,25 @@ const WalletManagement: React.FC = () => {
   };
 
   const { availableBalance, pendingBalance, totalWithdrawn } = walletInfo;
+
+  // Danh sách phương thức thanh toán có sẵn (đã được user cập nhật)
+  const availablePaymentMethods = useMemo(() => {
+    const methods: PaymentMethod[] = [];
+    if (userProfile.hasBankingInfo) methods.push("bank");
+    if (userProfile.hasMomoInfo) methods.push("momo");
+    if (userProfile.hasBEP20Info) methods.push("bep20");
+    return methods;
+  }, [userProfile]);
+
+  // Tự động chọn phương thức đầu tiên có sẵn
+  useEffect(() => {
+    if (
+      availablePaymentMethods.length > 0 &&
+      !availablePaymentMethods.includes(selectedMethod)
+    ) {
+      setSelectedMethod(availablePaymentMethods[0]);
+    }
+  }, [availablePaymentMethods, selectedMethod]);
 
   // Kiểm tra các điều kiện để kích hoạt nút Rút tiền
   const canWithdraw = useMemo(() => {
@@ -556,7 +526,7 @@ const WalletManagement: React.FC = () => {
     if (selectedMethod === "bank") {
       hasSelectedMethodInfo = userProfile.hasBankingInfo;
     } else if (selectedMethod === "momo") {
-      hasSelectedMethodInfo = userProfile.hasPhone;
+      hasSelectedMethodInfo = userProfile.hasMomoInfo;
     } else if (selectedMethod === "bep20") {
       hasSelectedMethodInfo = userProfile.hasBEP20Info;
     }
@@ -565,6 +535,7 @@ const WalletManagement: React.FC = () => {
       selectedMethod,
       hasSelectedMethodInfo,
       hasBankingInfo: userProfile.hasBankingInfo,
+      hasMomoInfo: userProfile.hasMomoInfo,
       hasPhone: userProfile.hasPhone,
       hasBEP20Info: userProfile.hasBEP20Info,
     });
@@ -577,13 +548,12 @@ const WalletManagement: React.FC = () => {
   // Danh sách các mục cần hoàn thành
   const requiredInfoList = useMemo(() => {
     const list = [];
-    if (!userProfile.hasPhone)
-      list.push("Chưa có số điện thoại (cần cho MoMo)");
     // Cần ít nhất 1 phương thức thanh toán
-    if (!userProfile.hasBankingInfo && !userProfile.hasBEP20Info)
-      list.push("Chưa có thông tin thanh toán (ngân hàng hoặc BEP20)");
+    if (availablePaymentMethods.length === 0) {
+      list.push("Chưa có thông tin thanh toán (ngân hàng, Momo hoặc BEP20)");
+    }
     return list;
-  }, [userProfile]);
+  }, [availablePaymentMethods]);
 
   // Hàm xử lý Rút tiền (API Call)
   const handleWithdraw = async (e: React.FormEvent) => {
@@ -600,7 +570,7 @@ const WalletManagement: React.FC = () => {
 
     if (!canWithdraw || isSubmitting) {
       showToast(
-        "Không đủ điều kiện để rút tiền. Vui lòng kiểm tra lại thông tin."
+        "Không đủ điều kiện để rút tiền. Vui lòng kiểm tra lại thông tin.",
       );
       return;
     }
@@ -615,7 +585,7 @@ const WalletManagement: React.FC = () => {
       console.log("Withdrawal response:", response);
 
       showToast(
-        `Yêu cầu rút ${formatCurrency(withdrawalAmount)} đang được xử lý!`
+        `Yêu cầu rút ${formatCurrency(withdrawalAmount)} đang được xử lý!`,
       );
       setWithdrawalAmount(0);
 
@@ -631,8 +601,8 @@ const WalletManagement: React.FC = () => {
     }
   };
 
-  // Hàm xử lý Nạp tiền (Mô phỏng - chỉ mở Modal)
-  const handleDeposit = () => {
+  // Hàm xử lý Nạp tiền (Mô phỏng - chỉ mở Modal) - Reserved for future use
+  const _handleDeposit = () => {
     setIsDepositModalOpen(true);
   };
 
@@ -667,7 +637,7 @@ const WalletManagement: React.FC = () => {
                 </span>
                 <Banknote className="w-6 h-6 text-white/60" />
               </div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-3 sm:mb-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl  mb-3 sm:mb-4">
                 {formatCurrency(availableBalance)}
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-white/20">
@@ -773,7 +743,7 @@ const WalletManagement: React.FC = () => {
                           required
                           className="block w-full pl-4 pr-16 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600] font-semibold text-lg"
                           placeholder={MIN_WITHDRAWAL_AMOUNT.toLocaleString(
-                            "vi-VN"
+                            "vi-VN",
                           )}
                           min={MIN_WITHDRAWAL_AMOUNT}
                           max={availableBalance}
@@ -807,129 +777,160 @@ const WalletManagement: React.FC = () => {
                       <label className="block text-sm font-medium text-slate-700 mb-3">
                         Chọn Phương Thức Nhận
                       </label>
-                      <div className="grid grid-cols-3 gap-3">
-                        {/* Ngân Hàng */}
-                        <label className="cursor-pointer">
-                          <input
-                            type="radio"
-                            name="paymentMethod"
-                            value="bank"
-                            className="peer sr-only"
-                            checked={selectedMethod === "bank"}
-                            onChange={() => setSelectedMethod("bank")}
-                          />
-                          <div
-                            className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
-                              selectedMethod === "bank"
-                                ? "border-blue-500 bg-blue-50"
-                                : "border-slate-200 hover:border-slate-300 bg-white"
-                            }`}
-                            title={
-                              userProfile.hasBankingInfo
-                                ? "Thông tin ngân hàng đã cập nhật"
-                                : "Chưa cập nhật thông tin ngân hàng"
-                            }
-                          >
-                            <Landmark
-                              className={`w-8 h-8 mb-2 ${
-                                selectedMethod === "bank"
-                                  ? "text-blue-600"
-                                  : "text-slate-500"
-                              }`}
-                            />
-                            <span
-                              className={`text-sm font-semibold ${
-                                selectedMethod === "bank"
-                                  ? "text-blue-700"
-                                  : "text-slate-700"
-                              }`}
-                            >
-                              Ngân Hàng
-                            </span>
-                            {userProfile.hasBankingInfo && (
-                              <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
-                            )}
-                          </div>
-                        </label>
+                      {availablePaymentMethods.length === 0 ? (
+                        <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-center">
+                          <AlertTriangle className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                          <p className="text-sm text-amber-700 font-medium mb-2">
+                            Chưa có phương thức thanh toán
+                          </p>
+                          <p className="text-xs text-amber-600">
+                            Vui lòng cập nhật thông tin thanh toán để rút tiền
+                          </p>
+                        </div>
+                      ) : (
+                        <div
+                          className={`grid gap-3 ${
+                            availablePaymentMethods.length === 1
+                              ? "grid-cols-1"
+                              : availablePaymentMethods.length === 2
+                                ? "grid-cols-2"
+                                : "grid-cols-2"
+                          }`}
+                        >
+                          {/* Ngân Hàng */}
+                          {userProfile.hasBankingInfo && (
+                            <label className="cursor-pointer">
+                              <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="bank"
+                                className="peer sr-only"
+                                checked={selectedMethod === "bank"}
+                                onChange={() => setSelectedMethod("bank")}
+                              />
+                              <div
+                                className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
+                                  selectedMethod === "bank"
+                                    ? "border-blue-500 bg-blue-50"
+                                    : "border-slate-200 hover:border-slate-300 bg-white"
+                                }`}
+                                title={
+                                  userProfile.hasBankingInfo
+                                    ? "Thông tin ngân hàng đã cập nhật"
+                                    : "Chưa cập nhật thông tin ngân hàng"
+                                }
+                              >
+                                <Landmark
+                                  className={`w-8 h-8 mb-2 ${
+                                    selectedMethod === "bank"
+                                      ? "text-blue-600"
+                                      : "text-slate-500"
+                                  }`}
+                                />
+                                <span
+                                  className={`text-sm font-semibold ${
+                                    selectedMethod === "bank"
+                                      ? "text-blue-700"
+                                      : "text-slate-700"
+                                  }`}
+                                >
+                                  Ngân Hàng
+                                </span>
+                                {userProfile.hasBankingInfo && (
+                                  <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
+                                )}
+                              </div>
+                            </label>
+                          )}
 
-                        {/* MoMo */}
-                        <label className="cursor-pointer">
-                          <input
-                            type="radio"
-                            name="paymentMethod"
-                            value="momo"
-                            className="peer sr-only"
-                            checked={selectedMethod === "momo"}
-                            onChange={() => setSelectedMethod("momo")}
-                          />
-                          <div
-                            className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
-                              selectedMethod === "momo"
-                                ? "border-pink-500 bg-pink-50"
-                                : "border-slate-200 hover:border-slate-300 bg-white"
-                            }`}
-                          >
-                            <Smartphone
-                              className={`w-8 h-8 mb-2 ${
-                                selectedMethod === "momo"
-                                  ? "text-pink-600"
-                                  : "text-slate-500"
-                              }`}
-                            />
-                            <span
-                              className={`text-sm font-semibold ${
-                                selectedMethod === "momo"
-                                  ? "text-pink-700"
-                                  : "text-slate-700"
-                              }`}
-                            >
-                              MoMo
-                            </span>
-                            {userProfile.hasPhone && (
-                              <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
-                            )}
-                          </div>
-                        </label>
+                          {/* MoMo */}
+                          {userProfile.hasMomoInfo && (
+                            <label className="cursor-pointer">
+                              <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="momo"
+                                className="peer sr-only"
+                                checked={selectedMethod === "momo"}
+                                onChange={() => setSelectedMethod("momo")}
+                              />
+                              <div
+                                className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
+                                  selectedMethod === "momo"
+                                    ? "border-pink-500 bg-pink-50"
+                                    : "border-slate-200 hover:border-slate-300 bg-white"
+                                }`}
+                                title={
+                                  userProfile.hasMomoInfo
+                                    ? "Thông tin Momo đã cập nhật"
+                                    : "Chưa cập nhật thông tin Momo"
+                                }
+                              >
+                                <Smartphone
+                                  className={`w-8 h-8 mb-2 ${
+                                    selectedMethod === "momo"
+                                      ? "text-pink-600"
+                                      : "text-slate-500"
+                                  }`}
+                                />
+                                <span
+                                  className={`text-sm font-semibold ${
+                                    selectedMethod === "momo"
+                                      ? "text-pink-700"
+                                      : "text-slate-700"
+                                  }`}
+                                >
+                                  MoMo
+                                </span>
+                                {userProfile.hasMomoInfo && (
+                                  <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
+                                )}
+                              </div>
+                            </label>
+                          )}
 
-                        {/* BEP20 */}
-                        <label className="cursor-pointer">
-                          <input
-                            type="radio"
-                            name="paymentMethod"
-                            value="bep20"
-                            className="peer sr-only"
-                            checked={selectedMethod === "bep20"}
-                            onChange={() => setSelectedMethod("bep20")}
-                          />
-                          <div
-                            className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
-                              selectedMethod === "bep20"
-                                ? "border-indigo-500 bg-indigo-50"
-                                : "border-slate-200 hover:border-slate-300 bg-white"
-                            }`}
-                          >
-                            <Wallet
-                              className={`w-8 h-8 mb-2 ${
-                                selectedMethod === "bep20"
-                                  ? "text-indigo-600"
-                                  : "text-slate-500"
-                              }`}
-                            />
-                            <span
-                              className={`text-sm font-semibold ${
-                                selectedMethod === "bep20"
-                                  ? "text-indigo-700"
-                                  : "text-slate-700"
-                              }`}
-                            >
-                              BEP20
-                            </span>
-                            {userProfile.hasBEP20Info && (
-                              <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
-                            )}
-                          </div>
-                        </label>
-                      </div>
+                          {/* BEP20 */}
+                          {/* {userProfile.hasBEP20Info && (
+                            <label className="cursor-pointer">
+                              <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="bep20"
+                                className="peer sr-only"
+                                checked={selectedMethod === "bep20"}
+                                onChange={() => setSelectedMethod("bep20")}
+                              />
+                              <div
+                                className={`h-full min-h-[110px] flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${
+                                  selectedMethod === "bep20"
+                                    ? "border-indigo-500 bg-indigo-50"
+                                    : "border-slate-200 hover:border-slate-300 bg-white"
+                                }`}
+                              >
+                                <Wallet
+                                  className={`w-8 h-8 mb-2 ${
+                                    selectedMethod === "bep20"
+                                      ? "text-indigo-600"
+                                      : "text-slate-500"
+                                  }`}
+                                />
+                                <span
+                                  className={`text-sm font-semibold ${
+                                    selectedMethod === "bep20"
+                                      ? "text-indigo-700"
+                                      : "text-slate-700"
+                                  }`}
+                                >
+                                  BEP20
+                                </span>
+                                {userProfile.hasBEP20Info && (
+                                  <CheckCircle className="w-4 h-4 text-emerald-500 mt-2" />
+                                )}
+                              </div>
+                            </label>
+                          )} */}
+                        </div>
+                      )}
                     </div>
 
                     {/* Nút Rút Tiền */}
@@ -1017,8 +1018,8 @@ const WalletManagement: React.FC = () => {
                                   tx.method.toUpperCase() === "BANK"
                                     ? "bg-blue-100 text-blue-800"
                                     : tx.method.toUpperCase() === "MOMO"
-                                    ? "bg-pink-100 text-pink-800"
-                                    : "bg-indigo-100 text-indigo-800"
+                                      ? "bg-pink-100 text-pink-800"
+                                      : "bg-indigo-100 text-indigo-800"
                                 }`}
                               >
                                 {tx.method.toUpperCase()}

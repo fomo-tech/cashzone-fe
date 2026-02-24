@@ -33,16 +33,16 @@ const AffiliateProductManagement: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPriority, setFilterPriority] = useState<boolean | undefined>(
-    undefined
+    undefined,
   );
   const [filterActive, setFilterActive] = useState<boolean | undefined>(
-    undefined
+    undefined,
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<AffiliateProduct | null>(
-    null
+    null,
   );
   const [formData, setFormData] = useState<CreateAffiliateProductDto>({
     productName: "",
@@ -249,7 +249,7 @@ const AffiliateProductManagement: React.FC = () => {
               }
               onChange={(e) =>
                 setFilterPriority(
-                  e.target.value === "" ? undefined : e.target.value === "true"
+                  e.target.value === "" ? undefined : e.target.value === "true",
                 )
               }
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
@@ -262,7 +262,7 @@ const AffiliateProductManagement: React.FC = () => {
               value={filterActive === undefined ? "" : filterActive.toString()}
               onChange={(e) =>
                 setFilterActive(
-                  e.target.value === "" ? undefined : e.target.value === "true"
+                  e.target.value === "" ? undefined : e.target.value === "true",
                 )
               }
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
@@ -349,12 +349,12 @@ const AffiliateProductManagement: React.FC = () => {
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2">
                           <img
-                            src={product.platform.logo}
-                            alt={product.platform.name}
+                            src={product.platform?.logo}
+                            alt={product.platform?.name}
                             className="w-6 h-6 object-contain"
                           />
                           <span className="font-semibold">
-                            {product.platform.name}
+                            {product.platform?.name}
                           </span>
                         </div>
                       </td>
@@ -700,8 +700,8 @@ const AffiliateProductManagement: React.FC = () => {
                 {loading
                   ? "Đang xử lý..."
                   : editingProduct
-                  ? "Cập nhật"
-                  : "Thêm mới"}
+                    ? "Cập nhật"
+                    : "Thêm mới"}
               </button>
             </div>
           </form>

@@ -44,7 +44,7 @@ const Header = () => {
       console.log("Unread count updated:", count);
       // Trigger unread count update in NotificationDropdown
       window.dispatchEvent(
-        new CustomEvent("notification:unread-count", { detail: count })
+        new CustomEvent("notification:unread-count", { detail: count }),
       );
     },
   });
@@ -65,7 +65,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-14 sm:h-16 pl-14 sm:pl-16 pr-3 sm:pr-4 md:px-8">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative md:hidden flex items-center justify-center h-10">
-              <div className="text-3xl font-extrabold tracking-tight">
+              <div className="text-3xl  tracking-tight">
                 <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm">
                   Bagback
                 </span>
@@ -127,7 +127,9 @@ const Header = () => {
                 )}
 
                 {/* Notification Dropdown */}
-                <NotificationDropdown />
+                {user.roles && checkRole(user.roles || [], "user") && (
+                  <NotificationDropdown />
+                )}
 
                 {/* Divider */}
                 <div className="hidden sm:block h-6 sm:h-8 w-px bg-gradient-to-b from-transparent bg-orange-200 to-transparent mx-1 sm:mx-2" />

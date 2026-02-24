@@ -117,6 +117,17 @@ const profileService = {
   },
 
   /**
+   * Update Momo information
+   */
+  updateMomoInfo: async (data: {
+    phoneNumber: string;
+    accountName: string;
+  }): Promise<UserProfile> => {
+    const response = await http.put("/profile/momo", data);
+    return response.data.data;
+  },
+
+  /**
    * Get user balance
    */
   getBalance: async () => {

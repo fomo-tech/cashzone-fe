@@ -13,6 +13,7 @@ import {
   Wallet,
   Loader2,
   Mail,
+  Smartphone,
 } from "lucide-react";
 import profileService from "@/services/profileService";
 import type { UserProfile } from "@/services/profileService";
@@ -88,10 +89,16 @@ const ProfilePage: React.FC = () => {
     address: "",
   });
 
+  // Momo form state
+  const [momoData, setMomoData] = useState({
+    phoneNumber: "",
+    accountName: "",
+  });
+
   // NEW STATE: Quản lý tab thanh toán đang hoạt động
-  const [activePaymentTab, setActivePaymentTab] = useState<"banking" | "bep20">(
-    "banking",
-  );
+  const [activePaymentTab, setActivePaymentTab] = useState<
+    "banking" | "bep20" | "momo"
+  >("banking");
 
   // Load profile from authStore (already fetched by useAuthInit)
   useEffect(() => {
@@ -99,6 +106,9 @@ const ProfilePage: React.FC = () => {
       try {
         setLoading(true);
         const profile = user; // Get from authStore instead of API call
+        console.log("🔍 [Profile] Loading profile from authStore:", profile);
+        console.log("🔍 [Profile] Payment Info:", profile?.paymentInfo);
+
         if (profile) {
           setUserProfile(profile);
           setFormData({
@@ -109,18 +119,38 @@ const ProfilePage: React.FC = () => {
 
           // Load banking info if exists
           if (profile.paymentInfo?.bankInfo) {
-            setBankingData({
+            const bankData = {
               bankName: profile.paymentInfo.bankInfo.bankName || "",
               accountNumber: profile.paymentInfo.bankInfo.accountNumber || "",
               accountName: profile.paymentInfo.bankInfo.accountName || "",
-            });
+            };
+            console.log("💳 [Profile] Loading banking data:", bankData);
+            setBankingData(bankData);
+          } else {
+            console.log("⚠️ [Profile] No banking info found");
           }
 
           // Load BEP20 address if exists
           if (profile.paymentInfo?.bep20Info?.walletAddress) {
-            setBep20Data({
+            const bep20 = {
               address: profile.paymentInfo.bep20Info.walletAddress,
-            });
+            };
+            console.log("💰 [Profile] Loading BEP20 data:", bep20);
+            setBep20Data(bep20);
+          } else {
+            console.log("⚠️ [Profile] No BEP20 info found");
+          }
+
+          // Load Momo info if exists
+          if (profile.paymentInfo?.momoInfo) {
+            const momo = {
+              phoneNumber: profile.paymentInfo.momoInfo.phoneNumber || "",
+              accountName: profile.paymentInfo.momoInfo.accountName || "",
+            };
+            console.log("📱 [Profile] Loading Momo data:", momo);
+            setMomoData(momo);
+          } else {
+            console.log("⚠️ [Profile] No Momo info found");
           }
         }
       } catch (error: any) {
@@ -205,17 +235,38 @@ const ProfilePage: React.FC = () => {
     } else {
       setBep20Data({ address: "" });
     }
+
+    // Reset Momo form data
+    if (userProfile?.paymentInfo?.momoInfo) {
+      setMomoData({
+        phoneNumber: userProfile.paymentInfo.momoInfo.phoneNumber || "",
+        accountName: userProfile.paymentInfo.momoInfo.accountName || "",
+      });
+    } else {
+      setMomoData({ phoneNumber: "", accountName: "" });
+    }
   };
 
   // Logic lưu thông tin Ngân hàng
   const handleSaveBanking = async () => {
     try {
       setSaving(true);
+      console.log("💾 [Profile] Saving banking info:", bankingData);
+
       const updatedProfile = await profileService.updateBankingInfo({
         bankName: bankingData.bankName,
         accountNumber: bankingData.accountNumber,
         accountName: bankingData.accountName,
       });
+
+      console.log(
+        "✅ [Profile] Banking info saved. Updated profile:",
+        updatedProfile,
+      );
+      console.log(
+        "✅ [Profile] Updated payment info:",
+        updatedProfile.paymentInfo,
+      );
 
       setUserProfile(updatedProfile);
       setUser(updatedProfile); // Update authStore to keep data in sync
@@ -242,8 +293,19 @@ const ProfilePage: React.FC = () => {
   const handleSaveBEP20 = async () => {
     try {
       setSaving(true);
+      console.log("💾 [Profile] Saving BEP20 address:", bep20Data.address);
+
       const updatedProfile = await profileService.updateBEP20Address(
         bep20Data.address,
+      );
+
+      console.log(
+        "✅ [Profile] BEP20 address saved. Updated profile:",
+        updatedProfile,
+      );
+      console.log(
+        "✅ [Profile] Updated payment info:",
+        updatedProfile.paymentInfo,
       );
 
       setUserProfile(updatedProfile);
@@ -260,6 +322,47 @@ const ProfilePage: React.FC = () => {
         message:
           error?.response?.data?.message ||
           "Có lỗi xảy ra khi cập nhật địa chỉ BEP20",
+        type: "error",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Logic lưu thông tin Momo
+  const handleSaveMomo = async () => {
+    try {
+      setSaving(true);
+      console.log("💾 [Profile] Saving Momo info:", momoData);
+
+      const updatedProfile = await profileService.updateMomoInfo({
+        phoneNumber: momoData.phoneNumber,
+        accountName: momoData.accountName,
+      });
+
+      console.log(
+        "✅ [Profile] Momo info saved. Updated profile:",
+        updatedProfile,
+      );
+      console.log(
+        "✅ [Profile] Updated payment info:",
+        updatedProfile.paymentInfo,
+      );
+
+      setUserProfile(updatedProfile);
+      setUser(updatedProfile); // Update authStore to keep data in sync
+      setIsEditingBank(false);
+
+      notification({
+        message: "Đã lưu thông tin Momo thành công!",
+        type: "success",
+      });
+    } catch (error: any) {
+      console.error("Error updating Momo info:", error);
+      notification({
+        message:
+          error?.response?.data?.message ||
+          "Có lỗi xảy ra khi cập nhật thông tin Momo",
         type: "error",
       });
     } finally {
@@ -301,6 +404,25 @@ const ProfilePage: React.FC = () => {
   );
   // Kiểm tra xem tab BEP20 đã có dữ liệu chưa
   const hasBEP20Info = !!userProfile?.paymentInfo?.bep20Info?.walletAddress;
+  // Kiểm tra xem tab Momo đã có dữ liệu chưa
+  const hasMomoInfo = !!(
+    userProfile?.paymentInfo?.momoInfo?.phoneNumber &&
+    userProfile?.paymentInfo?.momoInfo?.accountName
+  );
+
+  // Debug logging for payment info
+  console.log(
+    "🔍 [Profile Render] hasBankingInfo:",
+    hasBankingInfo,
+    "hasBEP20Info:",
+    hasBEP20Info,
+    "hasMomoInfo:",
+    hasMomoInfo,
+  );
+  console.log(
+    "🔍 [Profile Render] userProfile.paymentInfo:",
+    userProfile?.paymentInfo,
+  );
 
   // =========================================================================
   // RENDER SECTIONS
@@ -344,7 +466,7 @@ const ProfilePage: React.FC = () => {
           </div>
         );
       }
-    } else {
+    } else if (activePaymentTab === "bep20") {
       // BEP20 Tab
       if (hasBEP20Info) {
         return (
@@ -359,20 +481,65 @@ const ProfilePage: React.FC = () => {
               iconBgClass="bg-indigo-100"
               iconColorClass="text-indigo-600"
             />
+            <p className="text-xs text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-200">
+              <span className="font-semibold">Network:</span>{" "}
+              {userProfile?.paymentInfo?.bep20Info?.network || "BSC"}
+            </p>
+          </div>
+        );
+      }
+    } else if (activePaymentTab === "momo") {
+      // Momo Tab
+      if (hasMomoInfo) {
+        return (
+          <div className="space-y-4">
+            <InfoField
+              icon={<Smartphone className="w-5 h-5" />}
+              label="Số Điện Thoại Momo"
+              value={
+                userProfile?.paymentInfo?.momoInfo?.phoneNumber ||
+                "Chưa cập nhật"
+              }
+              iconBgClass="bg-pink-100"
+              iconColorClass="text-pink-600"
+            />
+            <InfoField
+              icon={<User className="w-5 h-5" />}
+              label="Tên Chủ Tài Khoản"
+              value={
+                userProfile?.paymentInfo?.momoInfo?.accountName ||
+                "Chưa cập nhật"
+              }
+              iconBgClass="bg-pink-100"
+              iconColorClass="text-pink-600"
+            />
           </div>
         );
       }
     }
 
     // Trường hợp không có dữ liệu
+    const getEmptyIcon = () => {
+      if (activePaymentTab === "banking")
+        return <Banknote className="w-8 h-8 text-slate-500" />;
+      if (activePaymentTab === "bep20")
+        return <Wallet className="w-8 h-8 text-slate-500" />;
+      return <Smartphone className="w-8 h-8 text-slate-500" />;
+    };
+
+    const getEmptyLabel = () => {
+      if (activePaymentTab === "banking") return "Ngân hàng";
+      if (activePaymentTab === "bep20") return "BEP20";
+      return "Momo";
+    };
+
     return (
       <div className="text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200">
         <div className="flex items-center justify-center w-16 h-16 bg-slate-200 rounded-full mx-auto mb-3">
-          <Banknote className="w-8 h-8 text-slate-500" />
+          {getEmptyIcon()}
         </div>
         <p className="text-slate-500 font-medium">
-          Chưa có thông tin{" "}
-          {activePaymentTab === "banking" ? "Ngân hàng" : "BEP20"}
+          Chưa có thông tin {getEmptyLabel()}
         </p>
         <p className="text-sm text-slate-400 mt-1">
           Nhấp "Chỉnh sửa" để thêm thông tin
@@ -513,7 +680,7 @@ const ProfilePage: React.FC = () => {
       );
     }
     // B. Chế độ chỉnh sửa BEP20
-    else {
+    else if (activePaymentTab === "bep20") {
       return (
         <form
           id="bep20EditMode"
@@ -584,14 +751,109 @@ const ProfilePage: React.FC = () => {
         </form>
       );
     }
+    // C. Chế độ chỉnh sửa Momo
+    else {
+      return (
+        <form
+          id="momoEditMode"
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSaveMomo();
+          }}
+        >
+          <div className="grid grid-cols-1 gap-4">
+            {/* Input Số Điện Thoại Momo */}
+            <div>
+              <label
+                htmlFor="momoPhone"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
+                Số Điện Thoại Momo
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Smartphone className="w-4 h-4 text-slate-400" />
+                </div>
+                <input
+                  type="tel"
+                  id="momoPhone"
+                  value={momoData.phoneNumber}
+                  onChange={(e) =>
+                    setMomoData({ ...momoData, phoneNumber: e.target.value })
+                  }
+                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600] shadow-sm"
+                  placeholder="0901234567"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Input Tên Chủ Tài Khoản Momo */}
+            <div>
+              <label
+                htmlFor="momoAccountName"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
+                Tên Chủ Tài Khoản
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="w-4 h-4 text-slate-400" />
+                </div>
+                <input
+                  type="text"
+                  id="momoAccountName"
+                  value={momoData.accountName}
+                  onChange={(e) =>
+                    setMomoData({ ...momoData, accountName: e.target.value })
+                  }
+                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[orange-600] focus:border-[orange-600] shadow-sm"
+                  placeholder="NGUYEN VAN A"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={handleCancelBank}
+                disabled={saving}
+                className="flex items-center px-6 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <X className="w-4 h-4 mr-1" />
+                Hủy
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex items-center px-6 py-2.5 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-700 transition-colors shadow-lg shadow-orange-500/30 cursor-pointer disabled:opacity-50"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Đang lưu...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" />
+                    Lưu Momo
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </form>
+      );
+    }
   };
 
   return (
     <div className="min-h-screen py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-slate-800 mb-8">
-          Hồ Sơ Của Tôi
-        </h2>
+        <h2 className="text-3xl  text-slate-800 mb-8">Hồ Sơ Của Tôi</h2>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Cột 1: Profile Card */}
@@ -857,10 +1119,11 @@ const ProfilePage: React.FC = () => {
 
               {/* Tab Selector */}
               <div
-                className={`flex gap-3 mb-6 ${
+                className={`flex gap-3 mb-6 flex-wrap ${
                   isEditingBank ? "pointer-events-none opacity-50" : ""
                 }`}
               >
+                {/* Banking Tab - Luôn hiển thị */}
                 <button
                   onClick={() => setActivePaymentTab("banking")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
@@ -872,10 +1135,28 @@ const ProfilePage: React.FC = () => {
                   <Banknote className="w-4 h-4 mr-2" />
                   Banking
                   {hasBankingInfo && activePaymentTab !== "banking" && (
-                    <span className="ml-2 w-2 h-2 bg-orange-500 rounded-full"></span>
+                    <span className="ml-2 w-2 h-2 bg-green-500 rounded-full"></span>
                   )}
                 </button>
+
+                {/* Momo Tab - Luôn hiển thị */}
                 <button
+                  onClick={() => setActivePaymentTab("momo")}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
+                    activePaymentTab === "momo"
+                      ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md shadow-orange-500/30"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  <Smartphone className="w-4 h-4 mr-2" />
+                  Momo
+                  {hasMomoInfo && activePaymentTab !== "momo" && (
+                    <span className="ml-2 w-2 h-2 bg-green-500 rounded-full"></span>
+                  )}
+                </button>
+
+                {/* BEP20 Tab - Luôn hiển thị */}
+                {/* <button
                   onClick={() => setActivePaymentTab("bep20")}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all flex items-center cursor-pointer ${
                     activePaymentTab === "bep20"
@@ -886,9 +1167,9 @@ const ProfilePage: React.FC = () => {
                   <Wallet className="w-4 h-4 mr-2" />
                   BEP20
                   {hasBEP20Info && activePaymentTab !== "bep20" && (
-                    <span className="ml-2 w-2 h-2 bg-orange-500 rounded-full"></span>
+                    <span className="ml-2 w-2 h-2 bg-green-500 rounded-full"></span>
                   )}
-                </button>
+                </button> */}
               </div>
 
               {/* Nội dung Hiển thị / Chỉnh sửa */}

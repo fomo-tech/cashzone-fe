@@ -37,7 +37,7 @@ const SignupForm: React.FC = () => {
         phone,
         referralCode: referralCode || undefined,
       });
-      
+
       authLogin(data);
       toast.success("Đăng ký thành công!");
       navigate("/");
@@ -63,9 +63,7 @@ const SignupForm: React.FC = () => {
             alt="Avatar"
             className="w-20 h-20 mx-auto mb-4"
           />
-          <h1 className="text-3xl font-extrabold text-slate-800">
-            Create a new account
-          </h1>
+          <h1 className="text-3xl  text-slate-800">Create a new account</h1>
           <p className="text-slate-500 mt-1 text-sm">
             Already have an account?
             <a
@@ -79,10 +77,7 @@ const SignupForm: React.FC = () => {
 
         {/* Sign up with Google Button */}
         <div className="w-full">
-          <GoogleLoginButton 
-            onSuccess={handleGoogleSuccess}
-            mode="signup"
-          />
+          <GoogleLoginButton onSuccess={handleGoogleSuccess} mode="signup" />
         </div>
 
         {/* 'or' Separator */}

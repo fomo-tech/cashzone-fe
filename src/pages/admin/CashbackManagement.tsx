@@ -68,7 +68,7 @@ const CashbackManagement: React.FC = () => {
           purchaseAmount: item.purchaseAmount,
           percentage: item.percentage,
           platform: item.flatformId.name,
-        })
+        }),
       );
 
       setTransactions(transformedData);
@@ -122,7 +122,7 @@ const CashbackManagement: React.FC = () => {
   // Xử lý hành động Duyệt/Từ chối
   const handleAction = async (
     id: string,
-    newStatus: "completed" | "rejected"
+    newStatus: "completed" | "rejected",
   ) => {
     try {
       setActionLoading(id);
@@ -205,7 +205,7 @@ const CashbackManagement: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-extrabold text-slate-800 flex items-center gap-3">
+          <h1 className="text-3xl  text-slate-800 flex items-center gap-3">
             <DollarSign className="w-8 h-8 text-[orange-600]" />
             Quản Lý Cashback
           </h1>

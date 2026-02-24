@@ -339,9 +339,7 @@ const SettingsPage = () => {
         {/* Header */}
         <div className="flex items-center space-x-3">
           <Settings className="w-8 h-8 text-[orange-600]" />
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            Cài Đặt Cá Nhân
-          </h1>
+          <h1 className="text-3xl  text-gray-900">Cài Đặt Cá Nhân</h1>
         </div>
         <p className="text-gray-500">
           Quản lý các tùy chọn tài khoản, bảo mật và trải nghiệm cá nhân của
