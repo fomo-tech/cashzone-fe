@@ -84,7 +84,7 @@ export const getGradientStyle = (type: keyof typeof gradients = "primary") => ({
 });
 
 export const getGradientClass = (
-  type: keyof typeof gradientClasses.background = "primary"
+  type: keyof typeof gradientClasses.background = "primary",
 ) => gradientClasses.background[type];
 
 // Button style utilities
@@ -118,8 +118,8 @@ export const componentStyles = {
     gradient: `border-2 ${gradientClasses.border.primary} focus:outline-none`,
   },
   badge: {
-    gradient: `${gradientClasses.background.primary} text-white px-3 py-1 rounded-full text-sm font-medium`,
-    outline: `${gradientClasses.border.primary} ${colorClasses.primary.text} px-3 py-1 rounded-full text-sm font-medium`,
+    gradient: `${gradientClasses.background.primary} text-white px-3 py-1 rounded-full text-sm font-bold`,
+    outline: `${gradientClasses.border.primary} ${colorClasses.primary.text} px-3 py-1 rounded-full text-sm font-bold`,
   },
 } as const;
 

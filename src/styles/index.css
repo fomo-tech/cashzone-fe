@@ -88,7 +88,7 @@ html {
 body {
   overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", sans-serif !important;
   /* Add padding for iPhone notch/island */
   padding-top: var(--safe-area-inset-top);
   padding-right: var(--safe-area-inset-right);

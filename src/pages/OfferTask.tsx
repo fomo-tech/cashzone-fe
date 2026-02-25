@@ -149,11 +149,11 @@ const OfferCard: React.FC<{
 
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 mb-3">
-              <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
+              <span className="flex items-center font-bold bg-gray-50 px-2 py-1 rounded-lg">
                 <Clock size={12} className="mr-1 text-[orange-600]" />
                 {offer.timeEstimate}
               </span>
-              <span className="flex items-center font-medium bg-gray-50 px-2 py-1 rounded-lg">
+              <span className="flex items-center font-bold bg-gray-50 px-2 py-1 rounded-lg">
                 <CheckCircle size={12} className="mr-1 text-[#FF8C1A]" />
                 {offer.completionRate}%
               </span>
@@ -168,7 +168,7 @@ const OfferCard: React.FC<{
         <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 mt-3">
           {/* Reward */}
           <div className="flex-1">
-            <p className="text-[10px] text-gray-500 font-medium uppercase mb-0.5">
+            <p className="text-[10px] text-gray-500 font-bold uppercase mb-0.5">
               {rewardUnitLabel}
             </p>
             <p className={`text-lg sm:text-xl font-black ${rewardStyle}`}>
@@ -485,7 +485,7 @@ export default function App() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Nhập tên nhiệm vụ hoặc nền tảng..."
-                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-gray-700 text-sm font-medium 
+                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-gray-700 text-sm font-bold 
                              focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
                              hover:border-gray-300 transition-all placeholder:text-gray-400"
                   />
@@ -521,7 +521,7 @@ export default function App() {
                     onChange={(e) =>
                       setSortOrder(e.target.value as "reward" | "newest")
                     }
-                    className="w-full py-3 pl-11 pr-10 border-2 border-gray-200 bg-white rounded-xl text-sm font-medium 
+                    className="w-full py-3 pl-11 pr-10 border-2 border-gray-200 bg-white rounded-xl text-sm font-bold 
                              focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-100 
                              hover:border-gray-300 transition-all appearance-none cursor-pointer"
                   >
@@ -624,7 +624,7 @@ export default function App() {
               {filteredAndSortedOffers.length === 0 ? (
                 <div className="text-center text-sm sm:text-base text-gray-500 py-12 sm:py-16 bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100">
                   <Package size={48} className="mx-auto mb-4 text-gray-300" />
-                  <p className="font-medium">
+                  <p className="font-bold">
                     Không tìm thấy nhiệm vụ nào phù hợp
                   </p>
                   <p className="text-xs sm:text-sm text-gray-400 mt-2">

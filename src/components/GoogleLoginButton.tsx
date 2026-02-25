@@ -99,7 +99,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-xl">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 border-2 border-gray-300 border-t-orange-500 rounded-full animate-spin" />
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-bold text-gray-700">
                 Đang xử lý...
               </span>
             </div>

@@ -115,7 +115,7 @@ const ToastMessage: React.FC<{
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white font-medium ${colorMap[type]}`}
+      className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white font-bold ${colorMap[type]}`}
     >
       {message}
     </div>
@@ -152,7 +152,7 @@ const OfferPreview: React.FC<{
 
 export default function CashbackHub() {
   const [activePlatformId, setActivePlatformId] = useState<string>(
-    PLATFORMS[0].id
+    PLATFORMS[0].id,
   );
   const [inputLink, setInputLink] = useState<string>("");
   const [currentOffer, setCurrentOffer] = useState<ProductOffer | null>(null);
@@ -168,14 +168,14 @@ export default function CashbackHub() {
 
   const activePlatform = useMemo(
     () => PLATFORMS.find((p) => p.id === activePlatformId) || PLATFORMS[0],
-    [activePlatformId]
+    [activePlatformId],
   );
 
   const showToast = useCallback(
     (msg: string, type: "success" | "error" | "info" = "info") => {
       setMessage({ msg, type });
     },
-    []
+    [],
   );
 
   const generateLink = useCallback(
@@ -236,7 +236,7 @@ export default function CashbackHub() {
         setIsGenerating(false);
       }
     },
-    [activePlatform, showToast]
+    [activePlatform, showToast],
   );
 
   const handleGenerate = useCallback(() => {
@@ -260,7 +260,7 @@ export default function CashbackHub() {
   const filteredHistory = useMemo(() => {
     if (!query) return history;
     return history.filter((h) =>
-      h.title.toLowerCase().includes(query.toLowerCase())
+      h.title.toLowerCase().includes(query.toLowerCase()),
     );
   }, [history, query]);
 
@@ -300,7 +300,7 @@ export default function CashbackHub() {
               setInputLink("https://shopee.vn/product/17227968/41052353272");
               setActivePlatformId("shopee");
             }}
-            className="bg-orange-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors"
+            className="bg-orange-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors"
           >
             🚀 Thử ngay với Shopee
           </button>
@@ -323,7 +323,7 @@ export default function CashbackHub() {
                 }`}
               >
                 <div className="text-3xl mb-2">{platform.logo}</div>
-                <div className="font-medium">{platform.name}</div>
+                <div className="font-bold">{platform.name}</div>
               </button>
             ))}
           </div>
@@ -337,7 +337,7 @@ export default function CashbackHub() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
                 Dán link sản phẩm từ {activePlatform.name}:
               </label>
               <div className="flex gap-3">
@@ -352,7 +352,7 @@ export default function CashbackHub() {
                 <button
                   onClick={handleGenerate}
                   disabled={!inputLink.trim() || isGenerating}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isGenerating ? (
                     <Loader size={20} className="animate-spin" />
@@ -367,7 +367,7 @@ export default function CashbackHub() {
             {/* Generated Link */}
             {generatedLink && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Link hoàn tiền đã tạo:
                 </label>
                 <div className="flex gap-3">
@@ -378,14 +378,14 @@ export default function CashbackHub() {
                   />
                   <button
                     onClick={handleCopy}
-                    className="px-4 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 flex items-center gap-2"
+                    className="px-4 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 flex items-center gap-2"
                   >
                     <Copy size={16} />
                     {isCopying ? "Đã copy!" : "Copy"}
                   </button>
                   <button
                     onClick={() => window.open(generatedLink, "_blank")}
-                    className="px-4 py-3 bg-gray-600 text-white rounded-xl font-medium hover:bg-gray-700"
+                    className="px-4 py-3 bg-gray-600 text-white rounded-xl font-bold hover:bg-gray-700"
                   >
                     Mở
                   </button>
@@ -444,7 +444,7 @@ export default function CashbackHub() {
                       🔗
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-gray-900 text-sm truncate">
+                      <div className="font-bold text-gray-900 text-sm truncate">
                         {item.title}
                       </div>
                       <div className="text-xs text-gray-500">
@@ -455,7 +455,7 @@ export default function CashbackHub() {
                       href={item.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700"
+                      className="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700"
                     >
                       Mở
                     </a>
@@ -477,7 +477,7 @@ export default function CashbackHub() {
                   className="flex items-center gap-3 p-3 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
                   onClick={() => {
                     setInputLink(
-                      "https://shopee.vn/product/17227968/41052353272"
+                      "https://shopee.vn/product/17227968/41052353272",
                     );
                     setActivePlatformId(product.platform);
                   }}
@@ -488,7 +488,7 @@ export default function CashbackHub() {
                       : "📦"}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-900 text-sm line-clamp-2">
+                    <div className="font-bold text-gray-900 text-sm line-clamp-2">
                       {product.title}
                     </div>
                     <div className="text-xs text-gray-500">{product.shop}</div>

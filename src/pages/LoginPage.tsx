@@ -70,7 +70,7 @@ const LoginForm: React.FC = () => {
               type="email"
               placeholder="Email hoặc Tên đăng nhập"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-bold placeholder-slate-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -82,7 +82,7 @@ const LoginForm: React.FC = () => {
               type="password"
               placeholder="Mật khẩu"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-bold placeholder-slate-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -102,7 +102,7 @@ const LoginForm: React.FC = () => {
                 Ghi nhớ đăng nhập
               </label>
             </div>
-            <a href="#" className="text-pink-500 hover:underline font-medium">
+            <a href="#" className="text-pink-500 hover:underline font-bold">
               Quên Mật Khẩu?
             </a>
           </div>

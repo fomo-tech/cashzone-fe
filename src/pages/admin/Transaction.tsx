@@ -157,19 +157,19 @@ const TransactionTable: React.FC<{
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
               Mã GD
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
               Loại
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
               Số tiền
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
               Người dùng
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
               Trạng thái
             </th>
             <th className="px-6 py-3"></th>
@@ -192,7 +192,7 @@ const TransactionTable: React.FC<{
                 className="hover:bg-gradient-to-r from-pink-50 to-orange-50 cursor-pointer transition duration-150"
                 onClick={() => onSelectTransaction(txn)}
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
                   {txn._id.slice(-8)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
@@ -218,7 +218,7 @@ const TransactionTable: React.FC<{
                     {getStatusLabel(txn.status)}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-bold">
                   <ArrowRight className="w-4 h-4 text-[orange-600]" />
                 </td>
               </tr>
@@ -549,7 +549,7 @@ const TransactionDetails: React.FC<{
 
             <label
               htmlFor="adminNote"
-              className="text-sm font-medium text-gray-700 block"
+              className="text-sm font-bold text-gray-700 block"
             >
               Ghi chú của Admin (Tùy chọn)
             </label>
@@ -617,7 +617,7 @@ const DetailItem: React.FC<{
   <div className="flex items-start space-x-2">
     <Icon className="w-4 h-4 text-[orange-600] mt-1 shrink-0" />
     <div>
-      <span className="font-medium text-gray-500 block">{label}</span>
+      <span className="font-bold text-gray-500 block">{label}</span>
       <span className="font-semibold text-gray-800">{value}</span>
     </div>
   </div>
@@ -778,7 +778,7 @@ const TransactionManagementPage: React.FC = () => {
                         setActiveTab(tab.key);
                         setSelectedTransaction(null); // Reset chi tiết khi đổi tab
                       }}
-                      className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 
+                      className={`flex items-center px-4 py-2 text-sm font-bold rounded-lg transition duration-200 
                         ${
                           activeTab === tab.key
                             ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"

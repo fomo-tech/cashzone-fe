@@ -119,7 +119,7 @@ const LuckyWheelAdmin: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Enable/Disable */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-gray-700 mb-2">
               Trạng thái
             </label>
             <label className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
@@ -129,7 +129,7 @@ const LuckyWheelAdmin: React.FC = () => {
                 onChange={(e) => setEnabled(e.target.checked)}
                 className="w-5 h-5 text-amber-600 rounded"
               />
-              <span className="font-medium">
+              <span className="font-bold">
                 {enabled ? "Đang bật" : "Đang tắt"}
               </span>
             </label>
@@ -137,7 +137,7 @@ const LuckyWheelAdmin: React.FC = () => {
 
           {/* Cost per spin */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-gray-700 mb-2">
               Chi phí mỗi lượt quay (VNĐ)
             </label>
             <input
@@ -157,7 +157,7 @@ const LuckyWheelAdmin: React.FC = () => {
 
           {/* Max spins per day */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-gray-700 mb-2">
               Số lượt quay tối đa / ngày
             </label>
             <input
@@ -208,7 +208,7 @@ const LuckyWheelAdmin: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {/* Prize Name */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
                     Tên giải
                   </label>
                   <input
@@ -221,7 +221,7 @@ const LuckyWheelAdmin: React.FC = () => {
 
                 {/* Prize Value */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
                     Giá trị (VNĐ)
                   </label>
                   <input
@@ -237,7 +237,7 @@ const LuckyWheelAdmin: React.FC = () => {
 
                 {/* Probability */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
                     Tỷ lệ (%)
                   </label>
                   <input
@@ -255,7 +255,7 @@ const LuckyWheelAdmin: React.FC = () => {
 
                 {/* Color */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
                     Màu sắc
                   </label>
                   <div className="flex gap-2">
@@ -309,7 +309,7 @@ const LuckyWheelAdmin: React.FC = () => {
         {!probabilityValid && (
           <div className="flex items-center gap-2 text-red-600">
             <AlertCircle className="h-5 w-5" />
-            <span className="text-sm font-medium">
+            <span className="text-sm font-bold">
               Vui lòng điều chỉnh tỷ lệ sao cho tổng bằng 100%
             </span>
           </div>

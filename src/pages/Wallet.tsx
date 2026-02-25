@@ -40,7 +40,7 @@ interface Transaction {
   method: string;
 }
 
-const MIN_WITHDRAWAL_AMOUNT = 50000;
+const MIN_WITHDRAWAL_AMOUNT = 1000;
 
 // =========================================================================
 // UI HELPERS
@@ -105,14 +105,14 @@ const DepositModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
         <div className="space-y-3">
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <p className="text-xs text-blue-600 font-medium mb-1">
+            <p className="text-xs text-blue-600 font-bold mb-1">
               NGÂN HÀNG VIETCOMBANK
             </p>
             <p className="text-lg font-bold text-slate-800">00110022334455</p>
             <p className="text-sm text-slate-600">Chủ TK: CÔNG TY TNHH ABC</p>
           </div>
           <div className="p-4 bg-pink-50 border border-pink-200 rounded-xl">
-            <p className="text-xs text-pink-600 font-medium mb-1">
+            <p className="text-xs text-pink-600 font-bold mb-1">
               VÍ ĐIỆN TỬ MOMO
             </p>
             <p className="text-lg font-bold text-slate-800">0987654321</p>
@@ -212,7 +212,7 @@ const PaymentInfoModal: React.FC<{
         <div className="flex gap-2 mb-6 border-b">
           <button
             onClick={() => setActiveTab("bank")}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-bold transition-colors ${
               activeTab === "bank"
                 ? "border-b-2 border-blue-500 text-blue-600"
                 : "text-slate-600 hover:text-slate-800"
@@ -223,7 +223,7 @@ const PaymentInfoModal: React.FC<{
           </button>
           <button
             onClick={() => setActiveTab("momo")}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-bold transition-colors ${
               activeTab === "momo"
                 ? "border-b-2 border-pink-500 text-pink-600"
                 : "text-slate-600 hover:text-slate-800"
@@ -245,7 +245,7 @@ const PaymentInfoModal: React.FC<{
           {activeTab === "bank" && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Tên Ngân Hàng
                 </label>
                 <input
@@ -260,7 +260,7 @@ const PaymentInfoModal: React.FC<{
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Số Tài Khoản
                 </label>
                 <input
@@ -275,7 +275,7 @@ const PaymentInfoModal: React.FC<{
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Tên Chủ Tài Khoản
                 </label>
                 <input
@@ -290,7 +290,7 @@ const PaymentInfoModal: React.FC<{
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Chi Nhánh (Tùy chọn)
                 </label>
                 <input
@@ -310,7 +310,7 @@ const PaymentInfoModal: React.FC<{
           {activeTab === "momo" && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Số Điện Thoại MoMo
                 </label>
                 <input
@@ -325,7 +325,7 @@ const PaymentInfoModal: React.FC<{
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">
                   Tên Chủ Tài Khoản
                 </label>
                 <input
@@ -346,7 +346,7 @@ const PaymentInfoModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 border border-slate-300 rounded-xl font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex-1 py-3 border border-slate-300 rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition-colors"
             >
               Hủy
             </button>
@@ -577,9 +577,25 @@ const WalletManagement: React.FC = () => {
 
     try {
       setIsSubmitting(true);
+      const paymentMethodData = {
+        method: selectedMethod,
+        details:
+          selectedMethod === "bank"
+            ? {
+                bankName: paymentInfo?.bankInfo?.bankName,
+                accountNumber: paymentInfo?.bankInfo?.accountNumber,
+                accountName: paymentInfo?.bankInfo?.accountName,
+              }
+            : selectedMethod === "momo"
+              ? {
+                  phoneNumber: paymentInfo?.momoInfo?.phoneNumber,
+                  accountName: paymentInfo?.momoInfo?.accountName,
+                }
+              : null,
+      };
       const response = await walletService.createWithdrawal({
         amount: withdrawalAmount,
-        paymentMethod: selectedMethod,
+        paymentMethod: paymentMethodData,
       });
 
       console.log("Withdrawal response:", response);
@@ -632,7 +648,7 @@ const WalletManagement: React.FC = () => {
             {/* Số Dư Khả Dụng */}
             <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 text-white shadow-xl">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-white/80 text-sm font-medium">
+                <span className="text-white/80 text-sm font-bold">
                   Số Dư Khả Dụng
                 </span>
                 <Banknote className="w-6 h-6 text-white/60" />
@@ -659,7 +675,7 @@ const WalletManagement: React.FC = () => {
             {/* Đang Chờ Xử Lý */}
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-slate-200 shadow-sm">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-600 text-sm font-medium">
+                <span className="text-slate-600 text-sm font-bold">
                   Đang Chờ Xử Lý
                 </span>
                 <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
@@ -675,7 +691,7 @@ const WalletManagement: React.FC = () => {
             {/* Tổng Đã Rút */}
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-slate-200 shadow-sm">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-600 text-sm font-medium">
+                <span className="text-slate-600 text-sm font-bold">
                   Tổng Đã Rút
                 </span>
                 <ArrowDownCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
@@ -719,7 +735,7 @@ const WalletManagement: React.FC = () => {
                         </ul>
                         <button
                           onClick={() => setIsPaymentInfoModalOpen(true)}
-                          className="inline-flex items-center px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 transition-colors"
+                          className="inline-flex items-center px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition-colors"
                         >
                           <User className="w-4 h-4 mr-2" />
                           Cập Nhật Thông Tin
@@ -733,7 +749,7 @@ const WalletManagement: React.FC = () => {
                   <div className="space-y-6">
                     {/* Số Tiền Muốn Rút */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-bold text-slate-700 mb-2">
                         Số Tiền Muốn Rút
                       </label>
                       <div className="relative">
@@ -764,7 +780,7 @@ const WalletManagement: React.FC = () => {
                         </span>
                         <button
                           type="button"
-                          className="text-[orange-600] font-medium hover:underline"
+                          className="text-[orange-600] font-bold hover:underline"
                           onClick={() => setWithdrawalAmount(availableBalance)}
                         >
                           Tối đa: {formatCurrency(availableBalance)}
@@ -774,13 +790,13 @@ const WalletManagement: React.FC = () => {
 
                     {/* Phương Thức Nhận */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-3">
+                      <label className="block text-sm font-bold text-slate-700 mb-3">
                         Chọn Phương Thức Nhận
                       </label>
                       {availablePaymentMethods.length === 0 ? (
                         <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-center">
                           <AlertTriangle className="w-8 h-8 text-amber-600 mx-auto mb-2" />
-                          <p className="text-sm text-amber-700 font-medium mb-2">
+                          <p className="text-sm text-amber-700 font-bold mb-2">
                             Chưa có phương thức thanh toán
                           </p>
                           <p className="text-xs text-amber-600">
@@ -1004,7 +1020,7 @@ const WalletManagement: React.FC = () => {
                             key={tx.id}
                             className="hover:bg-slate-50 transition-colors"
                           >
-                            <td className="py-4 px-4 font-medium text-slate-700 text-xs sm:text-sm">
+                            <td className="py-4 px-4 font-bold text-slate-700 text-xs sm:text-sm">
                               <span className="truncate block max-w-[100px] sm:max-w-none">
                                 #{tx.id.slice(0, 8)}...
                               </span>

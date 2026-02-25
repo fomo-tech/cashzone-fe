@@ -512,7 +512,7 @@ export default function Cashback() {
                       <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-3">
                         Tạo Link Hoàn Tiền Shopee
                       </h3>
-                      <p className="text-base sm:text-base lg:text-lg text-gray-700 font-medium px-4">
+                      <p className="text-base sm:text-base lg:text-lg text-gray-700 font-bold px-4">
                         Dán link sản phẩm Shopee để nhận hoàn tiền ngay
                       </p>
                     </div>
@@ -528,7 +528,7 @@ export default function Cashback() {
                               value={inputLink}
                               onChange={(e) => setInputLink(e.target.value)}
                               placeholder={inputPlaceholder}
-                              className="w-full px-5 py-4 text-base rounded-xl  pr-32 sm:pr-24 font-medium transition-all"
+                              className="w-full px-5 py-4 text-base rounded-xl  pr-32 sm:pr-24 font-bold transition-all"
                               disabled={isGenerating}
                               aria-label="Nhập link sản phẩm Shopee"
                               aria-describedby="link-helper"
@@ -629,7 +629,7 @@ export default function Cashback() {
                             />
                             <p
                               id="link-helper"
-                              className="text-sm text-orange-800 font-medium leading-relaxed"
+                              className="text-sm text-orange-800 font-bold leading-relaxed"
                             >
                               {helperText}
                             </p>
@@ -735,7 +735,7 @@ export default function Cashback() {
                         </div>
 
                         {/* Product Title */}
-                        <h2 className="text-sm sm:text-base md:text-lg font-medium text-gray-800 leading-tight">
+                        <h2 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 leading-tight">
                           {currentOffer.title}
                         </h2>
 
@@ -763,7 +763,7 @@ export default function Cashback() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {/* Partner Commission */}
                           {/* <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                            <div className="text-orange-600 text-xs font-medium mb-1">
+                            <div className="text-orange-600 text-xs font-bold mb-1">
                               HOA HỒNG ĐỐI TÁC
                             </div>
                             <div className="text-orange-600 text-lg sm:text-xl font-bold">
@@ -773,7 +773,7 @@ export default function Cashback() {
 
                           {/* Your Cashback */}
                           <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                            <div className="text-orange-600 text-xs font-medium mb-1">
+                            <div className="text-orange-600 text-xs font-bold mb-1">
                               HOÀN TIỀN CỦA BẠN
                             </div>
                             <div className="text-orange-600 text-lg sm:text-xl font-bold">
@@ -796,7 +796,7 @@ export default function Cashback() {
 
                         {/* Link hoàn tiền */}
                         <div className="space-y-2">
-                          <div className="text-gray-600 text-sm font-medium">
+                          <div className="text-gray-600 text-sm font-bold">
                             Link hoàn tiền:
                           </div>
                           <div className="flex gap-2">

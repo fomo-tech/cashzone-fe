@@ -248,7 +248,7 @@ const UserManagement: React.FC = () => {
                             src={user.avatar}
                             size="40"
                           />
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-bold text-gray-900">
                             {user.name}
                           </span>
                         </div>
@@ -265,7 +265,7 @@ const UserManagement: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-center">
                         <div className="flex items-center justify-center gap-2">
                           {/* Xem Chi Tiết */}
                           <Link to={`/admin/user/${user._id}`}>

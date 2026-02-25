@@ -304,7 +304,7 @@ const AffiliateProductManagement: React.FC = () => {
                     <td colSpan={7} className="px-4 py-12 text-center">
                       <div className="flex items-center justify-center gap-3">
                         <div className="w-6 h-6 border-3 border-pink-600 border-t-transparent rounded-full animate-spin"></div>
-                        <span className="text-gray-600 font-medium">
+                        <span className="text-gray-600 font-bold">
                           Đang tải...
                         </span>
                       </div>
@@ -320,7 +320,7 @@ const AffiliateProductManagement: React.FC = () => {
                         size={48}
                         className="mx-auto mb-3 text-gray-300"
                       />
-                      <p className="font-medium">Chưa có sản phẩm nào</p>
+                      <p className="font-bold">Chưa có sản phẩm nào</p>
                     </td>
                   </tr>
                 ) : (

@@ -244,7 +244,7 @@ const AuthModal: React.FC = () => {
           <p className="text-slate-500 mt-1 text-sm">
             {mode === "signup" ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
             <span
-              className="text-orange-600 font-medium ml-1 cursor-pointer hover:underline"
+              className="text-orange-600 font-bold ml-1 cursor-pointer hover:underline"
               onClick={() =>
                 handleToggleAuthModal({
                   isOpen: true,
@@ -400,11 +400,11 @@ const AuthModal: React.FC = () => {
                 </div>
                 <p className="ml-3 text-sm text-slate-600">
                   Tôi đồng ý với
-                  <span className="text-orange-600 font-medium ml-1">
+                  <span className="text-orange-600 font-bold ml-1">
                     Điều khoản dịch vụ
                   </span>{" "}
                   và{" "}
-                  <span className="text-orange-600 font-medium">
+                  <span className="text-orange-600 font-bold">
                     Chính sách bảo mật
                   </span>
                 </p>

@@ -23,7 +23,7 @@ const AccessTradeDemoPage: React.FC = () => {
 
   const handleApiCall = async (
     testName: string,
-    apiCall: () => Promise<ApiResult>
+    apiCall: () => Promise<ApiResult>,
   ) => {
     setLoading(testName);
     try {
@@ -52,12 +52,12 @@ const AccessTradeDemoPage: React.FC = () => {
           {result.success ? (
             <div className="flex items-center gap-1 text-[orange-600]">
               <div className="w-2 h-2 bg-[orange-600] rounded-full"></div>
-              <span className="text-sm font-medium">Success</span>
+              <span className="text-sm font-bold">Success</span>
             </div>
           ) : (
             <div className="flex items-center gap-1 text-red-600">
               <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              <span className="text-sm font-medium">Error</span>
+              <span className="text-sm font-bold">Error</span>
             </div>
           )}
           {result.status && (
@@ -72,7 +72,7 @@ const AccessTradeDemoPage: React.FC = () => {
             {JSON.stringify(
               result.success ? result.data : result.error,
               null,
-              2
+              2,
             )}
           </pre>
         </div>
@@ -170,7 +170,7 @@ const AccessTradeDemoPage: React.FC = () => {
                   <button
                     onClick={() => handleApiCall(test.name, test.action)}
                     disabled={isLoading}
-                    className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
+                    className={`w-full py-2 px-4 rounded-lg font-bold transition-colors ${
                       isLoading
                         ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                         : "bg-gray-800 text-white hover:bg-gray-700"
@@ -211,7 +211,7 @@ const AccessTradeDemoPage: React.FC = () => {
                 }))
               }
               disabled={loading === "fullDemo"}
-              className={`py-3 px-6 rounded-lg font-medium transition-colors ${
+              className={`py-3 px-6 rounded-lg font-bold transition-colors ${
                 loading === "fullDemo"
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : "bg-blue-600 text-white hover:bg-[#AD1457]"

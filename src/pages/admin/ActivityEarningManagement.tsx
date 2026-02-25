@@ -147,7 +147,7 @@ const ActivityEarningManagement: React.FC = () => {
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white">
             <div className="flex items-center justify-between mb-2">
               <TrendingUp className="h-6 w-6" />
-              <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded">
+              <span className="text-xs font-bold bg-white/20 px-2 py-1 rounded">
                 Tổng
               </span>
             </div>
@@ -160,7 +160,7 @@ const ActivityEarningManagement: React.FC = () => {
           <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-4 text-white">
             <div className="flex items-center justify-between mb-2">
               <Activity className="h-6 w-6" />
-              <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded">
+              <span className="text-xs font-bold bg-white/20 px-2 py-1 rounded">
                 Hoạt động
               </span>
             </div>
@@ -176,7 +176,7 @@ const ActivityEarningManagement: React.FC = () => {
               <div className="flex items-center justify-between mb-2">
                 <Coins className="h-6 w-6 text-orange-500" />
                 <span
-                  className={`text-xs font-medium px-2 py-1 rounded ${
+                  className={`text-xs font-bold px-2 py-1 rounded ${
                     activityTypeColors[item._id] || "bg-gray-100"
                   }`}
                 >
@@ -201,7 +201,7 @@ const ActivityEarningManagement: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-gray-700 mb-1">
               User ID
             </label>
             <input
@@ -214,7 +214,7 @@ const ActivityEarningManagement: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-gray-700 mb-1">
               Loại hoạt động
             </label>
             <select
@@ -232,7 +232,7 @@ const ActivityEarningManagement: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-gray-700 mb-1">
               Từ ngày
             </label>
             <input
@@ -244,7 +244,7 @@ const ActivityEarningManagement: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-bold text-gray-700 mb-1">
               Đến ngày
             </label>
             <input
@@ -258,7 +258,7 @@ const ActivityEarningManagement: React.FC = () => {
           <div className="flex items-end gap-2">
             <button
               onClick={handleSearch}
-              className="flex-1 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+              className="flex-1 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors font-bold"
             >
               <Search className="h-4 w-4 inline mr-1" />
               Tìm
@@ -329,7 +329,7 @@ const ActivityEarningManagement: React.FC = () => {
                           size="32"
                         />
                         <div>
-                          <p className="text-sm font-medium text-gray-800">
+                          <p className="text-sm font-bold text-gray-800">
                             {earning.userId.name}
                           </p>
                           <p className="text-xs text-gray-500">
@@ -345,7 +345,7 @@ const ActivityEarningManagement: React.FC = () => {
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
                           activityTypeColors[earning.activityType] ||
                           "bg-gray-100 text-gray-800"
                         }`}
@@ -365,7 +365,7 @@ const ActivityEarningManagement: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <span className="text-sm font-medium text-gray-800">
+                      <span className="text-sm font-bold text-gray-800">
                         {formatCurrency(earning.balanceAfter)}
                       </span>
                     </td>

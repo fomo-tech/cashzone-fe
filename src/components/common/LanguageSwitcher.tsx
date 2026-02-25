@@ -65,7 +65,7 @@ const LanguageSwitcher = () => {
 
         {/* Content */}
         <div className="relative flex items-center gap-2">
-          <span className="hidden sm:inline text-sm font-medium text-slate-700 group-hover:text-[orange-600] transition-colors duration-300">
+          <span className="hidden sm:inline text-sm font-bold text-slate-700 group-hover:text-[orange-600] transition-colors duration-300">
             <img
               src={currentLanguage.flag}
               alt={currentLanguage.name}
@@ -125,7 +125,7 @@ const LanguageSwitcher = () => {
                   {/* Language Info */}
                   <div className="flex-1 min-w-0">
                     <div
-                      className={`text-sm font-medium ${
+                      className={`text-sm font-bold ${
                         isActive ? "text-[orange-600]" : "text-slate-700"
                       }`}
                     >

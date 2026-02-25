@@ -41,13 +41,13 @@ const InfoField: React.FC<{
       {icon}
     </div>
     <div className="flex-1">
-      <p className="text-xs text-slate-500 font-medium">{label}</p>
+      <p className="text-xs text-slate-500 font-bold">{label}</p>
       <div className="flex items-center gap-2">
-        <p className="text-slate-800 font-medium line-clamp-1 break-all">
+        <p className="text-slate-800 font-bold line-clamp-1 break-all">
           {value || "Chưa cập nhật"}
         </p>
         {badge && (
-          <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-full shrink-0">
+          <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-bold rounded-full shrink-0">
             {badge}
           </span>
         )}
@@ -379,7 +379,7 @@ const ProfilePage: React.FC = () => {
             size={48}
             className="animate-spin text-[orange-600] mx-auto mb-4"
           />
-          <p className="text-gray-600 font-medium">Đang tải thông tin...</p>
+          <p className="text-gray-600 font-bold">Đang tải thông tin...</p>
         </div>
       </div>
     );
@@ -389,7 +389,7 @@ const ProfilePage: React.FC = () => {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 font-medium">
+          <p className="text-gray-600 font-bold">
             Không thể tải thông tin profile
           </p>
         </div>
@@ -538,7 +538,7 @@ const ProfilePage: React.FC = () => {
         <div className="flex items-center justify-center w-16 h-16 bg-slate-200 rounded-full mx-auto mb-3">
           {getEmptyIcon()}
         </div>
-        <p className="text-slate-500 font-medium">
+        <p className="text-slate-500 font-bold">
           Chưa có thông tin {getEmptyLabel()}
         </p>
         <p className="text-sm text-slate-400 mt-1">
@@ -566,7 +566,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="bankName"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Tên Ngân Hàng
               </label>
@@ -592,7 +592,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="accountNumber"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Số Tài Khoản
               </label>
@@ -621,7 +621,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="accountName"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Tên Chủ Tài Khoản
               </label>
@@ -695,7 +695,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="bep20Address"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Địa chỉ BEP20 (Binance Smart Chain)
               </label>
@@ -767,7 +767,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="momoPhone"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Số Điện Thoại Momo
               </label>
@@ -793,7 +793,7 @@ const ProfilePage: React.FC = () => {
             <div>
               <label
                 htmlFor="momoAccountName"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Tên Chủ Tài Khoản
               </label>
@@ -888,10 +888,10 @@ const ProfilePage: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-indigo-500 shrink-0" />
                   <div>
-                    <label className="block text-xs font-medium text-slate-400 uppercase mb-0.5">
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-0.5">
                       Ngày tham gia
                     </label>
-                    <p className="text-slate-700 font-medium text-sm">
+                    <p className="text-slate-700 font-bold text-sm">
                       {userProfile.createdAt
                         ? new Date(userProfile.createdAt).toLocaleDateString(
                             "vi-VN",
@@ -906,7 +906,7 @@ const ProfilePage: React.FC = () => {
               <div className="mt-6 pt-6 border-t border-slate-100">
                 <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-slate-600 font-medium">
+                    <span className="text-sm text-slate-600 font-bold">
                       Số dư
                     </span>
                     <Wallet className="w-5 h-5 text-[orange-600]" />
@@ -936,7 +936,7 @@ const ProfilePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleEditProfile}
-                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-bold transition-colors flex items-center gap-2 cursor-pointer ${
                     isEditingProfile ? "hidden" : ""
                   }`}
                 >
@@ -985,7 +985,7 @@ const ProfilePage: React.FC = () => {
                     <div>
                       <label
                         htmlFor="userName"
-                        className="block text-sm font-medium text-slate-700 mb-1"
+                        className="block text-sm font-bold text-slate-700 mb-1"
                       >
                         Họ và Tên
                       </label>
@@ -1010,7 +1010,7 @@ const ProfilePage: React.FC = () => {
                     <div>
                       <label
                         htmlFor="userEmail"
-                        className="block text-sm font-medium text-slate-700 mb-1"
+                        className="block text-sm font-bold text-slate-700 mb-1"
                       >
                         Email
                       </label>
@@ -1035,7 +1035,7 @@ const ProfilePage: React.FC = () => {
                     <div>
                       <label
                         htmlFor="phoneNumber"
-                        className="block text-sm font-medium text-slate-700 mb-1"
+                        className="block text-sm font-bold text-slate-700 mb-1"
                       >
                         Số Điện Thoại
                       </label>
@@ -1108,7 +1108,7 @@ const ProfilePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleEditBank}
-                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-medium transition-colors flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 text-[orange-600] hover:bg-orange-50 rounded-xl font-bold transition-colors flex items-center gap-2 cursor-pointer ${
                     isEditingBank ? "hidden" : ""
                   }`}
                 >

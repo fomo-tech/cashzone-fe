@@ -116,7 +116,7 @@ export default function TaskSubmitModal({
             <h3 className="font-semibold text-gray-800 mb-2">{task.title}</h3>
             <p className="text-sm text-gray-600 mb-3">{task.description}</p>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-bold text-gray-700">
                 Phần thưởng:
               </span>
               <span className="text-lg font-bold text-[orange-600]">
@@ -187,7 +187,7 @@ export default function TaskSubmitModal({
                   <X size={20} />
                 </button>
                 <div className="mt-2 text-sm text-gray-600">
-                  <span className="font-medium">{selectedFile.name}</span>
+                  <span className="font-bold">{selectedFile.name}</span>
                   <span className="ml-2 text-gray-500">
                     ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                   </span>

@@ -23,7 +23,7 @@ const DetailItemUser = ({
       className={`text-slate-800 ${
         type === "mono"
           ? "font-mono bg-slate-50 p-2 rounded-md border border-slate-200"
-          : "font-medium p-2"
+          : "font-bold p-2"
       }`}
     >
       {value}

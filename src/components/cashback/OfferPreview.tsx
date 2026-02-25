@@ -82,7 +82,7 @@ const OfferPreview: React.FC<{
 
           {/* Giá sản phẩm */}
           <div className="text-gray-600 text-sm sm:text-base">
-            <span className="font-medium">Giá:</span>{" "}
+            <span className="font-bold">Giá:</span>{" "}
             <span className="font-semibold text-gray-900">
               {offer.priceText}
             </span>
@@ -110,7 +110,7 @@ const OfferPreview: React.FC<{
 
           {/* Clickable indicator */}
           {cashbackLink && (
-            <div className="flex items-center gap-1 text-xs text-orange-600 font-medium">
+            <div className="flex items-center gap-1 text-xs text-orange-600 font-bold">
               <ExternalLink size={12} />
               <span>Click để mua</span>
             </div>

@@ -66,7 +66,7 @@ const Header = () => {
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative md:hidden flex items-center justify-center h-10">
               <div className="text-3xl  tracking-tight">
-                <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm">
+                <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm font-[900]">
                   Bagback
                 </span>
               </div>

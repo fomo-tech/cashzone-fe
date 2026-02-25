@@ -214,10 +214,10 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                       {filters.status === "active"
                         ? "Hoạt động"
                         : filters.status === "paused"
-                        ? "Tạm dừng"
-                        : filters.status === "expired"
-                        ? "Hết hạn"
-                        : "Trạng thái"}
+                          ? "Tạm dừng"
+                          : filters.status === "expired"
+                            ? "Hết hạn"
+                            : "Trạng thái"}
                     </span>
                   </div>
                 </SelectTrigger>
@@ -251,12 +251,12 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                       {filters.platform === "shopee"
                         ? "Shopee"
                         : filters.platform === "lazada"
-                        ? "Lazada"
-                        : filters.platform === "tiki"
-                        ? "Tiki"
-                        : filters.platform === "sendo"
-                        ? "Sendo"
-                        : "Sàn TMĐT"}
+                          ? "Lazada"
+                          : filters.platform === "tiki"
+                            ? "Tiki"
+                            : filters.platform === "sendo"
+                              ? "Sendo"
+                              : "Sàn TMĐT"}
                     </span>
                   </div>
                 </SelectTrigger>
@@ -303,18 +303,16 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
           {/* Active Filters Display */}
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-              <span className="text-xs font-medium text-gray-500">
-                Đang lọc:
-              </span>
+              <span className="text-xs font-bold text-gray-500">Đang lọc:</span>
               {filters.status && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Trạng thái:{" "}
                     {filters.status === "active"
                       ? "Hoạt động"
                       : filters.status === "paused"
-                      ? "Tạm dừng"
-                      : "Hết hạn"}
+                        ? "Tạm dừng"
+                        : "Hết hạn"}
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, status: "" })}
@@ -326,7 +324,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
               )}
               {filters.platform && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Sàn:{" "}
                     {filters.platform.charAt(0).toUpperCase() +
                       filters.platform.slice(1)}
@@ -341,7 +339,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
               )}
               {filters.search && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Tìm kiếm: "{filters.search}"
                   </span>
                   <button
@@ -364,7 +362,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-[orange-600]"></div>
             <Link2 className="w-8 h-8 text-[orange-600] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
-          <p className="mt-4 text-gray-600 font-medium">Đang tải dữ liệu...</p>
+          <p className="mt-4 text-gray-600 font-bold">Đang tải dữ liệu...</p>
         </div>
       ) : links.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl shadow-md border border-gray-100">
@@ -417,20 +415,20 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                             link.status === "active"
                               ? "bg-green-500 text-white"
                               : link.status === "paused"
-                              ? "bg-amber-500 text-white"
-                              : "bg-gray-400 text-white"
+                                ? "bg-amber-500 text-white"
+                                : "bg-gray-400 text-white"
                           }`}
                         >
                           {link.status === "active"
                             ? "Active"
                             : link.status === "paused"
-                            ? "Paused"
-                            : "Expired"}
+                              ? "Paused"
+                              : "Expired"}
                         </Badge>
                       </div>
                       <div className="flex items-center gap-2 text-xs text-gray-500">
                         <Store className="w-3 h-3" />
-                        <span className="font-medium">{link.platformName}</span>
+                        <span className="font-bold">{link.platformName}</span>
                         <span>•</span>
                         <span>{formatDate(link.createdAt)}</span>
                       </div>
@@ -443,9 +441,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 border border-blue-100">
                     <div className="flex items-center gap-2 mb-1">
                       <MousePointerClick className="w-3.5 h-3.5 text-blue-600" />
-                      <p className="text-xs font-medium text-blue-900">
-                        Clicks
-                      </p>
+                      <p className="text-xs font-bold text-blue-900">Clicks</p>
                     </div>
                     <p className="text-lg font-black text-blue-600">
                       {link.clicks}
@@ -454,7 +450,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-100">
                     <div className="flex items-center gap-2 mb-1">
                       <TrendingUp className="w-3.5 h-3.5 text-purple-600" />
-                      <p className="text-xs font-medium text-purple-900">
+                      <p className="text-xs font-bold text-purple-900">
                         Chuyển đổi
                       </p>
                     </div>
@@ -469,7 +465,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-3 border border-green-100">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs font-medium text-green-900 mb-1">
+                        <p className="text-xs font-bold text-green-900 mb-1">
                           Hoa hồng
                         </p>
                         <p className="text-base font-black text-green-600">
@@ -607,7 +603,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                             : "N/A"}
                         </p>
                         {link.commissionRate && (
-                          <p className="text-xs text-gray-500 font-medium">
+                          <p className="text-xs text-gray-500 font-bold">
                             Tỷ lệ: {link.commissionRate}%
                           </p>
                         )}
@@ -623,7 +619,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-3">
                         <div className="text-center px-3 py-2 bg-blue-50 rounded-lg border border-blue-100">
-                          <p className="text-xs text-blue-600 font-medium mb-0.5">
+                          <p className="text-xs text-blue-600 font-bold mb-0.5">
                             Clicks
                           </p>
                           <p className="text-base font-bold text-blue-700">
@@ -631,7 +627,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                           </p>
                         </div>
                         <div className="text-center px-3 py-2 bg-purple-50 rounded-lg border border-purple-100">
-                          <p className="text-xs text-purple-600 font-medium mb-0.5">
+                          <p className="text-xs text-purple-600 font-bold mb-0.5">
                             Chuyển đổi
                           </p>
                           <p className="text-base font-bold text-purple-700">
@@ -651,15 +647,15 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                           link.status === "active"
                             ? "bg-green-500 hover:bg-green-600 text-white"
                             : link.status === "paused"
-                            ? "bg-amber-500 hover:bg-amber-600 text-white"
-                            : "bg-gray-400 hover:bg-gray-500 text-white"
+                              ? "bg-amber-500 hover:bg-amber-600 text-white"
+                              : "bg-gray-400 hover:bg-gray-500 text-white"
                         }`}
                       >
                         {link.status === "active"
                           ? "Active"
                           : link.status === "paused"
-                          ? "Paused"
-                          : "Expired"}
+                            ? "Paused"
+                            : "Expired"}
                       </Badge>
                     </td>
 
@@ -695,7 +691,7 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 px-4 py-4 bg-white rounded-2xl shadow-md border border-gray-100">
-              <p className="text-sm text-gray-600 font-medium">
+              <p className="text-sm text-gray-600 font-bold">
                 Hiển thị{" "}
                 <span className="font-bold text-gray-900">
                   {(page - 1) * limit + 1}
@@ -705,7 +701,8 @@ const LinkHistoryTab: React.FC<LinkHistoryTabProps> = ({ onStatsUpdate }) => {
                   {Math.min(page * limit, total)}
                 </span>{" "}
                 trong tổng số{" "}
-                <span className="font-bold text-[orange-600]">{total}</span> link
+                <span className="font-bold text-[orange-600]">{total}</span>{" "}
+                link
               </p>
               <div className="flex items-center gap-2">
                 <Button

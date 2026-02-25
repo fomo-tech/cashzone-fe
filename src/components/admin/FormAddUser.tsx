@@ -93,7 +93,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
           isVisible: true,
           timer: 900,
         });
-      }
+      },
     );
     if (res && res.data) {
       setToast({
@@ -108,8 +108,8 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
       if (editingUser) {
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
-            user._id === editingUser._id ? res.data.user : user
-          )
+            user._id === editingUser._id ? res.data.user : user,
+          ),
         );
       } else {
         setUsers((prevUsers) => [res.data.user, ...prevUsers]);
@@ -122,7 +122,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* Tên */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Tên</label>
+        <label className="block text-sm font-bold text-slate-700">Tên</label>
         <input
           type="text"
           placeholder="Nhập tên"
@@ -136,7 +136,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* SĐT */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-bold text-slate-700">
           Số điện thoại
         </label>
         <input
@@ -152,9 +152,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* Email */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Email
-        </label>
+        <label className="block text-sm font-bold text-slate-700">Email</label>
         <input
           type="email"
           placeholder="Nhập email"
@@ -172,7 +170,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
       {/* Password chỉ hiện khi tạo mới */}
       {!editingUser && (
         <div>
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-bold text-slate-700">
             Mật khẩu
           </label>
           <input
@@ -194,7 +192,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* Mã của user */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-bold text-slate-700">
           Mã giới thiệu của user
         </label>
         <input
@@ -207,7 +205,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* Mã người giới thiệu */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-bold text-slate-700">
           Mã người giới thiệu
         </label>
         <input
@@ -220,9 +218,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* Roles */}
       <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Quyền
-        </label>
+        <label className="block text-sm font-bold text-slate-700">Quyền</label>
         <div className="flex gap-4 mt-1">
           {(["user", "admin"] as RoleEnum[]).map((role) => (
             <Checkbox
@@ -236,7 +232,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
                 if (currentRoles.includes(value)) {
                   setValue(
                     "roles",
-                    currentRoles.filter((r) => r !== value)
+                    currentRoles.filter((r) => r !== value),
                   );
                 } else {
                   setValue("roles", [...currentRoles, value]);
@@ -249,7 +245,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
 
       {/* Trạng thái */}
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-slate-700">Trạng thái</label>
+        <label className="text-sm font-bold text-slate-700">Trạng thái</label>
 
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -273,7 +269,7 @@ const FormAddUser: React.FC<FormAddUserProps> = ({
       <div className="pt-4">
         <button
           type="submit"
-          className="cursor-pointer w-full py-2 rounded-xl bg-[orange-600] text-white font-medium hover:bg-[orange-600] transition"
+          className="cursor-pointer w-full py-2 rounded-xl bg-[orange-600] text-white font-bold hover:bg-[orange-600] transition"
         >
           {editingUser ? "Lưu Thay Đổi" : "Thêm Người Dùng"}
         </button>

@@ -39,7 +39,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   onToggle,
 }) => (
   <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
-    <span className="text-sm font-medium text-gray-700">{label}</span>
+    <span className="text-sm font-bold text-gray-700">{label}</span>
     <button
       onClick={onToggle}
       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
@@ -71,7 +71,7 @@ const SelectSetting: React.FC<SelectSettingProps> = ({
   options,
 }) => (
   <div className="flex flex-col space-y-1 py-3 border-b border-gray-100 last:border-b-0">
-    <label htmlFor={label} className="text-sm font-medium text-gray-700">
+    <label htmlFor={label} className="text-sm font-bold text-gray-700">
       {label}
     </label>
     <select
@@ -214,7 +214,7 @@ const SettingsPage = () => {
                 {user?.phone || "Chưa cập nhật"}
               </p>
             </div>
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[orange-600] hover:text-[orange-600] transition duration-150">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-bold text-[orange-600] hover:text-[orange-600] transition duration-150">
               Chỉnh sửa Hồ sơ <ArrowRight className="w-4 h-4" />
             </button>
           </SettingCard>
@@ -227,7 +227,7 @@ const SettingsPage = () => {
             title="Bảo mật & Đăng nhập"
             description="Quản lý mật khẩu, xác thực hai yếu tố và phiên đăng nhập."
           >
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-red-600 hover:text-red-800 transition duration-150 border-b border-gray-100">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-bold text-red-600 hover:text-red-800 transition duration-150 border-b border-gray-100">
               Đổi mật khẩu <Lock className="w-4 h-4" />
             </button>
 
@@ -305,13 +305,13 @@ const SettingsPage = () => {
             title="Dữ liệu & Quyền riêng tư"
             description="Xem chính sách, quản lý dữ liệu và yêu cầu xuất dữ liệu."
           >
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[orange-600] hover:text-[orange-600] transition duration-150 border-b border-gray-100">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-bold text-[orange-600] hover:text-[orange-600] transition duration-150 border-b border-gray-100">
               Xem Chính sách Quyền riêng tư <Info className="w-4 h-4" />
             </button>
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-[orange-600] hover:text-[orange-600] transition duration-150 border-b border-gray-100">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-bold text-[orange-600] hover:text-[orange-600] transition duration-150 border-b border-gray-100">
               Yêu cầu Xuất dữ liệu cá nhân <Server className="w-4 h-4" />
             </button>
-            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-medium text-red-600 hover:text-red-800 transition duration-150">
+            <button className="flex items-center justify-between w-full text-left py-3 text-sm font-bold text-red-600 hover:text-red-800 transition duration-150">
               Xóa Tài khoản (Hành động vĩnh viễn) <Trash2 className="w-4 h-4" />
             </button>
           </SettingCard>
@@ -358,7 +358,7 @@ const SettingsPage = () => {
                 <li key={item.id}>
                   <button
                     onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center w-full px-4 py-3 rounded-lg text-left text-sm font-medium transition duration-200 
+                    className={`flex items-center w-full px-4 py-3 rounded-lg text-left text-sm font-bold transition duration-200 
                       ${
                         activeTab === item.id
                           ? "bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 font-bold"

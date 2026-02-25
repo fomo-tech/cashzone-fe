@@ -59,7 +59,7 @@ const SocketTestPage = () => {
           <h2 className="text-xl font-semibold mb-4">Connection Status</h2>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="font-medium">Status:</span>
+              <span className="font-bold">Status:</span>
               <span
                 className={`px-3 py-1 rounded-full text-sm font-semibold ${
                   isConnected
@@ -72,20 +72,20 @@ const SocketTestPage = () => {
             </div>
             {socketId && (
               <div className="flex items-center justify-between">
-                <span className="font-medium">Socket ID:</span>
+                <span className="font-bold">Socket ID:</span>
                 <code className="bg-gray-100 px-2 py-1 rounded text-sm">
                   {socketId}
                 </code>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <span className="font-medium">User:</span>
+              <span className="font-bold">User:</span>
               <span className="text-gray-700">
                 {user ? user.email : "Not logged in"}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-medium">Authenticated:</span>
+              <span className="font-bold">Authenticated:</span>
               <span
                 className={`font-semibold ${
                   isAuthenticated ? "text-green-600" : "text-red-600"
@@ -135,12 +135,12 @@ const SocketTestPage = () => {
                       log.includes("✅")
                         ? "text-green-400"
                         : log.includes("❌")
-                        ? "text-red-400"
-                        : log.includes("📥")
-                        ? "text-blue-400"
-                        : log.includes("📤")
-                        ? "text-yellow-400"
-                        : "text-gray-300"
+                          ? "text-red-400"
+                          : log.includes("📥")
+                            ? "text-blue-400"
+                            : log.includes("📤")
+                              ? "text-yellow-400"
+                              : "text-gray-300"
                     }`}
                   >
                     {log}

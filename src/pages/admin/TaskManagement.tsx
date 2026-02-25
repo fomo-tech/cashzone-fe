@@ -201,7 +201,7 @@ const TaskManagement: React.FC = () => {
 
   const handleStatusChange = async (
     taskId: string,
-    newStatus: "active" | "inactive"
+    newStatus: "active" | "inactive",
   ) => {
     try {
       await taskService.updateTask(taskId, { status: newStatus });
@@ -320,7 +320,7 @@ const TaskManagement: React.FC = () => {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-medium transition-all shadow-sm bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-bold transition-all shadow-sm bg-white"
             >
               <option value="all">Tất cả loại</option>
               <option value="social">Mạng xã hội</option>
@@ -343,7 +343,7 @@ const TaskManagement: React.FC = () => {
               onChange={(e) =>
                 setFilterStatus(e.target.value as "all" | "active" | "inactive")
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-medium transition-all shadow-sm bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-bold transition-all shadow-sm bg-white"
             >
               <option value="all">Tất cả trạng thái</option>
               <option value="active">Đang hoạt động</option>
@@ -370,7 +370,7 @@ const TaskManagement: React.FC = () => {
               setFilterStatus("all");
               setPage(1);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 font-medium transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 font-bold transition-all"
           >
             <X size={18} />
             Xóa bộ lọc
@@ -428,7 +428,7 @@ const TaskManagement: React.FC = () => {
                     className="hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors"
                   >
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900 line-clamp-1">
+                      <div className="font-bold text-gray-900 line-clamp-1">
                         {task.title}
                       </div>
                       <div className="text-xs text-gray-500 line-clamp-1">
@@ -478,7 +478,7 @@ const TaskManagement: React.FC = () => {
                               width: `${Math.min(
                                 (task.completedCount / task.maxCompletions) *
                                   100,
-                                100
+                                100,
                               )}%`,
                             }}
                           />
@@ -492,7 +492,7 @@ const TaskManagement: React.FC = () => {
                           handleStatusChange(task._id, e.target.value as any)
                         }
                         className={`text-xs px-3 py-1.5 rounded-full font-semibold border-0 cursor-pointer ${getStatusColor(
-                          task.status
+                          task.status,
                         )}`}
                       >
                         <option value="active">
@@ -770,7 +770,7 @@ const TaskManagement: React.FC = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, status: e.target.value })
                       }
-                      className="w-full px-4 py-4 border-2 border-emerald-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium transition-all bg-white text-gray-800"
+                      className="w-full px-4 py-4 border-2 border-emerald-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-bold transition-all bg-white text-gray-800"
                     >
                       <option value="active">🟢 Hoạt động</option>
                       <option value="inactive">🔴 Tạm dừng</option>
@@ -895,7 +895,7 @@ const TaskManagement: React.FC = () => {
                               </div>
                             </div>
                           );
-                        }
+                        },
                       )}
                     </div>
 
@@ -905,7 +905,7 @@ const TaskManagement: React.FC = () => {
                         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                           <List className="w-8 h-8 text-gray-400" />
                         </div>
-                        <p className="text-gray-500 font-medium mb-2">
+                        <p className="text-gray-500 font-bold mb-2">
                           Chưa có bước hướng dẫn nào
                         </p>
                         <p className="text-sm text-gray-400">
@@ -940,7 +940,7 @@ const TaskManagement: React.FC = () => {
                             onClick={() => {
                               if (
                                 confirm(
-                                  "Bạn có chắc muốn xóa tất cả các bước hướng dẫn?"
+                                  "Bạn có chắc muốn xóa tất cả các bước hướng dẫn?",
                                 )
                               ) {
                                 setFormData({

@@ -67,7 +67,7 @@ const CashbackHeroSection: React.FC = () => {
               </h2>
 
               {/* Description with icons - Ẩn trên mobile */}
-              <p className="hidden sm:block text-sm sm:text-base opacity-95 mb-2 sm:mb-3 max-w-xl font-medium">
+              <p className="hidden sm:block text-sm sm:text-base opacity-95 mb-2 sm:mb-3 max-w-xl font-bold">
                 Chuyển link mua sắm thành tiền.
                 <span className="font-bold text-yellow-100 inline-flex items-center gap-1 ml-1">
                   <Zap className="w-4 h-4" />
@@ -148,7 +148,7 @@ const CashbackHeroSection: React.FC = () => {
                   {/* Mini stats */}
                   <div className="space-y-1.5 relative z-10">
                     <div className="flex items-center justify-between p-1.5 bg-white/80 backdrop-blur-sm rounded-lg">
-                      <span className="text-[9px] text-gray-600 font-medium">
+                      <span className="text-[9px] text-gray-600 font-bold">
                         Tổng kiếm
                       </span>
                       <span className="text-[9px] font-black text-orange-600">
@@ -156,7 +156,7 @@ const CashbackHeroSection: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex items-center justify-between p-1.5 bg-white/80 backdrop-blur-sm rounded-lg">
-                      <span className="text-[9px] text-gray-600 font-medium">
+                      <span className="text-[9px] text-gray-600 font-bold">
                         Đã rút
                       </span>
                       <span className="text-[9px] font-black text-green-600">

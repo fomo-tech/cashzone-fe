@@ -250,7 +250,7 @@ export default function QuickCreateOrderModal({
               <button
                 type="button"
                 onClick={() => setSearchMode("direct")}
-                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
+                className={`flex-1 py-2.5 px-4 rounded-lg font-bold text-sm transition-all ${
                   searchMode === "direct"
                     ? "bg-white text-orange-600 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -261,7 +261,7 @@ export default function QuickCreateOrderModal({
               <button
                 type="button"
                 onClick={() => setSearchMode("search")}
-                className={`flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all ${
+                className={`flex-1 py-2.5 px-4 rounded-lg font-bold text-sm transition-all ${
                   searchMode === "search"
                     ? "bg-white text-orange-600 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -424,25 +424,25 @@ export default function QuickCreateOrderModal({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-600">Sản phẩm</p>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-bold text-gray-800">
                     {selectedLink.productName || "N/A"}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600">Platform</p>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-bold text-gray-800">
                     {selectedLink.platform}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600">Tỷ lệ hoàn tiền</p>
-                  <p className="font-medium text-green-600">
+                  <p className="font-bold text-green-600">
                     {selectedLink.cashbackRate || 5}%
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600">User</p>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-bold text-gray-800">
                     {selectedLink.userId.name || "N/A"}
                   </p>
                 </div>
@@ -450,7 +450,7 @@ export default function QuickCreateOrderModal({
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="mt-3 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="mt-3 text-blue-600 hover:text-blue-800 text-sm font-bold"
               >
                 ← Đổi link khác
               </button>
@@ -459,7 +459,7 @@ export default function QuickCreateOrderModal({
             {/* Form nhập thông tin đơn hàng */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Mã đơn hàng <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -476,7 +476,7 @@ export default function QuickCreateOrderModal({
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền đơn hàng <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -497,7 +497,7 @@ export default function QuickCreateOrderModal({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Tỷ lệ hoàn tiền (%)
                   </label>
                   <input
@@ -545,7 +545,7 @@ export default function QuickCreateOrderModal({
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Ghi chú
                 </label>
                 <textarea
@@ -566,7 +566,7 @@ export default function QuickCreateOrderModal({
                 type="button"
                 onClick={handleClose}
                 disabled={submitting}
-                className="px-6 py-3 text-gray-700 hover:bg-gray-200 rounded-lg font-medium transition-colors disabled:opacity-50"
+                className="px-6 py-3 text-gray-700 hover:bg-gray-200 rounded-lg font-bold transition-colors disabled:opacity-50"
               >
                 Hủy
               </button>
@@ -575,7 +575,7 @@ export default function QuickCreateOrderModal({
                 disabled={
                   submitting || !formData.orderId || formData.orderAmount <= 0
                 }
-                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-medium hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-bold hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {submitting ? (
                   <>

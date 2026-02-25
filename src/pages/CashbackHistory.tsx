@@ -198,7 +198,7 @@ const CashbackHistory: React.FC = () => {
               <div className="flex items-center gap-3 bg-gradient-to-r from-green-50 to-emerald-50 px-5 py-3 rounded-2xl border border-green-100">
                 <Target className="w-5 h-5 text-green-600" />
                 <div>
-                  <p className="text-xs text-gray-600 font-medium">
+                  <p className="text-xs text-gray-600 font-bold">
                     Tổng doanh thu
                   </p>
                   <p className="text-xl font-black text-green-600">
@@ -224,7 +224,7 @@ const CashbackHistory: React.FC = () => {
                   <p className="text-xs font-bold text-pink-600">Active</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 font-medium mb-1">
+              <p className="text-sm text-gray-500 font-bold mb-1">
                 Link đã tạo
               </p>
               <p className="text-3xl font-black text-gray-900 mb-2">
@@ -249,9 +249,7 @@ const CashbackHistory: React.FC = () => {
                   <p className="text-xs font-bold text-amber-600">Pending</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 font-medium mb-1">
-                Chờ duyệt
-              </p>
+              <p className="text-sm text-gray-500 font-bold mb-1">Chờ duyệt</p>
               <p className="text-3xl font-black text-gray-900 mb-2">
                 {formatCurrency(quickStats.pendingAmount)}
               </p>
@@ -274,7 +272,7 @@ const CashbackHistory: React.FC = () => {
                   <p className="text-xs font-bold text-blue-600">Approved</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 font-medium mb-1">Đã duyệt</p>
+              <p className="text-sm text-gray-500 font-bold mb-1">Đã duyệt</p>
               <p className="text-3xl font-black text-gray-900 mb-2">
                 {formatCurrency(quickStats.approvedAmount)}
               </p>
@@ -297,7 +295,7 @@ const CashbackHistory: React.FC = () => {
                   <p className="text-xs font-bold text-white">Paid</p>
                 </div>
               </div>
-              <p className="text-sm text-green-100 font-medium mb-1">
+              <p className="text-sm text-green-100 font-bold mb-1">
                 Đã thanh toán
               </p>
               <p className="text-3xl font-black text-white mb-2">
@@ -316,7 +314,7 @@ const CashbackHistory: React.FC = () => {
           <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-5 border border-purple-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 font-medium mb-1">
+                <p className="text-sm text-gray-600 font-bold mb-1">
                   Tỷ lệ chuyển đổi
                 </p>
                 <p className="text-2xl font-black text-purple-600">
@@ -339,7 +337,7 @@ const CashbackHistory: React.FC = () => {
           <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-5 border border-orange-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 font-medium mb-1">
+                <p className="text-sm text-gray-600 font-bold mb-1">
                   Thu nhập/Link
                 </p>
                 <p className="text-2xl font-black text-orange-600">
@@ -359,7 +357,7 @@ const CashbackHistory: React.FC = () => {
           <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-5 border border-pink-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 font-medium mb-1">
+                <p className="text-sm text-gray-600 font-bold mb-1">
                   Đang xử lý
                 </p>
                 <p className="text-2xl font-black text-pink-600">

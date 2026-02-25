@@ -510,7 +510,7 @@ const SystemSettingsPage: React.FC = () => {
               <div className="space-y-6">
                 {/* Min Deposit */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền nạp tối thiểu (VND)
                   </label>
                   <div className="relative">
@@ -533,7 +533,7 @@ const SystemSettingsPage: React.FC = () => {
 
                 {/* Min Withdraw */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền rút tối thiểu (VND)
                   </label>
                   <div className="relative">
@@ -637,7 +637,7 @@ const SystemSettingsPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowBep20Modal(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-bold"
                 >
                   <Plus className="w-4 h-4" />
                   Thêm
@@ -708,7 +708,7 @@ const SystemSettingsPage: React.FC = () => {
                     setEditingBank(null);
                     setShowBankModal(true);
                   }}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-bold"
                 >
                   <Plus className="w-4 h-4" />
                   Thêm
@@ -993,7 +993,7 @@ const SystemSettingsPage: React.FC = () => {
                           Cấp 1 (F1)
                         </h4>
                       </div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tỷ lệ hoa hồng (%)
                       </label>
                       <div className="relative">
@@ -1029,7 +1029,7 @@ const SystemSettingsPage: React.FC = () => {
                           Cấp 2 (F2)
                         </h4>
                       </div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tỷ lệ hoa hồng (%)
                       </label>
                       <div className="relative">
@@ -1065,7 +1065,7 @@ const SystemSettingsPage: React.FC = () => {
                           Cấp 3 (F3)
                         </h4>
                       </div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tỷ lệ hoa hồng (%)
                       </label>
                       <div className="relative">
@@ -1277,7 +1277,7 @@ const SystemSettingsPage: React.FC = () => {
                 <button
                   onClick={saveCheckInRewards}
                   disabled={savingCheckIn || !hasCheckInChanges}
-                  className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                  className={`px-6 py-2 rounded-lg font-bold flex items-center gap-2 transition-colors ${
                     hasCheckInChanges && !savingCheckIn
                       ? "bg-white text-orange-600 hover:bg-orange-50 shadow-lg"
                       : "bg-white/20 text-white/60 cursor-not-allowed"
@@ -1313,7 +1313,7 @@ const SystemSettingsPage: React.FC = () => {
                     key={index}
                     className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition-colors"
                   >
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       {dayName}
                     </label>
                     <div className="relative">
@@ -1353,7 +1353,7 @@ const SystemSettingsPage: React.FC = () => {
 
               <div className="border border-gray-200 rounded-lg p-6 bg-gradient-to-r from-orange-50 to-yellow-50">
                 <div className="max-w-md">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Thưởng thêm khi hoàn thành điểm danh 7 ngày liên tiếp
                   </label>
                   <div className="relative">
@@ -1457,7 +1457,7 @@ const SystemSettingsPage: React.FC = () => {
                   <button
                     onClick={saveLuckyWheelSettings}
                     disabled={savingLuckyWheel || !hasLuckyWheelChanges}
-                    className={`px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                    className={`px-6 py-2 rounded-lg font-bold flex items-center gap-2 transition-colors ${
                       hasLuckyWheelChanges && !savingLuckyWheel
                         ? "bg-white text-amber-600 hover:bg-amber-50 shadow-lg"
                         : "bg-white/20 text-white/60 cursor-not-allowed"
@@ -1489,7 +1489,7 @@ const SystemSettingsPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Chi phí mỗi lượt quay
                     </label>
                     <div className="relative">
@@ -1512,7 +1512,7 @@ const SystemSettingsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Giới hạn quay/ngày
                     </label>
                     <input
@@ -1544,7 +1544,7 @@ const SystemSettingsPage: React.FC = () => {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label className="font-medium text-gray-700">
+                      <label className="font-bold text-gray-700">
                         Kích hoạt vòng quay
                       </label>
                       <p className="text-gray-500">
@@ -1570,7 +1570,7 @@ const SystemSettingsPage: React.FC = () => {
                     >
                       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-700 mb-1">
                             Tên phần thưởng
                           </label>
                           <input
@@ -1584,7 +1584,7 @@ const SystemSettingsPage: React.FC = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-700 mb-1">
                             Giá trị Points
                           </label>
                           <input
@@ -1603,7 +1603,7 @@ const SystemSettingsPage: React.FC = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-700 mb-1">
                             Tỷ lệ (%)
                           </label>
                           <input
@@ -1624,7 +1624,7 @@ const SystemSettingsPage: React.FC = () => {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-700 mb-1">
                             Màu sắc
                           </label>
                           <div className="flex items-center gap-2">
@@ -1685,7 +1685,7 @@ const SystemSettingsPage: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">
+                    <h4 className="text-sm font-bold text-gray-700 mb-3">
                       Danh sách phần thưởng:
                     </h4>
                     <div className="space-y-2">
@@ -1699,12 +1699,12 @@ const SystemSettingsPage: React.FC = () => {
                               className="w-4 h-4 rounded"
                               style={{ backgroundColor: prize.color }}
                             ></div>
-                            <span className="font-medium">{prize.name}</span>
+                            <span className="font-bold">{prize.name}</span>
                             <span className="text-sm text-gray-600">
                               ({prize.value} Points)
                             </span>
                           </div>
-                          <span className="text-sm font-medium text-amber-600">
+                          <span className="text-sm font-bold text-amber-600">
                             {prize.probability}%
                           </span>
                         </div>
@@ -1713,26 +1713,26 @@ const SystemSettingsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">
+                    <h4 className="text-sm font-bold text-gray-700 mb-3">
                       Thông tin chung:
                     </h4>
                     <div className="bg-white p-4 rounded border space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Chi phí/lượt:</span>
-                        <span className="font-medium">
+                        <span className="font-bold">
                           {luckyWheelSettings.costPerSpin} Points
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Giới hạn/ngày:</span>
-                        <span className="font-medium">
+                        <span className="font-bold">
                           {luckyWheelSettings.maxSpinsPerDay} lượt
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Trạng thái:</span>
                         <span
-                          className={`font-medium ${
+                          className={`font-bold ${
                             luckyWheelSettings.enabled
                               ? "text-green-600"
                               : "text-red-600"

@@ -450,7 +450,7 @@ export default function LinkManagement() {
                       limit: 20,
                     })
                   }
-                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-200"
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-bold transition-colors border border-gray-200"
                 >
                   Xóa bộ lọc
                 </button>
@@ -461,7 +461,7 @@ export default function LinkManagement() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Tìm kiếm
                 </label>
                 <div className="relative">
@@ -487,7 +487,7 @@ export default function LinkManagement() {
 
               {/* Platform */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Platform
                 </label>
                 <PlatformSelect
@@ -502,7 +502,7 @@ export default function LinkManagement() {
 
               {/* Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Trạng thái
                 </label>
                 <select
@@ -531,21 +531,21 @@ export default function LinkManagement() {
             {(filters.search || filters.platform || filters.status) && (
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs text-gray-500 font-medium">
+                  <span className="text-xs text-gray-500 font-bold">
                     Đang lọc:
                   </span>
                   {filters.search && (
-                    <span className="px-3 py-1 bg-pink-50 text-pink-700 rounded-full text-xs font-medium border border-pink-200">
+                    <span className="px-3 py-1 bg-pink-50 text-pink-700 rounded-full text-xs font-bold border border-pink-200">
                       Tìm kiếm: "{filters.search}"
                     </span>
                   )}
                   {filters.platform && (
-                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">
+                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-bold border border-orange-200">
                       Platform: {filters.platform}
                     </span>
                   )}
                   {filters.status && (
-                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold border border-blue-200">
                       Trạng thái: {filters.status}
                     </span>
                   )}
@@ -571,28 +571,28 @@ export default function LinkManagement() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Sản phẩm
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Link ID
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       User
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       User ID
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Platform
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Click
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Hành động
                     </th>
                   </tr>
@@ -621,7 +621,7 @@ export default function LinkManagement() {
                               />
                             )}
                             <div>
-                              <p className="font-medium text-gray-800 line-clamp-1">
+                              <p className="font-bold text-gray-800 line-clamp-1">
                                 {link.productName || "N/A"}
                               </p>
                               <p className="text-xs text-gray-500">
@@ -693,7 +693,7 @@ export default function LinkManagement() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-700 font-medium">
+                          <span className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-700 font-bold">
                             {link.platform}
                           </span>
                         </td>
@@ -707,7 +707,7 @@ export default function LinkManagement() {
                         </td>
                         <td className="px-6 py-4">
                           <span
-                            className={`px-2 py-1 text-xs rounded-full font-medium ${
+                            className={`px-2 py-1 text-xs rounded-full font-bold ${
                               link.status === "active"
                                 ? "bg-green-100 text-green-700"
                                 : link.status === "expired"
@@ -818,7 +818,7 @@ export default function LinkManagement() {
                                             Trạng thái
                                           </p>
                                           <span
-                                            className={`inline-block px-2 py-1 text-xs rounded-full font-medium ${
+                                            className={`inline-block px-2 py-1 text-xs rounded-full font-bold ${
                                               order.cashbackStatus === "paid"
                                                 ? "bg-green-100 text-green-700"
                                                 : order.cashbackStatus ===
@@ -871,7 +871,7 @@ export default function LinkManagement() {
                                             </button>
                                           )}
                                           {order.cashbackStatus === "paid" && (
-                                            <span className="text-xs text-green-600 font-medium">
+                                            <span className="text-xs text-green-600 font-bold">
                                               ✓ Hoàn thành
                                             </span>
                                           )}
@@ -931,13 +931,13 @@ export default function LinkManagement() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs text-gray-600">Sản phẩm</p>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-bold text-gray-800">
                         {selectedLink.productName || "N/A"}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-600">Giá sản phẩm</p>
-                      <p className="font-medium text-orange-600">
+                      <p className="font-bold text-orange-600">
                         {selectedLink.productPrice
                           ? `${selectedLink.productPrice.toLocaleString()}đ`
                           : "Chưa có"}
@@ -945,13 +945,13 @@ export default function LinkManagement() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-600">Platform</p>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-bold text-gray-800">
                         {selectedLink.platform}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-600">Tỷ lệ hoàn tiền</p>
-                      <p className="font-medium text-green-600">
+                      <p className="font-bold text-green-600">
                         {selectedLink.cashbackRate ||
                           getPlatformRate(selectedLink.platform)}
                         %
@@ -959,7 +959,7 @@ export default function LinkManagement() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-600">User</p>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-bold text-gray-800">
                         {(selectedLink.userId as any)?.name || "N/A"}
                       </p>
                     </div>
@@ -967,7 +967,7 @@ export default function LinkManagement() {
                       <p className="text-xs text-gray-600">
                         Click / Conversion
                       </p>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-bold text-gray-800">
                         {selectedLink.clickCount} /{" "}
                         {selectedLink.conversionCount}
                       </p>
@@ -978,7 +978,7 @@ export default function LinkManagement() {
                 {/* Form nhập thông tin đơn hàng */}
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Mã đơn hàng <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -994,7 +994,7 @@ export default function LinkManagement() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Số tiền đơn hàng
                         {selectedLink.productPrice && (
                           <span className="text-xs text-green-600 ml-2">
@@ -1025,7 +1025,7 @@ export default function LinkManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tỷ lệ hoàn tiền (%)
                         <span className="text-xs text-gray-500 ml-2">
                           (Từ platform: {getPlatformRate(selectedLink.platform)}
@@ -1079,7 +1079,7 @@ export default function LinkManagement() {
                   )}
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Ghi chú
                     </label>
                     <textarea
@@ -1100,7 +1100,7 @@ export default function LinkManagement() {
                 <button
                   onClick={() => setShowOrderModal(false)}
                   disabled={submitting}
-                  className="px-6 py-3 text-gray-700 hover:bg-gray-200 rounded-lg font-medium transition-colors disabled:opacity-50"
+                  className="px-6 py-3 text-gray-700 hover:bg-gray-200 rounded-lg font-bold transition-colors disabled:opacity-50"
                 >
                   Hủy
                 </button>
@@ -1111,7 +1111,7 @@ export default function LinkManagement() {
                     !orderData.orderId ||
                     orderData.orderAmount <= 0
                   }
-                  className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-medium hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-bold hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {submitting ? (
                     <>

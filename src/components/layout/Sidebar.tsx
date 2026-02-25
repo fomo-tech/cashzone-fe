@@ -445,7 +445,7 @@ const Sidebar: React.FC = () => {
       {/* Mobile hamburger button */}
       <button
         onClick={toggleMobileMenu}
-        className="fixed left-2 z-50 md:hidden p-2 rounded-lg bg-white shadow border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+        className="fixed left-2 z-50 md:hidden p-2 rounded-lg bg-white shadow border border-gray-200 hover:bg-orange-50 transition-colors cursor-pointer"
         style={{ top: "calc(var(--safe-area-inset-top) + 0.25rem)" }}
       >
         <svg
@@ -493,7 +493,7 @@ const Sidebar: React.FC = () => {
         <div className="p-4 sm:p-6">
           <div className="flex items-center justify-center mb-6 pb-4 border-b border-gray-200">
             <div className="text-4xl  tracking-tight">
-              <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-sm font-[900]">
                 Bagback
               </span>
             </div>
@@ -512,22 +512,22 @@ const Sidebar: React.FC = () => {
                     {
                       "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md":
                         active,
-                      "text-gray-700 hover:bg-gray-50": !active,
+                      "text-gray-700 hover:bg-orange-50": !active,
                     },
                   )}
                 >
                   <div
                     className={clsx("w-5 h-5", {
                       "text-white": active,
-                      "text-gray-600": !active,
+                      "text-slate-600 ": !active,
                     })}
                   >
                     {item.icon}
                   </div>
                   <span
-                    className={clsx("font-medium text-sm", {
+                    className={clsx("font-bold text-sm", {
                       "text-white": active,
-                      "text-gray-700": !active,
+                      "text-slate-600": !active,
                     })}
                   >
                     {item.name}
@@ -545,7 +545,7 @@ const Sidebar: React.FC = () => {
                 </div>
                 <Link
                   to="/guide"
-                  className="flex items-center gap-3 px-4 py-2.5 mb-2 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 mb-2 text-gray-700 rounded-lg hover:bg-orange-50 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -561,11 +561,11 @@ const Sidebar: React.FC = () => {
                       d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
                     />
                   </svg>
-                  <span className="font-medium text-sm">Hướng Dẫn</span>
+                  <span className="font-bold text-sm">Hướng Dẫn</span>
                 </Link>
                 <Link
                   to="/support"
-                  className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-orange-50 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -577,7 +577,7 @@ const Sidebar: React.FC = () => {
                   >
                     <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                   </svg>
-                  <span className="font-medium text-sm">Hỗ Trợ</span>
+                  <span className="font-bold text-sm">Hỗ Trợ</span>
                 </Link>
               </div>
             </>
@@ -591,7 +591,7 @@ const Sidebar: React.FC = () => {
                   </div>
                   <Link
                     to="/guide"
-                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-orange-50 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -605,11 +605,11 @@ const Sidebar: React.FC = () => {
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                       <path d="M12 17h.01" />
                     </svg>
-                    <span className="font-medium text-sm">Hướng Dẫn</span>
+                    <span className="font-bold text-sm">Hướng Dẫn</span>
                   </Link>
                   <a
                     href="/support"
-                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 rounded-lg hover:bg-orange-50 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -621,7 +621,7 @@ const Sidebar: React.FC = () => {
                     >
                       <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
                     </svg>
-                    <span className="font-medium text-sm">Hỗ Trợ</span>
+                    <span className="font-bold text-sm">Hỗ Trợ</span>
                   </a>
                 </div>
 
@@ -645,7 +645,7 @@ const Sidebar: React.FC = () => {
                       <path d="M21 12H9" />
                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     </svg>
-                    <span className="font-medium text-sm">Đăng Xuất</span>
+                    <span className="font-bold text-sm">Đăng Xuất</span>
                   </div>
                 </div>
               </>
@@ -663,7 +663,7 @@ const Sidebar: React.FC = () => {
                     {
                       "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md":
                         location.pathname === "/admin/management-configs",
-                      "text-gray-700 hover:bg-gray-50":
+                      "text-gray-700 hover:bg-orange-50":
                         location.pathname !== "/admin/management-configs",
                     },
                   )}
@@ -687,7 +687,7 @@ const Sidebar: React.FC = () => {
                       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
-                  <span className="font-medium text-sm">Cài đặt</span>
+                  <span className="font-bold text-sm">Cài đặt</span>
                 </Link>
               </div>
 
@@ -711,7 +711,7 @@ const Sidebar: React.FC = () => {
                     <path d="M21 12H9" />
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   </svg>
-                  <span className="font-medium text-sm">Đăng Xuất</span>
+                  <span className="font-bold text-sm">Đăng Xuất</span>
                 </div>
               </div>
             </>

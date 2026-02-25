@@ -68,7 +68,7 @@ const SignupForm: React.FC = () => {
             Already have an account?
             <a
               href="/login"
-              className="text-pink-500 font-medium hover:underline ml-1"
+              className="text-pink-500 font-bold hover:underline ml-1"
             >
               Sign in
             </a>
@@ -98,7 +98,7 @@ const SignupForm: React.FC = () => {
               type="email"
               placeholder="Email"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-bold placeholder-slate-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -110,7 +110,7 @@ const SignupForm: React.FC = () => {
               type="password"
               placeholder="Mật khẩu"
               required
-              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-medium placeholder-slate-400"
+              className="block w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-slate-700 font-bold placeholder-slate-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -142,14 +142,14 @@ const SignupForm: React.FC = () => {
               I agree to
               <a
                 href="#"
-                className="text-pink-500 hover:underline font-medium ml-1"
+                className="text-pink-500 hover:underline font-bold ml-1"
               >
                 Terms of Service
               </a>
               and
               <a
                 href="#"
-                className="text-pink-500 hover:underline font-medium ml-1"
+                className="text-pink-500 hover:underline font-bold ml-1"
               >
                 Privacy Policy
               </a>

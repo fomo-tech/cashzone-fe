@@ -211,7 +211,7 @@ const AppSettings: React.FC = () => {
     setSaving(true);
     try {
       const response = await settingsService.updateSettings(
-        settings as Partial<AppSettings>
+        settings as Partial<AppSettings>,
       );
       if (response.success) {
         setSettings(response.data as AppSettingsData);
@@ -272,7 +272,7 @@ const AppSettings: React.FC = () => {
   const handleResetToDefaults = async () => {
     if (
       !confirm(
-        "Bạn có chắc muốn khôi phục cấu hình mặc định? Mọi thay đổi sẽ bị mất!"
+        "Bạn có chắc muốn khôi phục cấu hình mặc định? Mọi thay đổi sẽ bị mất!",
       )
     )
       return;
@@ -332,18 +332,18 @@ const AppSettings: React.FC = () => {
           <div className="flex gap-3 flex-wrap">
             <button
               onClick={handleResetToDefaults}
-              className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-medium transition-all border border-white/30 text-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-bold transition-all border border-white/30 text-sm"
             >
               🔄 Reset
             </button>
             <button
               onClick={handleExportConfig}
-              className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-medium transition-all border border-white/30 text-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-bold transition-all border border-white/30 text-sm"
             >
               <Download className="w-4 h-4 mr-2" />
               Export
             </button>
-            <label className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-medium transition-all border border-white/30 cursor-pointer text-sm">
+            <label className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 font-bold transition-all border border-white/30 cursor-pointer text-sm">
               <Upload className="w-4 h-4 mr-2" />
               Import
               <input

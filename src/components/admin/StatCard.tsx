@@ -18,7 +18,7 @@ const StatCard: React.FC<{
         })}
       </div>
 
-      <p className="text-sm font-medium text-slate-500">{title}</p>
+      <p className="text-sm font-bold text-slate-500">{title}</p>
       <p className="text-xl font-bold text-slate-800 mt-1">{value}</p>
     </div>
   );

@@ -77,7 +77,7 @@ const StatCard = ({
   return (
     <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition duration-300">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-gray-500 uppercase">{title}</h3>
+        <h3 className="text-sm font-bold text-gray-500 uppercase">{title}</h3>
         <Icon className={`w-6 h-6 ${color}`} />
       </div>
       <div className="mt-4 flex items-end justify-between">
@@ -131,7 +131,7 @@ const PendingActionCard = ({ title, actions }) => (
         >
           <div className="flex items-start space-x-2">
             <Clock className="w-4 h-4 text-red-500 mt-1 shrink-0" />
-            <span className="font-medium text-gray-700">{action.label}</span>
+            <span className="font-bold text-gray-700">{action.label}</span>
           </div>
           <span className="text-red-600 font-bold shrink-0">
             {action.value}

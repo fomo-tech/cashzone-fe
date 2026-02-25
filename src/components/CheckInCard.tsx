@@ -123,7 +123,7 @@ const CheckInCard: React.FC = () => {
       {/* Progress Bar */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-bold text-gray-700">
             Tiến độ tuần này
           </span>
           <span className="text-sm font-semibold text-orange-600">
@@ -336,7 +336,7 @@ const CheckInCard: React.FC = () => {
           <div className="text-lg sm:text-xl font-bold text-blue-600">
             {stats.totalCheckIns}
           </div>
-          <div className="text-xs sm:text-sm text-blue-700/80 font-medium">
+          <div className="text-xs sm:text-sm text-blue-700/80 font-bold">
             Tổng điểm danh
           </div>
         </div>
@@ -344,7 +344,7 @@ const CheckInCard: React.FC = () => {
           <div className="text-lg sm:text-xl font-bold text-green-600">
             {stats.totalRewards.toLocaleString()}
           </div>
-          <div className="text-xs sm:text-sm text-green-700/80 font-medium">
+          <div className="text-xs sm:text-sm text-green-700/80 font-bold">
             Tổng thưởng
           </div>
         </div>
@@ -352,7 +352,7 @@ const CheckInCard: React.FC = () => {
           <div className="text-lg sm:text-xl font-bold text-orange-600">
             {stats.consecutiveCount}
           </div>
-          <div className="text-xs sm:text-sm text-orange-700/80 font-medium">
+          <div className="text-xs sm:text-sm text-orange-700/80 font-bold">
             Ngày liên tiếp
           </div>
         </div>

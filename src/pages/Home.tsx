@@ -171,7 +171,7 @@ const HomePage: React.FC = () => {
                   <br />
                   <span className="text-white/90">Nhận Tiền Hoàn Ngay</span>
                 </h2>
-                <p className="text-sm opacity-90 mb-2 sm:mb-3 max-w-xl font-medium">
+                <p className="text-sm opacity-90 mb-2 sm:mb-3 max-w-xl font-bold">
                   Mua sắm tại hàng ngàn thương hiệu, nhận hoàn tiền tự động.
                   <span className="font-bold text-white">
                     {" "}
@@ -340,7 +340,7 @@ const HomePage: React.FC = () => {
                     <p className="text-2xl font-black text-gray-800 mb-1">
                       {statistics?.completedAmount || 0}
                     </p>
-                    <p className="text-sm text-gray-500 font-medium">
+                    <p className="text-sm text-gray-500 font-bold">
                       Đơn Đã Hoàn
                     </p>
                   </div>
@@ -355,7 +355,7 @@ const HomePage: React.FC = () => {
                     <p className="text-2xl font-black text-gray-800 mb-1">
                       {formatCurrency(statistics?.completedCashback || 0)}
                     </p>
-                    <p className="text-sm text-gray-500 font-medium">
+                    <p className="text-sm text-gray-500 font-bold">
                       Tổng Hoàn Tiền
                     </p>
                   </div>
@@ -370,7 +370,7 @@ const HomePage: React.FC = () => {
                     <p className="text-2xl font-black text-gray-800 mb-1">
                       {referralStats?.directReferrals || 0}
                     </p>
-                    <p className="text-sm text-gray-500 font-medium">
+                    <p className="text-sm text-gray-500 font-bold">
                       Mời Thành Công
                     </p>
                   </div>
@@ -385,7 +385,7 @@ const HomePage: React.FC = () => {
                     <p className="text-2xl font-black text-gray-800 mb-1">
                       {formatCurrency(walletInfo?.totalWithdrawn || 0)}
                     </p>
-                    <p className="text-sm text-gray-500 font-medium">
+                    <p className="text-sm text-gray-500 font-bold">
                       Tổng Đã Rút
                     </p>
                   </div>

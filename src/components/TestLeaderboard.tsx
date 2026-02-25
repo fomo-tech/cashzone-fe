@@ -87,7 +87,7 @@ export const TestLeaderboard: React.FC<TestLeaderboardProps> = ({
 
           {testResults.hasTopUsers && (
             <div className="mt-3">
-              <h4 className="font-medium text-green-800">Top 3 Users:</h4>
+              <h4 className="font-bold text-green-800">Top 3 Users:</h4>
               <ul className="text-sm space-y-1">
                 {testResults.data.topUsers
                   .slice(0, 3)

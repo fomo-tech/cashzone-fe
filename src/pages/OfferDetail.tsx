@@ -73,7 +73,7 @@ const RewardPill = ({
         <span className="text-white w-6 h-6">{icon}</span>
       </div>
       <div>
-        <p className="text-sm text-gray-500 font-medium uppercase tracking-wider">
+        <p className="text-sm text-gray-500 font-bold uppercase tracking-wider">
           Phần thưởng
         </p>
         <p className="text-2xl font-black bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 bg-clip-text text-transparent">
@@ -395,7 +395,7 @@ const OfferDetail: React.FC = () => {
             size={48}
             className="animate-spin text-orange-600 mx-auto mb-4"
           />
-          <p className="text-gray-600 font-medium">
+          <p className="text-gray-600 font-bold">
             Đang tải thông tin nhiệm vụ...
           </p>
         </div>
@@ -408,7 +408,7 @@ const OfferDetail: React.FC = () => {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center bg-gray-50 p-10 rounded-xl shadow-lg border border-gray-100">
           <AlertTriangle size={36} className="text-red-500 mx-auto mb-4" />
-          <p className="text-gray-600 font-medium mb-6 text-xl">
+          <p className="text-gray-600 font-bold mb-6 text-xl">
             Không tìm thấy nhiệm vụ bạn yêu cầu.
           </p>
           <button
@@ -478,7 +478,7 @@ const OfferDetail: React.FC = () => {
                   Các Bước Thực Hiện
                 </h2>
               </div>
-              <p className="text-gray-600 mt-2 ml-15 font-medium">
+              <p className="text-gray-600 mt-2 ml-15 font-bold">
                 Làm theo chính xác trình tự dưới đây để được xét duyệt ✓
               </p>
             </div>
@@ -505,7 +505,7 @@ const OfferDetail: React.FC = () => {
                   <h4 className="font-bold text-lg text-red-700 mb-1">
                     LƯU Ý BẮT BUỘC
                   </h4>
-                  <p className="text-sm text-red-600 leading-relaxed font-medium">
+                  <p className="text-sm text-red-600 leading-relaxed font-bold">
                     Ảnh bằng chứng phải rõ ràng, hiển thị đầy đủ thông tin giao
                     dịch/đăng ký. Thiếu bằng chứng hoặc làm sai bước sẽ bị **từ
                     chối** xét duyệt.
@@ -541,7 +541,7 @@ const OfferDetail: React.FC = () => {
                 </svg>
               </a>
             </div>
-            <p className="text-center text-sm text-gray-600 mt-3 font-medium">
+            <p className="text-center text-sm text-gray-600 mt-3 font-bold">
               Nhấn vào nút trên để mở link và bắt đầu nhiệm vụ
             </p>
           </div>
@@ -557,7 +557,7 @@ const OfferDetail: React.FC = () => {
               <h3 className="text-xl sm:text-2xl font-black text-gray-900">
                 Gửi bằng chứng & Nhận thưởng
               </h3>
-              <p className="text-sm text-gray-500 font-medium">
+              <p className="text-sm text-gray-500 font-bold">
                 Tải lên ảnh chụp màn hình giao dịch/đăng ký hoàn tất
               </p>
             </div>
@@ -656,7 +656,7 @@ const OfferDetail: React.FC = () => {
               )}
             </button>
 
-            <p className="text-center text-sm text-gray-600 font-medium pt-2 flex items-center justify-center gap-1">
+            <p className="text-center text-sm text-gray-600 font-bold pt-2 flex items-center justify-center gap-1">
               <Clock size={16} className="text-blue-500" />
               Thời gian xét duyệt dự kiến: 24 - 48 giờ.
             </p>

@@ -370,7 +370,7 @@ export default function OrderTracking() {
                         limit: 20,
                       })
                     }
-                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors border border-gray-200"
+                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-bold transition-colors border border-gray-200"
                   >
                     Xóa bộ lọc
                   </button>
@@ -389,7 +389,7 @@ export default function OrderTracking() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Tìm kiếm
                 </label>
                 <div className="relative">
@@ -415,7 +415,7 @@ export default function OrderTracking() {
 
               {/* Platform */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Platform
                 </label>
                 <PlatformSelect
@@ -430,7 +430,7 @@ export default function OrderTracking() {
 
               {/* Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Trạng thái
                 </label>
                 <select
@@ -464,21 +464,21 @@ export default function OrderTracking() {
             {(filters.search || filters.platform || filters.cashbackStatus) && (
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs text-gray-500 font-medium">
+                  <span className="text-xs text-gray-500 font-bold">
                     Đang lọc:
                   </span>
                   {filters.search && (
-                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold border border-blue-200">
                       Tìm kiếm: "{filters.search}"
                     </span>
                   )}
                   {filters.platform && (
-                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200">
+                    <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-full text-xs font-bold border border-orange-200">
                       Platform: {filters.platform}
                     </span>
                   )}
                   {filters.cashbackStatus && (
-                    <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
+                    <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-200">
                       Trạng thái: {filters.cashbackStatus}
                     </span>
                   )}
@@ -491,7 +491,7 @@ export default function OrderTracking() {
           {selectedOrders.length > 0 && (
             <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-blue-100">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-bold text-gray-700">
                   Đã chọn{" "}
                   <span className="text-blue-600 font-bold">
                     {selectedOrders.length}
@@ -501,14 +501,14 @@ export default function OrderTracking() {
                 <div className="flex gap-2">
                   <button
                     onClick={handleBulkApprove}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 text-sm font-medium shadow-sm"
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 text-sm font-bold shadow-sm"
                   >
                     <CheckCircle size={18} />
                     Duyệt hàng loạt
                   </button>
                   <button
                     onClick={handleBulkMarkPaid}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2 text-sm font-medium shadow-sm"
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2 text-sm font-bold shadow-sm"
                   >
                     <DollarSign size={18} />
                     Đánh dấu đã trả
@@ -549,25 +549,25 @@ export default function OrderTracking() {
                         className="w-4 h-4"
                       />
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Đơn hàng
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       User
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Link Affiliate
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Số tiền
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Cashback
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase">
                       Hành động
                     </th>
                   </tr>
@@ -593,7 +593,7 @@ export default function OrderTracking() {
                             />
                           )}
                           <div>
-                            <p className="font-medium text-gray-800 line-clamp-1">
+                            <p className="font-bold text-gray-800 line-clamp-1">
                               {order.productName || "N/A"}
                             </p>
                             <p className="text-xs text-gray-500">
@@ -613,7 +613,7 @@ export default function OrderTracking() {
                       <td className="px-6 py-4">
                         {order.affiliateLinkId ? (
                           <div>
-                            <p className="text-xs text-green-600 font-medium flex items-center gap-1">
+                            <p className="text-xs text-green-600 font-bold flex items-center gap-1">
                               <CheckCircle size={14} />
                               Có link
                             </p>
@@ -633,7 +633,7 @@ export default function OrderTracking() {
                         )}
                       </td>
                       <td className="px-6 py-4">
-                        <p className="text-sm font-medium text-gray-800">
+                        <p className="text-sm font-bold text-gray-800">
                           {formatCurrency(order.orderAmount)}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -653,7 +653,7 @@ export default function OrderTracking() {
                       <td className="px-6 py-4 min-w-[200px]">
                         <div className="flex items-center gap-2">
                           <span
-                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium ${
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-bold ${
                               order.cashbackStatus === "paid"
                                 ? "bg-purple-100 text-purple-700"
                                 : order.cashbackStatus === "approved"
@@ -696,7 +696,7 @@ export default function OrderTracking() {
                             <>
                               <button
                                 onClick={() => handleApprove(order._id)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 font-medium shadow-sm transition-all"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 font-bold shadow-sm transition-all"
                                 title="Duyệt đơn hàng"
                               >
                                 <CheckCircle size={14} />
@@ -714,7 +714,7 @@ export default function OrderTracking() {
                           {order.cashbackStatus === "approved" && (
                             <button
                               onClick={() => handleMarkAsPaid(order._id)}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700 font-medium shadow-sm transition-all"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700 font-bold shadow-sm transition-all"
                               title="Đánh dấu đã hoàn tiền cho user"
                             >
                               <DollarSign size={14} />
@@ -722,7 +722,7 @@ export default function OrderTracking() {
                             </button>
                           )}
                           {order.cashbackStatus === "paid" && (
-                            <span className="text-xs text-green-600 font-medium flex items-center gap-1">
+                            <span className="text-xs text-green-600 font-bold flex items-center gap-1">
                               <CheckCircle size={14} />
                               Hoàn thành
                             </span>
@@ -771,7 +771,7 @@ export default function OrderTracking() {
             <form onSubmit={handleSubmitForm} className="p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     User ID <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -787,7 +787,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Affiliate Link ID
                   </label>
                   <input
@@ -805,7 +805,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Mã đơn hàng <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -821,7 +821,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Platform <span className="text-red-500">*</span>
                   </label>
                   <PlatformSelect
@@ -836,7 +836,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Ngày đặt hàng <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -851,7 +851,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền đơn hàng (VND){" "}
                     <span className="text-red-500">*</span>
                   </label>
@@ -873,7 +873,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Tỷ lệ hoa hồng (%) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -895,7 +895,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền hoa hồng (VND){" "}
                     <span className="text-red-500">*</span>
                   </label>
@@ -916,7 +916,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Tỷ lệ hoàn tiền (%) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -938,7 +938,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Số tiền hoàn (VND) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -958,7 +958,7 @@ export default function OrderTracking() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">
                     Trạng thái <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -981,7 +981,7 @@ export default function OrderTracking() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Tên sản phẩm
                 </label>
                 <input
@@ -996,7 +996,7 @@ export default function OrderTracking() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   URL hình ảnh sản phẩm
                 </label>
                 <input

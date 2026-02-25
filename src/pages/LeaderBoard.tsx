@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { formatCurrency, formatNumber } from "@/utils/constants";
 import { useAppStore } from "@/store/appStore";
+import { useAuthStore } from "@/store/authStore";
 import {
   leaderboardService,
   type LeaderBoardUser,
@@ -82,6 +83,7 @@ const TOP_RANK_STYLES: Record<
 
 const LeaderBoard = () => {
   const { setToast } = useAppStore();
+  const { user } = useAuthStore();
   const [topUsers, setTopUsers] = useState<LeaderBoardUser[]>([]);
   const [otherUsers, setOtherUsers] = useState<LeaderBoardUser[]>([]);
   const [currentUserStats, setCurrentUserStats] =
@@ -107,8 +109,50 @@ const LeaderBoard = () => {
 
       setTopUsers(top3);
       setOtherUsers(others);
-      setCurrentUserStats(data.currentUser || null);
+
+      // Set current user stats - prioritize API response, then find in list
+      let currentUser = data.currentUser || null;
+
+      // If API doesn't return currentUser, try to find it in the list
+      if (!currentUser && user) {
+        console.log("Looking for current user in leaderboard...");
+        console.log("Current user from auth:", {
+          id: user._id,
+          name: user.name,
+        });
+        console.log(
+          "Available users in leaderboard:",
+          validTopUsers.map((u) => ({ id: u.id, name: u.name, rank: u.rank })),
+        );
+
+        // Try different ID comparisons
+        currentUser =
+          validTopUsers.find((u) => {
+            const match =
+              u.id === user._id ||
+              u.id === (user as any)._id?.toString() ||
+              u.name === user.name; // Fallback to name comparison
+
+            if (match) {
+              console.log("✅ Found matching user:", u);
+            }
+            return match;
+          }) || null;
+
+        if (currentUser) {
+          console.log(
+            "✅ Successfully found current user in leaderboard list:",
+            currentUser,
+          );
+        } else {
+          console.log("❌ Current user not found in leaderboard list");
+        }
+      }
+
+      setCurrentUserStats(currentUser);
       setStats(data.stats || null);
+
+      console.log("Final currentUserStats:", currentUser);
     } catch (error) {
       console.error("Error loading leaderboard:", error);
       setToast({
@@ -126,7 +170,7 @@ const LeaderBoard = () => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [timeFilter, setToast]);
+  }, [timeFilter, setToast, user]);
 
   useEffect(() => {
     loadLeaderBoard();
@@ -172,7 +216,7 @@ const LeaderBoard = () => {
           </div>
 
           {/* Title */}
-          <h1 className="relative z-10  tracking-tighter uppercase text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-transparent bg-clip-text bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600">
+          <h1 className="relative z-10 px-4 leading-tight uppercase text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 font-black">
             BẢNG XẾP HẠNG
           </h1>
 
@@ -229,7 +273,7 @@ const LeaderBoard = () => {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">
                   Thành viên
                 </p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
@@ -249,7 +293,7 @@ const LeaderBoard = () => {
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">
                   Thu nhập
                 </p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent">
@@ -269,14 +313,16 @@ const LeaderBoard = () => {
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">
                   Hạng của bạn
                 </p>
                 <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
                   {loading ? (
                     <div className="w-12 h-8 bg-gray-200 rounded animate-pulse"></div>
+                  ) : currentUserStats?.rank ? (
+                    `#${currentUserStats.rank.toLocaleString()}`
                   ) : (
-                    `#${currentUserStats?.rank || "N/A"}`
+                    <span className="text-base text-gray-400">Chưa có</span>
                   )}
                 </p>
               </div>
@@ -364,7 +410,7 @@ const LeaderBoard = () => {
               })
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-500 font-medium">
+                <p className="text-gray-500 font-bold">
                   Chưa có dữ liệu xếp hạng
                 </p>
               </div>
@@ -450,7 +496,7 @@ const LeaderBoard = () => {
               })
             ) : (
               <div className="flex justify-center items-center p-8">
-                <p className="text-gray-500 font-medium">
+                <p className="text-gray-500 font-bold">
                   Chưa có dữ liệu xếp hạng
                 </p>
               </div>
@@ -460,60 +506,53 @@ const LeaderBoard = () => {
 
         {/* --- Bảng Xếp Hạng Chính (Hạng 4+) --- */}
         <div className="w-full max-w-4xl space-y-2 md:space-y-3 lg:space-y-4">
-          {/* Thanh thông tin người dùng hiện tại */}
-          <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 border border-pink-200 shadow-xl flex justify-between items-center transition-all duration-300">
-            {loading ? (
-              <>
-                <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
-                  <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full bg-white/20 animate-pulse"></div>
-                  <div>
-                    <div className="w-24 h-4 bg-white/20 rounded animate-pulse mb-1"></div>
-                    <div className="w-20 h-3 bg-white/20 rounded animate-pulse"></div>
-                  </div>
+          {/* Thanh thông tin người dùng hiện tại - Hiển thị khi đã đăng nhập */}
+          {!loading && (currentUserStats || user) && (
+            <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 border border-pink-200 shadow-xl flex justify-between items-center transition-all duration-300">
+              <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
+                <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm md:text-base lg:text-lg ring-2 ring-white/30">
+                  {(currentUserStats?.name || user?.name)?.charAt(0) || "U"}
                 </div>
-                <div className="text-right">
-                  <div className="w-16 h-6 bg-white/20 rounded animate-pulse mb-1"></div>
-                  <div className="w-12 h-3 bg-white/20 rounded animate-pulse"></div>
+                <div>
+                  <p className="text-sm md:text-base lg:text-lg  text-white truncate max-w-[120px] md:max-w-none">
+                    {currentUserStats?.name || user?.name || "User"} (Bạn)
+                  </p>
+                  <p className="text-sm font-semibold text-pink-100">
+                    {currentUserStats?.rank ? (
+                      <span>
+                        Hạng hiện tại: #{currentUserStats.rank.toLocaleString()}
+                      </span>
+                    ) : (
+                      <span>Chưa có xếp hạng</span>
+                    )}
+                  </p>
                 </div>
-              </>
-            ) : currentUserStats ? (
-              <>
-                <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
-                  <div className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm md:text-base lg:text-lg ring-2 ring-white/30">
-                    {currentUserStats.name?.charAt(0) || "U"}
-                  </div>
-                  <div>
-                    <p className="text-sm md:text-base lg:text-lg  text-white truncate max-w-[120px] md:max-w-none">
-                      {currentUserStats.name || "User"} (Bạn)
-                    </p>
-                    <p className="text-sm font-semibold text-pink-100">
-                      Hạng hiện tại: #
-                      {(currentUserStats.rank || 0).toLocaleString()}
-                    </p>
-                  </div>
-                </div>
+              </div>
 
-                <div className="text-right">
-                  <p className="text-base md:text-lg lg:text-xl  text-yellow-300 flex items-center justify-end">
-                    <Gem
-                      className="w-4 h-4 md:w-5 md:h-5 mr-1 fill-yellow-300"
-                      strokeWidth={1.5}
-                    />
-                    ${(currentUserStats.totalEarnings || 0).toLocaleString()}
-                  </p>
-                  <p className="text-xs md:text-sm text-pink-100">
-                    {currentUserStats.totalReferrals || 0} lượt giới thiệu
-                  </p>
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center justify-center w-full">
-                <p className="text-white font-semibold">
-                  Không thể tải thông tin người dùng
+              <div className="text-right">
+                <p className="text-base md:text-lg lg:text-xl  text-yellow-300 flex items-center justify-end">
+                  <Gem
+                    className="w-4 h-4 md:w-5 md:h-5 mr-1 fill-yellow-300"
+                    strokeWidth={1.5}
+                  />
+                  ${(currentUserStats?.totalEarnings || 0).toLocaleString()}
+                </p>
+                <p className="text-xs md:text-sm text-pink-100">
+                  {currentUserStats?.totalReferrals || 0} lượt giới thiệu
                 </p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* Thông báo cho người dùng chưa đăng nhập */}
+          {!loading && !currentUserStats && !user && (
+            <div className="w-full p-3 md:p-4 rounded-lg md:rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 shadow-lg flex items-center justify-center gap-3 transition-all duration-300">
+              <Trophy className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
+              <p className="text-sm md:text-base text-blue-800 font-bold">
+                Đăng nhập để xem xếp hạng của bạn
+              </p>
+            </div>
+          )}
 
           {/* Bảng xếp hạng chi tiết */}
           <div className="w-full p-4 md:p-6 lg:p-8 bg-white rounded-2xl shadow-xl border-2 border-gray-100 overflow-hidden">
@@ -587,7 +626,7 @@ const LeaderBoard = () => {
                                   name={user.name || "Unknown User"}
                                   size="32"
                                 />
-                                <span className="text-gray-800 font-medium text-sm md:text-base truncate">
+                                <span className="text-gray-800 font-bold text-sm md:text-base truncate">
                                   {user.name || "Unknown User"}
                                 </span>
                               </div>
@@ -616,7 +655,7 @@ const LeaderBoard = () => {
                       <tr>
                         <td
                           colSpan={4}
-                          className="text-center py-12 text-gray-400 font-medium"
+                          className="text-center py-12 text-gray-400 font-bold"
                         >
                           <div className="flex flex-col items-center justify-center gap-2">
                             <Trophy className="w-12 h-12 text-gray-300" />
@@ -633,7 +672,7 @@ const LeaderBoard = () => {
 
           {!loading && otherUsers.length === 0 && (
             <div className="text-center p-8">
-              <p className="text-gray-500 font-medium">
+              <p className="text-gray-500 font-bold">
                 Chưa có dữ liệu xếp hạng
               </p>
             </div>

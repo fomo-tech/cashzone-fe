@@ -193,7 +193,7 @@ const ReferralProgram: React.FC = () => {
   const { user, setUser } = useAuthStore();
   const [referralCode, setReferralCode] = useState<ReferralCode | null>(null);
   const [referralStats, setReferralStats] = useState<ReferralStats | null>(
-    null
+    null,
   );
   const [referralHistory, setReferralHistory] = useState<ReferralHistory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -249,8 +249,14 @@ const ReferralProgram: React.FC = () => {
 
   // Load data on component mount
   useEffect(() => {
-    if (user) loadReferralData();
-    else setLoading(false);
+    console.log("Referral page - user:", user);
+    if (user) {
+      console.log("Loading referral data for user:", user.name);
+      loadReferralData();
+    } else {
+      console.log("No user found, skipping data load");
+      setLoading(false);
+    }
   }, [user]);
 
   const loadDynamicSettings = async () => {
@@ -288,6 +294,7 @@ const ReferralProgram: React.FC = () => {
   const loadReferralData = async () => {
     try {
       setLoading(true);
+      console.log("Starting to load referral data...");
 
       // Load dynamic settings first
       await loadDynamicSettings();
@@ -297,6 +304,7 @@ const ReferralProgram: React.FC = () => {
 
       // Check if user has referral code in profile, if not try API
       if ((user as any).referralCode) {
+        console.log("User has referral code:", (user as any).referralCode);
         setReferralCode({
           code: (user as any).referralCode,
           shareUrl: `${window.location.origin}/register?ref=${
@@ -305,12 +313,15 @@ const ReferralProgram: React.FC = () => {
           createdAt: user.createdAt || new Date().toISOString(),
         });
       } else {
+        console.log("User doesn't have referral code, generating...");
         // Fallback: auto-generate referral code if user doesn't have one
         // This should not happen for registered users, but just in case
         try {
           const newCode = await referralService.generateReferralCode();
           setReferralCode(newCode);
+          console.log("Generated new referral code:", newCode);
         } catch (error) {
+          console.error("Failed to generate referral code:", error);
           // If that also fails, create a temporary one from user ID
           const tempCode = `REF${user._id.slice(-6).toUpperCase()}`;
           setReferralCode({
@@ -318,24 +329,79 @@ const ReferralProgram: React.FC = () => {
             shareUrl: `${window.location.origin}/register?ref=${tempCode}`,
             createdAt: new Date().toISOString(),
           });
+          console.log("Created temporary referral code:", tempCode);
         }
       }
 
       // Then load additional referral data from API
       const [statsData, historyData] = await Promise.all([
-        referralService.getReferralStats().catch(() => null),
-        referralService
-          .getReferralHistory({ limit: 10 })
-          .catch(() => ({ data: [] })),
+        referralService.getReferralStats().catch((err) => {
+          console.error("Failed to load stats:", err);
+          return null;
+        }),
+        referralService.getReferralHistory({ limit: 10 }).catch((err) => {
+          console.error("Failed to load history:", err);
+          return { data: [] };
+        }),
       ]);
+
+      console.log("Stats data from API:", statsData);
+      console.log("History data from API:", historyData);
 
       // setReferralCode(codeData) - already set above
 
       // Merge stats from profile and API
       if (statsData) {
+        console.log("Using stats from API");
         setReferralStats(statsData);
-      } else if (user.affiliate) {
+      } else if (user && user.affiliate) {
+        console.log("Using stats from user.affiliate");
         // Fallback to profile affiliate data
+        setReferralStats({
+          totalReferrals: user.affiliate.totalReferrals || 0,
+          directReferrals: user.affiliate.directReferrals || 0,
+          level2Referrals: user.affiliate.level2Referrals || 0,
+          level3Referrals: user.affiliate.level3Referrals || 0,
+          totalCommissions: user.affiliate.commissions || {
+            level1Total: 0,
+            level2Total: 0,
+            level3Total: 0,
+            totalEarned: 0,
+          },
+          monthlyStats: {
+            referrals: 0,
+            commissions: 0,
+          },
+        });
+      } else {
+        console.log("No stats data, using defaults");
+        // Set default empty stats if no data available
+        setReferralStats({
+          totalReferrals: 0,
+          directReferrals: 0,
+          level2Referrals: 0,
+          level3Referrals: 0,
+          totalCommissions: {
+            level1Total: 0,
+            level2Total: 0,
+            level3Total: 0,
+            totalEarned: 0,
+          },
+          monthlyStats: {
+            referrals: 0,
+            commissions: 0,
+          },
+        });
+      }
+
+      setReferralHistory(historyData.data || []);
+      console.log("Referral data loaded successfully");
+    } catch (error) {
+      console.error("Error loading referral data:", error);
+
+      // Even on error, try to set stats from user profile
+      if (user && user.affiliate) {
+        console.log("Setting stats from user.affiliate after error");
         setReferralStats({
           totalReferrals: user.affiliate.totalReferrals || 0,
           directReferrals: user.affiliate.directReferrals || 0,
@@ -354,15 +420,14 @@ const ReferralProgram: React.FC = () => {
         });
       }
 
-      setReferralHistory(historyData.data || []);
-    } catch (error) {
       setToast({
         type: "error",
-        title: "Không thể tải dữ liệu giới thiệu",
+        title: "Không thể tải đầy đủ dữ liệu giới thiệu",
         isVisible: true,
         timer: 3000,
       });
     } finally {
+      console.log("Finished loading, setting loading to false");
       setLoading(false);
     }
   };
@@ -449,7 +514,7 @@ const ReferralProgram: React.FC = () => {
 
     const success = await referralService.shareReferralLink(
       referralCode.code,
-      "copy"
+      "copy",
     );
     if (success) {
       setIsCopied(true);
@@ -464,7 +529,7 @@ const ReferralProgram: React.FC = () => {
   };
 
   const handleShare = async (
-    platform: "facebook" | "zalo" | "telegram" | "whatsapp"
+    platform: "facebook" | "zalo" | "telegram" | "whatsapp",
   ) => {
     if (!referralCode?.code) return;
 
@@ -480,7 +545,7 @@ const ReferralProgram: React.FC = () => {
   // Calculate next milestone
   const currentReferrals = referralStats?.totalReferrals || 0;
   const nextMilestone = dynamicConfig.milestones.find(
-    (m) => currentReferrals < m.referrals
+    (m) => currentReferrals < m.referrals,
   );
   const progressPercentage = nextMilestone
     ? (currentReferrals / nextMilestone.referrals) * 100
@@ -508,8 +573,8 @@ const ReferralProgram: React.FC = () => {
             </h1>
           </div>
           <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
-            Mời bạn bè tham gia và nhận hoa hồng từ chuỗi giới thiệu 3 cấp độ
-            với tỷ lệ hoa hồng lên đến 17%
+            Mời bạn bè mua sắm và nhận hoa hồng từ chuỗi giới thiệu 3 cấp độ với
+            tỷ lệ hoa hồng lên đến 17% trên mỗi đơn hoàn tiền
           </p>
         </div>
 
@@ -579,7 +644,7 @@ const ReferralProgram: React.FC = () => {
                     </p>
                     <p className="text-lg md:text-xl lg:text-2xl font-bold text-[#FF8C1A]">
                       {formatCurrency(
-                        referralStats?.totalCommissions?.totalEarned || 0
+                        referralStats?.totalCommissions?.totalEarned || 0,
                       )}
                     </p>
                   </div>
@@ -595,7 +660,7 @@ const ReferralProgram: React.FC = () => {
                     </p>
                     <p className="text-lg md:text-xl lg:text-2xl font-bold text-emerald-600">
                       {formatCurrency(
-                        referralStats?.monthlyStats?.commissions || 0
+                        referralStats?.monthlyStats?.commissions || 0,
                       )}
                     </p>
                   </div>
@@ -614,10 +679,10 @@ const ReferralProgram: React.FC = () => {
                       {referralStats?.level3Referrals
                         ? 3
                         : referralStats?.level2Referrals
-                        ? 2
-                        : referralStats?.directReferrals
-                        ? 1
-                        : 0}
+                          ? 2
+                          : referralStats?.directReferrals
+                            ? 1
+                            : 0}
                     </p>
                   </div>
                 </div>
@@ -639,11 +704,11 @@ const ReferralProgram: React.FC = () => {
 
                   <div className="space-y-3">
                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
-                      Kiếm Tiền Cùng Bạn Bè
+                      Kiếm Tiền Từ Mua Sắm
                     </h2>
                     <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto">
                       Đăng nhập ngay để nhận mã giới thiệu độc quyền và bắt đầu
-                      kiếm hoa hồng từ chuỗi giới thiệu 3 cấp
+                      kiếm hoa hồng khi bạn bè mua sắm qua link của bạn
                     </p>
                   </div>
 
@@ -658,7 +723,7 @@ const ReferralProgram: React.FC = () => {
                         Giới Thiệu Bạn Bè
                       </h3>
                       <p className="text-sm text-gray-600">
-                        Chia sẻ link và nhận 10% hoa hồng từ F1
+                        Chia sẻ link và nhận 10% hoa hồng khi F1 mua sắm
                       </p>
                     </div>
 
@@ -672,7 +737,7 @@ const ReferralProgram: React.FC = () => {
                         Thu Nhập Thụ Động
                       </h3>
                       <p className="text-sm text-gray-600">
-                        Nhận thêm 5% từ F2 và 2% từ F3
+                        Nhận thêm 5% từ F2 và 2% từ F3 khi họ mua sắm
                       </p>
                     </div>
 
@@ -725,7 +790,7 @@ const ReferralProgram: React.FC = () => {
                       Link Giới Thiệu Của Bạn
                     </h2>
                     <p className="text-xs md:text-sm lg:text-base text-gray-600">
-                      Chia sẻ link này để nhận hoa hồng từ bạn bè
+                      Chia sẻ link này để nhận hoa hồng khi bạn bè mua sắm
                     </p>
                   </div>
                 </div>
@@ -736,7 +801,7 @@ const ReferralProgram: React.FC = () => {
                     <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-6 border border-pink-200">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-gray-600 mb-1">
+                          <p className="text-sm font-bold text-gray-600 mb-1">
                             Mã Giới Thiệu
                           </p>
                           <p className="text-3xl font-bold font-mono text-orange-600">
@@ -757,7 +822,7 @@ const ReferralProgram: React.FC = () => {
                       />
                       <button
                         onClick={handleCopyLink}
-                        className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2 shadow-lg"
+                        className="px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl font-bold transition-colors flex items-center gap-2 shadow-lg"
                       >
                         {isCopied ? (
                           <Check className="w-5 h-5" />
@@ -806,38 +871,37 @@ const ReferralProgram: React.FC = () => {
                     </h3>
                   </div>
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 shrink-0"></div>
-                      <div>
-                        <p className="font-semibold text-gray-800">
-                          Hoàn thành Task
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Người được giới thiệu hoàn thành nhiệm vụ và nhận
-                          thưởng
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
-                      <div className="w-2 h-2 bg-[#FF8C1A] rounded-full mt-2 shrink-0"></div>
-                      <div>
-                        <p className="font-semibold text-gray-800">
-                          Affiliate Commission
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Thu nhập từ tiếp thị liên kết và bán hàng
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200">
+                    <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg border-2 border-emerald-200">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 shrink-0"></div>
                       <div>
                         <p className="font-semibold text-gray-800">
-                          Cashback Shopping
+                          Hoàn Tiền Mua Sắm
                         </p>
                         <p className="text-sm text-gray-600">
-                          Hoàn tiền từ mua sắm qua các đối tác
+                          Người được giới thiệu mua sắm qua các sàn TMĐT
+                          (Shopee, Lazada, Tiki...) và nhận hoàn tiền thành công
                         </p>
+                      </div>
+                    </div>
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+                      <div className="flex items-start gap-3">
+                        <div className="p-1.5 bg-amber-100 rounded-lg shrink-0">
+                          <Star className="w-4 h-4 text-amber-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-amber-800 mb-2">
+                            Hoa hồng được tính khi:
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            • Người được giới thiệu click vào link sản phẩm
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            • Hoàn thành đơn hàng và thanh toán thành công
+                          </p>
+                          <p className="text-sm text-amber-700">
+                            • Nhận được hoàn tiền từ sàn TMĐT
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -854,7 +918,7 @@ const ReferralProgram: React.FC = () => {
                     <div className="space-y-3">
                       <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
                         <span className="font-semibold text-gray-800">
-                          Bạn B hoàn thành task
+                          Bạn B mua sắm và nhận hoàn tiền
                         </span>
                         <span className="font-bold text-orange-600">
                           +100,000đ
@@ -877,7 +941,7 @@ const ReferralProgram: React.FC = () => {
 
                       <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
                         <span className="font-semibold text-gray-800">
-                          Bạn C hoàn thành task
+                          Bạn C mua sắm và nhận hoàn tiền
                         </span>
                         <span className="font-bold text-[#FF8C1A]">
                           +200,000đ
@@ -928,19 +992,19 @@ const ReferralProgram: React.FC = () => {
                           Lưu ý quan trọng:
                         </p>
                         <p className="text-sm text-amber-700">
-                          • Hoa hồng không ảnh hưởng đến thu nhập của người được
-                          giới thiệu
+                          • Hoa hồng không ảnh hưởng đến số tiền hoàn lại của
+                          người được giới thiệu
                         </p>
                         <p className="text-sm text-amber-700">
                           • Hệ thống sẽ tự động chi trả hoa hồng từ quỹ thưởng
                         </p>
                         <p className="text-sm text-amber-700">
-                          • <strong>Điều kiện đếm vào mốc thưởng:</strong> Người
-                          được giới thiệu phải hoàn thành mua sắm và được hoàn
+                          • <strong>Điều kiện nhận hoa hồng:</strong> Người được
+                          giới thiệu phải mua sắm qua link và nhận được hoàn
                           tiền thành công
                         </p>
                         <p className="text-sm text-amber-700">
-                          • Hoa hồng được tính theo thời gian thực
+                          • Hoa hồng được tính dựa trên số tiền hoàn lại thực tế
                         </p>
                       </div>
                     </div>
@@ -965,8 +1029,8 @@ const ReferralProgram: React.FC = () => {
                         {level === "1"
                           ? dynamicConfig.commissionRates.level1
                           : level === "2"
-                          ? dynamicConfig.commissionRates.level2
-                          : dynamicConfig.commissionRates.level3}
+                            ? dynamicConfig.commissionRates.level2
+                            : dynamicConfig.commissionRates.level3}
                         %
                       </span>
                     </div>
@@ -974,16 +1038,18 @@ const ReferralProgram: React.FC = () => {
                       {
                         dynamicConfig.levelNames[
                           parseInt(
-                            level
+                            level,
                           ) as keyof typeof dynamicConfig.levelNames
                         ]
                       }
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
                       {level === "1" &&
-                        "Hoa hồng từ người bạn giới thiệu trực tiếp"}
-                      {level === "2" && "Hoa hồng từ người được F1 giới thiệu"}
-                      {level === "3" && "Hoa hồng từ người được F2 giới thiệu"}
+                        "Hoa hồng từ hoàn tiền mua sắm của người bạn giới thiệu trực tiếp"}
+                      {level === "2" &&
+                        "Hoa hồng từ hoàn tiền mua sắm của người được F1 giới thiệu"}
+                      {level === "3" &&
+                        "Hoa hồng từ hoàn tiền mua sắm của người được F2 giới thiệu"}
                     </p>
                     <div
                       className={`${colors.accent} text-lg font-semibold mb-2`}
@@ -992,15 +1058,15 @@ const ReferralProgram: React.FC = () => {
                       {level === "1"
                         ? referralStats?.directReferrals || 0
                         : level === "2"
-                        ? referralStats?.level2Referrals || 0
-                        : referralStats?.level3Referrals || 0}
+                          ? referralStats?.level2Referrals || 0
+                          : referralStats?.level3Referrals || 0}
                     </div>
                     <p className="text-xs text-gray-500">
                       * Chỉ tính người đã hoàn thành mua sắm và nhận được hoàn
                       tiền
                     </p>
                   </div>
-                )
+                ),
               )}
             </div>
 
@@ -1068,10 +1134,11 @@ const ReferralProgram: React.FC = () => {
                     </div>
                     <div>
                       <h2 className="text-2xl font-bold text-gray-800">
-                        Lịch Sử Giới Thiệu
+                        Lịch Sử Hoa Hồng Gần Đây
                       </h2>
                       <p className="text-gray-600">
-                        Hoa hồng từ những người bạn giới thiệu
+                        Hoa hồng từ hoàn tiền mua sắm của những người bạn giới
+                        thiệu
                       </p>
                     </div>
                   </div>
@@ -1086,7 +1153,7 @@ const ReferralProgram: React.FC = () => {
                       key={item.id}
                       className="flex items-center justify-between p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors"
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-4 flex-1">
                         <div
                           className={`w-10 h-10 ${
                             dynamicConfig.levelColors[item.level].bg
@@ -1096,35 +1163,55 @@ const ReferralProgram: React.FC = () => {
                         >
                           F{item.level}
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <p className="font-semibold text-gray-800">
                             {item.referredUser.name}
                           </p>
                           <p className="text-sm text-gray-500">
-                            {new Date(item.createdAt).toLocaleDateString(
-                              "vi-VN"
-                            )}
+                            {item.productName ||
+                              item.shopName ||
+                              "Mua sắm hoàn tiền"}
                           </p>
+                          <div className="flex items-center gap-3 mt-1">
+                            <p className="text-xs text-gray-400">
+                              {new Date(item.createdAt).toLocaleDateString(
+                                "vi-VN",
+                              )}
+                            </p>
+                            {item.originalAmount && (
+                              <p className="text-xs text-gray-400">
+                                • Hoàn tiền gốc:{" "}
+                                {item.originalAmount.toLocaleString("vi-VN")}đ
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className={`font-bold ${THEME.SUCCESS_TEXT}`}>
-                          {formatCurrency(item.commission)}
-                        </p>
                         <p
-                          className={`text-xs px-2 py-1 rounded-full ${
+                          className={`font-bold text-lg ${THEME.SUCCESS_TEXT}`}
+                        >
+                          +{formatCurrency(item.commission)}
+                        </p>
+                        {item.commissionRate && (
+                          <p className="text-xs text-gray-500 mb-1">
+                            {item.commissionRate}% hoa hồng
+                          </p>
+                        )}
+                        <p
+                          className={`text-xs px-2 py-1 rounded-full inline-block ${
                             item.status === "approved"
                               ? "bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-orange-600 border border-orange-500/30"
                               : item.status === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : "bg-red-100 text-red-700"
                           }`}
                         >
                           {item.status === "approved"
                             ? "Đã duyệt"
                             : item.status === "pending"
-                            ? "Chờ duyệt"
-                            : "Từ chối"}
+                              ? "Chờ duyệt"
+                              : "Từ chối"}
                         </p>
                       </div>
                     </div>
@@ -1153,7 +1240,7 @@ const ReferralProgram: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => setViewMode("tree")}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-lg font-bold transition-colors ${
                     viewMode === "tree"
                       ? "bg-gradient-to-r from-orange-500 to-amber-600 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -1163,7 +1250,7 @@ const ReferralProgram: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-lg font-bold transition-colors ${
                     viewMode === "list"
                       ? "bg-gradient-to-r from-orange-500 to-amber-600 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -1196,7 +1283,7 @@ const ReferralProgram: React.FC = () => {
                             <p className="text-xs text-gray-400 mt-1">
                               Tham gia:{" "}
                               {new Date(referral.joinedAt).toLocaleDateString(
-                                "vi-VN"
+                                "vi-VN",
                               )}
                             </p>
                           </div>
@@ -1262,12 +1349,84 @@ const ReferralProgram: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                Lịch Sử Hoa Hồng
+                Lịch Sử Hoa Hồng Mua Sắm
               </h2>
               <p className="text-gray-600">
+                Hoa hồng từ hoàn tiền mua sắm -{" "}
                 {commissionListData?.pagination?.total || 0} giao dịch
               </p>
             </div>
+
+            {/* Summary Cards */}
+            {referralStats && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold text-gray-600">
+                      Hoa Hồng F1
+                    </span>
+                    <div className="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center">
+                      <span className="text-pink-700 font-bold text-sm">
+                        F1
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-2xl font-bold text-pink-700">
+                    {formatCurrency(
+                      referralStats.totalCommissions?.level1Total || 0,
+                    )}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {dynamicConfig.commissionRates.level1}% từ{" "}
+                    {referralStats.directReferrals || 0} người
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold text-gray-600">
+                      Hoa Hồng F2
+                    </span>
+                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                      <span className="text-orange-700 font-bold text-sm">
+                        F2
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-2xl font-bold text-orange-700">
+                    {formatCurrency(
+                      referralStats.totalCommissions?.level2Total || 0,
+                    )}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {dynamicConfig.commissionRates.level2}% từ{" "}
+                    {referralStats.level2Referrals || 0} người
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold text-gray-600">
+                      Hoa Hồng F3
+                    </span>
+                    <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                      <span className="text-amber-700 font-bold text-sm">
+                        F3
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-2xl font-bold text-amber-700">
+                    {formatCurrency(
+                      referralStats.totalCommissions?.level3Total || 0,
+                    )}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {dynamicConfig.commissionRates.level3}% từ{" "}
+                    {referralStats.level3Referrals || 0} người
+                  </p>
+                </div>
+              </div>
+            )}
 
             {commissionListData && commissionListData.data.length > 0 ? (
               <>
@@ -1277,44 +1436,69 @@ const ReferralProgram: React.FC = () => {
                       key={commission._id}
                       className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                     >
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center font-bold text-orange-600">
                             F{commission.level}
                           </div>
-                          <div>
+                          <div className="flex-1">
                             <p className="font-semibold text-gray-800">
                               {commission.referredUser?.name || "Unknown"}
                             </p>
                             <p className="text-sm text-gray-500">
-                              {commission.task?.title || "Task"}
+                              {commission.productName ||
+                                commission.shopName ||
+                                "Mua sắm hoàn tiền"}
                             </p>
+                            {commission.originalAmount && (
+                              <p className="text-xs text-gray-400 mt-1">
+                                Hoàn tiền gốc:{" "}
+                                {commission.originalAmount.toLocaleString(
+                                  "vi-VN",
+                                )}
+                                đ
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-lg font-bold text-orange-600">
                             +{commission.amount.toLocaleString("vi-VN")}đ
                           </p>
+                          {commission.commissionRate && (
+                            <p className="text-xs text-gray-500 mb-1">
+                              {commission.commissionRate}% hoa hồng
+                            </p>
+                          )}
                           <span
                             className={`text-xs px-2 py-1 rounded-full ${
                               commission.status === "approved"
                                 ? "bg-green-100 text-green-700"
                                 : commission.status === "pending"
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-red-100 text-red-700"
+                                  ? "bg-yellow-100 text-yellow-700"
+                                  : "bg-red-100 text-red-700"
                             }`}
                           >
                             {commission.status === "approved"
                               ? "Đã duyệt"
                               : commission.status === "pending"
-                              ? "Chờ duyệt"
-                              : "Từ chối"}
+                                ? "Chờ duyệt"
+                                : "Từ chối"}
                           </span>
                         </div>
                       </div>
-                      <p className="text-xs text-gray-400">
-                        {new Date(commission.createdAt).toLocaleString("vi-VN")}
-                      </p>
+                      <div className="flex items-center justify-between text-xs text-gray-400 pt-2 border-t border-gray-100">
+                        <span>
+                          {new Date(commission.createdAt).toLocaleString(
+                            "vi-VN",
+                          )}
+                        </span>
+                        {commission.platform && (
+                          <span className="bg-gray-100 px-2 py-1 rounded">
+                            {commission.platform}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

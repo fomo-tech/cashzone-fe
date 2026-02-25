@@ -56,7 +56,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         </div>
 
         {/* 3. Label */}
-        <span className="text-base text-slate-700 font-medium select-none">
+        <span className="text-base text-slate-700 font-bold select-none">
           {label}
         </span>
       </label>

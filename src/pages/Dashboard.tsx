@@ -96,7 +96,7 @@ function Dashboard() {
               </svg>
             </div>
           </div>
-          <h3 className="text-slate-500 text-xs md:text-sm font-medium mb-1">
+          <h3 className="text-slate-500 text-xs md:text-sm font-bold mb-1">
             Đơn Thành Công
           </h3>
           <p className="text-lg md:text-xl lg:text-2xl font-bold text-slate-800">
@@ -125,7 +125,7 @@ function Dashboard() {
               </svg>
             </div>
           </div>
-          <h3 className="text-slate-500 text-xs md:text-sm font-medium mb-1">
+          <h3 className="text-slate-500 text-xs md:text-sm font-bold mb-1">
             Tổng Hoàn Tiền
           </h3>
           <p className="text-lg md:text-xl lg:text-2xl font-bold text-slate-800">
@@ -154,7 +154,7 @@ function Dashboard() {
               </svg>
             </div>
           </div>
-          <h3 className="text-slate-500 text-xs md:text-sm font-medium mb-1">
+          <h3 className="text-slate-500 text-xs md:text-sm font-bold mb-1">
             Số Dư Khả Dụng
           </h3>
           <p className="text-lg md:text-xl lg:text-2xl font-bold text-slate-800">
@@ -184,11 +184,11 @@ function Dashboard() {
                 <circle cx={9} cy={7} r={4} />
               </svg>
             </div>
-            <span className="text-[9px] md:text-xs font-medium text-orange-600 bg-orange-50 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg">
+            <span className="text-[9px] md:text-xs font-bold text-orange-600 bg-orange-50 px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg">
               Mới
             </span>
           </div>
-          <h3 className="text-slate-500 text-xs md:text-sm font-medium mb-1">
+          <h3 className="text-slate-500 text-xs md:text-sm font-bold mb-1">
             Mời Thành Công
           </h3>
           <div className="flex items-end justify-between">
@@ -229,7 +229,7 @@ function Dashboard() {
             </h3>
             <a
               href="/orders"
-              className="text-blue-600 text-xs md:text-sm font-medium hover:underline"
+              className="text-blue-600 text-xs md:text-sm font-bold hover:underline"
             >
               Xem tất cả
             </a>
@@ -293,7 +293,7 @@ function Dashboard() {
             <div>
               <div className="flex justify-between text-xs md:text-sm mb-1">
                 <span className="text-slate-600">Đơn hàng</span>
-                <span className="font-medium text-slate-800">0 / 10</span>
+                <span className="font-bold text-slate-800">0 / 10</span>
               </div>
               <div className="w-full bg-slate-100 rounded-full h-2 md:h-2.5">
                 <div
@@ -344,10 +344,10 @@ function Dashboard() {
         {/* Rankings Content */}
         {/* Tab Navigation */}
         <div className="flex border-b border-slate-200 mb-6">
-          <button className="px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
+          <button className="px-4 py-2 text-sm font-bold text-blue-600 border-b-2 border-blue-600">
             Tháng Này
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800">
+          <button className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-800">
             Tất Cả Thời Gian
           </button>
         </div>
@@ -381,7 +381,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Phạm Thị Mộng Hòa
                     </div>
                   </td>
@@ -401,7 +401,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Video Sexy Japan
                     </div>
                   </td>
@@ -421,7 +421,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Minh Pham Nguyen
                     </div>
                   </td>
@@ -441,7 +441,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Canh Bach</div>
+                    <div className="font-bold text-slate-800">Canh Bach</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -459,7 +459,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Nam Nguyễn Văn
                     </div>
                   </td>
@@ -479,7 +479,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Hoa Nguyen</div>
+                    <div className="font-bold text-slate-800">Hoa Nguyen</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -497,7 +497,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Memo</div>
+                    <div className="font-bold text-slate-800">Memo</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -515,7 +515,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Mai Quỳnh Nguyễn
                     </div>
                   </td>
@@ -535,7 +535,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Thanh Hảo Phạm Thị
                     </div>
                   </td>
@@ -555,7 +555,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Vo Diem</div>
+                    <div className="font-bold text-slate-800">Vo Diem</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -598,7 +598,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Phạm Thị Mộng Hòa
                     </div>
                   </td>
@@ -618,7 +618,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Memo</div>
+                    <div className="font-bold text-slate-800">Memo</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -636,7 +636,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Hoa Nguyen</div>
+                    <div className="font-bold text-slate-800">Hoa Nguyen</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -654,7 +654,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Canh Bach</div>
+                    <div className="font-bold text-slate-800">Canh Bach</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -672,7 +672,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Vo Diem</div>
+                    <div className="font-bold text-slate-800">Vo Diem</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -690,7 +690,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Huynh Thi Thanh Tra
                     </div>
                   </td>
@@ -710,7 +710,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">
+                    <div className="font-bold text-slate-800">
                       Khanh Tran Quoc
                     </div>
                   </td>
@@ -730,7 +730,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">thoai anh</div>
+                    <div className="font-bold text-slate-800">thoai anh</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -748,7 +748,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Bảo Kha</div>
+                    <div className="font-bold text-slate-800">Bảo Kha</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">
@@ -766,7 +766,7 @@ function Dashboard() {
                     </div>
                   </td>
                   <td className="py-3">
-                    <div className="font-medium text-slate-800">Thắng Quốc</div>
+                    <div className="font-bold text-slate-800">Thắng Quốc</div>
                   </td>
                   <td className="py-3 text-right">
                     <div className="font-bold text-[orange-600]">

@@ -171,7 +171,7 @@ const TaskManagement: React.FC = () => {
 
   const handleStatusChange = async (
     taskId: string,
-    newStatus: "active" | "paused" | "closed"
+    newStatus: "active" | "paused" | "closed",
   ) => {
     try {
       await taskService.updateTask(taskId, { status: newStatus });
@@ -310,7 +310,7 @@ const TaskManagement: React.FC = () => {
                 {tasks.map((task) => (
                   <tr key={task._id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <div className="font-medium text-gray-900 line-clamp-1">
+                      <div className="font-bold text-gray-900 line-clamp-1">
                         {task.title}
                       </div>
                       <div className="text-xs text-gray-500 line-clamp-1">
@@ -349,8 +349,8 @@ const TaskManagement: React.FC = () => {
                         onChange={(e) =>
                           handleStatusChange(task._id, e.target.value as any)
                         }
-                        className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
-                          task.status
+                        className={`text-xs px-2 py-1 rounded-full font-bold ${getStatusColor(
+                          task.status,
                         )}`}
                       >
                         <option value="active">Active</option>
@@ -430,7 +430,7 @@ const TaskManagement: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-gray-700 mb-1">
                   Tiêu đề *
                 </label>
                 <input
@@ -445,7 +445,7 @@ const TaskManagement: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-gray-700 mb-1">
                   Mô tả
                 </label>
                 <textarea
@@ -460,7 +460,7 @@ const TaskManagement: React.FC = () => {
 
               {/* Requirements Section */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   Các bước hướng dẫn chi tiết
                 </label>
                 <div className="space-y-2">
@@ -523,7 +523,7 @@ const TaskManagement: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Loại *
                   </label>
                   <select
@@ -547,7 +547,7 @@ const TaskManagement: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Phần thưởng (VND) *
                   </label>
                   <input
@@ -568,7 +568,7 @@ const TaskManagement: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Số lượng tối đa *
                   </label>
                   <input
@@ -587,7 +587,7 @@ const TaskManagement: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Platform
                   </label>
                   <input
@@ -603,7 +603,7 @@ const TaskManagement: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Loại bằng chứng *
                   </label>
                   <select
@@ -623,7 +623,7 @@ const TaskManagement: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
                     Xác minh *
                   </label>
                   <select

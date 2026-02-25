@@ -87,7 +87,7 @@ const RecentTransactions = ({
       {!hasTransactions ? (
         <div className="flex flex-col items-center justify-center py-12">
           <FileText size={48} className="text-gray-300 mb-4" />
-          <p className="text-gray-600 font-medium">Chưa có giao dịch nào</p>
+          <p className="text-gray-600 font-bold">Chưa có giao dịch nào</p>
           <p className="text-gray-500 text-sm mt-2">
             Giao dịch sẽ hiển thị khi người dùng thực hiện hoạt động
           </p>
@@ -121,7 +121,7 @@ const RecentTransactions = ({
                     key={txn._id}
                     className="hover:bg-gray-50 transition-colors"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[orange-600]">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-[orange-600]">
                       {txn._id.slice(-8)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
@@ -261,7 +261,7 @@ const ReferralSystemDisplay = ({
         <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-4 rounded-xl border border-[orange-600]">
           <div className="flex items-center gap-2 mb-2">
             <Target className="w-4 h-4 text-white" />
-            <span className="text-sm font-medium text-white">
+            <span className="text-sm font-bold text-white">
               Tổng Giới Thiệu
             </span>
           </div>
@@ -275,7 +275,7 @@ const ReferralSystemDisplay = ({
         <div className="bg-gradient-to-br from-pink-50 to-orange-50 p-4 rounded-xl border border-pink-200">
           <div className="flex items-center gap-2 mb-2">
             <Gift className="w-4 h-4 text-[orange-600]" />
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-bold text-gray-600">
               Tổng Hoa Hồng
             </span>
           </div>
@@ -287,7 +287,7 @@ const ReferralSystemDisplay = ({
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl border border-pink-200">
           <div className="flex items-center gap-2 mb-2">
             <TreePine className="w-4 h-4 text-[orange-600]" />
-            <span className="text-sm font-medium text-gray-600">Cấp Độ</span>
+            <span className="text-sm font-bold text-gray-600">Cấp Độ</span>
           </div>
           <p className="text-2xl font-bold text-[orange-600]">
             {affiliate.referralLevel
@@ -422,7 +422,7 @@ const ReferralSystemDisplay = ({
       <div className="flex gap-2 pt-4 border-t border-gray-200">
         <button
           onClick={onRefresh}
-          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
+          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-bold py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
         >
           <RefreshCw className="w-4 h-4" />
           Cập nhật
@@ -431,7 +431,7 @@ const ReferralSystemDisplay = ({
           onClick={() =>
             window.open(`/admin/referrals?userId=${user._id}`, "_blank")
           }
-          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
+          className="flex-1 bg-gradient-to-r from-[orange-600]/10 to-[#FF8C1A]/10 text-[orange-600] border border-[orange-600]/30 hover:from-[orange-600] hover:to-[#FF8C1A] hover:text-white font-bold py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2"
         >
           <FileText className="w-4 h-4" />
           Chi tiết
@@ -443,7 +443,7 @@ const ReferralSystemDisplay = ({
         <div className="mt-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-yellow-600" />
-            <span className="text-sm font-medium text-yellow-800">
+            <span className="text-sm font-bold text-yellow-800">
               Hoạt động giới thiệu tốt!
               {(commissions as any)?.totalEarned &&
                 (commissions as any).totalEarned > 0 &&
@@ -839,9 +839,7 @@ export default function UserDetailPage() {
                 </div>
               </div>
               <div className="mt-4">
-                <p className="text-sm font-medium text-gray-600">
-                  {card.title}
-                </p>
+                <p className="text-sm font-bold text-gray-600">{card.title}</p>
                 <p className="text-2xl font-bold text-gray-900 mt-1">
                   {card.value}
                 </p>
@@ -937,7 +935,7 @@ export default function UserDetailPage() {
                     <div className="p-2 bg-white/20 rounded-lg">
                       <DollarSign className="w-5 h-5" />
                     </div>
-                    <span className="text-sm font-medium text-white/90">
+                    <span className="text-sm font-bold text-white/90">
                       Số dư khả dụng
                     </span>
                   </div>
@@ -951,7 +949,7 @@ export default function UserDetailPage() {
                     <div className="p-2 bg-white/20 rounded-lg">
                       <Clock className="w-5 h-5" />
                     </div>
-                    <span className="text-sm font-medium text-white/90">
+                    <span className="text-sm font-bold text-white/90">
                       Số dư chờ xử lý
                     </span>
                   </div>
@@ -1007,7 +1005,7 @@ export default function UserDetailPage() {
             {/* Người giới thiệu */}
             {user.affiliate?.referredBy && (
               <div className="p-4 bg-pink-50 border border-pink-200 rounded-xl">
-                <span className="text-sm font-medium text-gray-600 block mb-2">
+                <span className="text-sm font-bold text-gray-600 block mb-2">
                   Được giới thiệu bởi
                 </span>
                 <p className="text-sm font-mono text-[orange-600]">

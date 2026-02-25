@@ -129,7 +129,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
       <div className="py-8">
         <div className="flex items-center justify-center gap-3">
           <div className="w-6 h-6 border-3 border-pink-600 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-gray-600 font-medium">
+          <span className="text-gray-600 font-bold">
             Đang tải sản phẩm ưu đãi...
           </span>
         </div>
@@ -153,7 +153,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
             Sản phẩm ưu đãi hot
           </h2>
         </div>
-        <p className="text-base sm:text-lg text-gray-600 font-medium">
+        <p className="text-base sm:text-lg text-gray-600 font-bold">
           Các sản phẩm được chọn lọc với tỷ lệ hoàn tiền cao nhất
         </p>
       </div>
@@ -204,7 +204,7 @@ const PriorityProducts: React.FC<PriorityProductsProps> = ({
               </h3>
 
               {product.shopName && (
-                <p className="text-sm text-gray-500 mb-3 font-medium">
+                <p className="text-sm text-gray-500 mb-3 font-bold">
                   {product.shopName}
                 </p>
               )}

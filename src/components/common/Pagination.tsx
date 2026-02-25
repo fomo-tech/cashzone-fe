@@ -52,14 +52,15 @@ const Pagination: React.FC<PaginationProps> = ({
   const endItem = Math.min(totalItems, page * limit);
 
   const baseBtn =
-    "px-4 py-2 mx-1 rounded-lg text-sm font-medium transition duration-150 shadow-md";
+    "px-4 py-2 mx-1 rounded-lg text-sm font-bold transition duration-150 shadow-md";
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between p-4   mx-auto space-y-3 sm:space-y-0">
       <div className="text-sm text-gray-600">
         Đang hiển thị <span className="font-semibold">{startItem}</span> đến{" "}
         <span className="font-semibold">{endItem}</span> trên{" "}
-        <span className="font-bold text-[orange-600]">{totalItems}</span> kết quả
+        <span className="font-bold text-[orange-600]">{totalItems}</span> kết
+        quả
       </div>
 
       <div className="flex items-center space-x-1">
@@ -103,7 +104,7 @@ const Pagination: React.FC<PaginationProps> = ({
             >
               {p}
             </button>
-          )
+          ),
         )}
 
         <button

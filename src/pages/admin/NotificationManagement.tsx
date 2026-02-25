@@ -193,7 +193,7 @@ const NotificationManagement: React.FC = () => {
   }> = ({ icon, title, value, color }) => (
     <div className="p-5 bg-white rounded-xl shadow-lg border border-slate-100 flex items-center justify-between">
       <div>
-        <p className="text-sm font-medium text-slate-500">{title}</p>
+        <p className="text-sm font-bold text-slate-500">{title}</p>
         <p className={`text-2xl font-bold ${color} mt-1`}>{value}</p>
       </div>
       <div
@@ -284,7 +284,7 @@ const NotificationManagement: React.FC = () => {
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Tiêu đề <span className="text-red-500">*</span>
               </label>
@@ -304,7 +304,7 @@ const NotificationManagement: React.FC = () => {
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Nội dung chi tiết <span className="text-red-500">*</span>
               </label>
@@ -325,7 +325,7 @@ const NotificationManagement: React.FC = () => {
               <div>
                 <label
                   htmlFor="type"
-                  className="block text-sm font-medium text-slate-700 mb-1"
+                  className="block text-sm font-bold text-slate-700 mb-1"
                 >
                   Loại thông báo
                 </label>
@@ -347,7 +347,7 @@ const NotificationManagement: React.FC = () => {
               <div>
                 <label
                   htmlFor="targetType"
-                  className="block text-sm font-medium text-slate-700 mb-1"
+                  className="block text-sm font-bold text-slate-700 mb-1"
                 >
                   Đối tượng nhận <span className="text-red-500">*</span>
                 </label>
@@ -369,7 +369,7 @@ const NotificationManagement: React.FC = () => {
               <div>
                 <label
                   htmlFor="userId"
-                  className="block text-sm font-medium text-slate-700 mb-1"
+                  className="block text-sm font-bold text-slate-700 mb-1"
                 >
                   User ID <span className="text-red-500">*</span>
                 </label>
@@ -390,7 +390,7 @@ const NotificationManagement: React.FC = () => {
             <div>
               <label
                 htmlFor="link"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-bold text-slate-700 mb-1"
               >
                 Link (tùy chọn)
               </label>
@@ -407,7 +407,7 @@ const NotificationManagement: React.FC = () => {
 
             {/* Image Upload */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-bold text-slate-700 mb-1">
                 Hình ảnh (tùy chọn)
               </label>
               {!imagePreview ? (
@@ -452,7 +452,7 @@ const NotificationManagement: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSending}
-                className={`w-full py-3 px-4 border border-transparent rounded-xl shadow-md text-base font-medium text-white transition duration-300 flex items-center justify-center gap-2
+                className={`w-full py-3 px-4 border border-transparent rounded-xl shadow-md text-base font-bold text-white transition duration-300 flex items-center justify-center gap-2
                   ${
                     isSending
                       ? "bg-slate-400 cursor-not-allowed"
@@ -494,25 +494,25 @@ const NotificationManagement: React.FC = () => {
             <table className="min-w-full divide-y divide-slate-200">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Tiêu đề
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Loại
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
                     User
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Trạng thái
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Ngày tạo
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Hình ảnh
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Hành động
                   </th>
                 </tr>
@@ -533,7 +533,7 @@ const NotificationManagement: React.FC = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">
                           {getTypeLabel(n.type)}
                         </span>
                       </td>
@@ -569,7 +569,7 @@ const NotificationManagement: React.FC = () => {
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-center">
                         <div className="flex justify-center gap-2">
                           <button
                             onClick={() => handleDeleteNotification(n._id)}

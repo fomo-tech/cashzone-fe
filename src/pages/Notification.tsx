@@ -33,7 +33,7 @@ const NotificationPage: React.FC = () => {
       setIsLoading(true);
       const response = await notificationService.getUserNotifications(
         currentPage,
-        20
+        20,
       );
       setNotifications(response.data.notifications);
       setTotalPages(Math.ceil(response.data.total / 20));
@@ -60,7 +60,7 @@ const NotificationPage: React.FC = () => {
     try {
       await notificationService.markAsRead(notificationId);
       setNotifications((prev) =>
-        prev.map((n) => (n._id === notificationId ? { ...n, read: true } : n))
+        prev.map((n) => (n._id === notificationId ? { ...n, read: true } : n)),
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
       showNotification({
@@ -194,7 +194,7 @@ const NotificationPage: React.FC = () => {
               {unreadCount > 0 && (
                 <button
                   onClick={handleMarkAllAsRead}
-                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-green-50 text-green-700 rounded-lg sm:rounded-xl hover:bg-green-100 transition-colors text-xs sm:text-sm font-medium"
+                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-green-50 text-green-700 rounded-lg sm:rounded-xl hover:bg-green-100 transition-colors text-xs sm:text-sm font-bold"
                 >
                   <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   <span className="hidden xs:inline">Đánh dấu</span>
@@ -204,7 +204,7 @@ const NotificationPage: React.FC = () => {
               {/* {notifications.length > 0 && (
                 <button
                   onClick={handleDeleteAll}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors text-sm font-bold"
                 >
                   <Trash2 className="w-4 h-4" />
                   Xóa tất cả
@@ -217,7 +217,7 @@ const NotificationPage: React.FC = () => {
           <div className="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 border-t border-slate-100 pt-3 sm:pt-4 overflow-x-auto pb-1">
             <button
               onClick={() => setFilter("all")}
-              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-colors whitespace-nowrap ${
                 filter === "all"
                   ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
@@ -231,7 +231,7 @@ const NotificationPage: React.FC = () => {
             </button>
             <button
               onClick={() => setFilter("unread")}
-              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-colors whitespace-nowrap ${
                 filter === "unread"
                   ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
@@ -242,7 +242,7 @@ const NotificationPage: React.FC = () => {
             </button>
             <button
               onClick={() => setFilter("read")}
-              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`cursor-pointer flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-colors whitespace-nowrap ${
                 filter === "read"
                   ? "bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white shadow-md"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100"
@@ -299,13 +299,13 @@ const NotificationPage: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                           {notif.targetType === "broadcast" && (
-                            <span className="hidden sm:inline-block px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-orange-100 text-orange-600">
+                            <span className="hidden sm:inline-block px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-orange-100 text-orange-600">
                               Chung
                             </span>
                           )}
                           <span
-                            className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTypeColor(
-                              notif.type
+                            className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold ${getTypeColor(
+                              notif.type,
                             )}`}
                           >
                             {getTypeLabel(notif.type)}
@@ -370,8 +370,8 @@ const NotificationPage: React.FC = () => {
                 {filter === "unread"
                   ? "Không có thông báo chưa đọc"
                   : filter === "read"
-                  ? "Không có thông báo đã đọc"
-                  : "Bạn chưa có thông báo nào"}
+                    ? "Không có thông báo đã đọc"
+                    : "Bạn chưa có thông báo nào"}
               </p>
             </div>
           )}
@@ -383,18 +383,18 @@ const NotificationPage: React.FC = () => {
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-medium transition-colors"
+              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-bold transition-colors"
             >
               <span className="hidden xs:inline">Trang trước</span>
               <span className="xs:hidden">Trước</span>
             </button>
-            <span className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-slate-600 whitespace-nowrap">
+            <span className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-bold text-slate-600 whitespace-nowrap">
               {currentPage} / {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-medium transition-colors"
+              className="px-3 sm:px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 text-xs sm:text-sm font-bold transition-colors"
             >
               <span className="hidden xs:inline">Trang sau</span>
               <span className="xs:hidden">Sau</span>

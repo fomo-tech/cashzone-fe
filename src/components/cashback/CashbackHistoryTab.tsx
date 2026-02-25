@@ -201,12 +201,12 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                       {filters.status === "pending"
                         ? "Chờ duyệt"
                         : filters.status === "approved"
-                        ? "Đã duyệt"
-                        : filters.status === "paid"
-                        ? "Đã trả"
-                        : filters.status === "rejected"
-                        ? "Từ chối"
-                        : "Trạng thái"}
+                          ? "Đã duyệt"
+                          : filters.status === "paid"
+                            ? "Đã trả"
+                            : filters.status === "rejected"
+                              ? "Từ chối"
+                              : "Trạng thái"}
                     </span>
                   </div>
                 </SelectTrigger>
@@ -241,10 +241,10 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                       {filters.type === "commission"
                         ? "Hoa hồng"
                         : filters.type === "bonus"
-                        ? "Thưởng"
-                        : filters.type === "referral"
-                        ? "Giới thiệu"
-                        : "Loại GD"}
+                          ? "Thưởng"
+                          : filters.type === "referral"
+                            ? "Giới thiệu"
+                            : "Loại GD"}
                     </span>
                   </div>
                 </SelectTrigger>
@@ -290,20 +290,18 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
           {/* Active Filters Display */}
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
-              <span className="text-xs font-medium text-gray-500">
-                Đang lọc:
-              </span>
+              <span className="text-xs font-bold text-gray-500">Đang lọc:</span>
               {filters.status && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Trạng thái:{" "}
                     {filters.status === "pending"
                       ? "Chờ duyệt"
                       : filters.status === "approved"
-                      ? "Đã duyệt"
-                      : filters.status === "paid"
-                      ? "Đã trả"
-                      : "Từ chối"}
+                        ? "Đã duyệt"
+                        : filters.status === "paid"
+                          ? "Đã trả"
+                          : "Từ chối"}
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, status: "" })}
@@ -315,13 +313,13 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
               )}
               {filters.type && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Loại:{" "}
                     {filters.type === "commission"
                       ? "Hoa hồng"
                       : filters.type === "bonus"
-                      ? "Thưởng"
-                      : "Giới thiệu"}
+                        ? "Thưởng"
+                        : "Giới thiệu"}
                   </span>
                   <button
                     onClick={() => setFilters({ ...filters, type: "" })}
@@ -333,7 +331,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
               )}
               {filters.search && (
                 <div className="flex items-center gap-1 px-2.5 py-1 bg-pink-50 border border-pink-200 rounded-lg">
-                  <span className="text-xs font-medium text-[orange-600]">
+                  <span className="text-xs font-bold text-[orange-600]">
                     Tìm kiếm: "{filters.search}"
                   </span>
                   <button
@@ -378,16 +376,16 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                   </div>
                   <Badge
                     className={`${getStatusColor(
-                      transaction.status
-                    )} text-xs font-medium shrink-0`}
+                      transaction.status,
+                    )} text-xs font-bold shrink-0`}
                   >
                     {transaction.status === "pending"
                       ? "Chờ"
                       : transaction.status === "approved"
-                      ? "Duyệt"
-                      : transaction.status === "paid"
-                      ? "Trả"
-                      : "Từ chối"}
+                        ? "Duyệt"
+                        : transaction.status === "paid"
+                          ? "Trả"
+                          : "Từ chối"}
                   </Badge>
                 </div>
 
@@ -399,8 +397,8 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                       {transaction.type === "commission"
                         ? "Hoa hồng"
                         : transaction.type === "bonus"
-                        ? "Thưởng"
-                        : "Giới thiệu"}
+                          ? "Thưởng"
+                          : "Giới thiệu"}
                     </Badge>
                     {transaction.metadata?.commissionRate && (
                       <span className="text-xs text-gray-500">
@@ -458,7 +456,7 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                   >
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-sm text-gray-900">
+                        <p className="font-bold text-sm text-gray-900">
                           {transaction.productName || transaction.description}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -477,8 +475,8 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                         {transaction.type === "commission"
                           ? "Hoa hồng"
                           : transaction.type === "bonus"
-                          ? "Thưởng"
-                          : "Giới thiệu"}
+                            ? "Thưởng"
+                            : "Giới thiệu"}
                       </Badge>
                     </td>
 
@@ -500,10 +498,10 @@ const CashbackHistoryTab: React.FC<CashbackHistoryTabProps> = ({
                         {transaction.status === "pending"
                           ? "Chờ duyệt"
                           : transaction.status === "approved"
-                          ? "Đã duyệt"
-                          : transaction.status === "paid"
-                          ? "Đã trả"
-                          : "Từ chối"}
+                            ? "Đã duyệt"
+                            : transaction.status === "paid"
+                              ? "Đã trả"
+                              : "Từ chối"}
                       </Badge>
                       {transaction.rejectedReason && (
                         <p className="text-xs text-red-600 mt-1">

@@ -56,22 +56,22 @@ const NotificationDropdown = () => {
     window.addEventListener("notification:new", handleNewNotification);
     window.addEventListener(
       "notification:broadcast",
-      handleBroadcastNotification
+      handleBroadcastNotification,
     );
     window.addEventListener(
       "notification:unread-count",
-      handleUnreadCountUpdate
+      handleUnreadCountUpdate,
     );
 
     return () => {
       window.removeEventListener("notification:new", handleNewNotification);
       window.removeEventListener(
         "notification:broadcast",
-        handleBroadcastNotification
+        handleBroadcastNotification,
       );
       window.removeEventListener(
         "notification:unread-count",
-        handleUnreadCountUpdate
+        handleUnreadCountUpdate,
       );
     };
   }, []);
@@ -253,7 +253,7 @@ const NotificationDropdown = () => {
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-12 px-6">
                   <Loader2 className="w-8 h-8 text-[orange-600] animate-spin mb-3" />
-                  <p className="text-sm text-slate-500 font-medium">
+                  <p className="text-sm text-slate-500 font-bold">
                     Đang tải thông báo...
                   </p>
                 </div>
@@ -262,7 +262,7 @@ const NotificationDropdown = () => {
                   <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-slate-200 rounded-full flex items-center justify-center mb-4">
                     <Bell className="w-8 h-8 text-gray-400" strokeWidth={1.5} />
                   </div>
-                  <p className="text-sm text-slate-600 font-medium mb-1">
+                  <p className="text-sm text-slate-600 font-bold mb-1">
                     Chưa có thông báo
                   </p>
                   <p className="text-xs text-slate-400">
@@ -325,7 +325,7 @@ const NotificationDropdown = () => {
                                 <span>•</span>
                                 <div className="flex items-center gap-1">
                                   <Sparkles className="w-3 h-3 text-orange-400" />
-                                  <span className="text-orange-600 font-medium">
+                                  <span className="text-orange-600 font-bold">
                                     Chung
                                   </span>
                                 </div>

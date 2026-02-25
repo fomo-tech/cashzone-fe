@@ -16,7 +16,7 @@ const NotificationDetail = () => {
       setIsLoading(true);
       const response = await notificationService.getUserNotifications(1, 100);
       const notif = response.data.notifications.find(
-        (n: Notification) => n._id === notificationId
+        (n: Notification) => n._id === notificationId,
       );
 
       if (notif) {
@@ -101,7 +101,7 @@ const NotificationDetail = () => {
           className="flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 mb-4 sm:mb-5 md:mb-6 transition-colors active:scale-95"
         >
           <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span className="font-medium text-sm sm:text-base">
+          <span className="font-bold text-sm sm:text-base">
             <span className="hidden xs:inline">
               Quay lại danh sách thông báo
             </span>
@@ -115,24 +115,24 @@ const NotificationDetail = () => {
           <div className="p-4 sm:p-5 md:p-6 lg:p-4 border-b border-gray-200">
             <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 md:gap-3 mb-3 sm:mb-4">
               <span
-                className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium ${getTypeColor(
-                  notification.type
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold ${getTypeColor(
+                  notification.type,
                 )}`}
               >
                 {getTypeLabel(notification.type)}
               </span>
               {notification.targetType === "broadcast" && (
-                <span className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-orange-100 text-orange-800">
+                <span className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold bg-orange-100 text-orange-800">
                   <span className="hidden xs:inline">Thông báo chung</span>
                   <span className="xs:hidden">Chung</span>
                 </span>
               )}
               {notification.read ? (
-                <span className="text-xs sm:text-sm text-green-600 font-medium">
+                <span className="text-xs sm:text-sm text-green-600 font-bold">
                   ✓ Đã đọc
                 </span>
               ) : (
-                <span className="text-xs sm:text-sm text-blue-600 font-medium flex items-center gap-1">
+                <span className="text-xs sm:text-sm text-blue-600 font-bold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
                   Chưa đọc
                 </span>
@@ -186,7 +186,7 @@ const NotificationDetail = () => {
                   href={notification.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 font-medium text-sm sm:text-base active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-6 py-3 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 text-white rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 font-bold text-sm sm:text-base active:scale-95"
                 >
                   <span>Xem chi tiết</span>
                   <svg

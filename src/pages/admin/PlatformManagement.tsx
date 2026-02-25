@@ -220,7 +220,7 @@ export default function PlatformManagement() {
         console.log("Updating platform:", editingPlatform?._id);
         response = await http.patch(
           `/platforms/${editingPlatform?._id}`,
-          formData
+          formData,
         );
       }
 
@@ -371,7 +371,7 @@ export default function PlatformManagement() {
                       </div>
                     </div>
                     <span
-                      className={`px-2 py-1 text-xs rounded-full font-medium ${
+                      className={`px-2 py-1 text-xs rounded-full font-bold ${
                         platform.status === "active"
                           ? "bg-green-100 text-green-700"
                           : "bg-gray-100 text-gray-700"
@@ -392,14 +392,14 @@ export default function PlatformManagement() {
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-500">Tracking:</span>
-                      <span className="font-medium text-gray-700">
+                      <span className="font-bold text-gray-700">
                         {platform.trackingMode}
                       </span>
                     </div>
                     {platform.commissionValue && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-500">Commission:</span>
-                        <span className="font-medium text-green-600">
+                        <span className="font-bold text-green-600">
                           {platform.commissionType === "percentage"
                             ? `${platform.commissionValue}%`
                             : `${platform.commissionValue.toLocaleString()} VND`}
@@ -469,7 +469,7 @@ export default function PlatformManagement() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tên Platform <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -485,7 +485,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Loại <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -505,7 +505,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Logo URL
                       </label>
                       <input
@@ -520,7 +520,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Website
                       </label>
                       <input
@@ -536,7 +536,7 @@ export default function PlatformManagement() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Mô tả
                     </label>
                     <textarea
@@ -562,7 +562,7 @@ export default function PlatformManagement() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Tracking Mode <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -583,7 +583,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Trạng thái <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -604,7 +604,7 @@ export default function PlatformManagement() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Ref Link (cho refLinkOnly mode)
                     </label>
                     <input
@@ -627,7 +627,7 @@ export default function PlatformManagement() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Loại Commission
                       </label>
                       <select
@@ -646,7 +646,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Giá trị Commission
                       </label>
                       <input
@@ -675,7 +675,7 @@ export default function PlatformManagement() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Base URL
                       </label>
                       <input
@@ -696,7 +696,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         Deeplink Endpoint
                       </label>
                       <input
@@ -717,7 +717,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         API Key
                       </label>
                       <input
@@ -738,7 +738,7 @@ export default function PlatformManagement() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
                         API Secret
                       </label>
                       <input

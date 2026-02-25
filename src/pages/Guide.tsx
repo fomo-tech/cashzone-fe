@@ -17,6 +17,7 @@ import {
   Globe,
   Clock,
   Shield,
+  Users,
 } from "lucide-react";
 
 interface GuideSection {
@@ -35,181 +36,192 @@ interface GuideSection {
 const GUIDE_SECTIONS: GuideSection[] = [
   {
     id: "cashback",
-    title: "Hướng dẫn Cashback khi Mua sắm",
+    title: "Hướng dẫn Hoàn Tiền Mua Sắm",
     icon: ShoppingBag,
-    description: "Kiếm tiền hoàn lại mỗi khi mua sắm trực tuyến",
+    description:
+      "Nhận hoàn tiền ngay khi mua sắm tại hơn 1000+ thương hiệu lớn",
     steps: [
       {
-        title: "Bước 1: Tìm kiếm Merchant",
+        title: "Bước 1: Tìm kiếm Thương hiệu",
         content:
-          "Truy cập trang Offers/Merchants, tìm kiếm cửa hàng bạn muốn mua sắm (Shopee, Lazada, Tiki, v.v...)",
+          "Truy cập trang 'Ưu đãi' hoặc 'Thương hiệu', sử dụng thanh tìm kiếm để tìm cửa hàng bạn muốn mua sắm (Shopee, Lazada, Tiki, Sendo, v.v.). Mỗi thương hiệu có mức hoàn tiền khác nhau từ 1%-30% giá trị đơn hàng.",
         icon: Globe,
       },
       {
-        title: "Bước 2: Nhấn vào Link Affiliate",
+        title: "Bước 2: Kích hoạt Link Hoàn Tiền",
         content:
-          "Click vào nút 'Mua ngay' hoặc 'Nhận ưu đãi' để được chuyển đến trang merchant qua link affiliate của chúng tôi.",
+          "Nhấn vào nút 'Mua ngay' hoặc 'Nhận ưu đãi' để được chuyển đến trang thương hiệu qua link hoàn tiền của chúng tôi. Link sẽ tự động ghi nhận đơn hàng của bạn để tính hoàn tiền. Lưu ý: Link có hiệu lực trong 24 giờ.",
         icon: Target,
       },
       {
-        title: "Bước 3: Hoàn tất Đơn hàng",
+        title: "Bước 3: Mua Sắm & Thanh Toán",
         content:
-          "Mua sắm bình thường và hoàn tất thanh toán đơn hàng. Đảm bảo không tắt trình duyệt hoặc xóa cookie.",
+          "Mua sắm bình thường và hoàn tất thanh toán đơn hàng. QUAN TRỌNG: Không tắt trình duyệt, xóa cookie hoặc sử dụng mã giảm giá từ nguồn khác. Hoàn tất đơn hàng trong cùng một phiên duyệt web để đảm bảo tracking chính xác.",
         icon: CreditCard,
       },
       {
-        title: "Bước 4: Chờ Cashback",
+        title: "Bước 4: Theo Dõi Hoàn Tiền",
         content:
-          "Cashback sẽ được ghi nhận trong vòng 24-72 giờ. Số tiền sẽ chuyển từ trạng thái 'Pending' sang 'Available' sau 30-60 ngày khi merchant xác nhận.",
+          "Sau 24-72 giờ, hoàn tiền sẽ được ghi nhận vào ví với trạng thái 'Đang chờ' (Pending). Vào mục 'Lịch sử hoàn tiền' để theo dõi tình trạng đơn hàng. Tiền hoàn sẽ chuyển sang 'Khả dụng' (Available) sau 30-90 ngày khi thương hiệu xác nhận đơn hàng không bị hoàn trả.",
         icon: Clock,
       },
       {
-        title: "Bước 5: Rút tiền về Ví",
+        title: "Bước 5: Rút Tiền Về Tài Khoản",
         content:
-          "Khi cashback đã ở trạng thái 'Available', bạn có thể rút tiền về tài khoản ngân hàng, Momo hoặcví BEP20.",
+          "Khi hoàn tiền đã ở trạng thái 'Khả dụng', bạn có thể rút về tài khoản ngân hàng, Momo, ZaloPay hoặc ví điện tử BEP20. Số tiền rút tối thiểu là 100,000 VNĐ. Thời gian xử lý: 1-3 ngày làm việc.",
         icon: Wallet,
       },
     ],
     tips: [
-      "Luôn truy cập merchant qua link của chúng tôi để đảm bảo tracking",
-      "Không sử dụng AdBlock hoặc các extension chặn quảng cáo",
-      "Hoàn tất đơn hàng trong cùng một phiên duyệt web",
-      "Không kết hợp với mã giảm giá bên ngoài (dùng mã của merchant)",
-      "Kiểm tra điều kiện cashback của từng merchant (đơn tối thiểu, sản phẩm loại trừ...)",
+      "Luôn truy cập thương hiệu qua link của chúng tôi để đảm bảo được tracking hoàn tiền",
+      "Tắt AdBlock, extension chặn quảng cáo hoặc VPN khi mua sắm",
+      "Không mở nhiều tab hoặc sử dụng chế độ ẩn danh (Incognito)",
+      "Hoàn tất đơn hàng trong vòng 24 giờ sau khi nhấn link hoàn tiền",
+      "Chỉ sử dụng mã giảm giá có sẵn trên trang thương hiệu, không dùng mã từ nguồn khác",
+      "Kiểm tra điều kiện hoàn tiền: đơn hàng tối thiểu, sản phẩm loại trừ, thời gian khuyến mãi",
+      "Giữ lại email xác nhận đơn hàng để đối chiếu nếu cần hỗ trợ",
     ],
   },
   {
-    id: "tasks",
-    title: "Làm Nhiệm vụ để Hoàn tiền",
-    icon: Target,
-    description: "Hoàn thành các nhiệm vụ để nhận thưởng ngay lập tức",
+    id: "referral",
+    title: "Chương Trình Giới Thiệu Bạn Bè",
+    icon: Users,
+    description: "Nhận hoa hồng 3 cấp từ hoạt động của người bạn giới thiệu",
     steps: [
       {
-        title: "Bước 1: Xem Danh sách Nhiệm vụ",
+        title: "Bước 1: Lấy Link Giới Thiệu",
         content:
-          "Vào mục 'Nhiệm vụ' hoặc 'Tasks' để xem tất cả nhiệm vụ đang có. Các nhiệm vụ được chia theo loại: Đăng ký, Cài đặt App, Khảo sát, v.v...",
-        icon: BookOpen,
+          "Vào trang 'Giới thiệu' hoặc 'Referral' để lấy link giới thiệu cá nhân của bạn. Mỗi tài khoản có một mã giới thiệu độc nhất (Referral Code) và link riêng biệt. Bạn có thể chia sẻ qua mạng xã hội, tin nhắn hoặc email.",
+        icon: Globe,
       },
       {
-        title: "Bước 2: Chọn Nhiệm vụ Phù hợp",
+        title: "Bước 2: Chia Sẻ Link",
         content:
-          "Đọc kỹ yêu cầu của nhiệm vụ (thời gian hoàn thành, điều kiện, phần thưởng). Chọn nhiệm vụ phù hợp với bạn.",
-        icon: CheckCircle,
+          "Gửi link giới thiệu cho bạn bè, người thân hoặc chia sẻ trên các nền tảng mạng xã hội (Facebook, Zalo, Telegram, TikTok...). Người đăng ký qua link của bạn sẽ tự động trở thành người được giới thiệu cấp 1 (F1).",
+        icon: Target,
       },
       {
-        title: "Bước 3: Thực hiện Nhiệm vụ",
+        title: "Bước 3: Bạn Bè Đăng Ký & Mua Sắm",
         content:
-          "Click 'Tham gia' và làm theo hướng dẫn. Ví dụ: Đăng ký tài khoản mới, cài đặt app, hoàn thành khảo sát, mua sản phẩm...",
-        icon: Smartphone,
+          "Khi bạn bè đăng ký qua link của bạn và bắt đầu mua sắm hoàn tiền, bạn sẽ nhận được % hoa hồng từ hoàn tiền của họ. Hệ thống tính toán theo 3 cấp: F1 (người bạn trực tiếp giới thiệu), F2 (người F1 giới thiệu), F3 (người F2 giới thiệu).",
+        icon: ShoppingBag,
       },
       {
-        title: "Bước 4: Xác nhận Hoàn thành",
+        title: "Bước 4: Nhận Hoa Hồng 3 Cấp",
         content:
-          "Sau khi hoàn thành, hệ thống sẽ tự động tracking. Một số nhiệm vụ cần bạn submit thông tin hoặc screenshot làm bằng chứng.",
-        icon: Shield,
-      },
-      {
-        title: "Bước 5: Nhận Thưởng",
-        content:
-          "Phần thưởng sẽ được cộng vào ví sau khi nhiệm vụ được xác minh (thường trong vòng 1-7 ngày tùy loại nhiệm vụ).",
-        icon: Gift,
-      },
-    ],
-    tips: [
-      "Ưu tiên nhiệm vụ có phần thưởng cao và thời gian hoàn thành nhanh",
-      "Đọc kỹ yêu cầu để tránh mất công làm không được duyệt",
-      "Chụp ảnh màn hình làm bằng chứng nếu cần",
-      "Kiểm tra trạng thái nhiệm vụ trong 'Lịch sử Nhiệm vụ'",
-      "Không spam hoặc làm giả, tài khoản có thể bị khóa",
-    ],
-  },
-  {
-    id: "deposit",
-    title: "Hướng dẫn Nạp tiền",
-    icon: TrendingUp,
-    description: "Nạp tiền vào tài khoản để tham gia các chương trình đặc biệt",
-    steps: [
-      {
-        title: "Bước 1: Vào Mục Nạp tiền",
-        content:
-          "Truy cập 'Ví của tôi' -> 'Nạp tiền'. Hệ thống sẽ hiển thị các phương thức nạp tiền có sẵn.",
-        icon: Wallet,
-      },
-      {
-        title: "Bước 2: Chọn Phương thức",
-        content:
-          "Chọn phương thức phù hợp: Chuyển khoản ngân hàng, Momo, ZaloPay, hoặc Crypto (BEP20).",
-        icon: CreditCard,
-      },
-      {
-        title: "Bước 3: Nhập Số tiền",
-        content:
-          "Nhập số tiền muốn nạp (tối thiểu 50,000 VNĐ). Kiểm tra phí giao dịch (nếu có).",
+          "Hoa hồng được tính theo tỷ lệ: F1 (10% hoàn tiền), F2 (5% hoàn tiền), F3 (2% hoàn tiền). Ví dụ: F1 nhận 100,000đ hoàn tiền → Bạn nhận 10,000đ. Hoa hồng được cộng tự động vào ví với trạng thái 'Khả dụng' ngay lập tức.",
         icon: DollarSign,
       },
       {
-        title: "Bước 4: Thực hiện Chuyển khoản",
+        title: "Bước 5: Theo Dõi & Phát Triển",
         content:
-          "Chuyển khoản đúng số tiền và nội dung chuyển khoản theo hướng dẫn. Nội dung CẦN CHÍNH XÁC để hệ thống tự động xử lý.",
-        icon: Smartphone,
-      },
-      {
-        title: "Bước 5: Chờ Xác nhận",
-        content:
-          "Tiền sẽ được cộng vào tài khoản sau 5-30 phút (tùy phương thức). Kiểm tra lịch sử giao dịch hoặc liên hệ support nếu chậm.",
-        icon: Clock,
+          "Vào mục 'Thống kê giới thiệu' để xem số lượng F1/F2/F3, tổng hoa hồng đã nhận và biểu đồ tăng trưởng. Bạn có thể xây dựng đội nhóm không giới hạn và thu nhập thụ động từ hệ thống 3 cấp.",
+        icon: TrendingUp,
       },
     ],
     tips: [
-      "Chuyển khoản đúng nội dung để được xử lý tự động nhanh chóng",
-      "Lưu lại biên lai giao dịch để đối chiếu nếu cần",
-      "Không nạp từ tài khoản của người khác (có thể bị từ chối)",
-      "Kiểm tra kỹ thông tin tài khoản nhận trước khi chuyển",
+      "Hướng dẫn F1 cách mua sắm hoàn tiền để họ có trải nghiệm tốt và tiếp tục sử dụng",
+      "Chia sẻ các deal tốt, mã giảm giá để thu hút F1 mua sắm nhiều hơn",
+      "Tạo nhóm Telegram/Zalo để hỗ trợ F1 và chia sẻ kinh nghiệm",
+      "Hoa hồng F1 cao hơn, nên tập trung giới thiệu trực tiếp nhiều người",
+      "Càng nhiều F1 active mua sắm, thu nhập hoa hồng càng ổn định",
+      "Không spam hoặc gửi link giới thiệu vào các nhóm không cho phép",
+      "Xây dựng uy tín cá nhân để F1 tin tưởng và giới thiệu tiếp (tạo F2, F3)",
+    ],
+  },
+  {
+    id: "daily",
+    title: "Hoạt Động Hàng Ngày",
+    icon: Target,
+    description: "Kiếm thêm thu nhập từ các hoạt động đơn giản mỗi ngày",
+    steps: [
+      {
+        title: "Bước 1: Điểm Danh Hàng Ngày",
+        content:
+          "Vào mục 'Điểm danh' (Check-in) mỗi ngày để nhận thưởng tích lũy. Bạn sẽ nhận từ 500-5,000 xu/ngày tùy theo chuỗi ngày điểm danh liên tiếp. Chuỗi 7 ngày sẽ nhận thưởng đặc biệt, chuỗi 30 ngày nhận thưởng VIP.",
+        icon: CheckCircle,
+      },
+      {
+        title: "Bước 2: Quay Vòng May Mắn",
+        content:
+          "Mỗi ngày bạn có 1 lượt quay miễn phí. Phần thưởng bao gồm: tiền mặt (1,000-100,000đ), xu thưởng, voucher giảm giá hoặc lượt quay thêm. Mua thêm lượt quay bằng xu tích lũy để tăng cơ hội trúng thưởng lớn.",
+        icon: Gift,
+      },
+      {
+        title: "Bước 3: Hoàn Thành Nhiệm Vụ",
+        content:
+          "Kiểm tra danh sách nhiệm vụ hàng ngày/tuần/tháng: Đăng nhập, mua sắm đơn hàng đầu tiên, giới thiệu bạn bè, chia sẻ mạng xã hội, v.v. Mỗi nhiệm vụ hoàn thành sẽ nhận xu hoặc tiền thưởng.",
+        icon: BookOpen,
+      },
+      {
+        title: "Bước 4: Tham Gia Sự Kiện",
+        content:
+          "Theo dõi các sự kiện đặc biệt theo mùa: Tết, 8/3, Black Friday, 11.11, 12.12... Tham gia minigame, thử thách hoặc cuộc thi để nhận thưởng lớn như iPhone, tiền mặt, voucher shopping.",
+        icon: Smartphone,
+      },
+      {
+        title: "Bước 5: Đổi Xu Tích Lũy",
+        content:
+          "Sử dụng xu tích lũy để đổi voucher giảm giá, rút tiền mặt (10,000 xu = 10,000đ) hoặc mua thêm lượt quay vòng may mắn. Xu không có hạn sử dụng và được tích lũy vĩnh viễn trong tài khoản.",
+        icon: DollarSign,
+      },
+    ],
+    tips: [
+      "Điểm danh đều đặn mỗi ngày để nhận thưởng chuỗi ngày cao",
+      "Hoàn thành nhiệm vụ hàng ngày trước 23:59 để không bỏ lỡ",
+      "Theo dõi thông báo để không bỏ lỡ sự kiện đặc biệt có giải thưởng lớn",
+      "Tích lũy xu từ các hoạt động nhỏ để đổi phần thưởng có giá trị",
+      "Tham gia đầy đủ các hoạt động để tăng điểm thành viên lên VIP",
+      "Thành viên VIP nhận thưởng điểm danh cao hơn và ưu đãi đặc biệt",
+      "Kết hợp mua sắm hoàn tiền + hoạt động hàng ngày để tối đa hóa thu nhập",
     ],
   },
   {
     id: "withdrawal",
-    title: "Hướng dẫn Rút tiền",
+    title: "Hướng Dẫn Rút Tiền",
     icon: Wallet,
-    description: "Rút tiền từ ví về tài khoản ngân hàng hoặc ví điện tử",
+    description: "Rút tiền hoàn về tài khoản ngân hàng hoặc ví điện tử",
     steps: [
       {
-        title: "Bước 1: Kiểm tra Số dư",
+        title: "Bước 1: Kiểm Tra Số Dư Khả Dụng",
         content:
-          "Vào 'Ví của tôi' để xem số dư khả dụng. Chỉ số tiền 'Available' mới có thể rút (không bao gồm Pending).",
+          "Vào 'Ví của tôi' để xem tổng số dư. Chỉ số tiền ở trạng thái 'Khả dụng' (Available Balance) mới có thể rút. Tiền hoàn đang chờ xác nhận (Pending) từ thương hiệu chưa thể rút. Kiểm tra mục 'Lịch sử giao dịch' để biết chi tiết.",
         icon: Wallet,
       },
       {
-        title: "Bước 2: Cập nhật Thông tin Thanh toán",
+        title: "Bước 2: Thêm Phương Thức Thanh Toán",
         content:
-          "Vào 'Cài đặt' -> 'Phương thức Thanh toán' để thêm/cập nhật tài khoản ngân hàng, Momo hoặc ví BEP20.",
+          "Vào 'Cài đặt' → 'Phương thức thanh toán' để thêm tài khoản ngân hàng (ATM/Internet Banking), Momo, ZaloPay hoặc địa chỉ ví BEP20 (USDT). Nhập đầy đủ: Số tài khoản, Tên chủ tài khoản, Ngân hàng. Thông tin cần CHÍNH XÁC 100%.",
         icon: CreditCard,
       },
       {
-        title: "Bước 3: Tạo Yêu cầu Rút tiền",
+        title: "Bước 3: Tạo Yêu Cầu Rút Tiền",
         content:
-          "Vào 'Rút tiền', chọn phương thức và nhập số tiền muốn rút (tối thiểu 100,000 VNĐ). Kiểm tra phí rút (nếu có).",
+          "Vào mục 'Rút tiền', chọn phương thức rút (Ngân hàng/Momo/ZaloPay/BEP20) và nhập số tiền muốn rút. Số tiền tối thiểu: 100,000 VNĐ. Phí rút tiền: 10,000-30,000 VNĐ tùy phương thức (BEP20: 2 USDT). Số tiền thực nhận = Số tiền rút - Phí.",
         icon: DollarSign,
       },
       {
-        title: "Bước 4: Xác nhận Yêu cầu",
+        title: "Bước 4: Xác Thực Bảo Mật",
         content:
-          "Xác nhận thông tin và gửi yêu cầu. Hệ thống sẽ gửi OTP qua email/SMS để xác thực (nếu bật bảo mật).",
+          "Nhập mật khẩu giao dịch hoặc mã OTP được gửi qua email/SMS để xác nhận yêu cầu rút tiền. Đây là lớp bảo mật quan trọng để bảo vệ tài khoản của bạn. Nếu chưa thiết lập mật khẩu giao dịch, vào 'Cài đặt bảo mật' để tạo ngay.",
         icon: Shield,
       },
       {
-        title: "Bước 5: Chờ Xử lý",
+        title: "Bước 5: Chờ Xử Lý & Nhận Tiền",
         content:
-          "Yêu cầu sẽ được xử lý trong vòng 1-3 ngày làm việc. Tiền sẽ được chuyển về tài khoản bạn đã đăng ký. Kiểm tra trạng thái trong 'Lịch sử Rút tiền'.",
+          "Yêu cầu rút tiền được xử lý trong 1-3 ngày làm việc (T2-T6, không bao gồm cuối tuần và lễ). Ngân hàng/Momo/ZaloPay: 1-2 ngày. BEP20: 30 phút - 24 giờ. Kiểm tra trạng thái trong 'Lịch sử rút tiền'. Liên hệ support nếu quá 3 ngày chưa nhận được tiền.",
         icon: Clock,
       },
     ],
     tips: [
-      "Đảm bảo thông tin tài khoản chính xác để tránh chậm trễ",
-      "Rút tiền trong giờ hành chính để được xử lý nhanh hơn",
-      "Số tiền rút phải đạt mức tối thiểu (100,000 VNĐ)",
-      "Có thể có phí rút tiền tùy phương thức (thường 10,000-50,000 VNĐ)",
-      "Liên hệ support nếu yêu cầu quá 3 ngày chưa được xử lý",
+      "Đảm bảo thông tin tài khoản 100% chính xác để tránh chậm trễ hoặc thất lạc tiền",
+      "Rút tiền vào T2-T5 (giờ hành chính) để được xử lý nhanh nhất",
+      "Tránh rút tiền vào cuối tuần, ngày lễ vì ngân hàng không làm việc",
+      "Lưu ý phí rút tiền và số tiền tối thiểu trước khi tạo yêu cầu",
+      "Không chia sẻ mật khẩu giao dịch hoặc OTP cho bất kỳ ai",
+      "Chụp màn hình biên lai rút tiền để đối chiếu nếu cần hỗ trợ",
+      "Liên hệ support ngay nếu phát hiện bất thường trong giao dịch",
+      "Tích lũy đủ số dư lớn hơn 100,000đ để tối ưu phí rút tiền",
     ],
   },
 ];
@@ -361,7 +373,7 @@ const GuidePage: React.FC = () => {
               <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
                 50K+
               </p>
-              <p className="text-xs md:text-sm text-gray-500 font-medium">
+              <p className="text-xs md:text-sm text-gray-500 font-bold">
                 Người dùng
               </p>
             </div>
@@ -385,7 +397,7 @@ const GuidePage: React.FC = () => {
               <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
                 450M+
               </p>
-              <p className="text-xs md:text-sm text-gray-500 font-medium">
+              <p className="text-xs md:text-sm text-gray-500 font-bold">
                 Đã hoàn tiền
               </p>
             </div>
@@ -409,7 +421,7 @@ const GuidePage: React.FC = () => {
               <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
                 1000+
               </p>
-              <p className="text-xs md:text-sm text-gray-500 font-medium">
+              <p className="text-xs md:text-sm text-gray-500 font-bold">
                 Thương hiệu
               </p>
             </div>
@@ -433,7 +445,7 @@ const GuidePage: React.FC = () => {
               <p className="text-2xl md:text-3xl font-black text-gray-800 mb-1">
                 200+
               </p>
-              <p className="text-xs md:text-sm text-gray-500 font-medium">
+              <p className="text-xs md:text-sm text-gray-500 font-bold">
                 Chiến dịch
               </p>
             </div>
@@ -605,7 +617,7 @@ const GuidePage: React.FC = () => {
                 Cách Thức Hoạt Động
               </h2>
               <p className="text-white/90 text-base sm:text-lg max-w-2xl mx-auto">
-                Chỉ 3 bước đơn giản để bắt đầu kiếm tiền hoàn ngay hôm nay
+                Chỉ 3 bước đơn giản để bắt đầu nhận hoàn tiền ngay hôm nay
               </p>
             </div>
 
@@ -618,11 +630,11 @@ const GuidePage: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 text-center">
-                  Đăng Ký Tài Khoản
+                  Đăng Ký Miễn Phí
                 </h3>
                 <p className="text-white/80 text-center leading-relaxed">
-                  Tạo tài khoản miễn phí chỉ trong 30 giây. Không cần thẻ tín
-                  dụng hay ràng buộc.
+                  Tạo tài khoản chỉ trong 30 giây. Hoàn toàn miễn phí, không cần
+                  thẻ tín dụng hay ràng buộc gì.
                 </p>
               </div>
 
@@ -634,11 +646,11 @@ const GuidePage: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 text-center">
-                  Mua Sắm hoặc Làm Nhiệm Vụ
+                  Mua Sắm & Hoạt Động
                 </h3>
                 <p className="text-white/80 text-center leading-relaxed">
-                  Mua sắm tại 1000+ thương hiệu hoặc hoàn thành các nhiệm vụ đơn
-                  giản để tích điểm.
+                  Mua sắm qua 1000+ thương hiệu, điểm danh hàng ngày, giới thiệu
+                  bạn bè để tích điểm.
                 </p>
               </div>
 
@@ -650,10 +662,10 @@ const GuidePage: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 text-center">
-                  Nhận Tiền Hoàn
+                  Nhận Tiền Thật
                 </h3>
                 <p className="text-white/80 text-center leading-relaxed">
-                  Tiền hoàn được tự động cộng vào ví. Rút về tài khoản ngân hàng
+                  Tiền hoàn và hoa hồng tự động cộng vào ví. Rút về ngân hàng
                   bất cứ lúc nào, 24/7.
                 </p>
               </div>

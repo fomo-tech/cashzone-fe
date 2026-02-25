@@ -84,7 +84,10 @@ const walletService = {
    */
   createWithdrawal: async (data: {
     amount: number;
-    paymentMethod: "bank" | "momo" | "bep20";
+    paymentMethod: {
+      method: "bank" | "momo" | "bep20";
+      details: any;
+    };
   }): Promise<Transaction> => {
     const response = await http.post("/wallet/withdraw", data);
     return response.data.data;

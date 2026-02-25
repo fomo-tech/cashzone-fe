@@ -45,8 +45,8 @@ const LuckyWheelCard: React.FC<LuckyWheelCardProps> = ({ onSpinComplete }) => {
           0,
           0,
           0,
-          0
-        )
+          0,
+        ),
       );
       const tomorrowUTC = new Date(todayUTC);
       tomorrowUTC.setUTCDate(tomorrowUTC.getUTCDate() + 1);
@@ -84,7 +84,7 @@ const LuckyWheelCard: React.FC<LuckyWheelCardProps> = ({ onSpinComplete }) => {
 
       // Find the prize index to calculate rotation
       const prizeIndex = settings.prizes.findIndex(
-        (p) => p.id === result.prize.id
+        (p) => p.id === result.prize.id,
       );
       const segments = getWheelSegments();
       const targetSegment = segments[prizeIndex];
@@ -176,7 +176,7 @@ const LuckyWheelCard: React.FC<LuckyWheelCardProps> = ({ onSpinComplete }) => {
               <Sparkles className="h-8 w-8" />
               Vòng Quay May Mắn
             </h3>
-            <p className="text-white/90 text-sm font-medium">
+            <p className="text-white/90 text-sm font-bold">
               {settings.costPerSpin > 0
                 ? `${settings.costPerSpin.toLocaleString("vi-VN")}đ mỗi lượt`
                 : "Miễn phí mỗi ngày"}
